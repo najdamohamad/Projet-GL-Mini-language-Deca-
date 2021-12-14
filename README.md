@@ -1,3 +1,2 @@
-# gl47
-
-Projet GL équipe gl47
+# Projet Génie Logiciel, Ensimag.
+@AUTHOR@, @DATE@.
