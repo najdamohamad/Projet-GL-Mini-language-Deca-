@@ -336,19 +336,19 @@ type returns[AbstractIdentifier tree]
     ;
 
 literal returns[AbstractExpr tree]
-    : INT {
+    : INT { $tree = new IntLiteral($INT.getvalue());
         }
-    | fd=FLOAT {
+    | fd=FLOAT { $tree = new FloatLiteral($fd.getvalue());
         }
-    | STRING {
+    | STRING { $tree = new StringLiteral($STRING.getvalue());
         }
-    | TRUE {
+    | TRUE { $tree = new BooleanLiteral($TRUE.getvalue());
         }
-    | FALSE {
+    | FALSE { $tree = new BooleanLiteral($FALSE.getvalue());
         }
     | THIS {
         }
-    | NULL {
+    | NULL { $tree = new IntLiteral(0);
         }
     ;
 
