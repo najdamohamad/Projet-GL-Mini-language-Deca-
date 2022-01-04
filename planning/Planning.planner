@@ -4,9 +4,9 @@
   <phases/>
   <calendars>
     <day-types>
-      <day-type id="0" name="Working" description="A default working day"/>
-      <day-type id="1" name="Nonworking" description="A default non working day"/>
-      <day-type id="2" name="Use base" description="Use day from base calendar"/>
+      <day-type id="0" name="Travaill&#xE9;" description="Un jour de travail normal"/>
+      <day-type id="1" name="Ch&#xF4;m&#xE9;" description="Un jour ch&#xF4;m&#xE9; normal"/>
+      <day-type id="2" name="Utiliser la base" description="Utilise un jour du calendrier de base"/>
     </day-types>
     <calendar id="1" name="Default">
       <default-week mon="0" tue="0" wed="0" thu="0" fri="0" sat="1" sun="1"/>
@@ -101,7 +101,7 @@
         <constraint type="must-start-on" time="20220120T000000Z"/>
       </task>
     </task>
-    <task id="29" name="Documentation" note="" work="28800" start="20220118T000000Z" end="20220118T170000Z" work-start="20220118T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
+    <task id="29" name="Documentation" note="" work="86400" start="20220118T000000Z" end="20220120T170000Z" work-start="20220118T080000Z" percent-complete="0" priority="0" type="normal" scheduling="fixed-work">
       <constraint type="must-start-on" time="20220118T000000Z"/>
     </task>
     <task id="30" name="Rendu Final" note="" work="0" start="20220124T000000Z" end="20220124T000000Z" work-start="20220124T080000Z" percent-complete="0" priority="0" type="milestone" scheduling="fixed-work">
