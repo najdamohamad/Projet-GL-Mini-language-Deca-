@@ -100,9 +100,8 @@ fragment TAB: '\t'+;
 fragment NL: '\n'+;
 fragment CR: '\r'+;
 
-WS: SPACE | TAB | NL | CR | COMMENT { skip() };
+WS: SPACE | TAB | NL | CR | COMMENT { skip(); };
 
 // Deca #include's
-// TODO: implement preprocessor by replacing skip()
 fragment FILENAME: (LETTER | DIGIT | '.' | '-' | '_')+;
-INCLUDE: '#include' (' ')+ '"' FILENAME '"' { skip() };
+INCLUDE: '#include' ' '+ '"' FILENAME '"' { doInclude(getText()); };
