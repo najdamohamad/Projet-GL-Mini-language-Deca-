@@ -6,4 +6,5 @@ CP_FILE="$DECAC_HOME"/target/generated-sources/classpath.txt
 CP="$DECAC_HOME"/target/test-classes/:"$DECAC_HOME"/target/classes/:$(cat "$CP_FILE")
 
 exec java -enableassertions -cp "$CP" fr.ensimag.deca.tree.ManualTestInitialGencode "$@"
+#exec java -enableassertions -cp "$CP" -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005 fr.ensimag.deca.tree.ManualTestInitialGencode "$@"
 
