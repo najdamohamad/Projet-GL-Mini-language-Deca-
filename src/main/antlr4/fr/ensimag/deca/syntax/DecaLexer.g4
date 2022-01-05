@@ -90,7 +90,7 @@ MULTI_LINE_STRING: '"' (STRING_CHAR | EOL | '\\"' | '\\\\')* '"';
 // Deca whitespace
 
 // Deca comment
-fragment SINGLE_LINE_COMMENT: '//' .*? '\n';
+fragment SINGLE_LINE_COMMENT: '//' ~( '\n' | '\r' )*;
 fragment MULTI_LINE_COMMENT: '/*' .*? '*/';
 fragment COMMENT: SINGLE_LINE_COMMENT | MULTI_LINE_COMMENT;
 
@@ -100,7 +100,7 @@ fragment TAB: '\t'+;
 fragment NL: '\n'+;
 fragment CR: '\r'+;
 
-WS: SPACE | TAB | NL | CR | COMMENT { skip(); };
+WS: (SPACE | TAB | NL | CR | COMMENT)+ { skip(); };
 
 // Deca #include's
 fragment FILENAME: (LETTER | DIGIT | '.' | '-' | '_')+;

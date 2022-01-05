@@ -1,0 +1,11 @@
+// Description:
+//    tests de programme incorrect lexicalement (chaine non démarrée)
+//
+// Resultats:
+//    ligne 10 : Erreur, chaine non démarrée (sur fin de fichier)
+//
+// Historique:
+//    cree le 05/01/2022
+
+
+"aaaaaaaaaaaa"
