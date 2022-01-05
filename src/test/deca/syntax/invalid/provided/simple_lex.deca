@@ -13,4 +13,9 @@ idf _autre_idf
 }
 (
 )
+// un commentaire.idf _autre_idf
+{
+}
+(
+)
 // un commentaire.

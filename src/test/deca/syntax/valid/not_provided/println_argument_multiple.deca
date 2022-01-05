@@ -1,0 +1,15 @@
+// Description:
+//    Un println avec trois arguments.
+//    [Semantique], Procedures d'affichage, p100:
+//    println(E1, E2, ... En); est équivalent à print(E1, E2, ... En); println();.
+//
+// Resultats:
+// abcd
+//    Il y a un retour à la ligne.
+//
+// Historique:
+//    cree le 05/01/2022
+
+{
+        println("a", "b", "c", "d");
+}

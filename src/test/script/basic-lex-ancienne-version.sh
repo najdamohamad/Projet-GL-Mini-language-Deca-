@@ -17,23 +17,18 @@ cd "$(dirname "$0")"/../../.. || exit 1
 
 PATH=./src/test/script/launchers:"$PATH"
 
-# On stocke les résultats de l'exécution du compilateur dans un fichier
-# qui garde la trace des messages du compilateur (extension .lis).
-# Quand on fait les tests, comparer cette trace attendue avec la trace
-# réele
-temp_lis=$(mktemp /tmp/abc-script.XXXXXX)
-for cas_de_test in src/test/deca/syntax/invalid/provided/*.deca
-do
-    echo $cas_de_test
-#    if test_lex src/test/deca/syntax/invalid/provided/simple_lex.deca 2>&1 \
-#        | head -n 1 | grep -q 'simple_lex.deca:[0-9]'
-#    then
-#        echo "ERREUR (réussite inattendue): ${cas_de_test}"
-#        exit 1
-#    else
-#        echo "OK (échec attendu): ${cas_de_test}"
-#    fi
-done
+# /!\ test valide lexicalement, mais invalide pour l'étape A.
+# test_lex peut au choix afficher les messages sur la sortie standard
+# (1) ou sortie d'erreur (2). On redirige la sortie d'erreur sur la
+# sortie standard pour accepter les deux (2>&1)
+if test_lex src/test/deca/syntax/invalid/provided/simple_lex.deca 2>&1 \
+    | head -n 1 | grep -q 'simple_lex.deca:[0-9]'
+then
+    echo "Echec inattendu de test_lex"
+    exit 1
+else
+    echo "OK"
+fi
 
 # Ligne 10 codée en dur. Il faudrait stocker ça quelque part ...
 if test_lex src/test/deca/syntax/invalid/provided/chaine_incomplete.deca 2>&1 \

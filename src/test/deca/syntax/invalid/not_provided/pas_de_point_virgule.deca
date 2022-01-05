@@ -1,0 +1,14 @@
+// Description:
+//    Programme avec deux instructions sans point virgule.
+//
+// Resultats:
+//    Pas d'erreur de lexer.
+//    Erreur de syntaxe ligne 12, pas de point virgule
+//
+// Historique:
+//    cree le 05/01/2022
+
+{
+    println("a")
+    println("b");
+}

@@ -1,0 +1,16 @@
+// Description:
+//    String multi-line.
+//    [Lexicographie], Chaînes de caractères:
+//    Un multi-line string peut contenir le caractère EOL: un carriage return ou un newline.
+//
+// Resultats:
+//    Bon[]jour
+//    [] représente le litéral \n.
+//
+// Historique:
+//    cree le 01/01/2022
+
+{
+        println("Bon
+jour");
+}

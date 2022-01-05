@@ -1,0 +1,13 @@
+// Description:
+//    Include un header.
+//
+//    [Lexicographie], Inclusion de fichier, p55
+//    INCLUDE = '#include' (' ')* '"' FILENAME '"'
+//
+// Resultats:
+//     Hello World
+//
+// Historique:
+//    cree le 05/01/2022
+
+#include "hello_world.decah"

@@ -1,0 +1,17 @@
+// Description:
+//    Println d'un double backslash.
+//    D'après la spécification, // n'est pas un caractère valide dans une chaine de caractères.
+//    [Lexicographie], Chaines de charactères:
+//    On définit STRING_CAR comme l’ensemble de tous les caractères, à l’exception des caractères '"', '\'
+//    et de EOL (fin de ligne).
+//    STRING = '"' (STRING_CAR + '\\"' + '\\\\')* '"'
+//
+// Resultats:
+//    Erreur de lexeur
+//
+// Historique:
+//    cree le 01/01/2022
+
+{
+        println(" \\ ");
+}

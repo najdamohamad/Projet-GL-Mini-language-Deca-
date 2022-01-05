@@ -1,0 +1,15 @@
+// Description:
+//    Programme non utf-8: il est sauvegardé en ISO-8859-1.
+//    Ce comportement n'est pas spécifié:
+//    le choix de l'implémentation est au compilateur.
+//    Nous choissions d'accepter ce programme.
+//
+// Resultats:
+//    "Hello"
+//
+// Historique:
+//    cree le 05/01/2022
+
+{
+    println("Hello");
+}
