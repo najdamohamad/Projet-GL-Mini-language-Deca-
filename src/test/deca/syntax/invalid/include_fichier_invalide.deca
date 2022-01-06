@@ -5,9 +5,9 @@
 //    FILENAME = (LETTER + DIGIT + '.' + '-' + '_')+
 //
 // Resultats:
-//     Erreur de lexeur 13:0, $ non reconnu
+//     Erreur de lexeur 13:35, $ non reconnu
 //
 // Historique:
 //    cree le 05/01/2022
 
-#include "$.decah"
+#include "include_fichier_invalide$.decah"
