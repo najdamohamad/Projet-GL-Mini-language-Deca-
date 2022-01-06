@@ -2,10 +2,10 @@ package fr.ensimag.deca;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import com.sun.tools.jdeprscan.scan.Scan;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -67,7 +67,10 @@ public class CompilerOptions {
             logger.info("Java assertions disabled");
         }
 
-        throw new UnsupportedOperationException("not yet implemented");
+        sourceFiles = Arrays
+                .stream(args)
+                .map(File::new)
+                .collect(Collectors.toList());
     }
 
     protected void displayUsage() {
