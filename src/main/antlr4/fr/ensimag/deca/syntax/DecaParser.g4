@@ -160,6 +160,8 @@ inst returns[AbstractInst tree]
         }
     | RETURN expr SEMI {
             assert($expr.tree != null);
+            $tree = new Return($expr.tree);
+            setLocation($tree, $expr.start);
         }
     ;
 
@@ -167,11 +169,19 @@ if_then_else returns[IfThenElse tree]
 @init {
 }
     : if1=IF OPARENT condition=expr CPARENT OBRACE li_if=list_inst CBRACE {
+            assert($condition.tree != null);
+            assert($li_if.tree != null);
+            /* thenBranch.add($li_if.tree); */
         }
       (ELSE elsif=IF OPARENT elsif_cond=expr CPARENT OBRACE elsif_li=list_inst CBRACE {
+            assert($elsif_cond.tree != null);
+            assert($elsif_li.tree != null);
         }
       )*
       (ELSE OBRACE li_else=list_inst CBRACE {
+            assert($li_else.tree != null);
+            //elseBranch.add($li_else.tree);
+           // $tree = IfThenElse(condition, thenBranch, elseBranch);
         }
       )?
     ;
@@ -351,9 +361,13 @@ mult_expr returns[AbstractExpr tree]
 unary_expr returns[AbstractExpr tree]
     : op=MINUS e=unary_expr {
             assert($e.tree != null);
+            $tree = new UnaryMinus($e.tree);
+            setLocation($tree, $e.start);
         }
     | op=EXCLAM e=unary_expr {
             assert($e.tree != null);
+            $tree = new Not($e.tree);
+            setLocation($tree, $e.start);
         }
     | select_expr {
             assert($select_expr.tree != null);
@@ -423,19 +437,29 @@ type returns[AbstractIdentifier tree]
 
 
 literal returns[AbstractExpr tree]
-    : INT { $tree = new IntLiteral(Integer.parseInt($INT.getText()));
+    : INT {
+            $tree = new IntLiteral(Integer.parseInt($INT.getText()));
         }
-    | fd=FLOAT { $tree = new FloatLiteral(Float.parseFloat($fd.getText()));
+    | fd=FLOAT {
+            $tree = new FloatLiteral(Float.parseFloat($fd.getText()));
         }
-    | STRING { $tree = new StringLiteral($STRING.getText());
+    | STRING {
+            $tree = new StringLiteral($STRING.getText());
         }
-    | TRUE { $tree = new BooleanLiteral(true);
+    | MULTI_LINE_STRING {
+            $tree = new StringLiteral($MULTI_LINE_STRING.getText());
+    }
+    | TRUE {
+            $tree = new BooleanLiteral(true);
         }
-    | FALSE { $tree = new BooleanLiteral(false);
+    | FALSE {
+            $tree = new BooleanLiteral(false);
         }
     | THIS {
+           $tree = new This();
         }
     | NULL {
+            $tree = new Null();
         }
     ;
 
