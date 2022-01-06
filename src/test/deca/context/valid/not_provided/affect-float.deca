@@ -1,0 +1,14 @@
+// Description:
+//    Affectation et typage
+//
+// Resultats:
+//    a = 1.0
+//
+// Historique:
+//    cree le 01/01/2022
+
+{
+   float a;
+   a = 1;
+   a;
+}

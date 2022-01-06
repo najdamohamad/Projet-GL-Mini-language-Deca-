@@ -25,6 +25,7 @@ options {
 // which packages should be imported?
 @header {
     import fr.ensimag.deca.tree.*;
+    import fr.ensimag.deca.tools.*;
     import java.io.PrintStream;
 }
 
@@ -80,6 +81,7 @@ decl_var_set[ListDeclVar l]
 
 list_decl_var[ListDeclVar l, AbstractIdentifier t]
     : dv1=decl_var[$t] {
+
         $l.add($dv1.tree);
         } (COMMA dv2=decl_var[$t] {
         $l.add($dv2.tree);
@@ -98,10 +100,10 @@ decl_var[AbstractIdentifier t] returns[AbstractDeclVar tree]
             init = new Initialization($e.tree);
         }
       )? {
-            /*setLocation(init, $i.start);
-            $tree = new DeclVar(AbstractDeclVar, i.tree, init);
+            setLocation(init, $i.start);
+            $tree = new DeclVar($t, $i.tree, init);
             setLocation($tree, $i.start);
-            setLocation($i.tree, $i.start);*/
+            setLocation($i.tree, $i.start);
         }
     ;
 
@@ -440,7 +442,9 @@ literal returns[AbstractExpr tree]
 
 ident returns[AbstractIdentifier tree]
     : IDENT {
+            $tree = new Identifier(getDecacCompiler().createSymbol($IDENT.getText()));
         }
+
     ;
 
 /****     Class related rules     ****/

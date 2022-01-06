@@ -1,0 +1,15 @@
+// Description:
+//    Affectation
+//
+// Resultats:
+//
+//
+// Historique:
+//    cree le 06/01/2022
+
+{
+   int a;
+   int b;
+   b = 5;
+   a = b;
+}
