@@ -9,34 +9,53 @@ from typing import Counter
 #print(cwd)
 txtfiles = []
 i = 0 
-counter_compatible = 0 
-counter_non_compatible = 0 
+counter_inattendu = 0 
+counter_attendu = 0 
 
 tests_failed = []
 
+print( ' BEGIN TEST : "INVALID TESTS" ')
 for file in glob.glob("./src/test/deca/syntax/invalid/*.deca") :  
     i += 1
-    if os.system(f"./src/test/script/launchers/test_synt {file} > /dev/null  2>&1" ) == 0  :
-        print(f"{file}: ECHEC, echec attendu et test reussi")
-        tests_failed += file
-        counter_compatible +=1 
+    if os.system(f"./src/test/script/launchers/test_lex {file} > /dev/null  2>&1" ) == 0  :
+        print(f"{file}: REUSSI, (test failed) ")
+        tests_failed.append(file)
+        counter_inattendu +=1 
     else :
-        print(f"{file}: REUSSI")
-        counter_non_compatible  += 1
+        print(f"{file}: FAILED , (test reussi) ")
+        counter_attendu  += 1
+
+print(f"Test avec resultat attendu (failed): {counter_attendu}  ")
+print(f"Test avec resultat inattendu (passed) : {counter_inattendu}  ")
+if counter_inattendu > 0:
+    print("Tests resultat inattendu:")
+    for test in tests_failed:
+        print(f"{test} ECHEC")
+    
 
 
-print(counter_compatible)
-print(counter_non_compatible)
 
+# print('BEGIN TEST : "VALID TESTS" ')
+# i = 0 
+# counter_inattendu = 0 
+# counter_attendu = 0 
 
+# tests_failed = []
 
+# print( ' BEGIN TEST : "INVALID TESTS" ')
+# for file in glob.glob("./src/test/deca/syntax/valid/*.deca") :  
+#     i += 1
+#     if os.system(f"./src/test/script/launchers/test_lex {file} > /dev/null  2>&1" ) == 0  :
+#         print(f"{file}: REUSSI ")
+#         counter_attendu +=1 
+#     else :
+#         print(f"{file}: ECHEC , reussi attendue et Echec test ")
+#         tests_failed.append(file)
+#         counter_inattendu  += 1
 
-
-
-
-
-#for file in glob.glob("./src/test/deca/syntax/valid/*.deca") :  
-    #txtfiles.append(file)
-    #print(file)
-    #print(os.getcwd())
-    #os.system(f"./src/test/script/launchers/test_lex {file}")
+# print(f"Test avec resultat attendu : {counter_attendu}  ")
+# print(f"Test avec resultat inattendu : {counter_inattendu}  ")
+# if counter_inattendu > 0:
+#     print("Tests resultat inattendu:")
+#     for test in tests_failed:
+#         print(f"{test} ECHEC")

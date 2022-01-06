@@ -1,7 +1,7 @@
 // Description:
 //    Println d'un double backslash.
-//    D'après la spécification, // n'est pas un caractère valide dans une chaine de caractères.
-//    [Lexicographie], Chaines de charactères:
+//    D'après la spécification, \\ represente un back_slash "\"  donc d'apres notre grammaire ça doit pas 
+//    representer d'erreur   
 //    On définit STRING_CAR comme l’ensemble de tous les caractères, à l’exception des caractères '"', '\'
 //    et de EOL (fin de ligne).
 //    STRING = '"' (STRING_CAR + '\\"' + '\\\\')* '"'
