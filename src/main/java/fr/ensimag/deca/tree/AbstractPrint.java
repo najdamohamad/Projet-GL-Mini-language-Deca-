@@ -10,6 +10,8 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
 import java.io.PrintStream;
+import java.util.Iterator;
+
 import org.apache.commons.lang.Validate;
 
 /**
@@ -39,7 +41,19 @@ public abstract class AbstractPrint extends AbstractInst {
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        for (Iterator<AbstractExpr> it = arguments.iterator(); it.hasNext(); ) {
+            AbstractExpr expr = it.next();
+            Type exprType = expr.verifyExpr(compiler, localEnv, currentClass);
+            // TODO: For hello world language, we accept only strings.
+            // Need to add a rule to accept float and int.
+            if (exprType.getName() != compiler.createSymbol("string")) {
+                Location l = getLocation();
+                throw new ContextualError(
+                        l.getFilename() + " " + l.getLine() + ":" + l.getPositionInLine() + ": " +
+                        "Mauvais type pour print: s'attendait a string ou float ou int, a obtenu "
+                                + exprType, getLocation());
+            }
+        }
     }
 
     @Override
