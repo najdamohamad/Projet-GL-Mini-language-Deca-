@@ -3,6 +3,7 @@ package fr.ensimag.deca;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
 import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.LocationException;
 import fr.ensimag.ima.pseudocode.AbstractLine;
@@ -45,6 +46,7 @@ public class DecacCompiler {
         super();
         this.compilerOptions = compilerOptions;
         this.source = source;
+        this.symbolTable = new SymbolTable();
     }
 
     /**
@@ -101,6 +103,13 @@ public class DecacCompiler {
     public void addInstruction(Instruction instruction, String comment) {
         program.addInstruction(instruction, comment);
     }
+
+    /**
+     * @see fr.ensimag.deca.tools.SymbolTable#create(String)
+     */
+    public SymbolTable.Symbol createSymbol(String name) {
+        return symbolTable.create(name);
+    }
     
     /**
      * @see 
@@ -112,6 +121,7 @@ public class DecacCompiler {
     
     private final CompilerOptions compilerOptions;
     private final File source;
+    private final SymbolTable symbolTable;
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
