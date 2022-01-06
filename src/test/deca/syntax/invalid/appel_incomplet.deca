@@ -8,4 +8,6 @@
 // Historique:
 //    cree le 05/01/2022
 
-println("chaine pas finie 2);
+{
+    println("chaine pas finie 2);
+}
