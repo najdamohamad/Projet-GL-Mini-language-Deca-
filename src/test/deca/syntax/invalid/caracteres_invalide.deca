@@ -1,0 +1,10 @@
+// Description:
+//    Un caractère qui n'appartient pas a Déca.
+//
+// Resultats:
+//    Ligne 10: Erreur: caractère non reconnu (erreur de lexeur)
+//
+// Historique:
+//    cree le 05/01/2022
+
+`

@@ -1,17 +1,18 @@
 // Description:
-//    Println d'un quadruple backslash.
+//    Println d'un double backslash avec guillemet.
 //    [Lexicographie], Chaines de charactères:
 //    On définit STRING_CAR comme l’ensemble de tous les caractères, à l’exception des caractères '"', '\'
 //    et de EOL (fin de ligne).
-//    (Avec par convention : '\\"' représente un caractère '\' suivi d’un caractère '"'. '\\\\' repré-
+//   (Avec par convention : '\\"' représente un caractère '\' suivi d’un caractère '"' et puisque notre deca doit 
+//   s'arreter à la premiere rencontre de " il doit se bloquer . '\\\\' repré-
 //                             sente deux caractères '\' successifs)
 //
 // Resultats:
-//    \\
+//   erreur de lexeur ligne 17 col 22 
 //
 // Historique:
 //    cree le 01/01/2022
 
 {
-        println(" \\\\ ");
+        println(" \\" ");
 }

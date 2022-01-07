@@ -1,0 +1,18 @@
+// Description:
+//    Include un fichier A et B.
+//    A include C.
+//    B include C.
+//    C est un programme "hello world", qui sera inclut deux fois.
+//
+//    [Lexicographie], Inclusion de fichier, p55F
+//    FILENAME = (LETTER + DIGIT + '.' + '-' + '_')+
+//
+// Resultats:
+//     Pas d'erreur de lexeur.
+//     Erreur de syntaxe: deux blocs main.
+//
+// Historique:
+//    cree le 05/01/2022
+
+#include "include_en_diamant_a.decah"
+#include "include_en_diamant_b.decah"

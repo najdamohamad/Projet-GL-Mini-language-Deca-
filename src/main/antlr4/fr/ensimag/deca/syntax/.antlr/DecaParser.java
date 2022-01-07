@@ -1,6 +1,7 @@
 // Generated from /Users/hamodenajda/Desktop/projet GL/gl47/src/main/antlr4/fr/ensimag/deca/syntax/DecaParser.g4 by ANTLR 4.8
 
     import fr.ensimag.deca.tree.*;
+    import fr.ensimag.deca.tools.*;
     import java.io.PrintStream;
 
 import org.antlr.v4.runtime.atn.*;
@@ -418,6 +419,7 @@ public class DecaParser extends AbstractDecaParser {
 			setState(102);
 			((List_decl_varContext)_localctx).dv1 = decl_var(_localctx.t);
 
+
 			        _localctx.l.add(((List_decl_varContext)_localctx).dv1.tree);
 			        
 			setState(110);
@@ -503,10 +505,10 @@ public class DecaParser extends AbstractDecaParser {
 			}
 
 
-			            /*setLocation(init, (((Decl_varContext)_localctx).i!=null?(((Decl_varContext)_localctx).i.start):null));
-			            ((Decl_varContext)_localctx).tree =  new DeclVar(AbstractDeclVar, i.tree, init);
+			            setLocation(init, (((Decl_varContext)_localctx).i!=null?(((Decl_varContext)_localctx).i.start):null));
+			            ((Decl_varContext)_localctx).tree =  new DeclVar(_localctx.t, ((Decl_varContext)_localctx).i.tree, init);
 			            setLocation(_localctx.tree, (((Decl_varContext)_localctx).i!=null?(((Decl_varContext)_localctx).i.start):null));
-			            setLocation(((Decl_varContext)_localctx).i.tree, (((Decl_varContext)_localctx).i!=null?(((Decl_varContext)_localctx).i.start):null));*/
+			            setLocation(((Decl_varContext)_localctx).i.tree, (((Decl_varContext)_localctx).i!=null?(((Decl_varContext)_localctx).i.start):null));
 			        
 			}
 		}
@@ -2385,6 +2387,7 @@ public class DecaParser extends AbstractDecaParser {
 
 	public static class IdentContext extends ParserRuleContext {
 		public AbstractIdentifier tree;
+		public Token IDENT;
 		public TerminalNode IDENT() { return getToken(DecaParser.IDENT, 0); }
 		public IdentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2399,8 +2402,9 @@ public class DecaParser extends AbstractDecaParser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(458);
-			match(IDENT);
+			((IdentContext)_localctx).IDENT = match(IDENT);
 
+			            ((IdentContext)_localctx).tree =  new Identifier(getDecacCompiler().createSymbol(((IdentContext)_localctx).IDENT.getText()));
 			        
 			}
 		}
