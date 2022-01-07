@@ -1,0 +1,15 @@
+// Description:
+//    Beaucoup de paranthèses avec une expression concrête.
+//
+//    [Syntaxe], Grammaire concrete, p59 ,
+//    Une expression avec des paranthèse (primary_expr) doit redériver vers une expr.
+//
+// Resultats:
+//    Erreur de parseur, 14:25
+//
+// Historique:
+//    cree le 05/01/2022
+
+{
+    println( (((("hello world") ))) );
+}

@@ -8,7 +8,7 @@
 //                             sente deux caractères '\' successifs)
 //
 // Resultats:
-//   erreur de lexeur ligne 17 col 22 
+//   erreur de parseur ligne 16 col 22 
 //
 // Historique:
 //    cree le 01/01/2022
