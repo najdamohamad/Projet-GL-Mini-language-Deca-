@@ -19,7 +19,7 @@ public class EmptyMain extends AbstractMain {
 
     @Override
     protected void codeGenMain(DecacCompiler compiler) {
-        // no code generation takes place here,
+        compiler.addComment("empty main: no code generation takes place");
     }
 
     /**
