@@ -5,7 +5,6 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.sun.tools.jdeprscan.scan.Scan;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
