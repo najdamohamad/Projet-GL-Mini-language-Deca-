@@ -33,6 +33,7 @@ public class TestPrint {
     public void setup() throws ContextualError {
         MockitoAnnotations.initMocks(this);
         compiler = new DecacCompiler(null, null);
+        // Need to pass symbols because we need them for the error message. Refactor this in the verification
         STRING = new StringType(compiler.createSymbol("string"));
         VOID = new VoidType(compiler.createSymbol("void"));
         BOOLEAN = new BooleanType(compiler.createSymbol("boolean"));
