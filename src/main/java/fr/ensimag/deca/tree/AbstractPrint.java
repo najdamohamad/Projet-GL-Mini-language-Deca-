@@ -1,18 +1,14 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.context.FloatType;
-import fr.ensimag.deca.context.IntType;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.Label;
 import java.io.PrintStream;
 import java.util.Iterator;
 
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 /**
  * Print statement (print, println, ...).
@@ -21,6 +17,7 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2022
  */
 public abstract class AbstractPrint extends AbstractInst {
+    private static final Logger LOG = Logger.getLogger(Program.class);
 
     private boolean printHex;
     private ListExpr arguments = new ListExpr();
@@ -46,10 +43,10 @@ public abstract class AbstractPrint extends AbstractInst {
             Type exprType = expr.verifyExpr(compiler, localEnv, currentClass);
             // TODO: For hello world language, we accept only strings.
             // Need to add a rule to accept float and int.
-            if (exprType.getName() != compiler.createSymbol("string")) {
-                Location l = getLocation();
+            if (!exprType.sameType(new StringType(null))) {
+                LOG.error("Mauvais type pour print: s'attendait a string ou float ou int, a obtenu "
+                        + exprType);
                 throw new ContextualError(
-                        l.getFilename() + " " + l.getLine() + ":" + l.getPositionInLine() + ": " +
                         "Mauvais type pour print: s'attendait a string ou float ou int, a obtenu "
                                 + exprType, getLocation());
             }
