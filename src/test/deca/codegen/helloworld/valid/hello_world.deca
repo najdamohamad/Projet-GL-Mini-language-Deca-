@@ -1,0 +1,12 @@
+// Description:
+//    Compilation simple d'un hello world
+//
+// Resultats:
+//    Hello, world
+//
+// Historique:
+//    cree le 01/01/2022
+
+{
+    print("Hello, world");
+}
