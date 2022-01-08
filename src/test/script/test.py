@@ -6,7 +6,7 @@ import os
 import sys
 import glob
 from pathlib import Path
-
+import filecmp
 
 class color:
     HEADER = '\033[95m'
@@ -19,6 +19,10 @@ class color:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
+def replace_ending(sentence, old, new): #https://stackoverflow.com/a/61550058/13439405
+    if sentence.endswith(old):
+        return sentence[:-len(old)] + new
+    return sentence
 
 # Nous voudrions changer de répertoire courant, quelque soit
 # le dossier dans lequel on lance le script.0
@@ -82,15 +86,24 @@ def suite_test(dossier, sous_language, type_test, etape_test):
         print(f"[{i}/{nb_tests}] ", end='')
         fichier_nom_court = fichier.removeprefix("src/test/deca/")
 
+
         if type_test == 'invalid':
-            if os.system(f"{programme} {fichier} > /dev/null  2>&1") == 0:
+            if os.system(f"{programme} {fichier} > temp.lis 2>&1") == 0:
                 print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, test réussi alors qu'il devait échouer")
                 tests_echoues.append(fichier_nom_court)
                 tous_test_echoues.append(fichier_nom_court)
                 nb_echecs += 1
                 nb_echecs_total += 1
             else:
-                print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
+                # comparer que la sortie est bien celle a laquelle on s'attend
+                # pour tout test en fichier .deca, il y a un .lis correspondant qui donne la trace
+                fichier_trace = replace_ending(fichier, '.deca', '.lis')
+                if not Path(dossier).exists():
+                    print(f"{color.WARNING}AVERTISSEMENT: pas de trace .lis trouvée pour {fichier_nom_court}")
+                    print(f"{color.WARNING}AVERTISSEMENT: on passe la vérification de la trace .lis pour ce test")
+                else:
+
+                    print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
         else: # type_test: valid, perf...
             if os.system(f"{programme} {fichier} > /dev/null  2>&1") == 0:
                 print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
@@ -118,3 +131,8 @@ print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {n
 print(f'Liste des tests échoués:')
 for test in tous_test_echoues:
     print(f"{color.FAIL}ECHEC{color.END} {test}")
+
+if nb_echecs_total > 0:
+    sys.exit(1) # echec de la suite de test
+else:
+    sys.exit(0)
