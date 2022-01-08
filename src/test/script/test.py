@@ -42,7 +42,7 @@ etape_test_vers_programme = {
     'syntaxe': './src/test/script/launchers/test_synt',
     'contexte': './src/test/script/launchers/test_context',
     # Pour la génération de code, on peut à la place lancer le decac directement.
-    'gencode': './src/main/bin/decac',
+    'codegen': './src/main/bin/decac',
 }
 
 nb_tests_total = 0
@@ -88,6 +88,7 @@ def suite_test(dossier, sous_language, type_test, etape_test):
 
 
         if type_test == 'invalid':
+            # On stocke la sortie dans un temp.lis, ce fichier sera celui à comparer.
             if os.system(f"{programme} {fichier} > temp.lis 2>&1") == 0:
                 print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, test réussi alors qu'il devait échouer")
                 tests_echoues.append(fichier_nom_court)
@@ -97,16 +98,34 @@ def suite_test(dossier, sous_language, type_test, etape_test):
             else:
                 # comparer que la sortie est bien celle a laquelle on s'attend
                 # pour tout test en fichier .deca, il y a un .lis correspondant qui donne la trace
-                fichier_trace = replace_ending(fichier, '.deca', '.lis')
-                if not Path(dossier).exists():
-                    print(f"{color.WARNING}AVERTISSEMENT: pas de trace .lis trouvée pour {fichier_nom_court}")
-                    print(f"{color.WARNING}AVERTISSEMENT: on passe la vérification de la trace .lis pour ce test")
+                fichier_lis = replace_ending(fichier, '.deca', '.lis')
+                if not Path(fichier_lis).exists():
+                    print(f"{color.WARNING}AVERTISSEMENT{color.END}: pas de trace .lis trouvée pour {fichier_nom_court}")
                 else:
-
-                    print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
+                    if filecmp.cmp(fichier_lis, 'temp.lis'):
+                        print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
+                    else:
+                        print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court} diffère du .lis")
+                        tests_echoues.append(fichier_nom_court)
+                        tous_test_echoues.append(fichier_nom_court)
+                        nb_echecs += 1
+                        nb_echecs_total += 1
         else: # type_test: valid, perf...
-            if os.system(f"{programme} {fichier} > /dev/null  2>&1") == 0:
-                print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
+            if os.system(f"{programme} {fichier} > temp.lis 2>&1") == 0:
+                # comparer que la sortie est bien celle a laquelle on s'attend
+                # pour tout test en fichier .deca, il y a un .lis correspondant qui donne la trace
+                fichier_lis = replace_ending(fichier, '.deca', '.lis')
+                if not Path(fichier_lis).exists():
+                    print(f"{color.WARNING}AVERTISSEMENT{color.END}: pas de trace .lis trouvée pour {fichier_nom_court}")
+                else:
+                    if filecmp.cmp(fichier_lis, 'temp.lis'):
+                        print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
+                    else:
+                        print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court} diffère du .lis")
+                        tests_echoues.append(fichier_nom_court)
+                        tous_test_echoues.append(fichier_nom_court)
+                        nb_echecs += 1
+                        nb_echecs_total += 1
             else:
                 print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, test échoué alors qu'il devait reussir")
                 tests_echoues.append(fichier_nom_court)
@@ -121,11 +140,13 @@ def suite_test(dossier, sous_language, type_test, etape_test):
         for test in tests_echoues:
             print(f"{color.FAIL}ECHEC{color.END} {test}")
 
-
-suite_test('src/test/deca/syntax/test_lex', 'helloworld', 'invalid', 'lexeur')
-suite_test('src/test/deca/syntax/test_lex', 'helloworld', 'valid', 'lexeur')
-suite_test('src/test/deca/syntax/test_synt', 'helloworld', 'invalid', 'syntaxe')
-suite_test('src/test/deca/syntax/test_synt', 'helloworld', 'valid', 'syntaxe')
+# WHich tests to run
+# a modifier si on veut ajouter de nouveau test ajouter un nouvelle ligne suite_test()
+# suite_test('src/test/deca/syntax/test_lex', 'helloworld', 'invalid', 'lexeur')
+# suite_test('src/test/deca/syntax/test_lex', 'helloworld', 'valid', 'lexeur')
+# suite_test('src/test/deca/syntax/test_synt', 'helloworld', 'invalid', 'syntaxe')
+# suite_test('src/test/deca/syntax/test_synt', 'helloworld', 'valid', 'syntaxe')
+suite_test('src/test/deca/codegen', 'helloworld', 'valid', 'syntaxe')
 print()
 print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {nb_tests_total}, Echec: {nb_echecs_total}')
 print(f'Liste des tests échoués:')
