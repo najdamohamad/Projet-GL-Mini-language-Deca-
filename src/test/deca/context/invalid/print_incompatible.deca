@@ -1,0 +1,13 @@
+// Description:
+//    Print incompatible.
+//    Un print ne peut etre fait que avec un string, un int ou un float.
+//
+// Resultats:
+//    Ligne 12: Mauvais type pour print: s’attendait a string ou float ou int, a obtenu boolean
+//
+// Historique:
+//    cree le 08/01/2022
+
+{
+    println(true);
+}
