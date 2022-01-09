@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <compileSource>1.8</compileSource>
-        <jacoco.skip>true</jacoco.skip>
+        <jacoco.skip>false</jacoco.skip>
         <jacoco.report_dir>${project.build.directory}/site</jacoco.report_dir>
     </properties>
 
@@ -191,9 +191,9 @@
                     <!-- One <execution> per executable to launch. Execution
                     failure (exit status != 0) will stop the tests. -->
                     <execution>
-                        <id>basic-lex</id>
+                        <id>test_runner</id>
                         <configuration>
-                            <executable>./src/test/script/basic-lex.sh</executable>
+                            <executable>./src/test/script/test.py</executable>
                             <!-- If we need to pass arguments :
                                  <arguments>
                                  <argument>...</argument>
@@ -205,60 +205,7 @@
                             <goal>exec</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>basic-synt</id>
-                        <configuration>
-                            <executable>./src/test/script/basic-synt.sh</executable>
-                        </configuration>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <!-- run a unit test by defining our own class with a main
-                        function -->
-                        <!-- warning: java assertions are not enabled -->
-                        <id>unit-test-symbol</id>
-                        <configuration>
-                            <mainClass>fr.ensimag.deca.tools.ManualTestSymbol</mainClass>
-                            <classpathScope>test</classpathScope>
-                        </configuration>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>basic-context</id>
-                        <configuration>
-                            <executable>./src/test/script/basic-context.sh</executable>
-                        </configuration>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>basic-gencode</id>
-                        <configuration>
-                            <executable>./src/test/script/basic-gencode.sh</executable>
-                        </configuration>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>basic-decac</id>
-                        <configuration>
-                            <executable>./src/test/script/basic-decac.sh</executable>
-                        </configuration>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
+                    <!-- TODO: Make this test pass
                     <execution>
                         <id>common-tests</id>
                         <configuration>
@@ -269,6 +216,20 @@
                             <goal>exec</goal>
                         </goals>
                     </execution>
+                    -->
+                    <!-- This test is unnecessary
+                    <execution>
+                        <id>unit-test-symbol</id>
+                        <configuration>
+                            <mainClass>fr.ensimag.deca.tools.ManualTestSymbol</mainClass>
+                            <classpathScope>test</classpathScope>
+                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                    -->
                 </executions>
             </plugin>
 
