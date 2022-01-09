@@ -1,10 +1,13 @@
-image: alpine:latest
+image: maven:3.6.3-openjdk-17
 
 before_script:
-  - apk add maven python3 openjdk17
-
+  - apt-get update -y
+  - apt-get upgrade -y
+  - apt-get install -y python3
 stages:
+  - build
   - test
+  - run
 
 variables:
   # Arguments to pass in the Maven CLI.
@@ -15,6 +18,11 @@ variables:
 cache:
   paths:
     - target/
+
+build:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS compile $MAVEN_OPTS
 
 test:
   stage: test
