@@ -142,10 +142,10 @@ def suite_test(dossier, sous_language, type_test, etape_test):
 
 # WHich tests to run
 # a modifier si on veut ajouter de nouveau test ajouter un nouvelle ligne suite_test()
-# suite_test('src/test/deca/syntax/test_lex', 'helloworld', 'invalid', 'lexeur')
-# suite_test('src/test/deca/syntax/test_lex', 'helloworld', 'valid', 'lexeur')
-# suite_test('src/test/deca/syntax/test_synt', 'helloworld', 'invalid', 'syntaxe')
-# suite_test('src/test/deca/syntax/test_synt', 'helloworld', 'valid', 'syntaxe')
+suite_test('src/test/deca/syntax/test_lex', 'helloworld', 'invalid', 'lexeur')
+suite_test('src/test/deca/syntax/test_lex', 'helloworld', 'valid', 'lexeur')
+suite_test('src/test/deca/syntax/test_synt', 'helloworld', 'invalid', 'syntaxe')
+suite_test('src/test/deca/syntax/test_synt', 'helloworld', 'valid', 'syntaxe')
 suite_test('src/test/deca/codegen', 'helloworld', 'valid', 'syntaxe')
 print()
 print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {nb_tests_total}, Echec: {nb_echecs_total}')
