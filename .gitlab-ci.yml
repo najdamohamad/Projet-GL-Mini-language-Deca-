@@ -1,5 +1,9 @@
 image: maven:3.6.3-openjdk-17
 
+before_script:
+  - apt-get update -y
+  - apt-get upgrade -y
+  - apt-get install -y qpython3
 stages:
   - build
   - test
