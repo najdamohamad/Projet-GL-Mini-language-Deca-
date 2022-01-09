@@ -1,0 +1,31 @@
+image: maven:3.6.3-openjdk-17
+
+stages:
+  - build
+  - test
+  - run
+
+variables:
+  # Arguments to pass in the Maven CLI.
+  MAVEN_CLI_OPTS: ""
+  # Arguments to pass to Maven tasks.
+  MAVEN_OPTS: ""
+
+cache:
+  paths:
+    - target/
+
+build:
+  stage: build
+  script:
+    - mvn $MAVEN_CLI_OPTS compile $MAVEN_OPTS
+
+test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS verify $MAVEN_OPTS
+  artifacts:
+    expose_as: 'JaCoCo couverture de code'
+    paths:
+      - target/site/
+    expire_in: 1 week
