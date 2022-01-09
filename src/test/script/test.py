@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # Script pour les tests.
 # Ce script va lancer tous les tests du lexeur.
 
