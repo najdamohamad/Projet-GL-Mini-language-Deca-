@@ -4,6 +4,7 @@ before_script:
   - apk add maven python3 openjdk17
 
 stages:
+  - compile
   - test
 
 variables:
@@ -15,6 +16,11 @@ variables:
 cache:
   paths:
     - target/
+
+compile:
+  stage: compile
+  script:
+    - mvn compile
 
 test:
   stage: test
