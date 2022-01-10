@@ -100,6 +100,7 @@ public class CompilerOptions {
                     break;
                 case "-a":
                     generateARMAssembly = true;
+                    break;
                 // TODO: finish option parsing
                 default:
                     sourceFiles.add(new File(token));
@@ -135,7 +136,7 @@ public class CompilerOptions {
         System.out.println(usage);
     }
 
-    public boolean isGenerateARMAssembly() {
+    public boolean getGenerateARMAssembly() {
         return generateARMAssembly;
     }
 }

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
@@ -17,7 +18,7 @@ import java.util.Iterator;
  * @author gl47
  * @date 01/01/2022
  */
-public class ListInst extends TreeList<AbstractInst> implements CodeGen<IMAProgram> {
+public class ListInst extends TreeList<AbstractInst> implements CodeGen {
 
     /**
      * Implements non-terminal "list_inst" of [SyntaxeContextuelle] in pass 3
@@ -40,6 +41,13 @@ public class ListInst extends TreeList<AbstractInst> implements CodeGen<IMAProgr
 
     @Override
     public void codeGen(IMAProgram program) {
+        for (AbstractInst i : getList()) {
+            i.codeGen(program);
+        }
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
         for (AbstractInst i : getList()) {
             i.codeGen(program);
         }

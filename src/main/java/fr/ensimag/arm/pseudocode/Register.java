@@ -7,7 +7,7 @@ import java.io.PrintStream;
 public class Register implements Operand {
 
     /**
-     * AArch32 includes 13 general registers, R0-12, the Program Counter, R15,
+     * AArch32 includes 13 general registers, R0-12, the OutputProgram Counter, R15,
      * and two banked registers that contain the Stack Pointer, R13, and Link Register, R14.
      */
     private final int number;

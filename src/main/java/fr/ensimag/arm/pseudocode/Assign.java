@@ -12,7 +12,7 @@ public class Assign implements Line {
     }
 
     /**
-     * A line in an ARM Program is just a thing you can print in text.
+     * A line in an ARM OutputProgram is just a thing you can print in text.
      *
      * @param s The print stream that stores in constructed program.
      */

@@ -1,5 +1,7 @@
 package fr.ensimag.deca;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
+import fr.ensimag.deca.codegen.OutputProgram;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
 import fr.ensimag.deca.tools.DecacInternalError;
@@ -72,21 +74,13 @@ public class DecacCompiler {
         return symbolTable.create(name);
     }
     
-    /**
-     * @see 
-     * fr.ensimag.ima.pseudocode.IMAProgram#display()
-     */
-    public String displayIMAProgram() {
-        return program.display();
-    }
-    
     private final CompilerOptions compilerOptions;
     private final File source;
     private final SymbolTable symbolTable;
     /**
      * The main program. Every instruction generated will eventually end up here.
      */
-    private final IMAProgram program = new IMAProgram();
+    private OutputProgram program;
  
     /**
      * Run the compiler (parse source file, generate code)
@@ -161,9 +155,16 @@ public class DecacCompiler {
             System.exit(0);
         }
 
-        program.addComment("start main program");
-        abstractProgram.codeGen(program);
-        program.addComment("end main program");
+        program.addComment("Start main program:");
+        if (compilerOptions.getGenerateARMAssembly()) {
+            program = new ARMProgram();
+            abstractProgram.codeGen((ARMProgram) program);
+        } else {
+            program = new IMAProgram();
+            abstractProgram.codeGen((IMAProgram) program);
+        }
+        program.addComment("End main program.");
+
         LOG.debug("Generated assembly code:" + nl + program.display());
         LOG.info("Output file assembly file is: " + destName);
 

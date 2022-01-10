@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -46,6 +47,12 @@ public class Program extends AbstractProgram {
         program.addComment("Main program");
         main.codeGen(program);
         program.addInstruction(new HALT());
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        // A FAIRE: compléter ce squelette très rudimentaire de code
+        program.addComment("Main program");
     }
 
     @Override

@@ -1,5 +1,7 @@
 package fr.ensimag.ima.pseudocode;
 
+import fr.ensimag.deca.codegen.OutputProgram;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.LinkedList;
@@ -10,15 +12,16 @@ import java.util.LinkedList;
  * @author Ensimag
  * @date 01/01/2022
  */
-public class IMAProgram {
+public class IMAProgram implements OutputProgram {
     private final LinkedList<AbstractLine> lines = new LinkedList<AbstractLine>();
 
     public void add(AbstractLine line) {
         lines.add(line);
     }
 
-    public void addComment(String s) {
-        lines.add(new Line(s));
+    @Override
+    public void addComment(String comment) {
+        lines.add(new Line(comment));
     }
 
     public void addLabel(Label l) {
@@ -52,6 +55,7 @@ public class IMAProgram {
     /**
      * Display the program in a textual form readable by IMA to stream s.
      */
+    @Override
     public void display(PrintStream s) {
         for (AbstractLine l: lines) {
             l.display(s);
@@ -61,6 +65,7 @@ public class IMAProgram {
     /**
      * Return the program in a textual form readable by IMA as a String.
      */
+    @Override
     public String display() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintStream s = new PrintStream(out);

@@ -11,7 +11,7 @@ import fr.ensimag.ima.pseudocode.IMAProgram;
  * @author gl47
  * @date 01/01/2022
  */
-public abstract class AbstractMain extends Tree implements CodeGen<IMAProgram> {
+public abstract class AbstractMain extends Tree implements CodeGen {
 
     /**
      * Implements non-terminal "main" of [SyntaxeContextuelle] in pass 3 

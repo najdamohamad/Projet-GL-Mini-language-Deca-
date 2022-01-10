@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import com.sun.tools.javac.jvm.Code;
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.ContextualError;
@@ -17,7 +18,7 @@ import org.apache.log4j.Logger;
  * @author gl47
  * @date 01/01/2022
  */
-public class Main extends AbstractMain implements CodeGen<IMAProgram> {
+public class Main extends AbstractMain implements CodeGen {
     private static final Logger LOG = Logger.getLogger(Main.class);
     
     private ListDeclVar declVariables;
@@ -48,7 +49,15 @@ public class Main extends AbstractMain implements CodeGen<IMAProgram> {
         insts.codeGen(program);
         program.addComment("End of main function.");
     }
-    
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        // A FAIRE: traiter les déclarations de variables.
+        program.addComment("Beginning of main function:");
+        insts.codeGen(program);
+        program.addComment("End of main function.");
+    }
+
     @Override
     public void decompile(IndentPrintStream s) {
         s.println("{");

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.codegen.CodeGenDisplay;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
@@ -21,7 +22,7 @@ import org.apache.commons.lang.Validate;
  * @author gl47
  * @date 01/01/2022
  */
-public abstract class AbstractExpr extends AbstractInst implements CodeGenDisplay<IMAProgram> {
+public abstract class AbstractExpr extends AbstractInst implements CodeGenDisplay {
     /**
      * @return true if the expression does not correspond to any concrete token
      * in the source code (and should be decompiled to the empty string).
@@ -119,6 +120,16 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
 
     @Override
     public void codeGenDisplay(IMAProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    public void codeGenDisplay(ARMProgram program) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 

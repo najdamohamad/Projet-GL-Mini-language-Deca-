@@ -1,10 +1,19 @@
 package fr.ensimag.deca.codegen;
 
-public interface CodeGen<Program> {
+import fr.ensimag.arm.pseudocode.ARMProgram;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+
+public interface CodeGen {
     /**
      * This method inserts the relevant assembly code in the program.
      *
-     * @param program Abstract representation of the IMA/ARM assembly code.
+     * @param program Abstract representation of the IMA assembly code.
      */
-    void codeGen(Program program);
+    void codeGen(IMAProgram program);
+    /**
+     * This method inserts the relevant assembly code in the program.
+     *
+     * @param program Abstract representation of the ARM assembly code.
+     */
+    void codeGen(ARMProgram program);
 }

@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -21,7 +22,12 @@ public class EmptyMain extends AbstractMain {
 
     @Override
     public void codeGen(IMAProgram program) {
-        program.addComment("empty main: no code generation takes place");
+        program.addComment("EmptyMain: no code generation takes place.");
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        program.addComment("EmptyMain: no code generation takes place.");
     }
 
     /**
