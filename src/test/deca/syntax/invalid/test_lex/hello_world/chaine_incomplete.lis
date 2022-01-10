@@ -1,1 +1,1 @@
-src/test/deca/syntax/test_lex/helloworld/invalid/chaine_incomplete.deca:10:0: token recognition error at: '"chaine incomplete \n'
+src/test/deca/syntax/invalid/test_lex/hello_world/chaine_incomplete.deca:10:0: token recognition error at: '"chaine incomplete \n'

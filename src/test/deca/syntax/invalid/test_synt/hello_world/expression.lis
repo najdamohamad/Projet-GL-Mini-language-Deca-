@@ -1,1 +1,1 @@
-no viable alternative at input '"chaine"'
+src/test/deca/syntax/invalid/test_synt/hello_world/expression.deca:12:0: no viable alternative at input '"chaine"'

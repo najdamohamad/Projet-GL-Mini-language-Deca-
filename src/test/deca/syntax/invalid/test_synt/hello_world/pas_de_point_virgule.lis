@@ -1,1 +1,1 @@
-missing ';' at 'println'
+src/test/deca/syntax/invalid/test_synt/hello_world/pas_de_point_virgule.deca:13:4: missing ';' at 'println'

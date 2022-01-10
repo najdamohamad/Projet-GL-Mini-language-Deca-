@@ -1,1 +1,1 @@
-mismatched input '{' expecting {'instanceof', '<', '>', '=', '+', '-', '*', '/', '%', '.', ',', ')', '==', '!=', '>=', '<=', '&&', '||'}
+src/test/deca/syntax/invalid/test_synt/hello_world/include_en_diamant_c.decah:1:0: mismatched input '{' expecting {'instanceof', '<', '>', '=', '+', '-', '*', '/', '%', '.', ',', ')', '==', '!=', '>=', '<=', '&&', '||'}

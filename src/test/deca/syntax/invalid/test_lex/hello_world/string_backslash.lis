@@ -1,4 +1,4 @@
 OBRACE: [@0,362:362='{',<34>,13:0]
 PRINTLN: [@1,372:378='println',<13>,14:8]
 OPARENT: [@2,379:379='(',<32>,14:15]
-src/test/deca/syntax/test_lex/helloworld/invalid/string_backslash.deca:14:16: token recognition error at: '" \ '
+src/test/deca/syntax/invalid/test_lex/hello_world/string_backslash.deca:14:16: token recognition error at: '" \ '

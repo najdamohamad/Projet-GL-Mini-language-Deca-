@@ -1,1 +1,4 @@
-token recognition error at: '" \\\ '
+OBRACE: [@0,474:474='{',<34>,15:0]
+PRINTLN: [@1,484:490='println',<13>,16:8]
+OPARENT: [@2,491:491='(',<32>,16:15]
+src/test/deca/syntax/invalid/test_lex/hello_world/string_triple_backslash.deca:16:16: token recognition error at: '" \\\ '

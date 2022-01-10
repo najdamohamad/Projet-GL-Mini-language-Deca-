@@ -1,1 +1,1 @@
-token recognition error at: '"chaine pas finie 2);\n}\n'
+src/test/deca/syntax/invalid/test_synt/hello_world/appel_incomplet.deca:12:12: token recognition error at: '"chaine pas finie 2);\n}\n'

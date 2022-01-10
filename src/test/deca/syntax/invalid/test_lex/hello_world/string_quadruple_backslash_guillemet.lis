@@ -2,4 +2,4 @@ OBRACE: [@0,618:618='{',<34>,16:0]
 PRINTLN: [@1,628:634='println',<13>,17:8]
 OPARENT: [@2,635:635='(',<32>,17:15]
 STRING: [@3,636:642='" \\\\"',<46>,17:16]
-src/test/deca/syntax/test_lex/helloworld/invalid/string_quadruple_backslash_guillemet.deca:17:24: token recognition error at: '");\n}\n'
+src/test/deca/syntax/invalid/test_lex/hello_world/string_quadruple_backslash_guillemet.deca:17:24: token recognition error at: '");\n}\n'

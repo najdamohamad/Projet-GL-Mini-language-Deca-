@@ -1,1 +1,1 @@
-missing ';' at 'println'
+src/test/deca/syntax/invalid/test_synt/hello_world/simple_lex.deca:12:0: no viable alternative at input 'idf'
