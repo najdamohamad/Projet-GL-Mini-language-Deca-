@@ -149,9 +149,17 @@ public class DecacCompiler {
         }
         assert(abstractProgram.checkAllLocations());
 
+        if (compilerOptions.getParseThenStop()) {
+            abstractProgram.decompile(System.out);
+            System.exit(0);
+        }
 
         abstractProgram.verifyProgram(this);
         assert(abstractProgram.checkAllDecorations());
+
+        if (compilerOptions.getVerifyThenStop()) {
+            System.exit(0);
+        }
 
         program.addComment("start main program");
         abstractProgram.codeGen(program);
