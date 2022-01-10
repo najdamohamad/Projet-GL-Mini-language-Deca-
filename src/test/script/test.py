@@ -35,8 +35,6 @@ os.chdir('../../../')  # changez cette ligne si vous déplacez test.py
 # Après le os.chdir: nous sommes dans ./src/test
 print(os.getcwd())
 
-etapes = ["helloworld"]
-
 etape_test_vers_programme = {
     'lexeur': './src/test/script/launchers/test_lex',
     'syntaxe': './src/test/script/launchers/test_synt',
@@ -48,6 +46,7 @@ etape_test_vers_programme = {
 nb_tests_total = 0
 nb_echecs_total = 0
 tous_test_echoues = []
+
 
 def suite_test(dossier, sous_language, type_test, etape_test):
     """
@@ -61,15 +60,13 @@ def suite_test(dossier, sous_language, type_test, etape_test):
     # global: je veux modifier les variable globales
     global nb_tests_total, nb_echecs_total, tous_test_echoues
 
-    if sous_language not in etapes:
-        print(f'{color.FAIL}ERREUR{color.END}: l\'etape "{sous_language}" n\'existe pas. Etapes disponibles: {etapes}')
-        sys.exit(1)
+    open('temp.lis', 'a').close()
 
     if not Path(dossier).exists(): # https://stackoverflow.com/a/44228213/13439405
         print(f"{color.FAIL}ERREUR{color.END}: le dossier {dossier} n'existe pas.")
         sys.exit(1)
 
-    print(f'{color.HEADER}[SUITE]{color.END} Tests {etape_test}, {sous_language} ({color.BOLD}invalid{color.END}):')
+    print(f'{color.HEADER}[SUITE]{color.END} Tests {etape_test}, {sous_language} ({color.BOLD}{type_test}{color.END}):')
 
     programme = etape_test_vers_programme[etape_test]
 
@@ -77,7 +74,7 @@ def suite_test(dossier, sous_language, type_test, etape_test):
     nb_echecs = 0
     tests_echoues = []
 
-    tests = glob.glob(f"{dossier}/{sous_language}/{type_test}/*.deca")
+    tests = glob.glob(f"{dossier}/*.deca")
     nb_tests = len(tests)
 
     for fichier in tests:
@@ -122,6 +119,9 @@ def suite_test(dossier, sous_language, type_test, etape_test):
                         print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
                     else:
                         print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court} diffère du .lis")
+                        if len(sys.argv) > 1 and sys.argv[1] == '-X': # show debug
+                            with open(f'temp.lis', 'r') as f:
+                                print(f.read())
                         tests_echoues.append(fichier_nom_court)
                         tous_test_echoues.append(fichier_nom_court)
                         nb_echecs += 1
@@ -140,13 +140,94 @@ def suite_test(dossier, sous_language, type_test, etape_test):
         for test in tests_echoues:
             print(f"{color.FAIL}ECHEC{color.END} {test}")
 
+    os.remove('temp.lis')
+
+def suite_test_lex(dossier, sous_language, type_test):
+    suite_test(dossier, sous_language, type_test, 'lexeur')
+def suite_test_synt(dossier, sous_language, type_test):
+    suite_test(dossier, sous_language, type_test, 'syntaxe')
+def suite_test_context(dossier, sous_language, type_test):
+    suite_test(dossier, sous_language, type_test, 'contexte')
+
+def suite_test_exec(dossier, sous_language, type_test):
+    # global: je veux modifier les variable globales
+    global nb_tests_total, nb_echecs_total, tous_test_echoues
+
+    open('temp.res', 'a').close()
+
+    if not Path(dossier).exists(): # https://stackoverflow.com/a/44228213/13439405
+        print(f"{color.FAIL}ERREUR{color.END}: le dossier {dossier} n'existe pas.")
+        sys.exit(1)
+
+    print(f'{color.HEADER}[SUITE]{color.END} Tests execution, {sous_language} ({color.BOLD}{type_test}{color.END}):')
+
+    i = 0
+    nb_echecs = 0
+    tests_echoues = []
+
+    tests = glob.glob(f"{dossier}/*.deca")
+    nb_tests = len(tests)
+
+    for fichier in tests:
+        i += 1
+        nb_tests_total += 1
+        print(f"[{i}/{nb_tests}] ", end='')
+        fichier_nom_court = fichier.removeprefix("src/test/deca/")
+
+        # Compiler le programme avec decac. Cela doit toujours marcher, on tente lexecution apres
+        if os.system(f"./src/main/bin/decac {fichier}") != 0:
+            print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, la compilation de {fichier_nom_court} a echoue")
+
+        # On stocke la sortie dans un temp.lis, ce fichier sera celui à comparer.
+        fichier_ass = replace_ending(fichier, '.deca', '.ass')
+        if os.system(f"ima {fichier_ass} > temp.res 2>&1") != 0:
+            os.system(f'cat temp.res')
+            print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, compilation échouée")
+            tests_echoues.append(fichier_nom_court)
+            tous_test_echoues.append(fichier_nom_court)
+            nb_echecs += 1
+            nb_echecs_total += 1
+        else:
+            fichier_res = replace_ending(fichier, '.deca', '.res')
+            print(fichier_res)
+            if not Path(fichier_res).exists():
+                print(f"{color.WARNING}AVERTISSEMENT{color.END}: pas de résultat .res trouvée pour {fichier_nom_court}")
+            else:
+                if filecmp.cmp(fichier_res, 'temp.res'):
+                    print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
+                else:
+                    print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court} diffère du .res")
+                    if len(sys.argv) > 1 and sys.argv[1] == '-X': # show debug
+                        with open(f'temp.res', 'r') as f:
+                            print(f.read())
+
+                    tests_echoues.append(fichier_nom_court)
+                    tous_test_echoues.append(fichier_nom_court)
+                    nb_echecs += 1
+                    nb_echecs_total += 1
+
+    os.remove('temp.res')
+    print(f'{color.HEADER}[SUITE]{color.END} {color.BOLD}RESULTAT{color.END} '
+          f'Tests exécution, {sous_language}: Tests lancés: {nb_tests}, Echecs: {nb_echecs}');
+    if nb_echecs > 0:
+        print(f"{color.FAIL}[ECHECS]{color.END} Liste des tests échoués:")
+        for test in tests_echoues:
+            print(f"{color.FAIL}ECHEC{color.END} {test}")
+
 # WHich tests to run
 # a modifier si on veut ajouter de nouveau test ajouter un nouvelle ligne suite_test()
-suite_test('src/test/deca/syntax/test_lex', 'helloworld', 'invalid', 'lexeur')
-# suite_test('src/test/deca/syntax/test_lex', 'helloworld', 'valid', 'lexeur')
-# suite_test('src/test/deca/syntax/test_synt', 'helloworld', 'invalid', 'syntaxe')
-# suite_test('src/test/deca/syntax/test_synt', 'helloworld', 'valid', 'syntaxe')
-# suite_test('src/test/deca/codegen', 'helloworld', 'valid', 'syntaxe')
+
+# Tests hello world
+suite_test_lex('src/test/deca/syntax/invalid/test_lex/hello_world', 'helloworld', 'invalid',)
+suite_test_lex('src/test/deca/syntax/valid/test_lex/hello_world', 'helloworld', 'valid',)
+suite_test_synt('src/test/deca/syntax/invalid/test_synt/hello_world', 'helloworld', 'invalid')
+suite_test_synt('src/test/deca/syntax/valid/test_synt/hello_world', 'helloworld', 'valid',)
+suite_test_context('src/test/deca/context/invalid/hello_world', 'helloworld', 'invalid')
+suite_test_context('src/test/deca/context/valid/hello_world', 'helloworld', 'valid')
+suite_test_exec('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
+
+# Tests expression
+
 print()
 print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {nb_tests_total}, Echec: {nb_echecs_total}')
 print(f'Liste des tests échoués:')

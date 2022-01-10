@@ -1,7 +1,0 @@
-`> [12, 0] Program
-   +> ListDeclClass [List with 0 elements]
-   `> [12, 0] Main
-      +> ListDeclVar [List with 0 elements]
-      `> [13, 8] ListInst [List with 1 elements]
-         []> [13, 8] Print
-             `> ListExpr [List with 0 elements]

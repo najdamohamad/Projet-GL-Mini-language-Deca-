@@ -1,1 +1,0 @@
-src/test/deca/syntax/test_lex/helloworld/invalid/include_cycle_B.decah:1:32: Circular include for file include_cycle_A.decah

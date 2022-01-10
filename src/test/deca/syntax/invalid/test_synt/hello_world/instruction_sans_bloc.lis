@@ -1,0 +1,1 @@
+src/test/deca/syntax/invalid/test_synt/hello_world/instruction_sans_bloc.deca:10:0: no viable alternative at input 'println'
