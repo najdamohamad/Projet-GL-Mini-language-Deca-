@@ -3,7 +3,7 @@
 //
 // Resultats:
 //    Lexeur: pas d'erreur
-//    Parseur: <
+//    Parseur: erreur de syntax --> print dans un print 
 //
 // Historique:
 //    cree le 05/01/2022

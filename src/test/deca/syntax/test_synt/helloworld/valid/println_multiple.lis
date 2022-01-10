@@ -1,0 +1,13 @@
+`> [10, 0] Program
+   +> ListDeclClass [List with 0 elements]
+   `> [10, 0] Main
+      +> ListDeclVar [List with 0 elements]
+      `> [11, 8] ListInst [List with 4 elements]
+         []> [11, 8] Println
+         ||  `> ListExpr [List with 0 elements]
+         []> [12, 8] Println
+         ||  `> ListExpr [List with 0 elements]
+         []> [13, 8] Println
+         ||  `> ListExpr [List with 0 elements]
+         []> [14, 8] Println
+             `> ListExpr [List with 0 elements]

@@ -1,0 +1,4 @@
+OBRACE: [@0,0:0='{',<34>,1:0]
+PRINT: [@1,6:10='print',<12>,2:4]
+OPARENT: [@2,11:11='(',<32>,2:9]
+src/test/deca/syntax/test_lex/helloworld/invalid/include_string_non_complet1.decah:2:10: token recognition error at: '"hello'
