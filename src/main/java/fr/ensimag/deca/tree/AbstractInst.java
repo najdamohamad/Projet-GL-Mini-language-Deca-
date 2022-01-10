@@ -1,12 +1,13 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  * Instruction
@@ -14,7 +15,7 @@ import fr.ensimag.ima.pseudocode.Label;
  * @author gl47
  * @date 01/01/2022
  */
-public abstract class AbstractInst extends Tree {
+public abstract class AbstractInst extends Tree implements CodeGen<IMAProgram> {
     
     /**
      * Implements non-terminal "inst" of [SyntaxeContextuelle] in pass 3
@@ -29,19 +30,16 @@ public abstract class AbstractInst extends Tree {
             EnvironmentExp localEnv, ClassDefinition currentClass, Type returnType) throws ContextualError;
 
     /**
-     * Generate assembly code for the instruction.
-     * 
-     * @param compiler
-     */
-    protected abstract void codeGenInst(DecacCompiler compiler);
-
-
-    /**
      * Decompile the tree, considering it as an instruction.
      *
      * In most case, this simply calls decompile(), but it may add a semicolon if needed
      */
     protected void decompileInst(IndentPrintStream s) {
         decompile(s);
+    }
+
+    @Override
+    public void codeGen(IMAProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
     }
 }

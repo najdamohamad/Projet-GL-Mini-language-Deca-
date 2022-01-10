@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import java.io.PrintStream;
 import java.util.Iterator;
@@ -53,10 +54,9 @@ public abstract class AbstractPrint extends AbstractInst {
         }
     }
 
-    @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    public void codeGen(IMAProgram program) {
         for (AbstractExpr a : getArguments().getList()) {
-            a.codeGenPrint(compiler);
+            a.codeGenDisplay(program);
         }
     }
 

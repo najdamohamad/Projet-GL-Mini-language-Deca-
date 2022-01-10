@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.codegen.CodeGenDisplay;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -7,6 +8,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
 import java.io.PrintStream;
 
@@ -19,7 +21,7 @@ import org.apache.commons.lang.Validate;
  * @author gl47
  * @date 01/01/2022
  */
-public abstract class AbstractExpr extends AbstractInst {
+public abstract class AbstractExpr extends AbstractInst implements CodeGenDisplay<IMAProgram> {
     /**
      * @return true if the expression does not correspond to any concrete token
      * in the source code (and should be decompiled to the empty string).
@@ -110,20 +112,15 @@ public abstract class AbstractExpr extends AbstractInst {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
-    /**
-     * Generate code to print the expression
-     *
-     * @param compiler
-     */
-    protected void codeGenPrint(DecacCompiler compiler) {
-        compiler.addInstruction(new WSTR(toString()));
+    @Override
+    public void codeGen(IMAProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
+    public void codeGenDisplay(IMAProgram program) {
         throw new UnsupportedOperationException("not yet implemented");
     }
-    
 
     @Override
     protected void decompileInst(IndentPrintStream s) {

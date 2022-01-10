@@ -1,7 +1,9 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  * Entry point for contextual verifications and code generation from outside the package.
@@ -10,8 +12,6 @@ import fr.ensimag.deca.context.ContextualError;
  * @date 01/01/2022
  *
  */
-public abstract class AbstractProgram extends Tree {
+public abstract class AbstractProgram extends Tree implements CodeGen<IMAProgram> {
     public abstract void verifyProgram(DecacCompiler compiler) throws ContextualError;
-    public abstract void codeGenProgram(DecacCompiler compiler) ;
-
 }
