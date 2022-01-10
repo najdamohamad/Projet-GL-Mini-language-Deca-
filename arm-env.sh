@@ -15,6 +15,8 @@ TOOLCHAIN_URL="https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021
 TOOLCHAIN_PATH="$PWD/gcc-arm-none-linux-gnueabihf.tar.xz"
 XTOOLCHAIN_PATH="$PWD/arm-toolchain"
 
+ARM_CPU_MODEL="cortex-a15"
+
 install () {
     # Download arm toolchain
     if command -v wget &> /dev/null
@@ -44,11 +46,11 @@ case "$SUBCOMMAND" in
             exit 1
         fi
         ARGUMENT=$2
-        AS="$XTOOLCHAIN_PATH/bin/arm-none-linux-gnueabihf-as"
-        LD="$XTOOLCHAIN_PATH/bin/arm-none-linux-gnueabihf-ld"
-        $AS "$ARGUMENT" -o "${ARGUMENT%.*}.o"
+        AS="${XTOOLCHAIN_PATH}/bin/arm-none-linux-gnueabihf-as"
+        LD="${XTOOLCHAIN_PATH}/bin/arm-none-linux-gnueabihf-ld"
+        $AS "${ARGUMENT}" -o "${ARGUMENT%.*}.o"
         $LD "${ARGUMENT%.*}.o" -o "${ARGUMENT%.*}"
-        qemu-arm "${ARGUMENT%.*}"
+        qemu-arm -cpu $ARM_CPU_MODEL "${ARGUMENT%.*}"
         ;;
     *)
         set +x
