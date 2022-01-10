@@ -1,0 +1,35 @@
+image: alpine:latest
+
+before_script:
+  - apk add maven python3 openjdk17
+
+stages:
+  - test
+
+variables:
+  # Arguments to pass in the Maven CLI.
+  MAVEN_CLI_OPTS: ""
+  # Arguments to pass to Maven tasks.
+  MAVEN_OPTS: ""
+
+cache:
+  paths:
+    - target/
+
+test:
+  stage: test
+  script:
+    - mvn $MAVEN_CLI_OPTS verify $MAVEN_OPTS
+  artifacts:
+    when: always
+    expose_as: 'JaCoCo couverture de code'
+    paths:
+      - target/site/
+    expire_in: 1 week
+
+# Run jacoco regardless of if the build failed or succeded,
+# so that we can see the coverage check.
+after_script: 
+  # See [Jacoco] p155.
+  # Also see the gitlab wiki for why we do this.
+  - mvn jacoco:restore-instrumented-classes jacoco:report

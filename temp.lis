@@ -1,1 +1,3 @@
+
 src/test/deca/syntax/test_synt/helloworld/invalid/multiple_main.deca:16:0: mismatched input '{' expecting {'false', 'if', 'new', 'null', 'readint', 'readfloat', 'print', 'println', 'printx', 'printlnx', 'return', 'this', 'true', 'while', IDENT, '-', '(', '}', '!', ';', INT, FLOAT, STRING, MULTI_LINE_STRING}
+
