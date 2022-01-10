@@ -224,10 +224,10 @@ def suite_test_exec(dossier, sous_language, type_test):
 
 # WHich tests to run
 # a modifier si on veut ajouter de nouveau test ajouter un nouvelle ligne suite_test()
-# suite_test_lex('src/test/deca/syntax/test_lex', 'helloworld', 'invalid')
-# suite_test_lex('src/test/deca/syntax/test_lex', 'helloworld', 'valid')
-# suite_test_synt('src/test/deca/syntax/test_synt', 'helloworld', 'invalid')
-# suite_test_synt('src/test/deca/syntax/test_synt', 'helloworld', 'valid')
+suite_test_lex('src/test/deca/syntax/test_lex', 'helloworld', 'invalid')
+suite_test_lex('src/test/deca/syntax/test_lex', 'helloworld', 'valid')
+suite_test_synt('src/test/deca/syntax/test_synt', 'helloworld', 'invalid')
+suite_test_synt('src/test/deca/syntax/test_synt', 'helloworld', 'valid')
 # suite_test_context('src/test/deca/context', 'helloworld', 'invalid')
 # suite_test_context('src/test/deca/context', 'helloworld', 'valid')
 # suite_test_exec('src/test/deca/codegen', 'helloworld', 'valid')
