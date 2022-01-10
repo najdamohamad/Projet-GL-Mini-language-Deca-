@@ -35,8 +35,6 @@ os.chdir('../../../')  # changez cette ligne si vous déplacez test.py
 # Après le os.chdir: nous sommes dans ./src/test
 print(os.getcwd())
 
-etapes = ["helloworld"]
-
 etape_test_vers_programme = {
     'lexeur': './src/test/script/launchers/test_lex',
     'syntaxe': './src/test/script/launchers/test_synt',
@@ -63,9 +61,6 @@ def suite_test(dossier, sous_language, type_test, etape_test):
     global nb_tests_total, nb_echecs_total, tous_test_echoues
 
     open('temp.lis', 'a').close()
-    if sous_language not in etapes:
-        print(f'{color.FAIL}ERREUR{color.END}: l\'etape "{sous_language}" n\'existe pas. Etapes disponibles: {etapes}')
-        sys.exit(1)
 
     if not Path(dossier).exists(): # https://stackoverflow.com/a/44228213/13439405
         print(f"{color.FAIL}ERREUR{color.END}: le dossier {dossier} n'existe pas.")
@@ -79,7 +74,7 @@ def suite_test(dossier, sous_language, type_test, etape_test):
     nb_echecs = 0
     tests_echoues = []
 
-    tests = glob.glob(f"{dossier}/{sous_language}/{type_test}/*.deca")
+    tests = glob.glob(f"{dossier}/*.deca")
     nb_tests = len(tests)
 
     for fichier in tests:
@@ -159,9 +154,6 @@ def suite_test_exec(dossier, sous_language, type_test):
     global nb_tests_total, nb_echecs_total, tous_test_echoues
 
     open('temp.res', 'a').close()
-    if sous_language not in etapes:
-        print(f'{color.FAIL}ERREUR{color.END}: l\'etape "{sous_language}" n\'existe pas. Etapes disponibles: {etapes}')
-        sys.exit(1)
 
     if not Path(dossier).exists(): # https://stackoverflow.com/a/44228213/13439405
         print(f"{color.FAIL}ERREUR{color.END}: le dossier {dossier} n'existe pas.")
@@ -173,7 +165,7 @@ def suite_test_exec(dossier, sous_language, type_test):
     nb_echecs = 0
     tests_echoues = []
 
-    tests = glob.glob(f"{dossier}/{sous_language}/{type_test}/*.deca")
+    tests = glob.glob(f"{dossier}/*.deca")
     nb_tests = len(tests)
 
     for fichier in tests:
@@ -224,13 +216,18 @@ def suite_test_exec(dossier, sous_language, type_test):
 
 # WHich tests to run
 # a modifier si on veut ajouter de nouveau test ajouter un nouvelle ligne suite_test()
-suite_test_lex('src/test/deca/syntax/test_lex', 'helloworld', 'invalid')
-suite_test_lex('src/test/deca/syntax/test_lex', 'helloworld', 'valid')
-suite_test_synt('src/test/deca/syntax/test_synt', 'helloworld', 'invalid')
-suite_test_synt('src/test/deca/syntax/test_synt', 'helloworld', 'valid')
-# suite_test_context('src/test/deca/context', 'helloworld', 'invalid')
-# suite_test_context('src/test/deca/context', 'helloworld', 'valid')
-# suite_test_exec('src/test/deca/codegen', 'helloworld', 'valid')
+
+# Tests hello world
+suite_test_lex('src/test/deca/syntax/invalid/test_lex/hello_world', 'helloworld', 'invalid',)
+suite_test_lex('src/test/deca/syntax/valid/test_lex/hello_world', 'helloworld', 'valid',)
+suite_test_synt('src/test/deca/syntax/invalid/test_synt/hello_world', 'helloworld', 'invalid')
+suite_test_synt('src/test/deca/syntax/valid/test_synt/hello_world', 'helloworld', 'valid',)
+suite_test_context('src/test/deca/context/invalid/hello_world', 'helloworld', 'invalid')
+suite_test_context('src/test/deca/context/valid/hello_world', 'helloworld', 'valid')
+suite_test_exec('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
+
+# Tests expression
+
 print()
 print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {nb_tests_total}, Echec: {nb_echecs_total}')
 print(f'Liste des tests échoués:')
