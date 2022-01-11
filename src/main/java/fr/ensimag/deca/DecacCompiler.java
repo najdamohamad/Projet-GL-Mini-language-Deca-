@@ -77,11 +77,7 @@ public class DecacCompiler {
     private final CompilerOptions compilerOptions;
     private final File source;
     private final SymbolTable symbolTable;
-    /**
-     * The main program. Every instruction generated will eventually end up here.
-     */
-    private OutputProgram program;
- 
+
     /**
      * Run the compiler (parse source file, generate code)
      *
@@ -90,7 +86,8 @@ public class DecacCompiler {
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
         System.out.println(sourceFile);
-        String destFile = sourceFile.split("\\.deca")[0] + ".ass";
+        String fileExtension = compilerOptions.getGenerateARMAssembly() ? ".s" : ".ass";
+        String destFile = sourceFile.split("\\.deca")[0] + fileExtension;
         // A FAIRE: calculer le nom du fichier .ass à partir du nom du
         // A FAIRE: fichier .deca.
         PrintStream err = System.err;
@@ -155,7 +152,10 @@ public class DecacCompiler {
             System.exit(0);
         }
 
-        program.addComment("Start main program:");
+        /**
+         * The main program. Every instruction generated will eventually end up here.
+         */
+        OutputProgram program;
         if (compilerOptions.getGenerateARMAssembly()) {
             program = new ARMProgram();
             abstractProgram.codeGen((ARMProgram) program);
@@ -163,7 +163,6 @@ public class DecacCompiler {
             program = new IMAProgram();
             abstractProgram.codeGen((IMAProgram) program);
         }
-        program.addComment("End main program.");
 
         LOG.debug("Generated assembly code:" + nl + program.display());
         LOG.info("Output file assembly file is: " + destName);
