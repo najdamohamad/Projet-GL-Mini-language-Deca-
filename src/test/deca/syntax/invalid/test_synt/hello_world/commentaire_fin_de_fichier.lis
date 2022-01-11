@@ -1,0 +1,1 @@
+src/test/deca/syntax/invalid/test_synt/hello_world/commentaire_fin_de_fichier.deca:20:0: mismatched input '/' expecting {'instanceof', '<', '>', '=', '+', '-', '*', '/', '%', '.', ',', ')', '==', '!=', '>=', '<=', '&&', '||'}
