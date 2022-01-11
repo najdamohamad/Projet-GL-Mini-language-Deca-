@@ -230,11 +230,13 @@ suite_test_exec('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid'
 
 print()
 print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {nb_tests_total}, Echec: {nb_echecs_total}')
-print(f'Liste des tests échoués:')
-for test in tous_test_echoues:
-    print(f"{color.FAIL}ECHEC{color.END} {test}")
+if nb_echecs_total > 0:
+    print(f'Liste des tests échoués:')
+    for test in tous_test_echoues:
+        print(f"{color.FAIL}ECHEC{color.END} {test}")
 
 if nb_echecs_total > 0:
     sys.exit(1) # echec de la suite de test
 else:
+    print(f'{color.HEADER}{color.OKGREEN} Tous les tests sont reussis{color.END}')
     sys.exit(0)
