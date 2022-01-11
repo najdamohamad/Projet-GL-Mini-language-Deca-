@@ -1,0 +1,13 @@
+// Description:
+//    Test d'un programme incorrect lexicalement (appel de fonction
+//    sans paranthèse fermante)
+//
+// Resultats:
+//    Ligne 12  col 32: Erreur, chaine non terminee (sur fin de fichier)
+//
+// Historique:
+//    cree le 05/01/2022
+
+{
+    println("chaine pas finie 2);
+}

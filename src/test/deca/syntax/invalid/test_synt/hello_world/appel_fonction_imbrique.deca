@@ -1,0 +1,13 @@
+// Description:
+//    Test de fonction imbriquées.
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur de syntax --> print dans un print 
+//
+// Historique:
+//    cree le 05/01/2022
+
+{
+    println(println());
+}

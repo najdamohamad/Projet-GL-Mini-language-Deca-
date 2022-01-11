@@ -1,9 +1,14 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.Assign;
+import fr.ensimag.arm.pseudocode.syscalls.Write;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.ImmediateString;
+import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
@@ -26,23 +31,47 @@ public class StringLiteral extends AbstractStringLiteral {
 
     public StringLiteral(String value) {
         Validate.notNull(value);
-        this.value = value;
+        this.value = value.replace("\"", "");
     }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
             ClassDefinition currentClass) throws ContextualError {
-        return new StringType(compiler.createSymbol(TYPE_NAME));
+        Type stringType = new StringType(compiler.createSymbol(TYPE_NAME));
+        setType(stringType);
+        return stringType;
     }
 
     @Override
-    protected void codeGenPrint(DecacCompiler compiler) {
-        compiler.addInstruction(new WSTR(new ImmediateString(value)));
+    public void codeGenDisplay(IMAProgram program) {
+        program.addInstruction(new WSTR(value));
+    }
+
+    @Override
+    public void codeGenDisplay(ARMProgram program) {
+        // Initialize the corresponding data.
+        String literalName = "string_literal_" + hashCode();
+        Line literalLabel = new LabelDefinition(literalName);
+        program.addLineInSection("data", literalLabel);
+        Line literalValue = new Directive("string", "\"" + value + "\"");
+        program.addLineInSection("data", literalValue);
+        Line literalLength = new Assign(
+                literalName + "_len",
+                new Subtraction(new Label("."), new Label(literalName))
+        );
+        program.addLineInSection("data", literalLength);
+        // Perform the write syscall.
+        Line writeString = new Write(
+                new Immediate(1), // fd = stdout
+                new Label(literalName),
+                new Label(literalName + "_len")
+        );
+        program.addLineInSection("text", writeString);
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        s.print("\"" + value + "\"");
     }
 
     @Override

@@ -1,0 +1,14 @@
+// Description:
+//    Include un fichier A.
+//    Ce fichier A include un fichier B.
+//    Le fichier B include le fichier A d'origine .
+//
+//    [Lexicographie], Inclusion de fichier, p55
+//
+// Resultats:
+//    Erreur d'inclusion circulaire.
+//
+// Historique:
+//    cree le 05/01/2022
+
+#include "include_cycle_A.decah"

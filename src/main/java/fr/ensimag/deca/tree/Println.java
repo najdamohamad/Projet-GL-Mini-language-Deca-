@@ -1,7 +1,10 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.syscalls.Write;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.instructions.WNL;
 
 /**
@@ -19,13 +22,41 @@ public class Println extends AbstractPrint {
     }
 
     @Override
-    protected void codeGenInst(DecacCompiler compiler) {
-        super.codeGenInst(compiler);
-        compiler.addInstruction(new WNL());
+    public void codeGen(IMAProgram program) {
+        super.codeGen(program);
+        program.addInstruction(new WNL());
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        super.codeGen(program);
+        Line writeNewline = new Write(
+                new Immediate(1), // fd = stdout
+                new Label("newline"),
+                new Immediate(1)
+        );
+        program.addLineInSection("text", writeNewline);
     }
 
     @Override
     String getSuffix() {
         return "ln";
     }
+
+    @Override
+    public void decompile(IndentPrintStream s) {
+        boolean hex = getPrintHex() ;
+        ListExpr arg = getArguments() ;
+        if(hex)
+        {
+            s.print("printlnx(");
+        }
+        else
+        {
+            s.print("println(");
+        }
+        arg.decompile(s);
+        s.print(")");
+    }
+
 }
