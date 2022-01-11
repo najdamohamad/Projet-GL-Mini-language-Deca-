@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.arm.pseudocode.ARMProgram;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.syscalls.Exit;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -51,8 +52,17 @@ public class Program extends AbstractProgram {
 
     @Override
     public void codeGen(ARMProgram program) {
-        // A FAIRE: compléter ce squelette très rudimentaire de code
-        program.addComment("Main program");
+        Line programEntryGlobal = new Directive("global", "_start");
+        program.addLineInSection("text", programEntryGlobal);
+        Line programEntry = new LabelDefinition("_start");
+        program.addLineInSection("text", programEntry);
+        Line newlineLabel = new LabelDefinition("newline");
+        Line newlineByte = new Directive("byte", "0xA");
+        program.addLineInSection("data", newlineLabel);
+        program.addLineInSection("data", newlineByte);
+        main.codeGen(program);
+        Line exitProgram = new Exit(new Immediate(0)); // status = 0
+        program.addLineInSection("text", exitProgram);
     }
 
     @Override

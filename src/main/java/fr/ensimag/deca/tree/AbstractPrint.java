@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -54,7 +55,15 @@ public abstract class AbstractPrint extends AbstractInst {
         }
     }
 
+    @Override
     public void codeGen(IMAProgram program) {
+        for (AbstractExpr a : getArguments().getList()) {
+            a.codeGenDisplay(program);
+        }
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
         for (AbstractExpr a : getArguments().getList()) {
             a.codeGenDisplay(program);
         }
