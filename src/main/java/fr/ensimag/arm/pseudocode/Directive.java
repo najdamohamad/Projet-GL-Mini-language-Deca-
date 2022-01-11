@@ -14,6 +14,6 @@ public class Directive implements Line {
 
     @Override
     public void display(PrintStream s) {
-        s.println("." + name + String.join(" ", arguments));
+        s.println("." + name + " " + String.join(" ", arguments));
     }
 }
