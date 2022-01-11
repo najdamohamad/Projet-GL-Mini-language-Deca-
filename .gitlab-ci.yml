@@ -1,7 +1,8 @@
-image: alpine:latest
+image: ubuntu:latest
 
 before_script:
   - apk add maven python3 openjdk17
+  - . source-pipeline.sh
 
 stages:
   - compile
