@@ -6,6 +6,8 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.OutputProgram;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  *
@@ -29,9 +31,9 @@ public class ManualTestInitialGencode {
     }
     
     public static String gencodeSource(AbstractProgram source) {
-        DecacCompiler compiler = new DecacCompiler(null,null);
-        source.codeGenProgram(compiler);
-        return compiler.displayIMAProgram();
+        OutputProgram program = new IMAProgram();
+        source.codeGen((IMAProgram) program);
+        return program.display();
     }
 
     public static void test1() {
