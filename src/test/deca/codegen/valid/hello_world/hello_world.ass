@@ -1,6 +1,5 @@
-; start main program
 ; Main program
 ; Beginning of main function:
 	WSTR "Hello, world"
+; End of main function.
 	HALT
-; end main program
