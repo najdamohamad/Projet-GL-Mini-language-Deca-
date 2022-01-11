@@ -2,33 +2,29 @@ package fr.ensimag.deca;
 
 import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.codegen.OutputProgram;
+import fr.ensimag.deca.context.EnvironmentType;
+import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tree.AbstractProgram;
 import fr.ensimag.deca.tree.LocationException;
-import fr.ensimag.ima.pseudocode.AbstractLine;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Instruction;
-import fr.ensimag.ima.pseudocode.Label;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.apache.log4j.Logger;
 
+import java.io.*;
+
 /**
  * Decac compiler instance.
- *
+ * <p>
  * This class is to be instantiated once per source file to be compiled. It
  * contains the meta-data used for compiling (source file name, compilation
  * options) and the necessary utilities for compilation (symbol tables, abstract
  * representation of target file, ...).
- *
+ * <p>
  * It contains several objects specialized for different tasks. Delegate methods
  * are used to simplify the code of the caller (e.g. call
  * compiler.addInstruction() instead of compiler.getProgram().addInstruction()).
@@ -38,7 +34,7 @@ import org.apache.log4j.Logger;
  */
 public class DecacCompiler {
     private static final Logger LOG = Logger.getLogger(DecacCompiler.class);
-    
+
     /**
      * Portable newline character.
      */
@@ -49,6 +45,7 @@ public class DecacCompiler {
         this.compilerOptions = compilerOptions;
         this.source = source;
         this.symbolTable = new SymbolTable();
+        this.environmentType = new EnvironmentType();
     }
 
     /**
@@ -73,10 +70,11 @@ public class DecacCompiler {
     public SymbolTable.Symbol createSymbol(String name) {
         return symbolTable.create(name);
     }
-    
+
     private final CompilerOptions compilerOptions;
     private final File source;
     private final SymbolTable symbolTable;
+    private final EnvironmentType environmentType;
 
     /**
      * Run the compiler (parse source file, generate code)
@@ -122,14 +120,13 @@ public class DecacCompiler {
      * verification and code generation).
      *
      * @param sourceName name of the source (deca) file
-     * @param destName name of the destination (assembly) file
-     * @param out stream to use for standard output (output of decac -p)
-     * @param err stream to use to display compilation errors
-     *
+     * @param destName   name of the destination (assembly) file
+     * @param out        stream to use for standard output (output of decac -p)
+     * @param err        stream to use to display compilation errors
      * @return true on error
      */
     private boolean doCompile(String sourceName, String destName,
-            PrintStream out, PrintStream err)
+                              PrintStream out, PrintStream err)
             throws DecacFatalError, LocationException {
         AbstractProgram abstractProgram = doLexingAndParsing(sourceName, err);
 
@@ -137,7 +134,7 @@ public class DecacCompiler {
             LOG.info("Parsing failed");
             return true;
         }
-        assert(abstractProgram.checkAllLocations());
+        assert (abstractProgram.checkAllLocations());
 
         if (compilerOptions.getParseThenStop()) {
             abstractProgram.decompile(System.out);
@@ -145,7 +142,7 @@ public class DecacCompiler {
         }
 
         abstractProgram.verifyProgram(this);
-        assert(abstractProgram.checkAllDecorations());
+        assert (abstractProgram.checkAllDecorations());
 
         if (compilerOptions.getVerifyThenStop()) {
             System.exit(0);
@@ -185,13 +182,13 @@ public class DecacCompiler {
      * syntax tree.
      *
      * @param sourceName Name of the file to parse
-     * @param err Stream to send error messages to
+     * @param err        Stream to send error messages to
      * @return the abstract syntax tree
-     * @throws DecacFatalError When an error prevented opening the source file
+     * @throws DecacFatalError    When an error prevented opening the source file
      * @throws DecacInternalError When an inconsistency was detected in the
-     * compiler.
-     * @throws LocationException When a compilation error (incorrect program)
-     * occurs.
+     *                            compiler.
+     * @throws LocationException  When a compilation error (incorrect program)
+     *                            occurs.
      */
     protected AbstractProgram doLexingAndParsing(String sourceName, PrintStream err)
             throws DecacFatalError, DecacInternalError {
@@ -208,4 +205,7 @@ public class DecacCompiler {
         return parser.parseProgramAndManageErrors(err);
     }
 
+    public TypeDefinition getTypeDefinition(SymbolTable.Symbol typeSymbol) {
+        return environmentType.get(typeSymbol);
+    }
 }

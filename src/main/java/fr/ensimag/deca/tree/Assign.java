@@ -1,11 +1,10 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.Definition;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 
 /**
  * Assignment, i.e. lvalue = expr.
@@ -19,7 +18,7 @@ public class Assign extends AbstractBinaryExpr {
     public AbstractLValue getLeftOperand() {
         // The cast succeeds by construction, as the leftOperand has been set
         // as an AbstractLValue by the constructor.
-        return (AbstractLValue)super.getLeftOperand();
+        return (AbstractLValue) super.getLeftOperand();
     }
 
     public Assign(AbstractLValue leftOperand, AbstractExpr rightOperand) {
@@ -28,8 +27,12 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+                           ClassDefinition currentClass) throws ContextualError {
+        Type lvalueType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        AbstractExpr rvalue = getRightOperand().verifyRValue(compiler, localEnv, currentClass, lvalueType);
+        Type exprType = rvalue.verifyExpr(compiler, localEnv, currentClass);
+        setType(exprType);
+        return exprType;
     }
 
 

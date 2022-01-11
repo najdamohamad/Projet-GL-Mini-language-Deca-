@@ -1,15 +1,12 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
+
 import java.io.PrintStream;
 
 /**
- *
  * @author gl47
  * @date 01/01/2022
  */
@@ -17,8 +14,10 @@ public class ReadInt extends AbstractReadExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+                           ClassDefinition currentClass) throws ContextualError {
+        Type intType = new IntType(null);
+        setType(intType);
+        return intType;
     }
 
 

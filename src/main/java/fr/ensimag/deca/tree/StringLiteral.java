@@ -1,17 +1,16 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.Assign;
+import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.syscalls.Write;
-import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateString;
-import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
-import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+
+import java.io.PrintStream;
 
 /**
  * String literal
@@ -20,7 +19,6 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2022
  */
 public class StringLiteral extends AbstractStringLiteral {
-    private final static String TYPE_NAME = "string";
 
     @Override
     public String getValue() {
@@ -36,8 +34,8 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
-        Type stringType = new StringType(compiler.createSymbol(TYPE_NAME));
+                           ClassDefinition currentClass) throws ContextualError {
+        Type stringType = new StringType(null);
         setType(stringType);
         return stringType;
     }
@@ -83,7 +81,7 @@ public class StringLiteral extends AbstractStringLiteral {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         // leaf node => nothing to do
     }
-    
+
     @Override
     String prettyPrintNode() {
         return "StringLiteral (" + value + ")";

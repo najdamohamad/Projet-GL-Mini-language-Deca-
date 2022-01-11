@@ -1,16 +1,15 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.arm.pseudocode.ARMProgram;
-import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Label;
-import java.io.PrintStream;
-import java.util.Iterator;
-
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
+
+import java.io.PrintStream;
+import java.util.Iterator;
 
 /**
  * Print statement (print, println, ...).
@@ -23,7 +22,7 @@ public abstract class AbstractPrint extends AbstractInst {
 
     private boolean printHex;
     private ListExpr arguments = new ListExpr();
-    
+
     abstract String getSuffix();
 
     public AbstractPrint(boolean printHex, ListExpr arguments) {
@@ -38,18 +37,19 @@ public abstract class AbstractPrint extends AbstractInst {
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass, Type returnType)
+                              ClassDefinition currentClass, Type returnType)
             throws ContextualError {
         for (Iterator<AbstractExpr> it = arguments.iterator(); it.hasNext(); ) {
             AbstractExpr expr = it.next();
             Type exprType = expr.verifyExpr(compiler, localEnv, currentClass);
-            // TODO: For hello world language, we accept only strings.
-            // Need to add a rule to accept float and int.
-            if (!exprType.sameType(new StringType(null))) {
+            boolean printable = exprType.sameType(new StringType(null)) ||
+                    exprType.sameType(new FloatType(null)) ||
+                    exprType.sameType(new IntType(null));
+            if (!printable) {
                 LOG.error("Mauvais type pour print: s'attendait a string ou float ou int, a obtenu "
                         + exprType);
                 throw new ContextualError(
-                        "Mauvais type pour print: s'attendait a string ou float ou int, a obtenu "
+                        "TypeError: s'attendait a string ou float ou int, a obtenu "
                                 + exprType, getLocation());
             }
         }

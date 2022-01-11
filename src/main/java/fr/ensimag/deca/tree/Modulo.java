@@ -1,13 +1,9 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.*;
 
 /**
- *
  * @author gl47
  * @date 01/01/2022
  */
@@ -19,8 +15,19 @@ public class Modulo extends AbstractOpArith {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+                           ClassDefinition currentClass) throws ContextualError {
+        Type leftExprType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type rightExprType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
+        if (leftExprType.isInt() && leftExprType.isInt()) {
+            Type exprType = new IntType(null);
+            setType(exprType);
+            return exprType;
+        } else {
+            String message = "TypeError: type(s) incorrect(s) dans `"
+                    + "l'expression arithmétique `" + this + "`, attendu "
+                    + "`int`.";
+            throw new ContextualError(message, getLocation());
+        }
     }
 
 

@@ -1,20 +1,15 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.arm.pseudocode.ARMProgram;
-import fr.ensimag.deca.codegen.CodeGenDisplay;
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.codegen.CodeGenDisplay;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Label;
-import java.io.PrintStream;
-
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import org.apache.commons.lang.Validate;
+
+import java.io.PrintStream;
 
 /**
  * Expression, i.e. anything that has a value.
@@ -42,6 +37,7 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
         Validate.notNull(type);
         this.type = type;
     }
+
     private Type type;
 
     @Override
@@ -53,47 +49,56 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
 
     /**
      * Verify the expression for contextual error.
-     * 
-     * implements non-terminals "expr" and "lvalue" 
-     *    of [SyntaxeContextuelle] in pass 3
+     * <p>
+     * implements non-terminals "expr" and "lvalue"
+     * of [SyntaxeContextuelle] in pass 3
      *
-     * @param compiler  (contains the "env_types" attribute)
-     * @param localEnv
-     *            Environment in which the expression should be checked
-     *            (corresponds to the "env_exp" attribute)
-     * @param currentClass
-     *            Definition of the class containing the expression
-     *            (corresponds to the "class" attribute)
-     *             is null in the main bloc.
+     * @param compiler     (contains the "env_types" attribute)
+     * @param localEnv     Environment in which the expression should be checked
+     *                     (corresponds to the "env_exp" attribute)
+     * @param currentClass Definition of the class containing the expression
+     *                     (corresponds to the "class" attribute)
+     *                     is null in the main bloc.
      * @return the Type of the expression
-     *            (corresponds to the "type" attribute)
+     * (corresponds to the "type" attribute)
      */
     public abstract Type verifyExpr(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                    EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
 
     /**
-     * Verify the expression in right hand-side of (implicit) assignments 
-     * 
+     * Verify the expression in right hand-side of (implicit) assignments
+     * <p>
      * implements non-terminal "rvalue" of [SyntaxeContextuelle] in pass 3
      *
-     * @param compiler  contains the "env_types" attribute
-     * @param localEnv corresponds to the "env_exp" attribute
+     * @param compiler     contains the "env_types" attribute
+     * @param localEnv     corresponds to the "env_exp" attribute
      * @param currentClass corresponds to the "class" attribute
-     * @param expectedType corresponds to the "type1" attribute            
+     * @param expectedType corresponds to the "type1" attribute
      * @return this with an additional ConvFloat if needed...
      */
     public AbstractExpr verifyRValue(DecacCompiler compiler,
-            EnvironmentExp localEnv, ClassDefinition currentClass, 
-            Type expectedType)
+                                     EnvironmentExp localEnv, ClassDefinition currentClass,
+                                     Type expectedType)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type exprType = verifyExpr(compiler, localEnv, currentClass);
+        if (!Context.assignCompatible(compiler, expectedType, exprType)) {
+            String message = "TypeError: type incorrect pour expression `"
+                    + this + "`, attendu `" + expectedType
+                    + "` mais trouvé `" + exprType + "`.";
+            throw new ContextualError(message, getLocation());
+        }
+        if (exprType.isInt() && exprType.isFloat()) {
+            setType(new FloatType(null));
+            return new ConvFloat(this);
+        }
+        setType(exprType);
+        return this;
     }
-    
-    
+
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass, Type returnType)
+                              ClassDefinition currentClass, Type returnType)
             throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
@@ -102,15 +107,19 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
      * Verify the expression as a condition, i.e. check that the type is
      * boolean.
      *
-     * @param localEnv
-     *            Environment in which the condition should be checked.
-     * @param currentClass
-     *            Definition of the class containing the expression, or null in
-     *            the main program.
+     * @param localEnv     Environment in which the condition should be checked.
+     * @param currentClass Definition of the class containing the expression, or null in
+     *                     the main program.
      */
     void verifyCondition(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+                         ClassDefinition currentClass) throws ContextualError {
+        Type exprType = verifyExpr(compiler, localEnv, currentClass);
+        if (!exprType.isBoolean()) {
+            String message = "TypeError: type incorrect pour expression `"
+                    + this + "`, attendu `boolean`"
+                    + " mais trouvé `" + exprType + "`.";
+            throw new ContextualError(message, getLocation());
+        }
     }
 
     @Override
