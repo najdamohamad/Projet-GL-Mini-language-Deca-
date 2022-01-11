@@ -1,0 +1,2 @@
+WS: [@0,212:212='\n',<48>,9:0]
+/home/xy/JuNGLE/src/test/deca/syntax/invalid/provided/chaine_incomplete.deca:10:0: token recognition error at: '"chaine pas finie\n'

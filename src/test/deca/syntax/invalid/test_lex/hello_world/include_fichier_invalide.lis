@@ -1,1 +1,0 @@
-src/test/deca/syntax/invalid/test_lex/hello_world/include_fichier_invalide.deca:13:0: token recognition error at: '#include "include_fichier_invalide$'
