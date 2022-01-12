@@ -56,7 +56,7 @@ public class Println extends AbstractPrint {
             s.print("println(");
         }
         arg.decompile(s);
-        s.print("); ");
+        s.print(");");
     }
 
 }
