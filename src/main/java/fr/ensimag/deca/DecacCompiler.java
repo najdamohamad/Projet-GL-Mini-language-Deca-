@@ -3,6 +3,7 @@ package fr.ensimag.deca;
 import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.codegen.OutputProgram;
 import fr.ensimag.deca.context.EnvironmentType;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.syntax.DecaLexer;
 import fr.ensimag.deca.syntax.DecaParser;
@@ -45,7 +46,7 @@ public class DecacCompiler {
         this.compilerOptions = compilerOptions;
         this.source = source;
         this.symbolTable = new SymbolTable();
-        this.environmentType = new EnvironmentType();
+        this.envTypesPredef = new EnvironmentType(this);
     }
 
     /**
@@ -74,7 +75,7 @@ public class DecacCompiler {
     private final CompilerOptions compilerOptions;
     private final File source;
     private final SymbolTable symbolTable;
-    private final EnvironmentType environmentType;
+    private final EnvironmentType envTypesPredef;
 
     /**
      * Run the compiler (parse source file, generate code)
@@ -207,5 +208,9 @@ public class DecacCompiler {
 
     public TypeDefinition getTypeDefinition(String typeSymbol) {
         return envTypesPredef.get(symbolTable.create(typeSymbol));
+    }
+
+    public Type getType(String typeSymbol) {
+        return getTypeDefinition(typeSymbol).getType();
     }
 }
