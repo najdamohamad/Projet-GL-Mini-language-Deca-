@@ -1,0 +1,26 @@
+// Description:
+//    Test pour verifier que n'importent quelle type marche dans les tests de syntax pusique c'est juste 
+//    du syntaxe 
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context : erreur  
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    //type connu 
+    int a = 2 ;
+    float b  = 2.1;  
+    string s = "juNGLE"; 
+    boolean l = true  ; 
+    Object ob = null ;
+    //type non defini 
+    blabla m = blala ;
+    bb m1 = blibli ; 
+    bbb m2 = bleble ;
+    
+    //les 2 types marche puisque c'est juste un test de syntax 
+
+}

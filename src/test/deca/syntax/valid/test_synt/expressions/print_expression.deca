@@ -1,0 +1,28 @@
+// Description:
+//    Test de fonction print pour une expression complete
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+    println(2+2);
+    print(1-2);
+    print(5+11);
+    print(5*2);
+    print(3/2);
+    print(4%2);
+    print(-3);
+    print(!4);
+    print(4==4);
+    print(4!= 5 );
+    print(4 <= 14);
+    print( 4>= 12 );
+    print( 3 < 4) ;
+    print (  3 > 4) ; 
+    print (3&&4) ;
+    print  ( 3 || 4 ) ;
+}

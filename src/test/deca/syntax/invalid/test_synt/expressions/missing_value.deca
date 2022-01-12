@@ -1,0 +1,15 @@
+// Description:
+//    Test de print d'une variable apres avoir la declarée et l'avoir mit à un egale vide 
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur attendue --> manque de nombre int apres =  
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    int x ;   
+    x = ;
+   println( x );
+}

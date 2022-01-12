@@ -1,0 +1,16 @@
+// Description:
+//    Test pour verifier que l'operrator and & tout seul me marche pas (il doit etre && )
+//
+// Resultats:
+//    Lexeur: erreur
+//    
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    int x,y ;
+    x= 2 ; 
+    y = 3 ; 
+    println(x & y ) ; 
+}
