@@ -43,7 +43,7 @@ public class TestPrint {
         when(booleanExpr.verifyExpr(compiler, null, null)).thenReturn(BOOLEAN);
         doAnswer(invocationOnMock -> {
             IndentPrintStream s = invocationOnMock.getArgument(0);
-            s.print(booleanExpr.toString());
+            s.print("false");
             return null;
         }).when(booleanExpr).decompile(isA(IndentPrintStream.class));
     }

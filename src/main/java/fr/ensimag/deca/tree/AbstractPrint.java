@@ -47,8 +47,8 @@ public abstract class AbstractPrint extends AbstractInst {
                     exprType.sameType(compiler.getType("int")) ||
                     exprType.sameType(compiler.getType("string"));
             if (!printable) {
-                String message = "TypeError: type(s) incorrect(s) dans `"
-                        + "l'expression de print `" + this.decompile()
+                String message = "TypeError: type(s) incorrect(s) dans "
+                        + "l'instruction `" + this.decompile()
                         + "`, attendu `int` ou bien `float`, mais trouvé `"
                         + exprType + "`.";
                 throw new ContextualError(message, getLocation());
