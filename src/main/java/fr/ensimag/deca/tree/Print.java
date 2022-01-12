@@ -34,6 +34,6 @@ public class Print extends AbstractPrint {
             s.print("print(");
         }
         arg.decompile(s);
-        s.print(")");
+        s.print(");");
     }
 }

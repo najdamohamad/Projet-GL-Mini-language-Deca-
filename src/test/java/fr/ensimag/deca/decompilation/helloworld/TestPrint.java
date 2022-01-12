@@ -29,7 +29,7 @@ public class TestPrint {
 
         print.decompile(indentPrintStream);
 
-        assertEquals("print(\"hello\",\"world\")" ,stream.toString());
+        assertEquals("print(\"hello\",\"world\");" ,stream.toString());
     }
 
     @Test
@@ -51,6 +51,6 @@ public class TestPrint {
 
         print.decompile(indentPrintStream);
 
-        assertEquals("printx(\"hello\")" ,stream.toString());
+        assertEquals("printx(\"hello\");" ,stream.toString());
     }
 }

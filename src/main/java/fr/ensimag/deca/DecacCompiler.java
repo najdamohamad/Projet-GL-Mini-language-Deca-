@@ -85,7 +85,6 @@ public class DecacCompiler {
      */
     public boolean compile() {
         String sourceFile = source.getAbsolutePath();
-        System.out.println(sourceFile);
         String fileExtension = compilerOptions.getGenerateARMAssembly() ? ".s" : ".ass";
         String destFile = sourceFile.split("\\.deca")[0] + fileExtension;
         // A FAIRE: calculer le nom du fichier .ass à partir du nom du
