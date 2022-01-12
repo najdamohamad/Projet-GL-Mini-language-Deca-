@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
@@ -18,8 +19,14 @@ public class ConvFloat extends AbstractUnaryExpr {
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-            ClassDefinition currentClass) {
-        throw new UnsupportedOperationException("not yet implemented");
+            ClassDefinition currentClass) throws ContextualError {
+        Type typeExpr = getOperand().verifyExpr(compiler, localEnv, currentClass);
+
+        // This is an internal compiler error if the ConvFLoat does not convert an int.
+        // This node does not occur naturally in the tree, our compiler does the conversion naturally,
+        // so any error is our own.
+        assert(typeExpr.isInt());
+        return compiler.getType("float");
     }
 
 
