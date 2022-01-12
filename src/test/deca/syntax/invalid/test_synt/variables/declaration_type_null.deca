@@ -1,0 +1,21 @@
+// Description:
+//    Dans les tests de syntax n'importe quoi on met comme type des types connnues
+//    (void, boolean, float, int,string, null) ça donne pas de problemem 
+//    sauf pour le type NULL 
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur -->  null ne pas etre pris comme un lvalue 
+//    context : erreur  
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    
+    // type null 
+    null ma_var = null  ;
+    //same for 
+    null ma_var1 = blabla ;
+    
+    
+}

@@ -1,0 +1,14 @@
+// Description:
+//    apres avoir declare 2 variables de types , l'une de type float et l'autre de type int ;  
+//    on essaye d'assinier la valeur du float a la variable de l'int 
+//
+// Resultats:
+//    Ligne 14 : Erreur puisqu'on assigne a une variable int un float ce qui est pas possible 
+// Historique:
+//    cree le 11/01/2022
+
+{
+    float a = 2.0 ;
+    int b = 1 ;
+    b = a ;
+}
