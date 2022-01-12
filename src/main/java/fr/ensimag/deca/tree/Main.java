@@ -4,12 +4,13 @@ import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import java.io.PrintStream;
-
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
+
+import java.io.PrintStream;
 
 /**
  * @author gl47
@@ -17,12 +18,12 @@ import org.apache.log4j.Logger;
  */
 public class Main extends AbstractMain implements CodeGen {
     private static final Logger LOG = Logger.getLogger(Main.class);
-    
+
     private ListDeclVar declVariables;
     private ListInst insts;
 
     public Main(ListDeclVar declVariables,
-            ListInst insts) {
+                ListInst insts) {
         Validate.notNull(declVariables);
         Validate.notNull(insts);
         this.declVariables = declVariables;
@@ -35,7 +36,14 @@ public class Main extends AbstractMain implements CodeGen {
         // A FAIRE: Appeler méthodes "verify*" de ListDeclVarSet et ListInst.
         // Vous avez le droit de changer le profil fourni pour ces méthodes
         // (mais ce n'est à priori pas nécessaire).
-        insts.verifyListInst(compiler, null, null, null);
+        EnvironmentExp mainEnvironment = new EnvironmentExp(null);
+        declVariables.verifyListDeclVariable(compiler, mainEnvironment, null);
+        insts.verifyListInst(
+                compiler,
+                mainEnvironment,
+                null,
+                compiler.getType("void")
+        );
         LOG.debug("verify Main: end");
     }
 
@@ -70,7 +78,7 @@ public class Main extends AbstractMain implements CodeGen {
         declVariables.iter(f);
         insts.iter(f);
     }
- 
+
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         declVariables.prettyPrint(s, prefix, false);

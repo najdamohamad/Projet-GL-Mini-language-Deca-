@@ -1,7 +1,10 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 
 /**
  * @author gl47
@@ -19,13 +22,13 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
         Type leftExprType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type rightExprType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
         if (leftExprType.isBoolean() && rightExprType.isBoolean()) {
-            Type exprType = new BooleanType(null);
+            Type exprType = compiler.getType("boolean");
             setType(exprType);
             return exprType;
         } else {
             String message = "TypeError: type(s) incorrect(s) dans `"
-                    + "l'expression booléenne `" + this + "`, attendu "
-                    + "`boolean`";
+                    + "l'expression booléenne `" + this.decompile()
+                    + "`, attendu `boolean`";
             throw new ContextualError(message, getLocation());
         }
     }

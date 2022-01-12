@@ -9,7 +9,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 public class Print extends AbstractPrint {
     /**
      * @param arguments arguments passed to the print(...) statement.
-     * @param printHex if true, then float should be displayed as hexadecimal (printx)
+     * @param printHex  if true, then float should be displayed as hexadecimal (printx)
      */
     public Print(boolean printHex, ListExpr arguments) {
         super(printHex, arguments);
@@ -23,14 +23,11 @@ public class Print extends AbstractPrint {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        boolean hex = getPrintHex() ;
-        ListExpr arg = getArguments() ;
-        if(hex)
-        {
+        boolean hex = getPrintHex();
+        ListExpr arg = getArguments();
+        if (hex) {
             s.print("printx(");
-        }
-        else
-        {
+        } else {
             s.print("print(");
         }
         arg.decompile(s);

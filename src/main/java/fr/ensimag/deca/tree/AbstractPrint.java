@@ -2,14 +2,16 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
 import java.io.PrintStream;
-import java.util.Iterator;
 
 /**
  * Print statement (print, println, ...).
@@ -39,18 +41,17 @@ public abstract class AbstractPrint extends AbstractInst {
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
                               ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-        for (Iterator<AbstractExpr> it = arguments.iterator(); it.hasNext(); ) {
-            AbstractExpr expr = it.next();
+        for (AbstractExpr expr : getArguments().getList()) {
             Type exprType = expr.verifyExpr(compiler, localEnv, currentClass);
-            boolean printable = exprType.sameType(new StringType(null)) ||
-                    exprType.sameType(new FloatType(null)) ||
-                    exprType.sameType(new IntType(null));
+            boolean printable = exprType.sameType(compiler.getType("float")) ||
+                    exprType.sameType(compiler.getType("int")) ||
+                    exprType.sameType(compiler.getType("string"));
             if (!printable) {
-                LOG.error("Mauvais type pour print: s'attendait a string ou float ou int, a obtenu "
-                        + exprType);
-                throw new ContextualError(
-                        "TypeError: s'attendait a string ou float ou int, a obtenu "
-                                + exprType, getLocation());
+                String message = "TypeError: type(s) incorrect(s) dans `"
+                        + "l'expression de print `" + this.decompile()
+                        + "`, attendu `int` ou bien `float`, mais trouvé `"
+                        + exprType + "`.";
+                throw new ContextualError(message, getLocation());
             }
         }
     }

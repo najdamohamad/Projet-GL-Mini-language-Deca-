@@ -22,13 +22,13 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         Type rightExprType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
         Type exprType;
         if (leftExprType.isInt() && leftExprType.isInt()) {
-            exprType = new IntType(null);
+            exprType = compiler.getType("int");
         } else if (leftExprType.isFloat() || rightExprType.isFloat()) {
-            exprType = new FloatType(null);
+            exprType = compiler.getType("float");
         } else {
             String message = "TypeError: type(s) incorrect(s) dans `"
-                    + "l'expression arithmétique `" + this + "`, attendu "
-                    + "`float` ou bien `int`";
+                    + "l'expression arithmétique `" + this.decompile()
+                    + "`, attendu `float` ou bien `int`";
             throw new ContextualError(message, getLocation());
         }
         setType(exprType);

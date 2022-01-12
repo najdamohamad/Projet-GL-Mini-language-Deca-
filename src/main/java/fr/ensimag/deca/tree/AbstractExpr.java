@@ -84,12 +84,12 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
         Type exprType = verifyExpr(compiler, localEnv, currentClass);
         if (!Context.assignCompatible(compiler, expectedType, exprType)) {
             String message = "TypeError: type incorrect pour expression `"
-                    + this + "`, attendu `" + expectedType
+                    + this.decompile() + "`, attendu `" + expectedType
                     + "` mais trouvé `" + exprType + "`.";
             throw new ContextualError(message, getLocation());
         }
-        if (exprType.isInt() && exprType.isFloat()) {
-            setType(new FloatType(null));
+        if (exprType.isInt() && expectedType.isFloat()) {
+            setType(compiler.getTypeDefinition("float").getType());
             return new ConvFloat(this);
         }
         setType(exprType);

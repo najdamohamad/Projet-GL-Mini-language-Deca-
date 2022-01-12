@@ -205,7 +205,7 @@ public class DecacCompiler {
         return parser.parseProgramAndManageErrors(err);
     }
 
-    public TypeDefinition getTypeDefinition(SymbolTable.Symbol typeSymbol) {
-        return environmentType.get(typeSymbol);
+    public TypeDefinition getTypeDefinition(String typeSymbol) {
+        return envTypesPredef.get(symbolTable.create(typeSymbol));
     }
 }

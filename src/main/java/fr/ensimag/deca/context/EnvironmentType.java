@@ -1,14 +1,67 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.tools.SymbolTable;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EnvironmentType {
+
+    private Map<Symbol, TypeDefinition> environmentType;
+
+    private EnvironmentType() {
+        environmentType = new HashMap<>();
+    }
+
+    /**
+     * Creates the env_types_predef environment (p77).
+     */
+    public EnvironmentType(DecacCompiler compiler) {
+        this();
+        Symbol voidSymbol = compiler.createSymbol("void");
+        Symbol booleanSymbol = compiler.createSymbol("boolean");
+        Symbol floatSymbol = compiler.createSymbol("float");
+        Symbol intSymbol = compiler.createSymbol("int");
+        Symbol stringSymbol = compiler.createSymbol("string");
+        try {
+            declare(voidSymbol, new TypeDefinition(new VoidType(voidSymbol), null));
+            declare(booleanSymbol, new TypeDefinition(new BooleanType(booleanSymbol), null));
+            declare(floatSymbol, new TypeDefinition(new FloatType(floatSymbol), null));
+            declare(intSymbol, new TypeDefinition(new IntType(intSymbol), null));
+            declare(stringSymbol, new TypeDefinition(new StringType(stringSymbol), null));
+        } catch (DoubleDefException e) {
+            // Unreachable.
+        }
+    }
 
     /**
      * Return the Type of the symbol in the environment, or null if the
      * symbol is undefined.
      */
-    public TypeDefinition get(SymbolTable.Symbol key) {
-        throw new UnsupportedOperationException("not yet implemented");
+    public TypeDefinition get(Symbol key) {
+        return environmentType.get(key);
+    }
+
+    public static class DoubleDefException extends Exception {
+        private static final long serialVersionUID = -2733379901827316442L;
+    }
+
+    /**
+     * Add the definition def associated to the symbol name in the environment.
+     * <p>
+     * Adding a symbol which is already defined in the environment,
+     * - throws DoubleDefException if the symbol is in the "current" dictionary
+     * - or, hides the previous declaration otherwise.
+     *
+     * @param name Name of the symbol to define
+     * @param def  Definition of the symbol
+     * @throws DoubleDefException if the symbol is already defined at the "current" dictionary
+     */
+    public void declare(Symbol name, TypeDefinition def) throws DoubleDefException {
+        if (environmentType.containsKey(name)) {
+            throw new DoubleDefException();
+        }
+        environmentType.put(name, def);
     }
 }

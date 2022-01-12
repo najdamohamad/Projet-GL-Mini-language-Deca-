@@ -2,7 +2,10 @@ package fr.ensimag.deca.context.helloworld;
 
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
-import fr.ensimag.deca.tree.*;
+import fr.ensimag.deca.tree.AbstractExpr;
+import fr.ensimag.deca.tree.ListExpr;
+import fr.ensimag.deca.tree.ListInst;
+import fr.ensimag.deca.tree.Print;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -71,7 +74,7 @@ public class TestPrint {
             listInst.verifyListInst(compiler, null, null, VOID);
         });
 
-        String expectedMessage = "Mauvais type pour print: s'attendait a string ou float ou int, a obtenu boolean";
+        String expectedMessage = "TypeError: s'attendait a string ou float ou int, a obtenu boolean";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));

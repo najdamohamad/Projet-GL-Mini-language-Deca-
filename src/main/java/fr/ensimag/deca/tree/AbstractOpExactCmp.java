@@ -25,13 +25,13 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
         boolean bothObjects = ((rightExprType.isClassOrNull())
                 && (leftExprType.isClassOrNull()));
         if (bothNumbers || bothObjects) {
-            exprType = new BooleanType(null);
+            exprType = compiler.getType("boolean");
             setType(exprType);
             return exprType;
         } else {
             String message = "TypeError: type(s) incorrect(s) dans `"
-                    + "l'expression de comparaison `" + this + "`, attendu "
-                    + "`int`/`float` ou bien des objets.";
+                    + "l'expression de comparaison `" + this.decompile()
+                    + "`, seuls les types `int`/`float` ou bien les objets son comparables.";
             throw new ContextualError(message, getLocation());
         }
     }

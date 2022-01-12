@@ -2,7 +2,10 @@ package fr.ensimag.deca.tree;
 
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 
 /**
  * @author gl47
@@ -21,13 +24,13 @@ public abstract class AbstractOpIneq extends AbstractOpCmp {
         Type rightExprType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
         if ((rightExprType.isInt() || rightExprType.isFloat())
                 && (leftExprType.isInt() || leftExprType.isFloat())) {
-            Type exprType = new BooleanType(null);
+            Type exprType = compiler.getType("boolean");
             setType(exprType);
             return exprType;
         } else {
             String message = "TypeError: type(s) incorrect(s) dans `"
-                    + "l'expression d'inégalité `" + this + "`, attendu "
-                    + "`int` ou bien `float`.";
+                    + "l'expression d'inégalité `" + this.decompile()
+                    + "`, attendu `int` ou bien `float`.";
             throw new ContextualError(message, getLocation());
         }
     }

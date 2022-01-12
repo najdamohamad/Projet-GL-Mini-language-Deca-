@@ -1,8 +1,10 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.ARMProgram;
+import fr.ensimag.arm.pseudocode.Immediate;
+import fr.ensimag.arm.pseudocode.Label;
+import fr.ensimag.arm.pseudocode.Line;
 import fr.ensimag.arm.pseudocode.syscalls.Write;
-import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.instructions.WNL;
@@ -15,7 +17,7 @@ public class Println extends AbstractPrint {
 
     /**
      * @param arguments arguments passed to the print(...) statement.
-     * @param printHex if true, then float should be displayed as hexadecimal (printlnx)
+     * @param printHex  if true, then float should be displayed as hexadecimal (printlnx)
      */
     public Println(boolean printHex, ListExpr arguments) {
         super(printHex, arguments);
@@ -45,14 +47,11 @@ public class Println extends AbstractPrint {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        boolean hex = getPrintHex() ;
-        ListExpr arg = getArguments() ;
-        if(hex)
-        {
+        boolean hex = getPrintHex();
+        ListExpr arg = getArguments();
+        if (hex) {
             s.print("printlnx(");
-        }
-        else
-        {
+        } else {
             s.print("println(");
         }
         arg.decompile(s);
