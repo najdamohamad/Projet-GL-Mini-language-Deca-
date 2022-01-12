@@ -55,7 +55,7 @@ public class TestPrintln {
 
         printlnx.decompile(indentPrintStream);
 
-        assertEquals("printlnx(\"hello\",\"world\");" ,stream.toString());
+        assertEquals("printlnx(\"hello\",\"world\");",stream.toString());
     }
 
 }

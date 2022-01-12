@@ -452,9 +452,6 @@ literal returns[AbstractExpr tree]
     | STRING {
             $tree = new StringLiteral($STRING.getText());
         }
-    | MULTI_LINE_STRING {
-            $tree = new StringLiteral($MULTI_LINE_STRING.getText());
-    }
     | TRUE {
             $tree = new BooleanLiteral(true);
         }

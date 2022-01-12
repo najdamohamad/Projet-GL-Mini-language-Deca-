@@ -1,0 +1,14 @@
+// Description:
+//    String multi-line.
+//    Le string multi-line ne doit pas marcher dans le parseur.
+//
+// Resultats:
+//    Erreur de parseur ligne 12
+//
+// Historique:
+//    cree le 05/01/2022
+
+{
+        println("Bon
+jour");
+}

@@ -1,0 +1,1 @@
+src/test/deca/syntax/invalid/test_synt/hello_world/multiligne.deca:12:16: extraneous input '"Bon\njour"' expecting ')'
