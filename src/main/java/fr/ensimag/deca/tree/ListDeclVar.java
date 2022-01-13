@@ -6,6 +6,9 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * List of declarations (e.g. int x; float y,z).
  *
@@ -16,7 +19,16 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        boolean notFirst = false;
+        for (Iterator<AbstractDeclVar> it = iterator(); it.hasNext(); ) {
+            AbstractDeclVar decl = it.next();
+
+            if (notFirst) {
+                s.println(); // newline
+            }
+            decl.decompile(s);
+            notFirst = true;
+        }
     }
 
     /**
