@@ -10,3 +10,7 @@
 .settings
 .idea
 Deca.iml
+
+# Temp files created by test.py
+test.lis
+test.res

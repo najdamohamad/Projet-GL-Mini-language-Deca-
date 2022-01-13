@@ -41,7 +41,6 @@ public class OpArithTest {
         IntLiteral b = new IntLiteral(4);
         Plus plus = new Plus(a, b);
         plus.verifyExpr(compiler, env, null);
-        assertTrue(plus.checkAllDecorations());
     }
 
     @Test
@@ -50,7 +49,8 @@ public class OpArithTest {
         FloatLiteral b = new FloatLiteral(4);
         Plus plus = new Plus(a, b);
         plus.verifyExpr(compiler, env, null);
-        assertTrue(plus.checkAllDecorations());
+        assertTrue(plus.getLeftOperand() instanceof ConvFloat);
+        assertFalse(plus.getRightOperand() instanceof ConvFloat);
     }
 
     @Test
@@ -59,7 +59,8 @@ public class OpArithTest {
         IntLiteral b = new IntLiteral(4);
         Plus plus = new Plus(a, b);
         plus.verifyExpr(compiler, env, null);
-        assertTrue(plus.checkAllDecorations());
+        assertFalse(plus.getLeftOperand() instanceof ConvFloat);
+        assertTrue(plus.getRightOperand() instanceof ConvFloat);
     }
 
     @Test
@@ -68,7 +69,6 @@ public class OpArithTest {
         FloatLiteral b = new FloatLiteral(4);
         Plus plus = new Plus(a, b);
         plus.verifyExpr(compiler, env, null);
-        assertTrue(plus.checkAllDecorations());
     }
 
     @Test
@@ -84,5 +84,13 @@ public class OpArithTest {
         String actual = e.getMessage();
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testMinus() throws ContextualError {
+        IntLiteral a = new IntLiteral(2);
+        IntLiteral b = new IntLiteral(2);
+        Minus minus = new Minus(a, b);
+        minus.verifyExpr(compiler, env, null);
     }
 }
