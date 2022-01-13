@@ -45,7 +45,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new Greater(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2 > 4)", e.decompile());
+        assertEquals("(2>4)", e.decompile());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new GreaterOrEqual(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2 >= 4)", e.decompile());
+        assertEquals("(2>=4)", e.decompile());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new Lower(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2 < 4)", e.decompile());
+        assertEquals("(2<4)", e.decompile());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new LowerOrEqual(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2 <= 4)", e.decompile());
+        assertEquals("(2<=4)", e.decompile());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new Equals(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2 == 4)", e.decompile());
+        assertEquals("(2==4)", e.decompile());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new NotEquals(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2 != 4)", e.decompile());
+        assertEquals("(2!=4)", e.decompile());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class OpCmpTest {
             exp.verifyExpr(compiler, env, null);
         });
 
-        String expected = "TypeError: type(s) incorrect(s) dans `l'expression d'inégalité `(2 > \"foo\")`, attendu `int` ou bien `float`.";
+        String expected = "TypeError: type(s) incorrect(s) dans `l'expression d'inégalité `(2>\"foo\")`, attendu `int` ou bien `float`.";
         String actual = e.getMessage();
         assertEquals(expected, actual);
     }
@@ -123,7 +123,7 @@ public class OpCmpTest {
             exp.verifyExpr(compiler, env, null);
         });
 
-        String expected = "TypeError: type(s) incorrect(s) dans `l'expression d'inégalité `(\"foo\" > 2)`, attendu `int` ou bien `float`.";
+        String expected = "TypeError: type(s) incorrect(s) dans `l'expression d'inégalité `(\"foo\">2)`, attendu `int` ou bien `float`.";
         String actual = e.getMessage();
         assertEquals(expected, actual);
     }
@@ -135,7 +135,7 @@ public class OpCmpTest {
         AbstractOpCmp exp = new NotEquals(a, b);
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
-        assertEquals("(0x1.0p1 != 0x1.0p2)", exp.decompile());
+        assertEquals("(0x1.0p1!=0x1.0p2)", exp.decompile());
     }
 
     @Test
@@ -145,7 +145,9 @@ public class OpCmpTest {
         AbstractOpCmp exp = new NotEquals(a, b);
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
-        assertEquals("(0x1.0p1 != 4)", exp.decompile());
+        assertFalse(exp.getLeftOperand() instanceof ConvFloat);
+        assertTrue(exp.getRightOperand() instanceof ConvFloat);
+        assertEquals("(0x1.0p1!=/* conv float */4)", exp.decompile());
     }
 
     @Test
@@ -155,7 +157,9 @@ public class OpCmpTest {
         AbstractOpCmp exp = new NotEquals(a, b);
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
-        assertEquals("(2 != 0x1.0p2)", exp.decompile());
+        assertTrue(exp.getLeftOperand() instanceof ConvFloat);
+        assertFalse(exp.getRightOperand() instanceof ConvFloat);
+        assertEquals("(/* conv float */2!=0x1.0p2)", exp.decompile());
     }
 
     @Test
@@ -172,7 +176,7 @@ public class OpCmpTest {
             exp.verifyExpr(compiler, env, null);
         });
 
-        String expected = "TypeError: type(s) incorrect(s) dans `l'expression de comparaison `((2 != 4) != (6 != 8))`, seuls les types `int`/`float` ou bien les objets sont comparables.";
+        String expected = "TypeError: type(s) incorrect(s) dans `l'expression de comparaison `((2!=4)!=(6!=8))`, seuls les types `int`/`float` sont comparables.";
         String actual = e.getMessage();
         assertEquals(expected, actual);
     }

@@ -83,7 +83,7 @@ public class OpArithTest {
             plus.verifyExpr(compiler, env, null);
         });
 
-        String expected = "TypeError: type(s) incorrect(s) dans `l'expression arithmétique `(2 + \"abc\")`, attendu `float` ou bien `int`";
+        String expected = "TypeError: type(s) incorrect(s) dans `l'expression arithmétique `(2+\"abc\")`, attendu `float` ou bien `int`";
         String actual = e.getMessage();
 
         assertEquals(expected, actual);
