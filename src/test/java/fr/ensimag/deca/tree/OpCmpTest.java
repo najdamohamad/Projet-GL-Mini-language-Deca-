@@ -145,8 +145,6 @@ public class OpCmpTest {
         AbstractOpCmp exp = new NotEquals(a, b);
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
-        assertFalse(exp.getLeftOperand() instanceof ConvFloat);
-        assertTrue(exp.getRightOperand() instanceof ConvFloat);
         assertEquals("(0x1.0p1 != 4)", exp.decompile());
     }
 
@@ -157,8 +155,6 @@ public class OpCmpTest {
         AbstractOpCmp exp = new NotEquals(a, b);
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
-        assertTrue(exp.getLeftOperand() instanceof ConvFloat);
-        assertFalse(exp.getRightOperand() instanceof ConvFloat);
         assertEquals("(2 != 0x1.0p2)", exp.decompile());
     }
 
