@@ -89,6 +89,16 @@ public class OpCmpTest {
     }
 
     @Test
+    public void testEqualsBoolean() throws ContextualError {
+        BooleanLiteral a = new BooleanLiteral(true);
+        BooleanLiteral b = new BooleanLiteral(false);
+        AbstractOpCmp e = new Equals(a, b);
+        e.verifyExpr(compiler, env, null);
+        assertTrue(e.checkAllDecorations());
+        assertEquals("(2 == 4)", e.decompile());
+    }
+
+    @Test
     public void testNotEquals() throws ContextualError {
         IntLiteral a = new IntLiteral(2);
         IntLiteral b = new IntLiteral(4);
