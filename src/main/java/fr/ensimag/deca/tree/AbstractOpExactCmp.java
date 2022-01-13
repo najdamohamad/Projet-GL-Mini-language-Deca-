@@ -34,7 +34,7 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
         } else {
             String message = "TypeError: type(s) incorrect(s) dans `"
                     + "l'expression de comparaison `" + this.decompile()
-                    + "`, seuls les types `int`/`float` ou bien les objets son comparables.";
+                    + "`, seuls les types `int`/`float` ou bien les objets sont comparables.";
             throw new ContextualError(message, getLocation());
         }
     }

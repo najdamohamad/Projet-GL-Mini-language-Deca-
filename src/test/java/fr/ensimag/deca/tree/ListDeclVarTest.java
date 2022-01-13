@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class DeclVarTest {
+public class ListDeclVarTest {
     @Mock
     DecacCompiler compiler;
     EnvironmentExp env;
@@ -36,62 +36,49 @@ public class DeclVarTest {
     }
 
     @Test
-    public void testDeclVar() throws ContextualError {
+    public void testListOneElement() throws ContextualError {
         Identifier type = new Identifier(compiler.createSymbol("string"));
         Identifier name = new Identifier(compiler.createSymbol("x"));
         Initialization initialization = new Initialization(
                 new StringLiteral("init"));
-
         DeclVar decl = new DeclVar(type, name, initialization);
-        decl.verifyDeclVar(compiler, env, null);
-        assertTrue(decl.checkAllDecorations());
-        assertEquals("string x = \"init\";", decl.decompile());
+
+        ListDeclVar listDeclVar = new ListDeclVar();
+        listDeclVar.add(decl);
+
+        listDeclVar.verifyListDeclVariable(compiler, env, null);
+        assertTrue(listDeclVar.checkAllDecorations());
+        assertEquals(listDeclVar.decompile(), "string x = \"init\";");
     }
 
     @Test
-    public void testBadlyTypedDecl() throws ContextualError {
-        Identifier type = new Identifier(compiler.createSymbol("string"));
-        Identifier name = new Identifier(compiler.createSymbol("x"));
-        Initialization initialization = new Initialization(
-                new IntLiteral(1));
-
-        DeclVar decl = new DeclVar(type, name, initialization);
-        assertThrows(ContextualError.class, () -> {
-            decl.verifyDeclVar(compiler, env, null);
-        });
-        assertTrue(decl.checkAllDecorations());
-    }
-
-    @Test
-    public void testDoubleDeclVar() throws ContextualError {
+    public void testListTwoElements() throws ContextualError {
         Identifier type = new Identifier(compiler.createSymbol("string"));
         Identifier name = new Identifier(compiler.createSymbol("x"));
         Initialization initialization = new Initialization(
                 new StringLiteral("init"));
-
         DeclVar decl = new DeclVar(type, name, initialization);
-        decl.verifyDeclVar(compiler, env, null);
-        DeclVar decl2 = new DeclVar(type, name, initialization);
-        Exception e = assertThrows(ContextualError.class, () -> {
-            decl2.verifyDeclVar(compiler, env, null);
-        });
 
-        String expected = "ScopeError: l'identificateur `x` ne peut être défini plus qu'une fois.";
-        String actual = e.getMessage();
-        assertEquals(expected, actual);
-        assertTrue(decl.checkAllDecorations());
+        Identifier type2 = new Identifier(compiler.createSymbol("string"));
+        Identifier name2 = new Identifier(compiler.createSymbol("y"));
+        Initialization initialization2 = new Initialization(
+                new StringLiteral("init2"));
+        DeclVar decl2 = new DeclVar(type2, name2, initialization2);
+
+        ListDeclVar listDeclVar = new ListDeclVar();
+        listDeclVar.add(decl);
+        listDeclVar.add(decl2);
+
+        listDeclVar.verifyListDeclVariable(compiler, env, null);
+        assertTrue(listDeclVar.checkAllDecorations());
+        assertEquals(listDeclVar.decompile(), "string x = \"init\";\nstring y = \"init2\";");
     }
 
     @Test
-    public void testVariableNamedString() throws ContextualError {
-        Identifier type = new Identifier(compiler.createSymbol("string"));
-        Identifier name = new Identifier(compiler.createSymbol("string"));
-        Initialization initialization = new Initialization(
-                new StringLiteral("init"));
-
-        DeclVar decl = new DeclVar(type, name, initialization);
-        decl.verifyDeclVar(compiler, env, null);
-        assertTrue(decl.checkAllDecorations());
-        assertEquals("string string = \"init\";", decl.decompile());
+    public void testEmptyListDecl() throws ContextualError {
+        ListDeclVar listDeclVar = new ListDeclVar();
+        listDeclVar.verifyListDeclVariable(compiler, env, null);
+        assertTrue(listDeclVar.checkAllDecorations());
+        assertEquals(listDeclVar.decompile(), "");
     }
 }
