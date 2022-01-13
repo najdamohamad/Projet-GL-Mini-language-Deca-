@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -44,6 +43,7 @@ public class OpBoolTest {
         BooleanLiteral b = new BooleanLiteral(true);
         Or or = new Or(a, b);
         or.verifyExpr(compiler, env, null);
+        assertTrue(or.checkAllDecorations());
         assertEquals(or.decompile(), "(true||true)");
     }
 
@@ -53,6 +53,7 @@ public class OpBoolTest {
         BooleanLiteral b = new BooleanLiteral(true);
         And and = new And(a, b);
         and.verifyExpr(compiler, env, null);
+        assertTrue(and.checkAllDecorations());
         assertEquals(and.decompile(), "(true&&true)");
     }
 

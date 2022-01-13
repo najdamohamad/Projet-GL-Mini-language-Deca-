@@ -41,7 +41,9 @@ public class OpArithTest {
         IntLiteral b = new IntLiteral(4);
         Plus plus = new Plus(a, b);
         plus.verifyExpr(compiler, env, null);
+        assertTrue(plus.checkAllDecorations());
         assertEquals(plus.getType(), compiler.getType("int"));
+        assertEquals(plus.decompile(), "(2+4)");
     }
 
     @Test
@@ -50,6 +52,7 @@ public class OpArithTest {
         FloatLiteral b = new FloatLiteral(4);
         Plus plus = new Plus(a, b);
         plus.verifyExpr(compiler, env, null);
+        assertTrue(plus.checkAllDecorations());
         assertEquals(plus.getType(), compiler.getType("float"));
         assertTrue(plus.getLeftOperand() instanceof ConvFloat);
         assertFalse(plus.getRightOperand() instanceof ConvFloat);
@@ -61,6 +64,7 @@ public class OpArithTest {
         IntLiteral b = new IntLiteral(4);
         Plus plus = new Plus(a, b);
         plus.verifyExpr(compiler, env, null);
+        assertTrue(plus.checkAllDecorations());
         assertEquals(plus.getType(), compiler.getType("float"));
         assertFalse(plus.getLeftOperand() instanceof ConvFloat);
         assertTrue(plus.getRightOperand() instanceof ConvFloat);
@@ -72,6 +76,7 @@ public class OpArithTest {
         FloatLiteral b = new FloatLiteral(4);
         Plus plus = new Plus(a, b);
         plus.verifyExpr(compiler, env, null);
+        assertTrue(plus.checkAllDecorations());
     }
 
     @Test
@@ -93,7 +98,39 @@ public class OpArithTest {
     public void testMinus() throws ContextualError {
         IntLiteral a = new IntLiteral(2);
         IntLiteral b = new IntLiteral(2);
-        Minus minus = new Minus(a, b);
-        minus.verifyExpr(compiler, env, null);
+        AbstractExpr exp = new Minus(a, b);
+        exp.verifyExpr(compiler, env, null);
+        assertTrue(exp.checkAllDecorations());
+        assertEquals(exp.decompile(), "(2-2)");
+    }
+
+    @Test
+    public void testMult() throws ContextualError {
+        IntLiteral a = new IntLiteral(2);
+        IntLiteral b = new IntLiteral(2);
+        AbstractExpr exp = new Multiply(a, b);
+        exp.verifyExpr(compiler, env, null);
+        assertTrue(exp.checkAllDecorations());
+        assertEquals(exp.decompile(), "(2*2)");
+    }
+
+    @Test
+    public void testDivide() throws ContextualError {
+        IntLiteral a = new IntLiteral(2);
+        IntLiteral b = new IntLiteral(2);
+        AbstractExpr exp = new Divide(a, b);
+        exp.verifyExpr(compiler, env, null);
+        assertTrue(exp.checkAllDecorations());
+        assertEquals(exp.decompile(), "(2/2)");
+    }
+
+    @Test
+    public void testModulo() throws ContextualError {
+        IntLiteral a = new IntLiteral(2);
+        IntLiteral b = new IntLiteral(2);
+        AbstractExpr exp = new Modulo(a, b);
+        exp.verifyExpr(compiler, env, null);
+        assertTrue(exp.checkAllDecorations());
+        assertEquals(exp.decompile(), "(2%2)");
     }
 }

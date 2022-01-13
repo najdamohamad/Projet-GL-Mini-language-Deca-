@@ -26,6 +26,7 @@ public class ConvFloat extends AbstractUnaryExpr {
         // This node does not occur naturally in the tree, our compiler does the conversion naturally,
         // so any error is our own.
         assert (typeExpr.isInt());
+        setType(compiler.getType("float"));
         return compiler.getType("float");
     }
 
