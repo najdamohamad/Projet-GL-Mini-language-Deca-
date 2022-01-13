@@ -43,7 +43,7 @@ public class OpArithTest {
         plus.verifyExpr(compiler, env, null);
         assertTrue(plus.checkAllDecorations());
         assertEquals(plus.getType(), compiler.getType("int"));
-        assertEquals(plus.decompile(), "(2+4)");
+        assertEquals(plus.decompile(), "(2 + 4)");
     }
 
     @Test
@@ -88,7 +88,7 @@ public class OpArithTest {
             plus.verifyExpr(compiler, env, null);
         });
 
-        String expected = "TypeError: type(s) incorrect(s) dans `l'expression arithmétique `(2+\"abc\")`, attendu `float` ou bien `int`";
+        String expected = "TypeError: type(s) incorrect(s) dans `l'expression arithmétique `(2 + \"abc\")`, attendu `float` ou bien `int`";
         String actual = e.getMessage();
 
         assertEquals(expected, actual);
@@ -101,7 +101,7 @@ public class OpArithTest {
         AbstractExpr exp = new Minus(a, b);
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
-        assertEquals(exp.decompile(), "(2-2)");
+        assertEquals(exp.decompile(), "(2 - 2)");
     }
 
     @Test
@@ -111,7 +111,7 @@ public class OpArithTest {
         AbstractExpr exp = new Multiply(a, b);
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
-        assertEquals(exp.decompile(), "(2*2)");
+        assertEquals(exp.decompile(), "(2 * 2)");
     }
 
     @Test
@@ -121,7 +121,7 @@ public class OpArithTest {
         AbstractExpr exp = new Divide(a, b);
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
-        assertEquals(exp.decompile(), "(2/2)");
+        assertEquals(exp.decompile(), "(2 / 2)");
     }
 
     @Test
@@ -131,6 +131,6 @@ public class OpArithTest {
         AbstractExpr exp = new Modulo(a, b);
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
-        assertEquals(exp.decompile(), "(2%2)");
+        assertEquals(exp.decompile(), "(2 % 2)");
     }
 }

@@ -65,7 +65,7 @@ public class AssignTest {
         Assign assign = new Assign(id, i);
         assign.verifyExpr(compiler, env, null);
         assertTrue(assign.checkAllDecorations());
-        assertEquals("(x=3)", assign.decompile());
+        assertEquals("(x = 3)", assign.decompile());
     }
 
     @Test
@@ -99,7 +99,8 @@ public class AssignTest {
         Identifier id = new Identifier(compiler.createSymbol("y"));
         IntLiteral i = new IntLiteral(5);
         Assign assign = new Assign(id, i);
+        assign.verifyExpr(compiler, env, null);
         assertTrue(assign.checkAllDecorations());
-        assertEquals("(y=5)", assign.decompile());
+        assertEquals("(y = 5)", assign.decompile());
     }
 }
