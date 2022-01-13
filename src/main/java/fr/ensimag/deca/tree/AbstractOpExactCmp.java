@@ -22,8 +22,12 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
                            ClassDefinition currentClass) throws ContextualError {
         Type leftExprType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type rightExprType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
-        boolean bothNumbers = rightExprType.isIntOrFloat() && leftExprType.isIntOrFloat();
-        boolean bothBooleans = rightExprType.isBoolean() && leftExprType.isBoolean();
+
+        boolean bothNumbers = rightExprType.isIntOrFloat()
+                && leftExprType.isIntOrFloat();
+        boolean bothBooleans = rightExprType.isBoolean()
+                && leftExprType.isBoolean();
+
         if (leftExprType.isInt() && rightExprType.isFloat()) {
             setLeftOperand(new ConvFloat(getLeftOperand()));
             getLeftOperand().setType(compiler.getType("float"));
@@ -36,6 +40,7 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
                     + "`, seuls les types `int`/`float` ou bien les types `boolean` sont comparables.";
             throw new ContextualError(message, getLocation());
         }
+
         Type exprType = compiler.getType("boolean");
         setType(exprType);
         return exprType;

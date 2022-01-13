@@ -33,7 +33,7 @@ public class Return extends AbstractInst {
             throws ContextualError {
         if (returnType.sameType(compiler.getType("void"))) {
             String message =
-                    "TypeError: il est impossible de retourner une valeur quand la méthode est de signature `void`.";
+                    "TypeError: il est impossible de retourner une valeur quand la méthode a un type de retour `void`.";
             throw new ContextualError(message, getLocation());
         }
         expr.verifyRValue(compiler, localEnv, currentClass, returnType);
