@@ -167,21 +167,26 @@ inst returns[AbstractInst tree]
 
 if_then_else returns[IfThenElse tree]
 @init {
+    ListIfThen IfThen = new ListIfThen();
+    ListInst Else = new ListInst();
 }
     : if1=IF OPARENT condition=expr CPARENT OBRACE li_if=list_inst CBRACE {
             assert($condition.tree != null);
             assert($li_if.tree != null);
-            /* thenBranch.add($li_if.tree); */
+            IfThen.add(new IfThen($condition.tree, $li_if.tree));
+            setLocation($tree, $condition.start);
         }
       (ELSE elsif=IF OPARENT elsif_cond=expr CPARENT OBRACE elsif_li=list_inst CBRACE {
             assert($elsif_cond.tree != null);
             assert($elsif_li.tree != null);
+            IfThen.add(new IfThen($elsif_cond.tree, $elsif_li.tree));
+            setLocation($tree, $elsif_cond.start);
         }
       )*
       (ELSE OBRACE li_else=list_inst CBRACE {
-            assert($li_else.tree != null);
-            //elseBranch.add($li_else.tree);
-           // $tree = IfThenElse(condition, thenBranch, elseBranch);
+           assert($li_else.tree != null);
+           $tree = new IfThenElse(IfThen, $li_else.tree);
+           setLocation($tree, $li_else.start);
         }
       )?
     ;
@@ -414,11 +419,15 @@ primary_expr returns[AbstractExpr tree]
             setLocation($tree, $expr.start);
         }
     | READINT OPARENT CPARENT {
+            $tree = new ReadInt();
         }
     | READFLOAT OPARENT CPARENT {
+            $tree = new ReadFloat();
         }
     | NEW ident OPARENT CPARENT {
             assert($ident.tree != null);
+            $tree = new New($ident.tree);
+            setLocation($tree, $ident.start);
         }
     | cast=OPARENT type CPARENT OPARENT expr CPARENT {
             assert($type.tree != null);

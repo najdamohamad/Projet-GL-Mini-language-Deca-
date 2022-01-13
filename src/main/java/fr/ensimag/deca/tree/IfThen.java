@@ -16,23 +16,24 @@ import java.io.PrintStream;
  * @author gl47
  * @date 01/01/2022
  */
-public class IfThenElse extends AbstractInst {
+public class IfThen extends AbstractInst {
 
-    private final ListIfThen IfThen;
-    private ListInst elseBranch;
+    private final AbstractExpr condition;
+    private final ListInst thenBranch;
 
-
-    public IfThenElse(ListIfThen IfThen, ListInst Else){
-        this.IfThen = IfThen;
-        this.elseBranch = Else;
+    public IfThen(AbstractExpr condition, ListInst thenBranch) {
+        Validate.notNull(condition);
+        Validate.notNull(thenBranch);
+        this.condition = condition;
+        this.thenBranch = thenBranch;
     }
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
                               ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-        IfThen.verifyListInst(compiler, localEnv, currentClass, returnType);
-        elseBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
+        condition.verifyCondition(compiler, localEnv, currentClass);
+        thenBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
     }
 
     @Override
@@ -42,13 +43,13 @@ public class IfThenElse extends AbstractInst {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        IfThen.iter(f);
-        elseBranch.iter(f);
+        condition.iter(f);
+        thenBranch.iter(f);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        IfThen.prettyPrint(s, prefix, false);
-        elseBranch.prettyPrint(s, prefix, true);
+        condition.prettyPrint(s, prefix, false);
+        thenBranch.prettyPrint(s, prefix, false);
     }
 }
