@@ -1,0 +1,17 @@
+// Description:
+//    Test pour verifier que tout les types de variables marchenet bienn 
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context : pas d'erreur   
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    int a = 2 ;
+    float b  = 2.1;  
+    string s = "juNGLE"; 
+    boolean l = true  ; 
+    Object ob = null ;
+}

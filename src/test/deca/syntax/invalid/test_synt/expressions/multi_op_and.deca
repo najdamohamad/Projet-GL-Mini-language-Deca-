@@ -1,0 +1,14 @@
+// Description:
+//    Test visant à utulisant l'operateur &&  de maniere manquante .  
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: le resultat expectee est une erreur puisque dans notre grammaire && attend un eq_neq_expr
+//    apres lui et qui est different de null .
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    print( 2 &&  ) ;
+}

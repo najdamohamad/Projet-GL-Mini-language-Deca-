@@ -1,0 +1,14 @@
+// Description:
+//    Test visant à utulisant plusieurs le meme operateur plusieus fois l'un apres l'autre  
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: le resultat expectee est une erreur puisque dans notre grammaire --> sum_Epr et mult_Expr 
+//    ne permet pas la repetition plusieurs fois du meme  operateur l'un apres l'autre .  
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    print(2++2) ;
+}

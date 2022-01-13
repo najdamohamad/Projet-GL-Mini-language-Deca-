@@ -1,0 +1,20 @@
+// Description:
+//    Test de print de 2 variables , la premier variable est declarée tout au debut ce qui est bien permit dans 
+//     notre language deca alors que la 2eme est declarée apres un etape d'assination de valeur ce qui 
+//     ce qui n'est pas permit dans notre grammaire .  
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur pusique dans notre language deca on ne peut declarer des variables qu'au debut de notre program 
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+    int x ; 
+    x = 5  ;
+    int y ;  
+    y = 6 ;
+   println( x + y);
+}
+
+

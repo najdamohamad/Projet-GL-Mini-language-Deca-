@@ -1,0 +1,14 @@
+// Description:
+//    Test: dans ce test on vise à declarer plusieur valeurs et après on les assigne des valeurs 
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur  
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    int x,y,z ;
+    float a,b,c ;
+    print(a + b - c + x * y + z ) ; 
+}

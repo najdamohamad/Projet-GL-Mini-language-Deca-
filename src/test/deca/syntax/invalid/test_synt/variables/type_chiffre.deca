@@ -1,0 +1,13 @@
+// Description:
+//    Test ou on met le type de variable un chiffre 
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur -->  chiffre ne pas etre pris comme un lvalue 
+//    context : erreur  
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    3 trois = ma_var ;
+}

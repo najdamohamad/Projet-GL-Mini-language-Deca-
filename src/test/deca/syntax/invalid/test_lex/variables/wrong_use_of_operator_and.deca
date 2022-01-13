@@ -1,0 +1,17 @@
+// Description:
+//    Test de fonction print pour une expression incomplete
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur de syntax --> mismatched input ')' expecting {'false', 'new', 'null', 'readint', 
+//      'readfloat', 'this', 'true', IDENT, '-', '(', '!', INT, FLOAT, STRING, MULTI_LINE_STRING}
+//
+// Historique:
+//    cree le 05/01/2022
+
+{
+    int x,y ;
+    x= 2 ; 
+    y = 3 ; 
+    println(x | y ) ; 
+}
