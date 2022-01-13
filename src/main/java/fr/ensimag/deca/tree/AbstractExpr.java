@@ -132,6 +132,10 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
         throw new UnsupportedOperationException("not yet implemented");
     }
 
+    public void codeGenDisplayX(IMAProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
     @Override
     public void codeGen(ARMProgram program) {
         throw new UnsupportedOperationException("not yet implemented");

@@ -7,7 +7,16 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
-
+import fr.ensimag.arm.pseudocode.Assign;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.syscalls.Write;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import java.io.PrintStream;
 
 /**
@@ -54,6 +63,20 @@ public class FloatLiteral extends AbstractExpr {
     @Override
     protected void iterChildren(TreeFunction f) {
         // leaf node => nothing to do
+    }
+
+    @Override
+    public void codeGenDisplay(IMAProgram program) {
+        super.codeGen(program);
+        program.addInstruction(new LOAD(new ImmediateFloat(value), Register.R1));
+        program.addInstruction(new WFLOAT());
+    }
+
+    @Override
+    public void codeGenDisplayX(IMAProgram program) {
+        super.codeGen(program);
+        program.addInstruction(new LOAD(new ImmediateFloat(value), Register.R1));
+        program.addInstruction(new WFLOATX());
     }
 
     @Override

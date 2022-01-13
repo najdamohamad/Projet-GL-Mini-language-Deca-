@@ -6,6 +6,16 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.arm.pseudocode.Assign;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.syscalls.Write;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
+import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
 
@@ -38,6 +48,13 @@ public class IntLiteral extends AbstractExpr {
     @Override
     String prettyPrintNode() {
         return "Int (" + getValue() + ")";
+    }
+
+    @Override
+    public void codeGenDisplay(IMAProgram program) {
+        super.codeGen(program);
+        program.addInstruction(new LOAD(new ImmediateInteger(value), Register.R1));
+        program.addInstruction(new WINT());
     }
 
     @Override
