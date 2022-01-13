@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class ProgramTest {
+public class ReadExprTest {
     @Mock
     DecacCompiler compiler;
     EnvironmentExp env;
@@ -28,13 +28,27 @@ public class ProgramTest {
                     String symbol = invocationOnMock.getArgument(0, String.class);
                     return symbolTable.create(symbol);
                 });
+        when(compiler.getType("int"))
+                .thenReturn(new IntType(symbolTable.create("int")));
+        when(compiler.getType("float"))
+                .thenReturn(new FloatType(symbolTable.create("float")));
     }
 
     @Test
-    public void testProgram() throws ContextualError {
-        Program program = new Program(new ListDeclClass(), new EmptyMain());
-        program.verifyProgram(compiler);
-        assertTrue(program.checkAllDecorations());
-        assertEquals("", program.decompile());
+    public void testReadFloat() throws ContextualError {
+        ReadFloat readFloat = new ReadFloat();
+        Type t = readFloat.verifyExpr(compiler, env, null);
+        assertTrue(t.isFloat());
+        assertTrue(readFloat.checkAllDecorations());
+        assertEquals("readFloat()", readFloat.decompile());
+    }
+
+    @Test
+    public void testReadInt() throws ContextualError {
+        ReadInt readInt = new ReadInt();
+        Type t = readInt.verifyExpr(compiler, env, null);
+        assertTrue(t.isInt());
+        assertTrue(readInt.checkAllDecorations());
+        assertEquals("readInt()", readInt.decompile());
     }
 }

@@ -32,8 +32,10 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             // Convert the expression which is an int with a ConvFloat node.
             if (leftExprType.isInt()) {
                 setLeftOperand(new ConvFloat(getLeftOperand()));
+                getLeftOperand().setType(compiler.getType("float"));
             } else if (rightExprType.isInt()) {
                 setRightOperand(new ConvFloat(getRightOperand()));
+                getRightOperand().setType(compiler.getType("float"));
             }
         } else {
             String message = "TypeError: type(s) incorrect(s) dans `"
