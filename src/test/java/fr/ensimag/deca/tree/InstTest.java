@@ -1,18 +1,14 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.BooleanType;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.SymbolTable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -40,6 +36,10 @@ public class InstTest {
                 });
         when(compiler.getType("boolean"))
                 .thenReturn(new BooleanType(symbolTable.create("boolean")));
+        when(compiler.getType("void"))
+                .thenReturn(new BooleanType(symbolTable.create("void")));
+        when(compiler.getType("string"))
+                .thenReturn(new BooleanType(symbolTable.create("string")));
         when(compiler.getTypeDefinition("boolean"))
                 .thenReturn(new TypeDefinition(new BooleanType(symbolTable.create("boolean")), null));
     }
@@ -71,6 +71,33 @@ public class InstTest {
                 + "attendu `int` ou bien `float`, mais trouvé `boolean`.";
         String actualMessage = e.getMessage();
         assertEquals(expectedMessage, actualMessage);
+    }
 
+    @Test
+    public void testIfThenElse() throws ContextualError {
+        AbstractExpr cond = new BooleanLiteral(true);
+        ListInst branchTrue = new ListInst();
+        branchTrue.add(new BooleanLiteral(true));
+        ListInst branchFalse = new ListInst();
+        branchFalse.add(new BooleanLiteral(false));
+        IfThenElse stmt = new IfThenElse(cond, branchTrue, branchFalse);
+
+        stmt.verifyInst(compiler, env, null, compiler.getType("void"));
+        assertTrue(stmt.checkAllDecorations());
+        assertEquals("if(true){\n\ttrue;\n} else {\n\tfalse;\n}\n", stmt.decompile());
+    }
+
+    @Test
+    public void testIfBadType() throws ContextualError {
+        AbstractExpr cond = new StringLiteral("foo");
+        ListInst branchTrue = new ListInst();
+        branchTrue.add(new BooleanLiteral(true));
+        ListInst branchFalse = new ListInst();
+        branchFalse.add(new BooleanLiteral(false));
+        IfThenElse stmt = new IfThenElse(cond, branchTrue, branchFalse);
+
+        stmt.verifyInst(compiler, env, null, compiler.getType("void"));
+        assertTrue(stmt.checkAllDecorations());
+        assertEquals("if(true){\n\ttrue;\n} else {\n\tfalse;\n}", stmt.decompile());
     }
 }
