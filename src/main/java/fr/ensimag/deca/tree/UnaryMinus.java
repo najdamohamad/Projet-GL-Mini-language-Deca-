@@ -19,7 +19,16 @@ public class UnaryMinus extends AbstractUnaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
-        return getOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type operandType = getOperand().verifyExpr(compiler, localEnv, currentClass);
+        if (!operandType.isIntOrFloat()) {
+            String message = "TypeError: type incorrect dans `"
+                    + "l'expression de d'inversion de signe `" + this.decompile()
+                    + "`, attendu `int` ou bien `float` mais trouvé `"
+                    + operandType + "`.";
+            throw new ContextualError(message, getLocation());
+        }
+        setType(operandType);
+        return operandType;
     }
 
 

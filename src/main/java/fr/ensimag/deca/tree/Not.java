@@ -19,7 +19,16 @@ public class Not extends AbstractUnaryExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
-        return getOperand().verifyExpr(compiler, localEnv, currentClass);
+        Type operandType = getOperand().verifyExpr(compiler, localEnv, currentClass);
+        if (!operandType.isBoolean()) {
+            String message = "TypeError: type incorrect dans `"
+                    + "l'expression de négation `" + this.decompile()
+                    + "`, attendu `boolean` mais trouvé `" + operandType + "`.";
+            throw new ContextualError(message, getLocation());
+        }
+        Type exprType = compiler.getType("boolean");
+        setType(exprType);
+        return exprType;
     }
 
 
