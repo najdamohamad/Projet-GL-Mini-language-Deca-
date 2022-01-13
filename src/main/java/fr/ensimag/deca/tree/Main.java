@@ -67,6 +67,7 @@ public class Main extends AbstractMain implements CodeGen {
     public void decompile(IndentPrintStream s) {
         s.println("{");
         s.indent();
+        LOG.debug("decompile declVar");
         declVariables.decompile(s);
         insts.decompile(s);
         s.unindent();

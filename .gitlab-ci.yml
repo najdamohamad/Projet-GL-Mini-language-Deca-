@@ -1,7 +1,7 @@
 image: frolvlad/alpine-glibc:latest
 
 before_script:
-  - apk add maven python3 openjdk17
+  - apk add maven python3 openjdk17 -q
   - . source-pipeline.sh
 
 stages:
@@ -10,7 +10,7 @@ stages:
 
 variables:
   # Arguments to pass in the Maven CLI.
-  MAVEN_CLI_OPTS: ""
+  MAVEN_CLI_OPTS: "--no-transfer-progress"
   # Arguments to pass to Maven tasks.
   MAVEN_OPTS: ""
 
@@ -21,7 +21,7 @@ cache:
 compile:
   stage: compile
   script:
-    - mvn compile
+    - mvn $MAVEN_CLI_OPTS compile $MAVEN_OPTS
 
 test:
   stage: test
