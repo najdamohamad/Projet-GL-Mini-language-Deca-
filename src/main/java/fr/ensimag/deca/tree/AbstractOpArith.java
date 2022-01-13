@@ -32,7 +32,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             // Convert the expression which is an int with a ConvFloat node.
             if (leftExprType.isInt()) {
                 setLeftOperand(new ConvFloat(getLeftOperand()));
-            } else { // rightExprType.isInt()
+            } else if (rightExprType.isInt()) {
                 setRightOperand(new ConvFloat(getRightOperand()));
             }
         } else {

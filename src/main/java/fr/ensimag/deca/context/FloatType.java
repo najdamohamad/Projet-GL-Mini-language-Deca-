@@ -18,6 +18,11 @@ public class FloatType extends Type {
     }
 
     @Override
+    public boolean isIntOrFloat() {
+        return true;
+    }
+
+    @Override
     public boolean sameType(Type otherType) {
         return otherType instanceof FloatType;
     }
