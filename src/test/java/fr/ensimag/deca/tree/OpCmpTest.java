@@ -95,7 +95,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new Equals(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2 == 4)", e.decompile());
+        assertEquals("(true == false)", e.decompile());
     }
 
     @Test
