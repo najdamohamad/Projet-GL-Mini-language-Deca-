@@ -42,6 +42,6 @@ public class UnaryExprTest {
         IntLiteral intLiteral = new IntLiteral(3);
         ConvFloat convFloat = new ConvFloat(intLiteral);
         convFloat.verifyExpr(compiler, env, null);
-        assertEquals(convFloat.decompile(), "3");
+        assertEquals(convFloat.decompile(), "/* conv float */3");
     }
 }
