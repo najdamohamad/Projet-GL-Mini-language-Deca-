@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.matchers.LessThan;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,7 +34,7 @@ public class OpCmpTest {
         when(compiler.getType("string"))
                 .thenReturn(new StringType(symbolTable.create("string")));
         when(compiler.getType("boolean"))
-                .thenReturn(new StringType(symbolTable.create("boolean")));
+                .thenReturn(new BooleanType(symbolTable.create("boolean")));
     }
 
     @Test
