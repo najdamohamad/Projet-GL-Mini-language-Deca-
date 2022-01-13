@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -44,7 +43,8 @@ public class OpBoolTest {
         BooleanLiteral b = new BooleanLiteral(true);
         Or or = new Or(a, b);
         or.verifyExpr(compiler, env, null);
-        assertEquals(or.decompile(), "(true||true)");
+        assertTrue(or.checkAllDecorations());
+        assertEquals(or.decompile(), "(true || true)");
     }
 
     @Test
@@ -53,7 +53,8 @@ public class OpBoolTest {
         BooleanLiteral b = new BooleanLiteral(true);
         And and = new And(a, b);
         and.verifyExpr(compiler, env, null);
-        assertEquals(and.decompile(), "(true&&true)");
+        assertTrue(and.checkAllDecorations());
+        assertEquals(and.decompile(), "(true && true)");
     }
 
     @Test
@@ -66,7 +67,7 @@ public class OpBoolTest {
             or.verifyExpr(compiler, env, null);
         });
 
-        String expected = "TypeError: type(s) incorrect(s) dans `l'expression booléenne `(true||\"foo\")`, attendu `boolean`";
+        String expected = "TypeError: type(s) incorrect(s) dans `l'expression booléenne `(true || \"foo\")`, attendu `boolean`";
         String actual = e.getMessage();
         assertEquals(expected, actual);
     }
@@ -81,7 +82,7 @@ public class OpBoolTest {
             and.verifyExpr(compiler, env, null);
         });
 
-        String expected = "TypeError: type(s) incorrect(s) dans `l'expression booléenne `(true&&\"foo\")`, attendu `boolean`";
+        String expected = "TypeError: type(s) incorrect(s) dans `l'expression booléenne `(true && \"foo\")`, attendu `boolean`";
         String actual = e.getMessage();
         assertEquals(expected, actual);
     }

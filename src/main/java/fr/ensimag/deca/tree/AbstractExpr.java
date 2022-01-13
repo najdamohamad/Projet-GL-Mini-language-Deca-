@@ -121,7 +121,7 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
         Type exprType = verifyExpr(compiler, localEnv, currentClass);
         if (!exprType.isBoolean()) {
             String message = "TypeError: type incorrect pour expression `"
-                    + this + "`, attendu `boolean`"
+                    + this.decompile() + "`, attendu `boolean`"
                     + " mais trouvé `" + exprType + "`.";
             throw new ContextualError(message, getLocation());
         }

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.internal.matchers.LessThan;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -35,7 +34,7 @@ public class OpCmpTest {
         when(compiler.getType("string"))
                 .thenReturn(new StringType(symbolTable.create("string")));
         when(compiler.getType("boolean"))
-                .thenReturn(new StringType(symbolTable.create("boolean")));
+                .thenReturn(new BooleanType(symbolTable.create("boolean")));
     }
 
     @Test
@@ -45,7 +44,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new Greater(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2>4)", e.decompile());
+        assertEquals("(2 > 4)", e.decompile());
     }
 
     @Test
@@ -55,7 +54,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new GreaterOrEqual(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2>=4)", e.decompile());
+        assertEquals("(2 >= 4)", e.decompile());
     }
 
     @Test
@@ -65,7 +64,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new Lower(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2<4)", e.decompile());
+        assertEquals("(2 < 4)", e.decompile());
     }
 
     @Test
@@ -75,7 +74,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new LowerOrEqual(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2<=4)", e.decompile());
+        assertEquals("(2 <= 4)", e.decompile());
     }
 
     @Test
@@ -85,7 +84,17 @@ public class OpCmpTest {
         AbstractOpCmp e = new Equals(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2==4)", e.decompile());
+        assertEquals("(2 == 4)", e.decompile());
+    }
+
+    @Test
+    public void testEqualsBoolean() throws ContextualError {
+        BooleanLiteral a = new BooleanLiteral(true);
+        BooleanLiteral b = new BooleanLiteral(false);
+        AbstractOpCmp e = new Equals(a, b);
+        e.verifyExpr(compiler, env, null);
+        assertTrue(e.checkAllDecorations());
+        assertEquals("(true == false)", e.decompile());
     }
 
     @Test
@@ -95,7 +104,7 @@ public class OpCmpTest {
         AbstractOpCmp e = new NotEquals(a, b);
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
-        assertEquals("(2!=4)", e.decompile());
+        assertEquals("(2 != 4)", e.decompile());
     }
 
     @Test
@@ -108,7 +117,7 @@ public class OpCmpTest {
             exp.verifyExpr(compiler, env, null);
         });
 
-        String expected = "TypeError: type(s) incorrect(s) dans `l'expression d'inégalité `(2>\"foo\")`, attendu `int` ou bien `float`.";
+        String expected = "TypeError: type(s) incorrect(s) dans `l'expression d'inégalité `(2 > \"foo\")`, attendu `int` ou bien `float`.";
         String actual = e.getMessage();
         assertEquals(expected, actual);
     }
@@ -123,7 +132,7 @@ public class OpCmpTest {
             exp.verifyExpr(compiler, env, null);
         });
 
-        String expected = "TypeError: type(s) incorrect(s) dans `l'expression d'inégalité `(\"foo\">2)`, attendu `int` ou bien `float`.";
+        String expected = "TypeError: type(s) incorrect(s) dans `l'expression d'inégalité `(\"foo\" > 2)`, attendu `int` ou bien `float`.";
         String actual = e.getMessage();
         assertEquals(expected, actual);
     }
@@ -135,7 +144,7 @@ public class OpCmpTest {
         AbstractOpCmp exp = new NotEquals(a, b);
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
-        assertEquals("(0x1.0p1!=0x1.0p2)", exp.decompile());
+        assertEquals("(0x1.0p1 != 0x1.0p2)", exp.decompile());
     }
 
     @Test
@@ -147,7 +156,7 @@ public class OpCmpTest {
         assertTrue(exp.checkAllDecorations());
         assertFalse(exp.getLeftOperand() instanceof ConvFloat);
         assertTrue(exp.getRightOperand() instanceof ConvFloat);
-        assertEquals("(0x1.0p1!=/* conv float */4)", exp.decompile());
+        assertEquals("(0x1.0p1 != /* conv float */4)", exp.decompile());
     }
 
     @Test
@@ -159,7 +168,7 @@ public class OpCmpTest {
         assertTrue(exp.checkAllDecorations());
         assertTrue(exp.getLeftOperand() instanceof ConvFloat);
         assertFalse(exp.getRightOperand() instanceof ConvFloat);
-        assertEquals("(/* conv float */2!=0x1.0p2)", exp.decompile());
+        assertEquals("(/* conv float */2 != 0x1.0p2)", exp.decompile());
     }
 
     @Test
@@ -172,12 +181,9 @@ public class OpCmpTest {
         AbstractOpCmp e2 = new NotEquals(c, d);
         AbstractOpCmp exp = new NotEquals(e1, e2);
 
-        Exception e = assertThrows(ContextualError.class, () -> {
-            exp.verifyExpr(compiler, env, null);
-        });
-
-        String expected = "TypeError: type(s) incorrect(s) dans `l'expression de comparaison `((2!=4)!=(6!=8))`, seuls les types `int`/`float` sont comparables.";
-        String actual = e.getMessage();
-        assertEquals(expected, actual);
+        exp.verifyExpr(compiler, env, null);
+        assertTrue(exp.checkAllDecorations());
+        assertTrue(exp.getType().isBoolean());
+        assertEquals("((2 != 4) != (6 != 8))", exp.decompile());
     }
 }
