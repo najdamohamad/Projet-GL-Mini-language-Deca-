@@ -161,7 +161,7 @@ public class InstTest {
             ret.verifyInst(compiler, env, null, compiler.getType("void"));
         });
 
-        String expected = "TypeError: il est impossible de retourner une valeur quand la méthode est de signature `void`.";
+        String expected = "TypeError: il est impossible de retourner une valeur quand la méthode a un type de retour `void`.";
         String actual = e.getMessage();
         assertEquals(expected, actual);
     }
@@ -187,8 +187,8 @@ public class InstTest {
         assertTrue(wh.checkAllDecorations());
         assertEquals(
                 "while(true){" +
-                "\n\tfalse;" +
-                "\n}",
+                        "\n\tfalse;" +
+                        "\n}",
                 wh.decompile());
     }
 
