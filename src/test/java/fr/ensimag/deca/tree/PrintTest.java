@@ -1,10 +1,7 @@
-package fr.ensimag.deca.decompilation.helloworld;
+package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.deca.tree.ListExpr;
-import fr.ensimag.deca.tree.Print;
-import fr.ensimag.deca.tree.Println;
-import fr.ensimag.deca.tree.StringLiteral;
+import fr.ensimag.deca.tree.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -12,9 +9,10 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestPrintln {
+
+public class PrintTest {
     @Test
-    public void testPrintln()
+    public void testPrint()
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(stream);
@@ -27,18 +25,15 @@ public class TestPrintln {
         listExpr.add(new StringLiteral("world"));
 
 
-        Println println = new Println(false , listExpr) ;
+        Print print = new Print(false , listExpr) ;
 
-        println.decompile(indentPrintStream);
+        print.decompile(indentPrintStream);
 
-        assertEquals("println(\"hello\",\"world\");" ,stream.toString());
+        assertEquals("print(\"hello\",\"world\");" ,stream.toString());
     }
 
-
-
     @Test
-    public void testPrintlnx()
-
+    public void testPrintX()
     {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(stream);
@@ -48,14 +43,14 @@ public class TestPrintln {
         ListExpr listExpr = new ListExpr();
 
         listExpr.add(new StringLiteral("hello"));
-        listExpr.add(new StringLiteral("world"));
 
 
-        Println printlnx = new Println(true , listExpr) ;
 
-        printlnx.decompile(indentPrintStream);
+        Print print = new Print(true , listExpr) ;
 
-        assertEquals("printlnx(\"hello\",\"world\");",stream.toString());
+
+        print.decompile(indentPrintStream);
+
+        assertEquals("printx(\"hello\");" ,stream.toString());
     }
-
 }

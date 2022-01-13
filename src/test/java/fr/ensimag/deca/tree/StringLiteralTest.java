@@ -1,4 +1,4 @@
-package fr.ensimag.deca.decompilation.helloworld;
+package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.StringLiteral;
@@ -9,7 +9,7 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestStringLiteral {
+public class StringLiteralTest {
     @Test
     public void testStringLiteral() {
         StringLiteral stringLiteral = new StringLiteral("test");

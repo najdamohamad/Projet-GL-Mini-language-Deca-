@@ -1,4 +1,4 @@
-package fr.ensimag.deca.decompilation.helloworld;
+package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.AbstractMain;
@@ -11,7 +11,7 @@ import java.io.PrintStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestEmptyMain {
+public class EmptyMainTest {
     @Test
     public void testEmptyMain() {
         EmptyMain emptyMain = new EmptyMain();
