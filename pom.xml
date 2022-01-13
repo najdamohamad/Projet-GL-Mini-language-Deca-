@@ -69,7 +69,7 @@
             <classifier>runtime</classifier>
             <version>0.8.7</version>
             <scope>test</scope>
-        </dependency>        
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -88,7 +88,7 @@
                                 <requireMavenVersion>
                                     <version>3.3.9</version>
                                 </requireMavenVersion>
-                            </rules>    
+                            </rules>
                         </configuration>
                     </execution>
                 </executions>
@@ -109,7 +109,7 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
-            </plugin>            
+            </plugin>
 
             <plugin>
                 <!-- compute the classpath when building, for use by various
@@ -141,13 +141,13 @@
                         <exclude>fr/ensimag/deca/tools/DecacInternalError.class</exclude>
                         <exclude>fr/ensimag/deca/ima/pseudocode/IMAInternalError.class</exclude>
                     </excludes>
-                </configuration>                               
+                </configuration>
                 <executions>
                     <execution>
                         <id>default-instrument</id>
                         <goals>
                             <goal>instrument</goal>
-                        </goals>             
+                        </goals>
                     </execution>
                     <execution>
                         <id>default-restore-instrumented-classes</id>
@@ -182,7 +182,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>      
+            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -215,11 +215,11 @@
                             <goal>exec</goal>
                         </goals>
                     </execution>
-                    <!-- This test is unnecessary
+
                     <execution>
-                        <id>unit-test-symbol</id>
+                        <id>unit-test-locations</id>
                         <configuration>
-                            <mainClass>fr.ensimag.deca.tools.ManualTestSymbol</mainClass>
+                            <mainClass>fr.ensimag.deca.syntax.LocationTest</mainClass>
                             <classpathScope>test</classpathScope>
                         </configuration>
                         <phase>test</phase>
@@ -227,7 +227,6 @@
                             <goal>java</goal>
                         </goals>
                     </execution>
-                    -->
                 </executions>
             </plugin>
 
@@ -408,7 +407,7 @@
                     <threshold>Exp</threshold>
                 </configuration>
             </plugin>
-      
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -423,7 +422,7 @@
                                 <additionalparam>-Xdoclint:none</additionalparam>
                             </configuration>
                         </execution>
-                    </executions>          
+                    </executions>
                     <tags>
                         <tag>
                             <name>date</name>

@@ -9,9 +9,9 @@
 //    cree le 11/01/2022
 
 {
-    int x ;   
-    x = 5  ;
-    int y ; 
-    y = 6 ;
-   println( x + y);
+    int x;
+    int y;
+    x = 5;
+    y = 6;
+    println( x + y);
 }
