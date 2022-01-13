@@ -1,7 +1,5 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.context.ClassType;
-import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
 
@@ -44,6 +42,10 @@ public abstract class Type {
         return false;
     }
 
+    public boolean isIntOrFloat() {
+        return false;
+    }
+
     public boolean isFloat() {
         return false;
     }
@@ -71,7 +73,7 @@ public abstract class Type {
     /**
      * Returns the same object, as type ClassType, if possible. Throws
      * ContextualError(errorMessage, l) otherwise.
-     *
+     * <p>
      * Can be seen as a cast, but throws an explicit contextual error when the
      * cast fails.
      */

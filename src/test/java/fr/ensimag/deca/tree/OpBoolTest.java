@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +44,7 @@ public class OpBoolTest {
         BooleanLiteral b = new BooleanLiteral(true);
         Or or = new Or(a, b);
         or.verifyExpr(compiler, env, null);
+        assertEquals(or.decompile(), "(true||true)");
     }
 
     @Test
@@ -50,5 +53,36 @@ public class OpBoolTest {
         BooleanLiteral b = new BooleanLiteral(true);
         And and = new And(a, b);
         and.verifyExpr(compiler, env, null);
+        assertEquals(and.decompile(), "(true&&true)");
+    }
+
+    @Test
+    public void testBadOr() throws ContextualError {
+        BooleanLiteral a = new BooleanLiteral(true);
+        StringLiteral b = new StringLiteral("foo");
+        Or or = new Or(a, b);
+
+        Exception e = assertThrows(ContextualError.class, () -> {
+            or.verifyExpr(compiler, env, null);
+        });
+
+        String expected = "TypeError: type(s) incorrect(s) dans `l'expression booléenne `(true||\"foo\")`, attendu `boolean`";
+        String actual = e.getMessage();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testBadAnd() throws ContextualError {
+        BooleanLiteral a = new BooleanLiteral(true);
+        StringLiteral b = new StringLiteral("foo");
+        And and = new And(a, b);
+
+        Exception e = assertThrows(ContextualError.class, () -> {
+            and.verifyExpr(compiler, env, null);
+        });
+
+        String expected = "TypeError: type(s) incorrect(s) dans `l'expression booléenne `(true&&\"foo\")`, attendu `boolean`";
+        String actual = e.getMessage();
+        assertEquals(expected, actual);
     }
 }

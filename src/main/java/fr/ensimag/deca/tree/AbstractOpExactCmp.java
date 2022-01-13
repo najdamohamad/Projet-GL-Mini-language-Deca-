@@ -22,20 +22,21 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
                            ClassDefinition currentClass) throws ContextualError {
         Type leftExprType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type rightExprType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
-        Type exprType;
-        boolean bothNumbers = (rightExprType.isInt() || rightExprType.isFloat())
-                && (leftExprType.isInt() || leftExprType.isFloat());
-        boolean bothObjects = ((rightExprType.isClassOrNull())
-                && (leftExprType.isClassOrNull()));
-        if (bothNumbers || bothObjects) {
-            exprType = compiler.getType("boolean");
-            setType(exprType);
-            return exprType;
-        } else {
+        if (leftExprType.isInt() && rightExprType.isFloat()) {
+            setLeftOperand(new ConvFloat(getLeftOperand()));
+            getLeftOperand().setType(compiler.getType("float"));
+        } else if (rightExprType.isInt() && leftExprType.isFloat()) {
+            setRightOperand(new ConvFloat(getRightOperand()));
+            getRightOperand().setType(compiler.getType("float"));
+        } else if (!rightExprType.isIntOrFloat() || !leftExprType.isIntOrFloat()) {
             String message = "TypeError: type(s) incorrect(s) dans `"
                     + "l'expression de comparaison `" + this.decompile()
-                    + "`, seuls les types `int`/`float` ou bien les objets sont comparables.";
+                    + "`, seuls les types `int`/`float` sont comparables.";
             throw new ContextualError(message, getLocation());
         }
+        Type exprType = compiler.getType("boolean");
+        setType(exprType);
+        return exprType;
+
     }
 }
