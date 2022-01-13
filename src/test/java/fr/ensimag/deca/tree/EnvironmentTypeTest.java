@@ -20,10 +20,10 @@ public class EnvironmentTypeTest {
     @Mock
     DecacCompiler compiler;
 
-    String[] baseTypeNames = {"void", "boolean", "float", "int", "string"};
+    String[] baseTypeNames = {"void", "boolean", "float", "int", "string", "null"};
     Type[] baseTypes = {new VoidType(null),
             new BooleanType(null), new FloatType(null),
-            new IntType(null), new StringType(null)};
+            new IntType(null), new StringType(null), new NullType(null)};
 
     @BeforeEach
     public void setup() throws ContextualError {

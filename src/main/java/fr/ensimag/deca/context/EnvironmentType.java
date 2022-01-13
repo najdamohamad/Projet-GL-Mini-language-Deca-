@@ -1,12 +1,15 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.DecacMain;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class EnvironmentType {
+    private static Logger LOG = Logger.getLogger(EnvironmentType.class);
 
     private Map<Symbol, TypeDefinition> environmentType;
 
@@ -24,14 +27,17 @@ public class EnvironmentType {
         Symbol floatSymbol = compiler.createSymbol("float");
         Symbol intSymbol = compiler.createSymbol("int");
         Symbol stringSymbol = compiler.createSymbol("string");
+        Symbol nullSymbol = compiler.createSymbol("null");
         try {
             declare(voidSymbol, new TypeDefinition(new VoidType(voidSymbol), null));
             declare(booleanSymbol, new TypeDefinition(new BooleanType(booleanSymbol), null));
             declare(floatSymbol, new TypeDefinition(new FloatType(floatSymbol), null));
             declare(intSymbol, new TypeDefinition(new IntType(intSymbol), null));
             declare(stringSymbol, new TypeDefinition(new StringType(stringSymbol), null));
+            declare(nullSymbol, new TypeDefinition(new NullType(nullSymbol), null));
         } catch (DoubleDefException e) {
-            // Unreachable.
+            // Should be unreachable.
+            LOG.error("declared symbol twice in EnvironmentType, error: " + e.getMessage());
         }
     }
 
