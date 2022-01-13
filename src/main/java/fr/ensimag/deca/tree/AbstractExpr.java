@@ -40,6 +40,8 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
 
     private Type type;
 
+    public boolean isFloat(){return false; }
+
     @Override
     protected void checkDecoration() {
         if (getType() == null) {

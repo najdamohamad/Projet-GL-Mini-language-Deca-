@@ -5,7 +5,14 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
-
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.syscalls.Write;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.instructions.REM;
+import fr.ensimag.ima.pseudocode.DVal;
+import org.apache.commons.lang.Validate;
 /**
  * Arithmetic binary operations (+, -, /, ...)
  *
@@ -43,5 +50,9 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         }
         setType(exprType);
         return exprType;
+    }
+
+    public void codeGenExpr(IMAProgram program){
+        super.codeGen(program);
     }
 }

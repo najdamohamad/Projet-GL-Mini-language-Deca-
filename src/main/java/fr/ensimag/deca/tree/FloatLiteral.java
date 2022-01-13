@@ -13,6 +13,7 @@ import fr.ensimag.arm.pseudocode.syscalls.Write;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
@@ -30,6 +31,9 @@ public class FloatLiteral extends AbstractExpr {
     public float getValue() {
         return value;
     }
+
+    @Override
+    public boolean isFloat(){return true; }
 
     private float value;
 
@@ -70,6 +74,11 @@ public class FloatLiteral extends AbstractExpr {
         super.codeGen(program);
         program.addInstruction(new LOAD(new ImmediateFloat(value), Register.R1));
         program.addInstruction(new WFLOAT());
+    }
+
+    public void codeGenExpr(IMAProgram program,GPRegister register) {
+        super.codeGen(program);
+        program.addInstruction(new LOAD(new ImmediateFloat(value), register));
     }
 
     @Override
