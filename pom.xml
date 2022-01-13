@@ -205,7 +205,6 @@
                             <goal>exec</goal>
                         </goals>
                     </execution>
-                    <!-- TODO: Make this test pass
                     <execution>
                         <id>common-tests</id>
                         <configuration>
@@ -216,7 +215,6 @@
                             <goal>exec</goal>
                         </goals>
                     </execution>
-                    -->
                     <!-- This test is unnecessary
                     <execution>
                         <id>unit-test-symbol</id>
