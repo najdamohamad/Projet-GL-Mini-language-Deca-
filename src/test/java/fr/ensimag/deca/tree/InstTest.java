@@ -36,10 +36,12 @@ public class InstTest {
                 });
         when(compiler.getType("boolean"))
                 .thenReturn(new BooleanType(symbolTable.create("boolean")));
-        when(compiler.getType("void"))
-                .thenReturn(new BooleanType(symbolTable.create("void")));
         when(compiler.getType("string"))
-                .thenReturn(new BooleanType(symbolTable.create("string")));
+                .thenReturn(new StringType(symbolTable.create("string")));
+        when(compiler.getType("void"))
+                .thenReturn(new VoidType(symbolTable.create("void")));
+        when(compiler.getType("int"))
+                .thenReturn(new IntType(symbolTable.create("int")));
         when(compiler.getTypeDefinition("boolean"))
                 .thenReturn(new TypeDefinition(new BooleanType(symbolTable.create("boolean")), null));
     }
@@ -84,11 +86,11 @@ public class InstTest {
 
         stmt.verifyInst(compiler, env, null, compiler.getType("void"));
         assertTrue(stmt.checkAllDecorations());
-        assertEquals("if(true){\n\ttrue;\n} else {\n\tfalse;\n}\n", stmt.decompile());
+        assertEquals("if(true){\n\ttrue;\n} else {\n\tfalse;\n}", stmt.decompile());
     }
 
     @Test
-    public void testIfBadType() throws ContextualError {
+    public void testIfBadType() {
         AbstractExpr cond = new StringLiteral("foo");
         ListInst branchTrue = new ListInst();
         branchTrue.add(new BooleanLiteral(true));
@@ -96,8 +98,112 @@ public class InstTest {
         branchFalse.add(new BooleanLiteral(false));
         IfThenElse stmt = new IfThenElse(cond, branchTrue, branchFalse);
 
-        stmt.verifyInst(compiler, env, null, compiler.getType("void"));
+        Exception e = assertThrows(ContextualError.class, () -> {
+            stmt.verifyInst(compiler, env, null, compiler.getType("void"));
+        });
+
+        String expected = "TypeError: type incorrect pour expression `\"foo\"`, attendu `boolean` mais trouvé `string`.";
+        String actual = e.getMessage();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testNestedIf() throws ContextualError {
+        AbstractExpr cond = new BooleanLiteral(true);
+        ListInst branchTrue = new ListInst();
+        branchTrue.add(new BooleanLiteral(true));
+        ListInst branchFalse = new ListInst();
+        branchFalse.add(new BooleanLiteral(false));
+        IfThenElse stmt = new IfThenElse(cond, branchTrue, branchFalse);
+
+        AbstractExpr cond2 = new BooleanLiteral(true);
+        ListInst branchTrue2 = new ListInst();
+        branchTrue2.add(new BooleanLiteral(true));
+        ListInst branchFalse2 = new ListInst();
+        branchFalse2.add(stmt);
+        IfThenElse stmt2 = new IfThenElse(cond2, branchTrue2, branchFalse2);
+
+        stmt2.verifyInst(compiler, env, null, compiler.getType("void"));
         assertTrue(stmt.checkAllDecorations());
-        assertEquals("if(true){\n\ttrue;\n} else {\n\tfalse;\n}", stmt.decompile());
+        assertEquals(
+                "if(true){" +
+                        "\n\ttrue;" +
+                        "\n} else {" +
+                        "\n\tif(true){" +
+                        "\n\t\ttrue;" +
+                        "\n\t} else {" +
+                        "\n\t\tfalse;" +
+                        "\n\t}" +
+                        "\n}", stmt2.decompile());
+    }
+
+    @Test
+    public void testNoop() throws ContextualError {
+        NoOperation noop = new NoOperation();
+        noop.verifyInst(compiler, env, null, compiler.getType("void"));
+        assertTrue(noop.checkAllDecorations());
+        assertEquals(";", noop.decompile());
+    }
+
+    @Test
+    public void testReturn() throws ContextualError {
+        Return ret = new Return(new IntLiteral(3));
+        ret.verifyInst(compiler, env, null, compiler.getType("int"));
+        assertTrue(ret.checkAllDecorations());
+        assertEquals("return 3;", ret.decompile());
+    }
+
+    @Test
+    public void testVoidReturn() throws ContextualError {
+        Return ret = new Return(new Null());
+
+        Exception e = assertThrows(ContextualError.class, () -> {
+            ret.verifyInst(compiler, env, null, compiler.getType("void"));
+        });
+
+        String expected = "TypeError: il est impossible de retourner une valeur quand la méthode est de signature `void`.";
+        String actual = e.getMessage();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testVoidReturnMismatched() throws ContextualError {
+        Return ret = new Return(new IntLiteral(3));
+        Exception e = assertThrows(ContextualError.class, () -> {
+            ret.verifyInst(compiler, env, null, compiler.getType("boolean"));
+        });
+
+        String expected = "TypeError: type incorrect pour expression `3`, attendu `boolean` mais trouvé `int`.";
+        String actual = e.getMessage();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testWhile() throws ContextualError {
+        ListInst body = new ListInst();
+        body.add(new BooleanLiteral(false));
+        While wh = new While(new BooleanLiteral(true), body);
+        wh.verifyInst(compiler, env, null, compiler.getType("boolean"));
+        assertTrue(wh.checkAllDecorations());
+        assertEquals(
+                "while(true){" +
+                "\n\tfalse;" +
+                "\n}",
+                wh.decompile());
+    }
+
+    @Test
+    public void testWhileBadType() throws ContextualError {
+        ListInst body = new ListInst();
+        body.add(new StringLiteral("foo"));
+        While wh = new While(new StringLiteral("foo"), body);
+
+        Exception e = assertThrows(ContextualError.class, () -> {
+            wh.verifyInst(compiler, env, null, compiler.getType("boolean"));
+        });
+
+        String expected = "TypeError: type incorrect pour expression `\"foo\"`, attendu `boolean` mais trouvé `string`.";
+        String actual = e.getMessage();
+        assertEquals(expected, actual);
     }
 }
