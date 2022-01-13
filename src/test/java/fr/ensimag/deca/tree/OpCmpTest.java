@@ -181,12 +181,9 @@ public class OpCmpTest {
         AbstractOpCmp e2 = new NotEquals(c, d);
         AbstractOpCmp exp = new NotEquals(e1, e2);
 
-        Exception e = assertThrows(ContextualError.class, () -> {
-            exp.verifyExpr(compiler, env, null);
-        });
-
-        String expected = "TypeError: type(s) incorrect(s) dans `l'expression de comparaison `((2 != 4) != (6 != 8))`, seuls les types `int`/`float` sont comparables.";
-        String actual = e.getMessage();
-        assertEquals(expected, actual);
+        exp.verifyExpr(compiler, env, null);
+        assertTrue(exp.checkAllDecorations());
+        assertTrue(exp.getType().isBoolean());
+        assertEquals("((2 != 4) != (6 != 8))", exp.decompile());
     }
 }
