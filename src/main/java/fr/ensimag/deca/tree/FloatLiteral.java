@@ -19,7 +19,7 @@ import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
 import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
 import java.io.PrintStream;
-
+import fr.ensimag.ima.pseudocode.DVal;
 /**
  * Single precision, floating-point literal
  *
@@ -34,7 +34,8 @@ public class FloatLiteral extends AbstractExpr {
 
     @Override
     public boolean isFloat(){return true; }
-
+    @Override
+    public DVal getDVal(){return new ImmediateFloat(value);}
     private float value;
 
     public FloatLiteral(float value) {

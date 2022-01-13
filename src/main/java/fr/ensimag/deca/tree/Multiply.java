@@ -18,8 +18,8 @@ public class Multiply extends AbstractOpArith {
         super(leftOperand, rightOperand);
     }
 
-    //@Override
-    public void codeGenExpr(IMAProgram program,DVal value,GPRegister register) {
+    @Override
+    public void codeOpe(IMAProgram program,DVal value,GPRegister register) {
         super.codeGen(program);
         program.addInstruction(new MUL(value, register));
     }

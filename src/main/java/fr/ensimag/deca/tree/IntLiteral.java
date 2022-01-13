@@ -17,7 +17,7 @@ import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.WINT;
 import org.apache.commons.lang.Validate;
-
+import fr.ensimag.ima.pseudocode.DVal;
 import java.io.PrintStream;
 
 /**
@@ -30,6 +30,9 @@ public class IntLiteral extends AbstractExpr {
     public int getValue() {
         return value;
     }
+
+    @Override
+    public DVal getDVal(){return new ImmediateInteger(value);}
 
     private int value;
 
