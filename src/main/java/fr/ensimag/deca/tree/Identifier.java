@@ -25,10 +25,10 @@ public class Identifier extends AbstractIdentifier {
             throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
         }
     }
-
+/*TODO: passage de identifier à DVal
     @Override
     public DVal getDVal(){return new ImmediateInteger(this.getName().getName()); }
-
+*/
     @Override
     public Definition getDefinition() {
         return definition;
