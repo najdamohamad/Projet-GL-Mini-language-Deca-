@@ -63,6 +63,7 @@ block returns[ListDeclVar decls, ListInst insts]
             assert($list_inst.tree != null);
             $decls = $list_decl.tree;
             $insts = $list_inst.tree;
+            setLocation($list_decl.tree, $list_decl.start);
             setLocation($list_inst.tree, $list_inst.start);
         }
     ;
@@ -395,7 +396,7 @@ select_expr returns[AbstractExpr tree]
             // we matched "e1.i(args)"
             assert($args.tree != null);
         }
-        | /* epsilon */ {
+        | /* epsilon */  {
             // we matched "e.i"
         }
         )
@@ -410,6 +411,8 @@ primary_expr returns[AbstractExpr tree]
     | m=ident OPARENT args=list_expr CPARENT {
             assert($args.tree != null);
             assert($m.tree != null);
+            $tree = $ident.tree;
+            setLocation($tree, $ident.start);
         }
     | OPARENT expr CPARENT {
             assert($expr.tree != null);
