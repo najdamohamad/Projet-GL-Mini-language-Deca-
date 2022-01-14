@@ -6,8 +6,12 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.instructions.*;
 import java.io.PrintStream;
+
+import fr.ensimag.ima.pseudocode.instructions.ERROR;
+import fr.ensimag.ima.pseudocode.instructions.HALT;
+import fr.ensimag.ima.pseudocode.instructions.WNL;
+import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -42,12 +46,28 @@ public class Program extends AbstractProgram {
         LOG.debug("verify program: end");
     }
 
+    /**
+     * CodeGen for main programs.
+     * Follows the code listing p209,
+     * 1 Génération de code pour le langage Deca « sans objet ».
+     * @param program Abstract representation of the IMA assembly code.
+     */
     @Override
     public void codeGen(IMAProgram program) {
-        // A FAIRE: compléter ce squelette très rudimentaire de code
         program.addComment("Main program");
+        // TODO: test de dépassement de pile doit être fait à la fin du programme
+        // Utiliser les possibilités du paquet pseudocode, voir p210
         main.codeGen(program);
+
         program.addInstruction(new HALT());
+
+        // Dépassement de la pile
+        program.addLabel(new fr.ensimag.ima.pseudocode.Label("error_stack_overflow"));
+        program.addInstruction(new WSTR("Erreur: dépassement de la pile."));
+        program.addInstruction(new WNL());
+        program.addInstruction(new ERROR());
+        // TODO: ajouter SP pour les variables globales
+
     }
 
     @Override
