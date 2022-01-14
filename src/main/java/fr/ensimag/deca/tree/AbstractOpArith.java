@@ -5,6 +5,20 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.codegen.GestionRegistre;
+import fr.ensimag.arm.pseudocode.*;
+import fr.ensimag.arm.pseudocode.syscalls.Write;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.REM;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.DVal;
+import org.apache.commons.lang.Validate;
+import fr.ensimag.ima.pseudocode.Label;
 
 /**
  * Arithmetic binary operations (+, -, /, ...)
@@ -13,7 +27,6 @@ import fr.ensimag.deca.context.Type;
  * @date 01/01/2022
  */
 public abstract class AbstractOpArith extends AbstractBinaryExpr {
-
     public AbstractOpArith(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
     }
@@ -46,4 +59,44 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         setType(exprType);
         return exprType;
     }
+    public void codeOpe(IMAProgram program,DVal value,GPRegister register) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+
+    public void codeGenExpr(IMAProgram program){
+        super.codeGen(program);
+        int premierRegistreLibre = program.gestionRegistre.getPremierRegistreLibre();
+        if (premierRegistreLibre < 16){
+            GPRegister registre = Register.getR(premierRegistreLibre);
+            program.gestionRegistre.occupeRegistre(premierRegistreLibre);
+            this.getLeftOperand().codeGenExpr(program, registre);
+        }
+        else{
+            premierRegistreLibre = program.gestionRegistre.getRandomRegistre();
+            program.addInstruction(new TSTO(1));
+            program.addInstruction(new BOV(new Label("pile pleine")));
+            GPRegister registre = Register.getR(premierRegistreLibre);
+            program.addInstruction(new PUSH(registre));
+        }
+        if(this.getRightOperand().getDVal()!=null){
+            codeOpe(program, this.getRightOperand().getDVal(), Register.getR(premierRegistreLibre));
+        }
+        else {
+            int secondRegistreLibre = program.gestionRegistre.getPremierRegistreLibre();
+            if (secondRegistreLibre < 16) {
+                GPRegister registre = Register.getR(secondRegistreLibre);
+                program.gestionRegistre.occupeRegistre(secondRegistreLibre);
+                this.getRightOperand().codeGenExpr(program, registre);
+            } else {
+                secondRegistreLibre = program.gestionRegistre.getRandomRegistre(premierRegistreLibre);
+                program.addInstruction(new TSTO(1));
+                program.addInstruction(new BOV(new Label("pile pleine")));
+                GPRegister registre = Register.getR(secondRegistreLibre);
+                program.addInstruction(new PUSH(registre));
+            }
+            codeOpe(program, Register.getR(premierRegistreLibre), Register.getR(secondRegistreLibre));
+        }
+    }
+
 }

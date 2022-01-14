@@ -7,6 +7,8 @@ import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.DVal;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -39,6 +41,9 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
     }
 
     private Type type;
+
+    public DVal getDVal(){return null; }
+    public boolean isFloat(){return false; }
 
     @Override
     protected void checkDecoration() {
@@ -132,6 +137,14 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
         throw new UnsupportedOperationException("not yet implemented");
     }
 
+    public void codeGenDisplayX(IMAProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    //@Override
+    public void codeGenExpr(IMAProgram program, GPRegister registre) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
     @Override
     public void codeGen(ARMProgram program) {
         throw new UnsupportedOperationException("not yet implemented");
