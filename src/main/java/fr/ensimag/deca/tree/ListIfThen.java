@@ -13,14 +13,17 @@ import fr.ensimag.deca.tools.IndentPrintStream;
  * @author gl47
  * @date 01/01/2022
  */
-public class ListIfThen extends TreeList<AbstractInst> {
+public class ListIfThen extends TreeList<IfThen> {
 
     @Override
     public void decompile(IndentPrintStream s) {
         boolean first = true;
-        for (AbstractInst e : getList()) {
-            if (!first) {
-                s.print(",");
+        for (IfThen e : getList()) {
+            if (first) {
+                s.print("if(");
+            }
+            else{
+                s.print("elsif(");
             }
             e.decompile(s);
             first = false;

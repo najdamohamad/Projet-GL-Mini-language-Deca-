@@ -38,7 +38,10 @@ public class IfThen extends AbstractInst {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        throw new UnsupportedOperationException("not yet implemented");
+        condition.decompile(s);
+        s.print("){");
+        thenBranch.decompile(s);
+        s.print("}");
     }
 
     @Override
