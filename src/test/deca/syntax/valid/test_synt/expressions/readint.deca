@@ -1,0 +1,13 @@
+// Description:
+//    Test de fonction readint
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+    readint();
+}

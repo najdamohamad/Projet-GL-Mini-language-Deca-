@@ -1,0 +1,12 @@
+// Description:
+//    Test de fonction readint assigné a une variable
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas de fonction read ligne 11
+//
+// Historique:
+//    cree le 11/01/2022
+{
+    read();
+}
