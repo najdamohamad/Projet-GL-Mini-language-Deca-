@@ -18,42 +18,55 @@ import java.io.PrintStream;
  */
 public class IfThenElse extends AbstractInst {
 
-    private final ListIfThen IfThen;
+    private final AbstractExpr condition;
+    private final ListInst thenBranch;
     private ListInst elseBranch;
 
-
-    public IfThenElse(ListIfThen IfThen, ListInst Else){
-        this.IfThen = IfThen;
-        this.elseBranch = Else;
+    public IfThenElse(AbstractExpr condition, ListInst thenBranch, ListInst elseBranch) {
+        Validate.notNull(condition);
+        Validate.notNull(thenBranch);
+        Validate.notNull(elseBranch);
+        this.condition = condition;
+        this.thenBranch = thenBranch;
+        this.elseBranch = elseBranch;
     }
 
     @Override
     protected void verifyInst(DecacCompiler compiler, EnvironmentExp localEnv,
                               ClassDefinition currentClass, Type returnType)
             throws ContextualError {
-        IfThen.verifyListInst(compiler, localEnv, currentClass, returnType);
+        condition.verifyCondition(compiler, localEnv, currentClass);
+        thenBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
         elseBranch.verifyListInst(compiler, localEnv, currentClass, returnType);
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
-        IfThen.decompile(s);
+        s.print("if(");
+        condition.decompile(s);
+        s.println("){");
+        s.indent();
+        thenBranch.decompile(s);
+        s.unindent();
+
         s.println("} else {");
         s.indent();
         elseBranch.decompile(s);
         s.unindent();
-        s.print("}");
+        s.println("}");
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        IfThen.iter(f);
+        condition.iter(f);
+        thenBranch.iter(f);
         elseBranch.iter(f);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        IfThen.prettyPrint(s, prefix, false);
+        condition.prettyPrint(s, prefix, false);
+        thenBranch.prettyPrint(s, prefix, false);
         elseBranch.prettyPrint(s, prefix, true);
     }
 
