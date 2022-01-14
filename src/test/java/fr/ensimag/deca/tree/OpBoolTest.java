@@ -45,6 +45,7 @@ public class OpBoolTest {
         or.verifyExpr(compiler, env, null);
         assertTrue(or.checkAllDecorations());
         assertEquals(or.decompile(), "(true || true)");
+        assertTrue(or.getType().isBoolean());
     }
 
     @Test
@@ -55,6 +56,7 @@ public class OpBoolTest {
         and.verifyExpr(compiler, env, null);
         assertTrue(and.checkAllDecorations());
         assertEquals(and.decompile(), "(true && true)");
+        assertTrue(and.getType().isBoolean());
     }
 
     @Test

@@ -66,6 +66,7 @@ public class AssignTest {
         assign.verifyExpr(compiler, env, null);
         assertTrue(assign.checkAllDecorations());
         assertEquals("(x = 3)", assign.decompile());
+        assertEquals(assign.getType(), compiler.getType("int"));
     }
 
     @Test
@@ -102,5 +103,6 @@ public class AssignTest {
         assign.verifyExpr(compiler, env, null);
         assertTrue(assign.checkAllDecorations());
         assertEquals("(y = 5)", assign.decompile());
+        assertEquals(compiler.getType("float"), assign.getType());
     }
 }

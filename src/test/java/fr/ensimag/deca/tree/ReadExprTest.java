@@ -41,6 +41,7 @@ public class ReadExprTest {
         assertTrue(t.isFloat());
         assertTrue(readFloat.checkAllDecorations());
         assertEquals("readFloat()", readFloat.decompile());
+        assertTrue(readFloat.getType().isFloat());
     }
 
     @Test
@@ -50,5 +51,6 @@ public class ReadExprTest {
         assertTrue(t.isInt());
         assertTrue(readInt.checkAllDecorations());
         assertEquals("readInt()", readInt.decompile());
+        assertTrue(readInt.getType().isInt());
     }
 }
