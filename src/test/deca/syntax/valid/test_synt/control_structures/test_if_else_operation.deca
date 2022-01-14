@@ -1,0 +1,22 @@
+// Description:
+//    Test de controle structure if and else 
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    if(  condition == true  )
+    {
+        x = x + 1 ;
+
+    }
+    else
+    {
+        y = y + 1 ;
+    }
+    
+}

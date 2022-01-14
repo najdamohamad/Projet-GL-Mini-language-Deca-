@@ -1,0 +1,44 @@
+// Description:
+//    Test de controle structure if and else simple
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context: pas d'erreur , tout variables declarées ,condition bien respectée   
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    int x = 4 ; 
+    int y = 5 ; 
+    boolean condition,condition1, condition2 ; 
+    condition = true  ;
+    condition1 = false ; 
+    condition2 = true ; 
+    if(  condition == true  )
+    {
+        x = x + 1 ;
+
+    }
+    else
+    {
+        y = y + 1 ;
+    }
+    if(condition1 == false )
+    {
+        x = x + 2 ;
+    }
+    else
+    {
+        y = y + 2 ;
+    }
+    if(condition2 == true )
+    {
+        x = x + 3 ;
+    }
+    else
+    {
+        y = y + 3 ;
+    }
+}

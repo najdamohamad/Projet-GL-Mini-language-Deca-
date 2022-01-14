@@ -1,0 +1,17 @@
+// Description:
+//    Test de while avec une fausse condition
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur
+//     --> while(1) ne marche pas    
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    while(2+2+) 
+    {
+        print("salut") ;
+    }
+}
