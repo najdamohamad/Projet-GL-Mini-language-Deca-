@@ -32,9 +32,8 @@ public class PrintlnTest {
         println.decompile(indentPrintStream);
 
         assertEquals("println(\"hello\",\"world\");" ,stream.toString());
+
     }
-
-
 
     @Test
     public void testPrintlnx()

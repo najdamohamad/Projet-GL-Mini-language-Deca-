@@ -31,9 +31,9 @@ public class LiteralTest {
         when(compiler.getType("void"))
                 .thenReturn(new VoidType(symbolTable.create("void")));
         when(compiler.getType("null"))
-                .thenReturn(new VoidType(symbolTable.create("null")));
+                .thenReturn(new NullType(symbolTable.create("null")));
         when(compiler.getTypeDefinition("null"))
-                .thenReturn(new TypeDefinition(new VoidType(symbolTable.create("null")), null));
+                .thenReturn(new TypeDefinition(new NullType(symbolTable.create("null")), null));
         when(compiler.getType("int"))
                 .thenReturn(new IntType(symbolTable.create("int")));
         when(compiler.getType("float"))
@@ -49,6 +49,7 @@ public class LiteralTest {
         IntLiteral exp = new IntLiteral(1);
         exp.verifyExpr(compiler, env, null);
         assertEquals(exp.decompile(), "1");
+        assertTrue(exp.getType().isInt());
     }
 
     @Test
@@ -56,6 +57,7 @@ public class LiteralTest {
         FloatLiteral exp = new FloatLiteral(1);
         exp.verifyExpr(compiler, env, null);
         assertEquals(exp.decompile(), "0x1.0p0");
+        assertTrue(exp.getType().isFloat());
     }
 
     @Test
@@ -63,6 +65,7 @@ public class LiteralTest {
         StringLiteral exp = new StringLiteral("foo");
         exp.verifyExpr(compiler, env, null);
         assertEquals(exp.decompile(), "\"foo\"");
+        assertTrue(exp.getType().isString());
     }
 
     @Test
@@ -70,6 +73,7 @@ public class LiteralTest {
         BooleanLiteral trueBool = new BooleanLiteral(true);
         trueBool.verifyExpr(compiler, env, null);
         assertEquals(trueBool.decompile(), "true");
+        assertTrue(trueBool.getType().isBoolean());
     }
 
     @Test
@@ -77,6 +81,7 @@ public class LiteralTest {
         BooleanLiteral trueBool = new BooleanLiteral(false);
         trueBool.verifyExpr(compiler, env, null);
         assertEquals(trueBool.decompile(), "false");
+        assertTrue(trueBool.getType().isBoolean());
     }
 
     @Test
@@ -84,5 +89,6 @@ public class LiteralTest {
         Null n = new Null();
         n.verifyExpr(compiler, env, null);
         assertEquals(n.decompile(), "null");
+        assertTrue(n.getType().isNull());
     }
 }

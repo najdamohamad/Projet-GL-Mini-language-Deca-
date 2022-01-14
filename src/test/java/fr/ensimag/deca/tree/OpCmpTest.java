@@ -45,6 +45,7 @@ public class OpCmpTest {
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
         assertEquals("(2 > 4)", e.decompile());
+        assertTrue(e.getType().isBoolean());
     }
 
     @Test
@@ -55,6 +56,7 @@ public class OpCmpTest {
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
         assertEquals("(2 >= 4)", e.decompile());
+        assertTrue(e.getType().isBoolean());
     }
 
     @Test
@@ -65,6 +67,7 @@ public class OpCmpTest {
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
         assertEquals("(2 < 4)", e.decompile());
+        assertTrue(e.getType().isBoolean());
     }
 
     @Test
@@ -75,6 +78,7 @@ public class OpCmpTest {
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
         assertEquals("(2 <= 4)", e.decompile());
+        assertTrue(e.getType().isBoolean());
     }
 
     @Test
@@ -85,6 +89,7 @@ public class OpCmpTest {
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
         assertEquals("(2 == 4)", e.decompile());
+        assertTrue(e.getType().isBoolean());
     }
 
     @Test
@@ -95,6 +100,7 @@ public class OpCmpTest {
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
         assertEquals("(true == false)", e.decompile());
+        assertTrue(e.getType().isBoolean());
     }
 
     @Test
@@ -105,6 +111,7 @@ public class OpCmpTest {
         e.verifyExpr(compiler, env, null);
         assertTrue(e.checkAllDecorations());
         assertEquals("(2 != 4)", e.decompile());
+        assertTrue(e.getType().isBoolean());
     }
 
     @Test
@@ -145,6 +152,7 @@ public class OpCmpTest {
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
         assertEquals("(0x1.0p1 != 0x1.0p2)", exp.decompile());
+        assertTrue(exp.getType().isBoolean());
     }
 
     @Test
@@ -157,6 +165,7 @@ public class OpCmpTest {
         assertFalse(exp.getLeftOperand() instanceof ConvFloat);
         assertTrue(exp.getRightOperand() instanceof ConvFloat);
         assertEquals("(0x1.0p1 != /* conv float */4)", exp.decompile());
+        assertTrue(exp.getType().isBoolean());
     }
 
     @Test
@@ -169,6 +178,7 @@ public class OpCmpTest {
         assertTrue(exp.getLeftOperand() instanceof ConvFloat);
         assertFalse(exp.getRightOperand() instanceof ConvFloat);
         assertEquals("(/* conv float */2 != 0x1.0p2)", exp.decompile());
+        assertTrue(exp.getType().isBoolean());
     }
 
     @Test
@@ -185,5 +195,6 @@ public class OpCmpTest {
         assertTrue(exp.checkAllDecorations());
         assertTrue(exp.getType().isBoolean());
         assertEquals("((2 != 4) != (6 != 8))", exp.decompile());
+        assertTrue(exp.getType().isBoolean());
     }
 }

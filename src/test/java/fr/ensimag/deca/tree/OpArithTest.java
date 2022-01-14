@@ -44,6 +44,7 @@ public class OpArithTest {
         assertTrue(plus.checkAllDecorations());
         assertEquals(plus.getType(), compiler.getType("int"));
         assertEquals(plus.decompile(), "(2 + 4)");
+        assertTrue(plus.getType().isInt());
     }
 
     @Test
@@ -56,6 +57,7 @@ public class OpArithTest {
         assertEquals(plus.getType(), compiler.getType("float"));
         assertTrue(plus.getLeftOperand() instanceof ConvFloat);
         assertFalse(plus.getRightOperand() instanceof ConvFloat);
+        assertTrue(plus.getType().isFloat());
     }
 
     @Test
@@ -68,6 +70,7 @@ public class OpArithTest {
         assertEquals(plus.getType(), compiler.getType("float"));
         assertFalse(plus.getLeftOperand() instanceof ConvFloat);
         assertTrue(plus.getRightOperand() instanceof ConvFloat);
+        assertTrue(plus.getType().isFloat());
     }
 
     @Test
@@ -77,6 +80,7 @@ public class OpArithTest {
         Plus plus = new Plus(a, b);
         plus.verifyExpr(compiler, env, null);
         assertTrue(plus.checkAllDecorations());
+        assertTrue(plus.getType().isFloat());
     }
 
     @Test
@@ -102,6 +106,7 @@ public class OpArithTest {
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
         assertEquals(exp.decompile(), "(2 - 2)");
+        assertTrue(exp.getType().isInt());
     }
 
     @Test
@@ -112,6 +117,7 @@ public class OpArithTest {
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
         assertEquals(exp.decompile(), "(2 * 2)");
+        assertTrue(exp.getType().isInt());
     }
 
     @Test
@@ -122,6 +128,7 @@ public class OpArithTest {
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
         assertEquals(exp.decompile(), "(2 / 2)");
+        assertTrue(exp.getType().isInt());
     }
 
     @Test
@@ -132,5 +139,6 @@ public class OpArithTest {
         exp.verifyExpr(compiler, env, null);
         assertTrue(exp.checkAllDecorations());
         assertEquals(exp.decompile(), "(2 % 2)");
+        assertTrue(exp.getType().isInt());
     }
 }

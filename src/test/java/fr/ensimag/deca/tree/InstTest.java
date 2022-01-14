@@ -40,6 +40,8 @@ public class InstTest {
                 .thenReturn(new StringType(symbolTable.create("string")));
         when(compiler.getType("void"))
                 .thenReturn(new VoidType(symbolTable.create("void")));
+        when(compiler.getType("null"))
+                .thenReturn(new NullType(symbolTable.create("null")));
         when(compiler.getType("int"))
                 .thenReturn(new IntType(symbolTable.create("int")));
         when(compiler.getTypeDefinition("boolean"))
@@ -151,6 +153,7 @@ public class InstTest {
         ret.verifyInst(compiler, env, null, compiler.getType("int"));
         assertTrue(ret.checkAllDecorations());
         assertEquals("return 3;", ret.decompile());
+        assertTrue(ret.getExpr().getType().isInt());
     }
 
     @Test
