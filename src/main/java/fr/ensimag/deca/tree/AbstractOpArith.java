@@ -59,7 +59,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         setType(exprType);
         return exprType;
     }
-    public void codeOpe(IMAProgram program,DVal value,GPRegister register) {
+    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
@@ -80,7 +80,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             program.addInstruction(new PUSH(registre));
         }
         if(this.getRightOperand().getDVal()!=null){
-            codeOpe(program, this.getRightOperand().getDVal(), Register.getR(premierRegistreLibre));
+            mnemo(program, this.getRightOperand().getDVal(), Register.getR(premierRegistreLibre));
         }
         else {
             int secondRegistreLibre = program.gestionRegistre.getPremierRegistreLibre();
@@ -95,7 +95,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 GPRegister registre = Register.getR(secondRegistreLibre);
                 program.addInstruction(new PUSH(registre));
             }
-            codeOpe(program, Register.getR(premierRegistreLibre), Register.getR(secondRegistreLibre));
+            mnemo(program, Register.getR(premierRegistreLibre), Register.getR(secondRegistreLibre));
         }
     }
 

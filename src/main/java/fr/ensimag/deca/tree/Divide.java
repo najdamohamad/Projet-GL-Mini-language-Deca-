@@ -21,7 +21,7 @@ public class Divide extends AbstractOpArith {
     }
 
     @Override
-    public void codeOpe(IMAProgram program,DVal value,GPRegister register) {
+    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
         super.codeGen(program);
         if (this.getLeftOperand().isFloat()){
             //division floattants
