@@ -8,7 +8,5 @@
 //    cree le 01/01/2022
 
 {
-    float a = 2.0 ;
-    int b = 1 ;
-    b = a ;
+    boolean x = 1 ; 
 }

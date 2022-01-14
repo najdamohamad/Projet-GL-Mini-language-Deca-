@@ -1,0 +1,15 @@
+// Description:
+//    Test de fonction print pour une expression complete
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context : pas d'erreur 
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    2 + 2 -1 + 5 <=  199 ; 
+    //il ya pas d'importance de la valeur des nombres dans ce cas la pusique c'est un test de context  
+}

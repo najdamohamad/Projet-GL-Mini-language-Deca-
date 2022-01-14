@@ -1,0 +1,14 @@
+// Description:
+//    Test de verification of unary operator - ;
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context : pas d'erreur 
+//
+// Historique:
+//    cree le 13/01/2022
+{
+    int x = 2 ; 
+    x = -x ; 
+}
