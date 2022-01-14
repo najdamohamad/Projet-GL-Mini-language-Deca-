@@ -218,15 +218,18 @@ def suite_test_exec(dossier, sous_language, type_test):
 # a modifier si on veut ajouter de nouveau test ajouter un nouvelle ligne suite_test()
 
 # Tests hello world
-suite_test_lex('src/test/deca/syntax/invalid/test_lex/hello_world', 'helloworld', 'invalid',)
-suite_test_lex('src/test/deca/syntax/valid/test_lex/hello_world', 'helloworld', 'valid',)
-suite_test_synt('src/test/deca/syntax/invalid/test_synt/hello_world', 'helloworld', 'invalid')
-suite_test_synt('src/test/deca/syntax/valid/test_synt/hello_world', 'helloworld', 'valid',)
-suite_test_context('src/test/deca/context/invalid/hello_world', 'helloworld', 'invalid')
-suite_test_context('src/test/deca/context/valid/hello_world', 'helloworld', 'valid')
-suite_test_exec('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
+# suite_test_lex('src/test/deca/syntax/invalid/test_lex/hello_world', 'helloworld', 'invalid',)
+# suite_test_lex('src/test/deca/syntax/valid/test_lex/hello_world', 'helloworld', 'valid',)
+# suite_test_synt('src/test/deca/syntax/invalid/test_synt/hello_world', 'helloworld', 'invalid')
+# suite_test_synt('src/test/deca/syntax/valid/test_synt/hello_world', 'helloworld', 'valid',)
+# suite_test_context('src/test/deca/context/invalid/hello_world', 'helloworld', 'invalid')
+# suite_test_context('src/test/deca/context/valid/hello_world', 'helloworld', 'valid')
+# suite_test_exec('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
 
 # Tests expression
+suite_test_lex('src/test/deca/syntax/invalid/test_lex/expressions', 'expressions', 'invalid',)
+suite_test_synt('src/test/deca/syntax/invalid/test_synt/expressions', 'expressions', 'invalid')
+suite_test_synt('src/test/deca/syntax/valid/test_synt/expressions', 'expressions', 'valid',)
 
 print()
 print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {nb_tests_total}, Echec: {nb_echecs_total}')

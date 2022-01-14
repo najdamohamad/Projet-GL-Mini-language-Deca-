@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -68,6 +69,15 @@ public class IfThenElse extends AbstractInst {
         condition.prettyPrint(s, prefix, false);
         thenBranch.prettyPrint(s, prefix, false);
         elseBranch.prettyPrint(s, prefix, true);
+    }
+
+    /**
+     * Code generation for an if-then-else branch.
+     * Implements the algorithm p225, 8.1. Conditionelles
+     */
+    @Override
+    public void codeGen(IMAProgram program) {
+        super.codeGen(program);
     }
 
     public ListInst getElseBranch() {
