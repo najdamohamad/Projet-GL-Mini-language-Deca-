@@ -53,7 +53,7 @@ public class IfThenElse extends AbstractInst {
         s.indent();
         elseBranch.decompile(s);
         s.unindent();
-        s.println("}");
+        s.print("}");
     }
 
     @Override
