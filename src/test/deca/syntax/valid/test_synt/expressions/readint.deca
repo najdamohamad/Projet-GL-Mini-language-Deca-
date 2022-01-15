@@ -9,5 +9,5 @@
 //    cree le 11/01/2022
 
 {
-    readint();
+    readInt();
 }
