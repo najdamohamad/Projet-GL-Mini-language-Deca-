@@ -1,3 +1,16 @@
+// Description:
+//    Test de print avec des variables declarées.
+//
+// Resultats:
+//    1
+//    2
+//    3
+//    4
+//    5
+//    1000000
+//
+// Historique:
+//    cree le 05/01/2022
 {
     int one = 1;
     int two = 2;

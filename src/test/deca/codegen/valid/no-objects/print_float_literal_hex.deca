@@ -1,3 +1,11 @@
+// Description:
+//    Test de println en mode hexa.
+//
+// Resultats:
+//    0x1p-1
+//
+// Historique:
+//    cree le 05/01/2022
 {
     float half = 0.5;
     printlnx(half);

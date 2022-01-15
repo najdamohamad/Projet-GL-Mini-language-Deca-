@@ -1,3 +1,12 @@
+// Description:
+//    Test de print d'un litéral flottant.
+//
+// Resultats:
+//    42
+//
+// Historique:
+//    cree le 05/01/2022
+
 {
     float answer = 42.0;
     println(answer);

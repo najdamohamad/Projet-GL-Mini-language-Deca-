@@ -1,3 +1,12 @@
+// Description:
+//    Test des différentes branches de if/else.
+//
+// Resultats:
+//    Tout print ok.
+//
+// Historique:
+//    cree le 15/01/2022
+
 {
     if (true && true) {
         println("Ok");

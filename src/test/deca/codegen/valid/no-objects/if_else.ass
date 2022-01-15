@@ -1,0 +1,204 @@
+; Main program
+; Beginning of main function:
+; begin/if_then_else
+; (true && true)
+	LOAD #1, R0
+	CMP #0, R0
+	BEQ cf_and_end_863831416
+; No short circuit has been made at this point and LHS = 1.
+	LOAD #1, R0
+	CMP #1, R0
+	BEQ op_bool_true_863831416
+cf_and_end_863831416:
+	LOAD #0, R0
+	BRA op_bool_end863831416
+op_bool_true_863831416:
+	LOAD #1, R0
+op_bool_end863831416:
+	CMP #0, R0
+	BEQ branch_else_2091156596
+	WSTR "Ok"
+	WNL
+	BRA branch_end_2091156596
+branch_else_2091156596:
+	WSTR "Err"
+	WNL
+branch_end_2091156596:
+; end/if_then_else
+; begin/if_then_else
+; (false && true)
+	LOAD #0, R0
+	CMP #0, R0
+	BEQ cf_and_end_24433162
+; No short circuit has been made at this point and LHS = 1.
+	LOAD #1, R0
+	CMP #1, R0
+	BEQ op_bool_true_24433162
+cf_and_end_24433162:
+	LOAD #0, R0
+	BRA op_bool_end24433162
+op_bool_true_24433162:
+	LOAD #1, R0
+op_bool_end24433162:
+	CMP #0, R0
+	BEQ branch_else_2032251042
+	WSTR "Err"
+	WNL
+	BRA branch_end_2032251042
+branch_else_2032251042:
+	WSTR "Ok"
+	WNL
+branch_end_2032251042:
+; end/if_then_else
+; begin/if_then_else
+; (true && false)
+	LOAD #1, R0
+	CMP #0, R0
+	BEQ cf_and_end_519821334
+; No short circuit has been made at this point and LHS = 1.
+	LOAD #0, R0
+	CMP #1, R0
+	BEQ op_bool_true_519821334
+cf_and_end_519821334:
+	LOAD #0, R0
+	BRA op_bool_end519821334
+op_bool_true_519821334:
+	LOAD #1, R0
+op_bool_end519821334:
+	CMP #0, R0
+	BEQ branch_else_1725097945
+	WSTR "Err"
+	WNL
+	BRA branch_end_1725097945
+branch_else_1725097945:
+	WSTR "Ok"
+	WNL
+branch_end_1725097945:
+; end/if_then_else
+; begin/if_then_else
+; (false && false)
+	LOAD #0, R0
+	CMP #0, R0
+	BEQ cf_and_end_1307096070
+; No short circuit has been made at this point and LHS = 1.
+	LOAD #0, R0
+	CMP #1, R0
+	BEQ op_bool_true_1307096070
+cf_and_end_1307096070:
+	LOAD #0, R0
+	BRA op_bool_end1307096070
+op_bool_true_1307096070:
+	LOAD #1, R0
+op_bool_end1307096070:
+	CMP #0, R0
+	BEQ branch_else_1781256139
+	WSTR "Err"
+	WNL
+	BRA branch_end_1781256139
+branch_else_1781256139:
+	WSTR "Ok"
+	WNL
+branch_end_1781256139:
+; end/if_then_else
+; begin/if_then_else
+; (true || true)
+	LOAD #1, R0
+	CMP #1, R0
+	BEQ op_bool_true_2081303229
+; No short circuit has been made at this point and LHS = 0.
+	LOAD #1, R0
+	CMP #0, R0
+	BNE op_bool_true_2081303229
+cf_or_end_2081303229:
+	LOAD #0, R0
+	BRA op_bool_end2081303229
+op_bool_true_2081303229:
+	LOAD #1, R0
+op_bool_end2081303229:
+	CMP #0, R0
+	BEQ branch_else_1014328909
+	WSTR "Ok"
+	WNL
+	BRA branch_end_1014328909
+branch_else_1014328909:
+	WSTR "Err"
+	WNL
+branch_end_1014328909:
+; end/if_then_else
+; begin/if_then_else
+; (false || true)
+	LOAD #0, R0
+	CMP #1, R0
+	BEQ op_bool_true_1463757745
+; No short circuit has been made at this point and LHS = 0.
+	LOAD #1, R0
+	CMP #0, R0
+	BNE op_bool_true_1463757745
+cf_or_end_1463757745:
+	LOAD #0, R0
+	BRA op_bool_end1463757745
+op_bool_true_1463757745:
+	LOAD #1, R0
+op_bool_end1463757745:
+	CMP #0, R0
+	BEQ branch_else_1076835071
+	WSTR "Ok"
+	WNL
+	BRA branch_end_1076835071
+branch_else_1076835071:
+	WSTR "Err"
+	WNL
+branch_end_1076835071:
+; end/if_then_else
+; begin/if_then_else
+; (true || false)
+	LOAD #1, R0
+	CMP #1, R0
+	BEQ op_bool_true_1837760739
+; No short circuit has been made at this point and LHS = 0.
+	LOAD #0, R0
+	CMP #0, R0
+	BNE op_bool_true_1837760739
+cf_or_end_1837760739:
+	LOAD #0, R0
+	BRA op_bool_end1837760739
+op_bool_true_1837760739:
+	LOAD #1, R0
+op_bool_end1837760739:
+	CMP #0, R0
+	BEQ branch_else_1525262377
+	WSTR "Ok"
+	WNL
+	BRA branch_end_1525262377
+branch_else_1525262377:
+	WSTR "Err"
+	WNL
+branch_end_1525262377:
+; end/if_then_else
+; begin/if_then_else
+; (false || false)
+	LOAD #0, R0
+	CMP #1, R0
+	BEQ op_bool_true_2059904228
+; No short circuit has been made at this point and LHS = 0.
+	LOAD #0, R0
+	CMP #0, R0
+	BNE op_bool_true_2059904228
+cf_or_end_2059904228:
+	LOAD #0, R0
+	BRA op_bool_end2059904228
+op_bool_true_2059904228:
+	LOAD #1, R0
+op_bool_end2059904228:
+	CMP #0, R0
+	BEQ branch_else_1418428263
+	WSTR "Err"
+	WNL
+	BRA branch_end_1418428263
+branch_else_1418428263:
+	WSTR "Ok"
+	WNL
+branch_end_1418428263:
+; end/if_then_else
+; End of main function.
+	HALT
