@@ -1,0 +1,5 @@
+; Main program
+; Beginning of main function:
+	LOAD #1, R0
+; End of main function.
+	HALT

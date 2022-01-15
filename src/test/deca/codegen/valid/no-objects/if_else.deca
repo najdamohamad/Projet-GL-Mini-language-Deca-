@@ -1,3 +1,4 @@
+//! IMA_OPTIONS: -p 1
 // Description:
 //    Test des différentes branches de if/else.
 //
