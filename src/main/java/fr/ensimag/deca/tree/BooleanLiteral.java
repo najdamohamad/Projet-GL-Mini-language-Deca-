@@ -6,6 +6,9 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 import java.io.PrintStream;
 
@@ -55,4 +58,12 @@ public class BooleanLiteral extends AbstractExpr {
         return "BooleanLiteral (" + value + ")";
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+        int immediateValue = value ? 1 : 0;
+        program.addInstruction(new LOAD(
+                immediateValue,
+                Register.getR(program.getFreeRegister())
+        ));
+    }
 }

@@ -1,0 +1,12 @@
+{
+    if (2 == 2 && (var_bool || obj.isCond())) {
+        println("yes");
+    }
+}
+
+{
+    boolean __deac_cond_0 = 2 == 2;
+    if (__deac_cond_0) {
+        println("yes");
+    }
+}
