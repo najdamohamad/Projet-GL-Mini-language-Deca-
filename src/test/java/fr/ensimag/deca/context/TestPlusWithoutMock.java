@@ -5,19 +5,21 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tree.AbstractExpr;
 import fr.ensimag.deca.tree.Plus;
 import fr.ensimag.deca.tree.TreeFunction;
-import java.io.PrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.PrintStream;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test for the Plus node in a manual way. The same test would be much easier to
  * write using a mock-up framework like Mockito.
  *
- * @see TestPlusPlain to see how the Mockito library can help writing this kind
- * of tests.
- *
  * @author Ensimag
  * @date 01/01/2022
+ * @see TestPlusPlain to see how the Mockito library can help writing this kind
+ * of tests.
  */
 public class TestPlusWithoutMock {
     static final Type INT = new IntType(null);
@@ -25,7 +27,7 @@ public class TestPlusWithoutMock {
 
     /**
      * Stub usable as a replacement for a real class deriving from AbstractExpr.
-     *
+     * <p>
      * This would typically be much simpler using Mockito.
      */
     static class DummyIntExpression extends AbstractExpr {
@@ -33,7 +35,7 @@ public class TestPlusWithoutMock {
 
         @Override
         public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
-                ClassDefinition currentClass) throws ContextualError {
+                               ClassDefinition currentClass) throws ContextualError {
             hasBeenVerified = true;
             return INT;
         }
@@ -58,6 +60,11 @@ public class TestPlusWithoutMock {
          */
         public void checkProperUse() {
             assertTrue(hasBeenVerified, "verifyExpr has not been called");
+        }
+
+        @Override
+        public void codeGen(IMAProgram program) {
+            throw new UnsupportedOperationException("Should not be called.");
         }
     }
 
