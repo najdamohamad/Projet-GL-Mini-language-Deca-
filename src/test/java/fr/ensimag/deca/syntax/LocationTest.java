@@ -29,7 +29,9 @@ public class LocationTest {
         lexer.setDecacCompiler(compiler);
         parser.setDecacCompiler(compiler);
         AbstractProgram program = parser.parseProgramAndManageErrors(System.err);
-        program.checkAllLocations();
+        if (!program.checkAllLocations()) {
+            throw new DecacInternalError("Location not set in file : " + file);
+        }
     }
 
     public static void main(String[] args) throws DecacInternalError, IOException {
