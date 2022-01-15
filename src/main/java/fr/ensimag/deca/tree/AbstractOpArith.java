@@ -6,10 +6,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
@@ -91,8 +88,12 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
                 break;
             case "/":
                 if (getLeftOperand().isFloat()) {
+                    program.addInstruction(new CMP(new ImmediateFloat(0), Register.R0));
+                    program.addInstruction(new BEQ(new Label("DivisionByZeroError")));
                     program.addInstruction(new DIV(Register.R1, Register.R0));
                 } else {
+                    program.addInstruction(new CMP(new ImmediateInteger(0), Register.R0));
+                    program.addInstruction(new BEQ(new Label("DivisionByZeroError")));
                     program.addInstruction(new QUO(Register.R1, Register.R0));
                 }
                 break;
