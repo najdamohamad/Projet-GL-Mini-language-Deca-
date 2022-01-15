@@ -1,14 +1,12 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.arm.pseudocode.ARMProgram;
-import fr.ensimag.deca.codegen.CodeGen;
-import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  * Instruction
@@ -36,15 +34,5 @@ public abstract class AbstractInst extends Tree implements CodeGen {
      */
     protected void decompileInst(IndentPrintStream s) {
         decompile(s);
-    }
-
-    @Override
-    public void codeGen(IMAProgram program) {
-        throw new UnsupportedOperationException("not yet implemented");
-    }
-
-    @Override
-    public void codeGen(ARMProgram program) {
-        throw new UnsupportedOperationException("not yet implemented");
     }
 }
