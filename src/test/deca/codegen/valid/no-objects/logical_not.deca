@@ -1,0 +1,14 @@
+{
+    boolean ok = false;
+    boolean err = true;
+
+    ok = !ok;
+    err = !err;
+
+    if (ok && !err) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+}
+
