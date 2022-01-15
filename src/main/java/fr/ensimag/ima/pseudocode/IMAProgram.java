@@ -82,18 +82,29 @@ public class IMAProgram implements OutputProgram {
         addFirst(new Line(null, i, comment));
     }
 
+    private int maxRegister = 15;
+
+    public void setMaxRegister(int maxRegister) {
+        this.maxRegister = maxRegister;
+    }
+
+    public int getMaxRegister() {
+        return maxRegister;
+    }
+
     private int freeRegister = 2;
 
-    public int getFreeRegister() {
-        return freeRegister;
+    public GPRegister getFreeRegister() {
+        return Register.getR(freeRegister);
     }
 
-    public int bumpFreeRegister() {
-        return freeRegister++;
+    public GPRegister bumpFreeRegister() {
+        freeRegister++;
+        return getFreeRegister();
     }
 
-    public int freeRegister() {
-        return freeRegister--;
+    public void freeRegister() {
+        freeRegister--;
     }
 
     private int varCount = 0;
@@ -102,5 +113,4 @@ public class IMAProgram implements OutputProgram {
         addInstruction(new ADDSP(new ImmediateInteger(1)));
         return ++varCount;
     }
-
 }

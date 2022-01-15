@@ -23,11 +23,13 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         Label returnTrue = new Label("cmp_true_" + hashCode());
         Label endLabel = new Label("cmp_end_" + hashCode());
 
+        // Put the result of evaluating the LHS expression into R0, then
+        // save it into R1 to make room for the RHS expression's value.
         getLeftOperand().codeGen(program);
         // TODO: check if using R1 is appropriate.
         program.addInstruction(new LOAD(Register.R0, Register.R1));
         getRightOperand().codeGen(program);
-
+        // Compare the results of evaluating the LHS and RHS expressions.
         program.addInstruction(new CMP(Register.R0, Register.R1));
 
         switch (getOperatorName()) {
@@ -58,6 +60,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
                 new ImmediateInteger(0),
                 Register.R0
         ));
+        program.addInstruction(new BRA(endLabel));
 
         program.addLabel(returnTrue);
         // Return true.

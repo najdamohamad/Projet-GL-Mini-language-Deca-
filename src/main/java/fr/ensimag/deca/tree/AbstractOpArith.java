@@ -49,6 +49,10 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         return exprType;
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+    }
+
     public void codeOpe(IMAProgram program, DVal value, GPRegister register) {
     }
 }
