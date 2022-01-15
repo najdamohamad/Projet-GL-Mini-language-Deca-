@@ -1,6 +1,7 @@
 package fr.ensimag.ima.pseudocode;
 
 import fr.ensimag.deca.codegen.OutputProgram;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -93,6 +94,13 @@ public class IMAProgram implements OutputProgram {
 
     public int freeRegister() {
         return freeRegister--;
+    }
+
+    private int varCount = 0;
+
+    public int getVarCount() {
+        addInstruction(new ADDSP(new ImmediateInteger(1)));
+        return ++varCount;
     }
 
 }
