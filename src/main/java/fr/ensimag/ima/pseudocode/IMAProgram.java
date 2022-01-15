@@ -1,6 +1,7 @@
 package fr.ensimag.ima.pseudocode;
 
 import fr.ensimag.deca.codegen.OutputProgram;
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 
 import java.io.ByteArrayOutputStream;
@@ -88,23 +89,21 @@ public class IMAProgram implements OutputProgram {
         this.maxRegister = maxRegister;
     }
 
-    public int getMaxRegister() {
-        return maxRegister;
-    }
+    private int freeRegister = 1;
 
-    private int freeRegister = 2;
-
-    public GPRegister getFreeRegister() {
-        return Register.getR(freeRegister);
-    }
-
-    public GPRegister bumpFreeRegister() {
+    public GPRegister getNextRegister() throws DecacInternalError {
         freeRegister++;
-        return getFreeRegister();
+        if (freeRegister == maxRegister) {
+            throw new DecacInternalError("reached max register");
+        } else {
+            return Register.getR(freeRegister);
+        }
     }
 
     public void freeRegister() {
-        freeRegister--;
+        if (freeRegister > 2) {
+            freeRegister--;
+        }
     }
 
     private int varCount = 0;
