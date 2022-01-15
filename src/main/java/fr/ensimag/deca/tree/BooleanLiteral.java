@@ -63,7 +63,7 @@ public class BooleanLiteral extends AbstractExpr {
         int immediateValue = value ? 1 : 0;
         program.addInstruction(new LOAD(
                 immediateValue,
-                Register.getR(program.getFreeRegister())
+                Register.R0
         ));
     }
 }

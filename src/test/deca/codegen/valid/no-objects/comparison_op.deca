@@ -1,0 +1,31 @@
+{
+    if (0 < 10) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (10.0 >= 5.0) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (1.5 == 1.5) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (1 != 2) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (0.0 <= 100000.0) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+}

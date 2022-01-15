@@ -1,0 +1,50 @@
+{
+    if (true && true) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (false && true) {
+        println("Err");
+    } else {
+        println("Ok");
+    }
+
+    if (true && false) {
+        println("Err");
+    } else {
+        println("Ok");
+    }
+
+    if (false && false) {
+        println("Err");
+    } else {
+        println("Ok");
+    }
+
+    if (true || true) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (false || true) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (true || false) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (false || false) {
+        println("Err");
+    } else {
+        println("Ok");
+    }
+}
+

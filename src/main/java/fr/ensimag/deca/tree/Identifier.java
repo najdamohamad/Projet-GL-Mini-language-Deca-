@@ -188,7 +188,7 @@ public class Identifier extends AbstractIdentifier {
         // Load the value of the identifier from the stack.
         program.addInstruction(new LOAD(
                 getVariableDefinition().getOperand(),
-                Register.getR(program.getFreeRegister())
+                Register.R0
         ));
     }
 

@@ -1,0 +1,15 @@
+{
+    int one = 1;
+    int two = 2;
+    int three = 3;
+    int four = 4;
+    int five = 5;
+    int million = 1000000;
+
+    println(one);
+    println(two);
+    println(three);
+    println(four);
+    println(five);
+    println(million);
+}

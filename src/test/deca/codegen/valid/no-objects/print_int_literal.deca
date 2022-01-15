@@ -1,0 +1,4 @@
+{
+    int answer = 42;
+    println(answer);
+}

@@ -225,6 +225,7 @@ suite_test_synt('src/test/deca/syntax/valid/test_synt/hello_world', 'helloworld'
 suite_test_context('src/test/deca/context/invalid/hello_world', 'helloworld', 'invalid')
 suite_test_context('src/test/deca/context/valid/hello_world', 'helloworld', 'valid')
 suite_test_exec('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
+suite_test_exec('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
 
 # Tests expression
 

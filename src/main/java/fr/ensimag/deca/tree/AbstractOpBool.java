@@ -59,16 +59,16 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
         // Return false.
         program.addInstruction(new LOAD(
                 new ImmediateInteger(0),
-                Register.getR(program.getFreeRegister()))
-        );
+                Register.R0
+        ));
         program.addInstruction(new BRA(endLabel));
 
         program.addLabel(returnTrue);
         // Return true.
         program.addInstruction(new LOAD(
                 new ImmediateInteger(1),
-                Register.getR(program.getFreeRegister()))
-        );
+                Register.R0
+        ));
 
         program.addLabel(endLabel);
     }

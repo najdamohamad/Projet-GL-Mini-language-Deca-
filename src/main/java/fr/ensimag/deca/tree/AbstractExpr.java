@@ -143,7 +143,6 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
 
     @Override
     public void codeGenDisplay(IMAProgram program, boolean hexadecimal) {
-        System.out.println("codeGenDisplay/type = " + getType() + "@" + getLocation() + " : " + decompile());
         if (getType() instanceof StringType) {
             // TODO: this will require writing the chars one be one
             //       from the stack using WUT8 (write the char whoose code point is V[R1]).
