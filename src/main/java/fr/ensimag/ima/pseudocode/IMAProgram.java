@@ -112,4 +112,15 @@ public class IMAProgram implements OutputProgram {
         addInstruction(new ADDSP(new ImmediateInteger(1)));
         return ++varCount;
     }
+
+    private int stackUsage = 0;
+
+    public int bumpStackUsage() {
+        // TODO: figure out a way to ensure this is called at every PUSH.
+        return ++stackUsage;
+    }
+
+    public int getStackUsage() {
+        return stackUsage;
+    }
 }

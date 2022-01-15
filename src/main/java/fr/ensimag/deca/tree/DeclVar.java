@@ -4,10 +4,8 @@ import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.DAddr;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
 
@@ -57,7 +55,8 @@ public class DeclVar extends AbstractDeclVar {
     @Override
     public void codeGen(IMAProgram program) {
         // Put the address of the variable in VariableDefinition.operand of varName.
-        DAddr varAddr = new RegisterOffset(program.getVarCount(), Register.GB);
+        DAddr varAddr = new RegisterOffset(program.bumpStackUsage(), Register.GB);
+        program.addInstruction(new ADDSP(new ImmediateInteger(1)));
         varName.getVariableDefinition().setOperand(varAddr);
         // This will put the result of calculating the expression in R0.
         initialization.codeGen(program);

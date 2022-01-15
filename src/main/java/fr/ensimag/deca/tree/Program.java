@@ -6,11 +6,9 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.instructions.ERROR;
-import fr.ensimag.ima.pseudocode.instructions.HALT;
-import fr.ensimag.ima.pseudocode.instructions.WNL;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -57,8 +55,19 @@ public class Program extends AbstractProgram {
         main.codeGen(program);
         program.addInstruction(new HALT());
         program.addComment("End of main function.");
-        program.addLabel(new Label("DivisionByZeroError"));
+
+        Label stackOverFlow = new Label("StackOverflowError");
+        Label divisionByZero = new Label("DivisionByZeroError");
+
+        program.addFirst(new BOV(stackOverFlow));
+        program.addFirst(new TSTO(new ImmediateInteger(program.getStackUsage())));
+
+        program.addLabel(divisionByZero);
         program.addInstruction(new WSTR("Erreur : divison par zéro."));
+        program.addInstruction(new WNL());
+        program.addInstruction(new ERROR());
+        program.addLabel(stackOverFlow);
+        program.addInstruction(new WSTR("Erreur : débordement de la pile."));
         program.addInstruction(new WNL());
         program.addInstruction(new ERROR());
     }

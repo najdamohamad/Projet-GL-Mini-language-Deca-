@@ -70,6 +70,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             program.freeRegister(); // We no longer need the saveRegister.
         } catch (DecacInternalError _) {
             program.addInstruction(new PUSH(Register.R0));
+            program.bumpStackUsage();
             getRightOperand().codeGen(program);
             // Restore the saved R0 register into R1.
             program.addInstruction(new POP(Register.R1));
