@@ -1,9 +1,14 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.*;
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+
 import java.io.PrintStream;
 
 public class This extends AbstractExpr {
@@ -34,4 +39,13 @@ public class This extends AbstractExpr {
         return "Null";
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 }

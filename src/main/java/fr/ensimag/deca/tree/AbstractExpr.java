@@ -137,11 +137,6 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
-        throw new UnsupportedOperationException("not yet implemented");
-    }
-
-    @Override
     public void codeGenDisplay(IMAProgram program, boolean hexadecimal) {
         if (getType() instanceof StringType) {
             // TODO: this will require writing the chars one be one
