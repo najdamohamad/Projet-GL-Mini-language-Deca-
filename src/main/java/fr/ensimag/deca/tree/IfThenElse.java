@@ -94,7 +94,7 @@ public class IfThenElse extends AbstractInst {
         condition.codeGen(program);
 
         // Go to the else clause if the returned value is false.
-        program.addInstruction(new CMP(0, Register.getR(program.getFreeRegister())));
+        program.addInstruction(new CMP(0, Register.R0));
         program.addInstruction(new BEQ(elseLabel));
 
         thenBranch.codeGen(program);

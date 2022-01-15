@@ -8,6 +8,11 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
+import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -137,8 +142,23 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
     }
 
     @Override
-    public void codeGenDisplay(IMAProgram program) {
-        throw new UnsupportedOperationException("not yet implemented");
+    public void codeGenDisplay(IMAProgram program, boolean hexadecimal) {
+        System.out.println("codeGenDisplay/type = " + getType() + "@" + getLocation() + " : " + decompile());
+        if (getType() instanceof StringType) {
+            // TODO: this will require writing the chars one be one
+            //       from the stack using WUT8 (write the char whoose code point is V[R1]).
+            throw new UnsupportedOperationException("not yet implemented");
+        } else if (getType() instanceof IntType) {
+            codeGen(program); // Result goes in R0.
+            program.addInstruction(new LOAD(Register.R0, Register.R1));
+            program.addInstruction(new WINT());
+        } else if (getType() instanceof FloatType) {
+            codeGen(program); // Result goes in R0.
+            program.addInstruction(new LOAD(Register.R0, Register.R1));
+            program.addInstruction(hexadecimal ? new WFLOATX() : new WFLOAT());
+        } else {
+            throw new DecacInternalError(decompile() + " is not printable, this is a verification bug.");
+        }
     }
 
     public void codeGenDisplayX(IMAProgram program) {

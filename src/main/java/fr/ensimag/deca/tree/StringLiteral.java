@@ -44,7 +44,7 @@ public class StringLiteral extends AbstractStringLiteral {
     }
 
     @Override
-    public void codeGenDisplay(IMAProgram program) {
+    public void codeGenDisplay(IMAProgram program, boolean hexadecimal) {
         program.addInstruction(new WSTR(value));
     }
 

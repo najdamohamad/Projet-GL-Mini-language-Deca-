@@ -1,11 +1,14 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+
 import java.io.PrintStream;
 
 /**
@@ -19,11 +22,20 @@ public class NoInitialization extends AbstractInitialization {
 
     @Override
     protected void verifyInitialization(DecacCompiler compiler, Type t,
-            EnvironmentExp localEnv, ClassDefinition currentClass)
+                                        EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         // nothing
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+        // Nothing to do.
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        // Nothing to do.
+    }
 
     /**
      * Node contains no real information, nothing to check.

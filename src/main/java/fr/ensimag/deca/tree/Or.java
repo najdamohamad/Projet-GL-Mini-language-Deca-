@@ -36,7 +36,7 @@ public class Or extends AbstractOpBool {
 
         // This one calculates the left expression in R2.
         getLeftOperand().codeGen(program); // This will use the same free register captured here.
-        program.addInstruction(new CMP(1, Register.getR(program.getFreeRegister())));
+        program.addInstruction(new CMP(1, Register.R0));
         if (branchCondition) {
             // If branchCondtion is true, we should jump to "label" when the result
             // of evaluating the LHS expression is 1. Since OR == true.
@@ -52,7 +52,7 @@ public class Or extends AbstractOpBool {
         //    1. We can reuse the same register for the two checks on LHS and RHS.
         //    2. We avoid unecessary cod execution and effectively short circuit.
         getRightOperand().codeGen(program);
-        program.addInstruction(new CMP(0, Register.getR(program.getFreeRegister())));
+        program.addInstruction(new CMP(0, Register.R0));
         if (branchCondition) {
             // If branchCondtion is true, we should jump to "label" when the result
             // of evaluating the RHS expression is 1. Since OR == false.

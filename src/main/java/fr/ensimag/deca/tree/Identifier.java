@@ -5,6 +5,9 @@ import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -159,7 +162,9 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError(message, getLocation());
         }
         setDefinition(expDefinition);
-        return expDefinition.getType();
+        Type identifierType = expDefinition.getType();
+        setType(identifierType);
+        return identifierType;
     }
 
     /**
@@ -176,6 +181,15 @@ public class Identifier extends AbstractIdentifier {
         }
         setDefinition(typeDefinition);
         return typeDefinition.getType();
+    }
+
+    @Override
+    public void codeGen(IMAProgram program) {
+        // Load the value of the identifier from the stack.
+        program.addInstruction(new LOAD(
+                getVariableDefinition().getOperand(),
+                Register.getR(program.getFreeRegister())
+        ));
     }
 
     private Definition definition;

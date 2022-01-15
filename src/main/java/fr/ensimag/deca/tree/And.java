@@ -28,15 +28,15 @@ public class And extends AbstractOpBool {
     public void codeGenControlFlow(IMAProgram program, boolean branchCondition, Label label) {
         Validate.isTrue(getLeftOperand().getType().isBoolean());
         Validate.isTrue(getRightOperand().getType().isBoolean());
-        // TODO: get the correct nextFreeRegister.
 
         program.addComment(decompile());
 
         Label endLabel = new Label("cf_and_end_" + hashCode());
 
         // This one calculates the left expression in R2 (R0?).
+        // TODO: switch all calculation results to R0.
         getLeftOperand().codeGen(program);
-        program.addInstruction(new CMP(0, Register.getR(2)));
+        program.addInstruction(new CMP(0, Register.R0));
         if (branchCondition) {
             // If branchCondtion is true, we should jump to "end" when the result
             // of evaluating the LHS expression is 0.
@@ -52,7 +52,7 @@ public class And extends AbstractOpBool {
         //    1. We can reuse the same register for the two checks on LHS and RHS.
         //    2. We avoid unecessary cod execution and effectively short circuit.
         getRightOperand().codeGen(program);
-        program.addInstruction(new CMP(1, Register.getR(2)));
+        program.addInstruction(new CMP(1, Register.R0));
         if (branchCondition) {
             // If branchCondtion is true, we should jump to "label" when the result
             // of evaluating the RHS expression is 1. Since AND == true.

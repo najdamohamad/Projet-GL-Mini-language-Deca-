@@ -6,20 +6,15 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import org.apache.commons.lang.Validate;
-import fr.ensimag.arm.pseudocode.Assign;
-import fr.ensimag.arm.pseudocode.*;
-import fr.ensimag.arm.pseudocode.syscalls.Write;
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.ImmediateFloat;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
-import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
+import org.apache.commons.lang.Validate;
+
 import java.io.PrintStream;
-import fr.ensimag.ima.pseudocode.DVal;
+
 /**
  * Single precision, floating-point literal
  *
@@ -33,9 +28,15 @@ public class FloatLiteral extends AbstractExpr {
     }
 
     @Override
-    public boolean isFloat(){return true; }
+    public boolean isFloat() {
+        return true;
+    }
+
     @Override
-    public DVal getDVal(){return new ImmediateFloat(value);}
+    public DVal getDVal() {
+        return new ImmediateFloat(value);
+    }
+
     private float value;
 
     public FloatLiteral(float value) {
@@ -54,6 +55,10 @@ public class FloatLiteral extends AbstractExpr {
         return floatType;
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+        program.addInstruction(new LOAD(new ImmediateFloat(value), Register.R0));
+    }
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -68,25 +73,6 @@ public class FloatLiteral extends AbstractExpr {
     @Override
     protected void iterChildren(TreeFunction f) {
         // leaf node => nothing to do
-    }
-
-    @Override
-    public void codeGenDisplay(IMAProgram program) {
-        super.codeGen(program);
-        program.addInstruction(new LOAD(new ImmediateFloat(value), Register.R1));
-        program.addInstruction(new WFLOAT());
-    }
-
-    public void codeGenExpr(IMAProgram program,GPRegister register) {
-        super.codeGen(program);
-        program.addInstruction(new LOAD(new ImmediateFloat(value), register));
-    }
-
-    @Override
-    public void codeGenDisplayX(IMAProgram program) {
-        super.codeGen(program);
-        program.addInstruction(new LOAD(new ImmediateFloat(value), Register.R1));
-        program.addInstruction(new WFLOATX());
     }
 
     @Override
