@@ -1,0 +1,20 @@
+// Description:
+//    Test de controle structure while avec une condition bool avec un seul egale .
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    context: pas d'erreur puisque ona un bool comme conditioin avec un seul
+//    egale assigne la valeur true dans ce cas là donc
+//     --> while(True) marche    
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    boolean condition ; 
+    while(condition = true) // pas besoin de == puisque avec boolean  
+    {
+        print("hello") ;
+    }
+}

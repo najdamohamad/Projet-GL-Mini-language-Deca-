@@ -1,0 +1,18 @@
+// Description:
+//    Test de verification des opperateurs non compatible avec bool  ;
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context :  TypeError: type(s) incorrect(s) dans `l'expression arithmétique `(x + y)`,
+//    attendu `float` ou bien `int`
+//
+// Historique:
+//    cree le 13/01/2022
+
+{
+    boolean x = true  ; 
+    boolean y =  false ; 
+    x + y  ;  
+    // same for ,  - , * , / , % , <= , >= , > , < .
+}

@@ -1,0 +1,15 @@
+// Description:
+//    Test de while avec un print qui retourne rien
+//
+// Resultats:
+//    Parseur: erreur line 12
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    while(print("test")) 
+    {
+        print("salut") ;
+    }
+}

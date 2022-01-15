@@ -1,0 +1,18 @@
+// Description:
+//    Test de while avec une varible qui nexiste pas.
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    context: error vu que la var n'est pas declaree
+//     --> while(1) ne marche pas    
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    while(condition) 
+    {
+        print("salut") ;
+    }
+}

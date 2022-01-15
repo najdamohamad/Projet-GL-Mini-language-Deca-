@@ -1,0 +1,12 @@
+// Description:
+//    Test des operateur binaire avec readfloat
+//
+// Resultats:
+//    context: erreur de type int et bool`
+//
+// Historique:
+//    cree le 13/01/2022
+
+{
+    true && readint();
+}

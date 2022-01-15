@@ -1,0 +1,13 @@
+// Description:
+//    Mix de minus et de !
+//    Un print ne peut etre fait que avec un string, un int ou un float.
+//
+// Resultats:
+//    Ligne 12: Mauvais type: boolean et voulait int
+//
+// Historique:
+//    cree le 08/01/2022
+
+{
+    -!false;
+}

@@ -1,0 +1,16 @@
+// Description:
+//    Test de controle structure while
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    while(condition == true) 
+    {
+        print(hello) ;
+    }
+}

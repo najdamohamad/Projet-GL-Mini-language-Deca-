@@ -1,0 +1,16 @@
+// Description:
+//    Declaration dun while dans while
+//
+// Resultats:
+//    Pas d'erreur
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    while(true) {
+        while(true) {
+            
+        }
+    }
+}
