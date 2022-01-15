@@ -1,3 +1,5 @@
+	TSTO #6
+	BOV StackOverflowError
 ; Main program
 ; Beginning of main function:
 	ADDSP #1
@@ -44,3 +46,12 @@
 	WNL
 ; End of main function.
 	HALT
+; End of main function.
+DivisionByZeroError:
+	WSTR "Erreur : divison par zéro."
+	WNL
+	ERROR
+StackOverflowError:
+	WSTR "Erreur : débordement de la pile."
+	WNL
+	ERROR

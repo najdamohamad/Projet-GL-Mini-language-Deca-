@@ -1,4 +1,4 @@
-	TSTO #2
+	TSTO #3
 	BOV StackOverflowError
 ; Main program
 ; Beginning of main function:
@@ -6,7 +6,10 @@
 	STORE R0, 1(GB)
 	ADDSP #1
 	STORE R0, 2(GB)
+	ADDSP #1
 	LOAD #1, R0
+	STORE R0, 3(GB)
+	LOAD 3(GB), R0
 	STORE R0, 2(GB)
 	STORE R0, 1(GB)
 	WSTR "Ok"

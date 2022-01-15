@@ -1,104 +1,125 @@
+	TSTO #0
+	BOV StackOverflowError
 ; Main program
 ; Beginning of main function:
 ; begin/if_then_else
 	LOAD #0, R0
-	LOAD R0, R1
+	LOAD R0, R2
 	LOAD #10, R0
+	LOAD R2, R1
 	CMP R0, R1
-	BLT cmp_true_853993923
+	BLT cmp_true_943081537
 	LOAD #0, R0
-cmp_true_853993923:
+	BRA cmp_end_943081537
+cmp_true_943081537:
 	LOAD #1, R0
-cmp_end_853993923:
+cmp_end_943081537:
 	CMP #0, R0
-	BEQ branch_else_1167116739
+	BEQ branch_else_1898220577
 	WSTR "Ok"
 	WNL
-	BRA branch_end_1167116739
-branch_else_1167116739:
+	BRA branch_end_1898220577
+branch_else_1898220577:
 	WSTR "Err"
 	WNL
-branch_end_1167116739:
+branch_end_1898220577:
 ; end/if_then_else
 ; begin/if_then_else
 	LOAD #0x1.4p3, R0
-	LOAD R0, R1
+	LOAD R0, R3
 	LOAD #0x1.4p2, R0
+	LOAD R3, R1
 	CMP R0, R1
-	BGE cmp_true_1525262377
+	BGE cmp_true_1796371666
 	LOAD #0, R0
-cmp_true_1525262377:
+	BRA cmp_end_1796371666
+cmp_true_1796371666:
 	LOAD #1, R0
-cmp_end_1525262377:
+cmp_end_1796371666:
 	CMP #0, R0
-	BEQ branch_else_1463757745
+	BEQ branch_else_93314457
 	WSTR "Ok"
 	WNL
-	BRA branch_end_1463757745
-branch_else_1463757745:
+	BRA branch_end_93314457
+branch_else_93314457:
 	WSTR "Err"
 	WNL
-branch_end_1463757745:
+branch_end_93314457:
 ; end/if_then_else
 ; begin/if_then_else
 	LOAD #0x1.8p0, R0
-	LOAD R0, R1
+	LOAD R0, R3
 	LOAD #0x1.8p0, R0
+	LOAD R3, R1
 	CMP R0, R1
-	BEQ cmp_true_1836643189
+	BEQ cmp_true_1935972447
 	LOAD #0, R0
-cmp_true_1836643189:
+	BRA cmp_end_1935972447
+cmp_true_1935972447:
 	LOAD #1, R0
-cmp_end_1836643189:
+cmp_end_1935972447:
 	CMP #0, R0
-	BEQ branch_else_2059904228
+	BEQ branch_else_195615004
 	WSTR "Ok"
 	WNL
-	BRA branch_end_2059904228
-branch_else_2059904228:
+	BRA branch_end_195615004
+branch_else_195615004:
 	WSTR "Err"
 	WNL
-branch_end_2059904228:
+branch_end_195615004:
 ; end/if_then_else
 ; begin/if_then_else
 	LOAD #1, R0
-	LOAD R0, R1
+	LOAD R0, R3
 	LOAD #2, R0
+	LOAD R3, R1
 	CMP R0, R1
-	BNE cmp_true_1597462040
+	BNE cmp_true_1889248251
 	LOAD #0, R0
-cmp_true_1597462040:
+	BRA cmp_end_1889248251
+cmp_true_1889248251:
 	LOAD #1, R0
-cmp_end_1597462040:
+cmp_end_1889248251:
 	CMP #0, R0
-	BEQ branch_else_1355316001
+	BEQ branch_else_97652294
 	WSTR "Ok"
 	WNL
-	BRA branch_end_1355316001
-branch_else_1355316001:
+	BRA branch_end_97652294
+branch_else_97652294:
 	WSTR "Err"
 	WNL
-branch_end_1355316001:
+branch_end_97652294:
 ; end/if_then_else
 ; begin/if_then_else
 	LOAD #0x0.0p0, R0
-	LOAD R0, R1
+	LOAD R0, R3
 	LOAD #0x1.86ap16, R0
+	LOAD R3, R1
 	CMP R0, R1
-	BLE cmp_true_559670971
+	BLE cmp_true_2146608740
 	LOAD #0, R0
-cmp_true_559670971:
+	BRA cmp_end_2146608740
+cmp_true_2146608740:
 	LOAD #1, R0
-cmp_end_559670971:
+cmp_end_2146608740:
 	CMP #0, R0
-	BEQ branch_else_853119666
+	BEQ branch_else_1783047508
 	WSTR "Ok"
 	WNL
-	BRA branch_end_853119666
-branch_else_853119666:
+	BRA branch_end_1783047508
+branch_else_1783047508:
 	WSTR "Err"
 	WNL
-branch_end_853119666:
+branch_end_1783047508:
 ; end/if_then_else
 ; End of main function.
 	HALT
+; End of main function.
+DivisionByZeroError:
+	WSTR "Erreur : divison par zéro."
+	WNL
+	ERROR
+StackOverflowError:
+	WSTR "Erreur : débordement de la pile."
+	WNL
+	ERROR
