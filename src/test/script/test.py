@@ -177,34 +177,60 @@ def suite_test_exec(dossier, sous_language, type_test):
         # Compiler le programme avec decac. Cela doit toujours marcher, on tente lexecution apres
         if os.system(f"./src/main/bin/decac {fichier}") != 0:
             print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, la compilation de {fichier_nom_court} a echoue")
-
-        # On stocke la sortie dans un temp.lis, ce fichier sera celui à comparer.
-        fichier_ass = replace_ending(fichier, '.deca', '.ass')
-        if os.system(f"ima {fichier_ass} > temp.res 2>&1") != 0:
-            os.system(f'cat temp.res')
-            print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, compilation échouée")
             tests_echoues.append(fichier_nom_court)
             tous_test_echoues.append(fichier_nom_court)
             nb_echecs += 1
             nb_echecs_total += 1
-        else:
-            fichier_res = replace_ending(fichier, '.deca', '.res')
-            print(fichier_res)
-            if not Path(fichier_res).exists():
-                print(f"{color.WARNING}AVERTISSEMENT{color.END}: pas de résultat .res trouvée pour {fichier_nom_court}")
-            else:
-                if filecmp.cmp(fichier_res, 'temp.res'):
-                    print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
-                else:
-                    print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court} diffère du .res")
-                    if len(sys.argv) > 1 and sys.argv[1] == '-X': # show debug
-                        with open(f'temp.res', 'r') as f:
-                            print(f.read())
+            continue
 
-                    tests_echoues.append(fichier_nom_court)
-                    tous_test_echoues.append(fichier_nom_court)
-                    nb_echecs += 1
-                    nb_echecs_total += 1
+        # On stocke la sortie dans un temp.lis, ce fichier sera celui à comparer.
+        fichier_ass = replace_ending(fichier, '.deca', '.ass')
+
+        # Récuperer les options de ima.
+        # On utilise une syntaxe spéciale pour spécifier les options a passer à ima,
+        # qui doit etre en premiere ligne du fichier, par exemple:
+        # //! IMA_OPTIONS: -p 42
+        arguments_ima = ""
+        with open(fichier) as f:
+            premiere_ligne = f.readline()
+            if "//! IMA_OPTIONS" in premiere_ligne:
+                arguments_ima = premiere_ligne.lstrip("//! IMA_OPTIONS:").rstrip("\n")
+
+        if type_test == "invalid":
+            if os.system(f"ima {arguments_ima} {fichier_ass} > temp.res 2>&1") == 0:
+                print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, execution par IMA réussite, echec attendue")
+                tests_echoues.append(fichier_nom_court)
+                tous_test_echoues.append(fichier_nom_court)
+                nb_echecs += 1
+                nb_echecs_total += 1
+                continue
+        else:
+            if os.system(f"ima {arguments_ima} {fichier_ass} > temp.res 2>&1") != 0:
+                print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, execution par IMA échouée, reussite attendue")
+                tests_echoues.append(fichier_nom_court)
+                tous_test_echoues.append(fichier_nom_court)
+                nb_echecs += 1
+                nb_echecs_total += 1
+                continue
+
+        fichier_res = replace_ending(fichier, '.deca', '.res')
+        if not Path(fichier_res).exists():
+            print(f"{color.WARNING}AVERTISSEMENT{color.END}: pas de résultat .res trouvée pour {fichier_nom_court}")
+            continue
+
+        if not filecmp.cmp(fichier_res, 'temp.res'):
+            print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court} diffère du .res")
+            if len(sys.argv) > 1 and sys.argv[1] == '-X': # show debug
+                with open(f'temp.res', 'r') as f:
+                    print(f.read())
+
+            tests_echoues.append(fichier_nom_court)
+            tous_test_echoues.append(fichier_nom_court)
+            nb_echecs += 1
+            nb_echecs_total += 1
+            continue
+
+        print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
 
     os.remove('temp.res')
     print(f'{color.HEADER}[SUITE]{color.END} {color.BOLD}RESULTAT{color.END} '
@@ -226,6 +252,7 @@ def suite_test_exec(dossier, sous_language, type_test):
 # suite_test_context('src/test/deca/context/valid/hello_world', 'helloworld', 'valid')
 # suite_test_exec('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
 suite_test_exec('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
+suite_test_exec('src/test/deca/codegen/invalid/no-objects', 'no-objects', 'invalid')
 
 # Tests expression
 
