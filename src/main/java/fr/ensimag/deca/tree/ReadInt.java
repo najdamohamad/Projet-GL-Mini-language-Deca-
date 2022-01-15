@@ -6,6 +6,10 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.RINT;
 
 import java.io.PrintStream;
 
@@ -23,6 +27,11 @@ public class ReadInt extends AbstractReadExpr {
         return intType;
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+        program.addInstruction(new RINT());
+        program.addInstruction(new LOAD(Register.R1, Register.R0));
+    }
 
     @Override
     public void decompile(IndentPrintStream s) {

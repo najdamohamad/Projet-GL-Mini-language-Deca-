@@ -1,10 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.tools.DecacInternalError;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
@@ -20,15 +17,30 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
 
     @Override
     public void codeGen(IMAProgram program) {
+
+        // TODO: refactor the shared code between OpArith and OpCmp.
+
         Label returnTrue = new Label("cmp_true_" + hashCode());
         Label endLabel = new Label("cmp_end_" + hashCode());
 
-        // Put the result of evaluating the LHS expression into R0, then
-        // save it into R1 to make room for the RHS expression's value.
+        // Put the result of evaluating the LHS expression into R0.
         getLeftOperand().codeGen(program);
-        // TODO: check if using R1 is appropriate.
-        program.addInstruction(new LOAD(Register.R0, Register.R1));
-        getRightOperand().codeGen(program);
+        try {
+            // Get a new register to save the result of calculating the RHS,
+            // to save room for the second expression.
+            // Using registers is faster than addressing the stack.
+            GPRegister saveRegister = program.getNextRegister();
+            program.addInstruction(new LOAD(Register.R0, saveRegister));
+            getRightOperand().codeGen(program);
+            program.addInstruction(new LOAD(saveRegister, Register.R1));
+            program.freeRegister(); // We no longer need the saveRegister.
+        } catch (DecacInternalError _) {
+            program.addInstruction(new PUSH(Register.R0));
+            getRightOperand().codeGen(program);
+            // Restore the saved R0 register into R1.
+            program.addInstruction(new POP(Register.R1));
+        }
+
         // Compare the results of evaluating the LHS and RHS expressions.
         program.addInstruction(new CMP(Register.R0, Register.R1));
 

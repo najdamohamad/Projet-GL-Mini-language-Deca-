@@ -3,9 +3,9 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.ADD;
-import fr.ensimag.ima.pseudocode.instructions.POP;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 /**
  * @author gl47
@@ -24,26 +24,14 @@ public class Plus extends AbstractOpArith {
 
     @Override
     public void codeGen(IMAProgram program) {
-        GPRegister freeRegister = program.getFreeRegister();
-        if (freeRegister.getNumber() == program.getMaxRegister()) {
-            getLeftOperand().codeGen(program);
-            program.addComment("Save the register, reached MAX");
-            program.addInstruction(new PUSH(freeRegister));
-            getRightOperand().codeGen(program);
-            // TODO: the slices for étape C say add this instrution,
-            //       but in our case the result is already i R0.
-            // program.addInstruction(new LOAD(freeRegister, Register.R0));
-            program.addInstruction(new POP(freeRegister));
-            program.addComment("Restore the register");
-        } else {
-            getLeftOperand().codeGen(program);
-            GPRegister nextRegister = program.bumpFreeRegister();
-            getRightOperand().codeGen(program);
-            program.addInstruction(new ADD(
-                    freeRegister,
-                    nextRegister
-            ));
-        }
+        // Put the result of evaluating the LHS expression into R0, then
+        // save it into R1 to make room for the RHS expression's value.
+        getLeftOperand().codeGen(program);
+        // TODO: check if using R1 is appropriate.
+        program.addInstruction(new LOAD(Register.R0, Register.R1));
+        getRightOperand().codeGen(program);
+        // Put the sum of R0 and R1 into R0.
+        program.addInstruction(new ADD(Register.R1, Register.R0));
     }
 
     @Override
