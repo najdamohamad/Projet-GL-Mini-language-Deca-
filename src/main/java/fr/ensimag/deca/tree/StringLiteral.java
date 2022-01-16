@@ -10,10 +10,17 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.NEW;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import fr.ensimag.ima.pseudocode.instructions.WSTR;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * String literal
@@ -50,9 +57,39 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     public void codeGen(IMAProgram program) {
-        // TODO: this will require pusing the chars one be one
-        //       on the stack, but in what order, and where do you put the len?
-        throw new UnsupportedOperationException("not yet implemented");
+        program.addComment("Begin string codeGen");
+        // It's important to encode the String as UTF-8 since that's
+        // what IMA expects, and Java by default encodes all strings into UTF-16.
+        byte[] utf8String = value.getBytes(StandardCharsets.UTF_8);
+        System.out.println(Arrays.toString(utf8String));
+        // String utf8String = new String(bytes);
+        // Allocate memory for the String on the Heap.
+        program.addInstruction(
+                new NEW(utf8String.length + 1, Register.R0)
+        );
+        // Put all the Bytes of the String on the Heap.
+        for (int offset = 0; offset < utf8String.length; offset++) {
+            // FIXME: (?) this makes the size of the code very large ...
+            //            (one instruction per character!)
+
+            // The bytes are negative and IMA doesn't like that (?)
+            // using String.codePointAt() doesn't work either ...
+            program.addInstruction(new LOAD(
+                    utf8String[offset] + 256,
+                    Register.R1
+            ));
+            program.addInstruction(new STORE(
+                    Register.R1,
+                    new RegisterOffset(offset, Register.R0)
+            ));
+        }
+        // Add a zero byte to terminate it (C-Style).
+        program.addInstruction(new LOAD(0, Register.R1));
+        program.addInstruction(new STORE(
+                Register.R1,
+                new RegisterOffset(utf8String.length, Register.R0))
+        );
+        program.addComment("End string codeGen");
     }
 
     @Override
