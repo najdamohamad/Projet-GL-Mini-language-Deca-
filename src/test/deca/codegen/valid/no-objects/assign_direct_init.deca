@@ -1,0 +1,12 @@
+// Description:
+//    Test d'une variable assignée immédiatement.
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    boolean a = true;
+    println("Ok");
+}

@@ -6,8 +6,10 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import java.io.PrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
+
+import java.io.PrintStream;
 
 /**
  * Binary expressions.
@@ -45,7 +47,7 @@ public class Cast extends AbstractExpr {
     private AbstractExpr rightOperand;
 
     public Cast(AbstractExpr TypeCastedTo,
-                              AbstractExpr rightOperand) {
+                AbstractExpr rightOperand) {
         Validate.notNull(TypeCastedTo, "Type casted to cannot be null");
         Validate.notNull(rightOperand, "right operand cannot be null");
         Validate.isTrue(TypeCastedTo != rightOperand, "Sharing subtrees is forbidden");
@@ -63,9 +65,11 @@ public class Cast extends AbstractExpr {
         s.print(")");
     }
 
-    protected String getOperatorName(){
+    protected String getOperatorName() {
         return "(";
-    };
+    }
+
+    ;
 
     @Override
     protected void iterChildren(TreeFunction f) {
@@ -79,5 +83,9 @@ public class Cast extends AbstractExpr {
         rightOperand.prettyPrint(s, prefix, true);
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 }
 

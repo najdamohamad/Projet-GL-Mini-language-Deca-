@@ -44,8 +44,15 @@ public class StringLiteral extends AbstractStringLiteral {
     }
 
     @Override
-    public void codeGenDisplay(IMAProgram program) {
+    public void codeGenDisplay(IMAProgram program, boolean hexadecimal) {
         program.addInstruction(new WSTR(value));
+    }
+
+    @Override
+    public void codeGen(IMAProgram program) {
+        // TODO: this will require pusing the chars one be one
+        //       on the stack, but in what order, and where do you put the len?
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override

@@ -1,0 +1,12 @@
+//! IMA_OPTIONS: -p 0
+// Description:
+//    Test de stack overflow.
+//
+// Resultats:
+//    Erreur: dépassement de la pile
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    int one = 1;
+}

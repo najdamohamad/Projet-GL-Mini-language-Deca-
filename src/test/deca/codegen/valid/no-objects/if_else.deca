@@ -1,0 +1,60 @@
+//! IMA_OPTIONS: -p 1
+// Description:
+//    Test des différentes branches de if/else.
+//
+// Resultats:
+//    Tout print ok.
+//
+// Historique:
+//    cree le 15/01/2022
+
+{
+    if (true && true) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (false && true) {
+        println("Err");
+    } else {
+        println("Ok");
+    }
+
+    if (true && false) {
+        println("Err");
+    } else {
+        println("Ok");
+    }
+
+    if (false && false) {
+        println("Err");
+    } else {
+        println("Ok");
+    }
+
+    if (true || true) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (false || true) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (true || false) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (false || false) {
+        println("Err");
+    } else {
+        println("Ok");
+    }
+}
+

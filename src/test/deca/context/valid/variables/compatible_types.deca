@@ -1,0 +1,19 @@
+// Description:
+//    Test de verification des types comptaibles entre eux 
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context : pas d'erreur 
+//
+// Historique:
+//    cree le 13/01/2022
+{
+    int x = 2 ; 
+    float y = 3.2 ;
+    x + y ;  
+    x - y ; 
+    x * y ; 
+    x % y ; 
+    
+}

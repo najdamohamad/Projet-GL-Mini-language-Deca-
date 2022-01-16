@@ -23,6 +23,8 @@ public abstract class AbstractOpExactCmp extends AbstractOpCmp {
         Type leftExprType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         Type rightExprType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
 
+        // TODO: refactor this into OpCmp
+
         boolean bothNumbers = rightExprType.isIntOrFloat()
                 && leftExprType.isIntOrFloat();
         boolean bothBooleans = rightExprType.isBoolean()

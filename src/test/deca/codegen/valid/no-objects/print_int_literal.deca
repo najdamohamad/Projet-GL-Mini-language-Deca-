@@ -1,0 +1,12 @@
+// Description:
+//    Test de println normal.
+//
+// Resultats:
+//    42
+//
+// Historique:
+//    cree le 05/01/2022
+{
+    int answer = 42;
+    println(answer);
+}

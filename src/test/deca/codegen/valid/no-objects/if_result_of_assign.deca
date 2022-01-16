@@ -1,0 +1,20 @@
+// Description:
+//    Test d'un if avec un résultat d'un assignement.
+//    On utilise un égal pour assigner à la variable cond.
+//
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 15/01/2022
+
+{
+    boolean cond;
+    if (cond = true) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+}
+

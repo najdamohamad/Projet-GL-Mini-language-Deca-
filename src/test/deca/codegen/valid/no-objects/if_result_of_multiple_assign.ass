@@ -1,0 +1,33 @@
+	TSTO #2
+	BOV StackOverflowError
+; Main program
+; Beginning of main function:
+	ADDSP #1
+	STORE R0, 1(GB)
+	ADDSP #1
+	STORE R0, 2(GB)
+; begin/if_then_else
+	LOAD #1, R0
+	STORE R0, 2(GB)
+	STORE R0, 1(GB)
+	CMP #0, R0
+	BEQ branch_else_943081537
+	WSTR "Ok"
+	WNL
+	BRA branch_end_943081537
+branch_else_943081537:
+	WSTR "Err"
+	WNL
+branch_end_943081537:
+; end/if_then_else
+; End of main function.
+	HALT
+; End of main function.
+DivisionByZeroError:
+	WSTR "Erreur : divison par zéro."
+	WNL
+	ERROR
+StackOverflowError:
+	WSTR "Erreur : débordement de la pile."
+	WNL
+	ERROR

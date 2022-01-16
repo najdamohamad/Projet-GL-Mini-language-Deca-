@@ -1,0 +1,11 @@
+// Description:
+//    Test d'une divison par zero
+//
+// Resultats:
+//    Erreur: divison par zéro
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    println(5 / 0);
+}

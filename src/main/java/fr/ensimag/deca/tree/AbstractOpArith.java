@@ -5,20 +5,9 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.codegen.GestionRegistre;
-import fr.ensimag.arm.pseudocode.*;
-import fr.ensimag.arm.pseudocode.syscalls.Write;
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.REM;
-import fr.ensimag.ima.pseudocode.instructions.TSTO;
-import fr.ensimag.ima.pseudocode.instructions.BOV;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
-import fr.ensimag.ima.pseudocode.DVal;
-import org.apache.commons.lang.Validate;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
  * Arithmetic binary operations (+, -, /, ...)
@@ -59,43 +48,61 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         setType(exprType);
         return exprType;
     }
-    public void codeOpe(IMAProgram program,DVal value,GPRegister register) {
-        throw new UnsupportedOperationException("not yet implemented");
+
+    public void codeOpe(IMAProgram program, DVal value, GPRegister register) {
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
 
-    public void codeGenExpr(IMAProgram program){
-        super.codeGen(program);
-        int premierRegistreLibre = program.gestionRegistre.getPremierRegistreLibre();
-        if (premierRegistreLibre < 16){
-            GPRegister registre = Register.getR(premierRegistreLibre);
-            program.gestionRegistre.occupeRegistre(premierRegistreLibre);
-            this.getLeftOperand().codeGenExpr(program, registre);
+        // TODO: refactor the shared code between OpArith and OpCmp.
+
+        // Put the result of evaluating the LHS expression into R0.
+        getLeftOperand().codeGen(program);
+        try {
+            // Get a new register to save the result of calculating the RHS,
+            // to save room for the second expression.
+            // Using registers is faster than addressing the stack.
+            GPRegister saveRegister = program.getNextRegister();
+            program.addInstruction(new LOAD(Register.R0, saveRegister));
+            getRightOperand().codeGen(program);
+            program.addInstruction(new LOAD(saveRegister, Register.R1));
+            program.freeRegister(); // We no longer need the saveRegister.
+        } catch (DecacInternalError _) {
+            program.addInstruction(new PUSH(Register.R0));
+            program.bumpStackUsage();
+            getRightOperand().codeGen(program);
+            // Restore the saved R0 register into R1.
+            program.addInstruction(new POP(Register.R1));
         }
-        else{
-            premierRegistreLibre = program.gestionRegistre.getRandomRegistre();
-            program.addInstruction(new TSTO(1));
-            program.addInstruction(new BOV(new Label("pile pleine")));
-            GPRegister registre = Register.getR(premierRegistreLibre);
-            program.addInstruction(new PUSH(registre));
-        }
-        if(this.getRightOperand().getDVal()!=null){
-            codeOpe(program, this.getRightOperand().getDVal(), Register.getR(premierRegistreLibre));
-        }
-        else {
-            int secondRegistreLibre = program.gestionRegistre.getPremierRegistreLibre();
-            if (secondRegistreLibre < 16) {
-                GPRegister registre = Register.getR(secondRegistreLibre);
-                program.gestionRegistre.occupeRegistre(secondRegistreLibre);
-                this.getRightOperand().codeGenExpr(program, registre);
-            } else {
-                secondRegistreLibre = program.gestionRegistre.getRandomRegistre(premierRegistreLibre);
-                program.addInstruction(new TSTO(1));
-                program.addInstruction(new BOV(new Label("pile pleine")));
-                GPRegister registre = Register.getR(secondRegistreLibre);
-                program.addInstruction(new PUSH(registre));
-            }
-            codeOpe(program, Register.getR(premierRegistreLibre), Register.getR(secondRegistreLibre));
+
+        // Put the aithmetic operation R0 OP R1 into R0.
+        switch (getOperatorName()) {
+            case "+":
+                program.addInstruction(new ADD(Register.R1, Register.R0));
+                break;
+            case "-":
+                program.addInstruction(new SUB(Register.R1, Register.R0));
+                break;
+            case "*":
+                program.addInstruction(new MUL(Register.R1, Register.R0));
+                break;
+            case "/":
+                if (getLeftOperand().isFloat()) {
+                    program.addInstruction(new CMP(new ImmediateFloat(0), Register.R0));
+                    program.addInstruction(new BEQ(new Label("DivisionByZeroError")));
+                    program.addInstruction(new DIV(Register.R1, Register.R0));
+                } else {
+                    program.addInstruction(new CMP(new ImmediateInteger(0), Register.R0));
+                    program.addInstruction(new BEQ(new Label("DivisionByZeroError")));
+                    program.addInstruction(new QUO(Register.R1, Register.R0));
+                }
+                break;
+            case "%":
+                program.addInstruction(new REM(Register.R1, Register.R0));
+                break;
+            default:
+                throw new DecacInternalError("unreachable!");
         }
     }
 

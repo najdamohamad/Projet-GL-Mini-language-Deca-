@@ -1,0 +1,23 @@
+	TSTO #0
+	BOV StackOverflowError
+; Main program
+; Beginning of main function:
+	LOAD #2, R0
+	LOAD R0, R2
+	LOAD #2, R0
+	LOAD R2, R1
+	ADD R1, R0
+	LOAD R0, R1
+	WINT
+	WNL
+; End of main function.
+	HALT
+; End of main function.
+DivisionByZeroError:
+	WSTR "Erreur : divison par zéro."
+	WNL
+	ERROR
+StackOverflowError:
+	WSTR "Erreur : débordement de la pile."
+	WNL
+	ERROR

@@ -10,7 +10,8 @@ public interface CodeGenDisplay extends CodeGen {
      *
      * @param program Abstract representation of the IMA assembly code.
      */
-    void codeGenDisplay(IMAProgram program);
+    void codeGenDisplay(IMAProgram program, boolean hexadecimal);
+
     /**
      * This class extends CodeGen and is useful for Expressions as printing,
      * enforces evaluation.

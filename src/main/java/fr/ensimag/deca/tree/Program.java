@@ -6,14 +6,13 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import java.io.PrintStream;
-
-import fr.ensimag.ima.pseudocode.instructions.ERROR;
-import fr.ensimag.ima.pseudocode.instructions.HALT;
-import fr.ensimag.ima.pseudocode.instructions.WNL;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
+
+import java.io.PrintStream;
 
 /**
  * Deca complete program (class definition plus main block)
@@ -23,19 +22,22 @@ import org.apache.log4j.Logger;
  */
 public class Program extends AbstractProgram {
     private static final Logger LOG = Logger.getLogger(Program.class);
-    
+
     public Program(ListDeclClass classes, AbstractMain main) {
         Validate.notNull(classes);
         Validate.notNull(main);
         this.classes = classes;
         this.main = main;
     }
+
     public ListDeclClass getClasses() {
         return classes;
     }
+
     public AbstractMain getMain() {
         return main;
     }
+
     private ListDeclClass classes;
     private AbstractMain main;
 
@@ -60,14 +62,22 @@ public class Program extends AbstractProgram {
         main.codeGen(program);
 
         program.addInstruction(new HALT());
+        program.addComment("End of main function.");
 
-        // Dépassement de la pile
-        program.addLabel(new fr.ensimag.ima.pseudocode.Label("error_stack_overflow"));
-        program.addInstruction(new WSTR("Erreur: dépassement de la pile."));
+        Label stackOverFlow = new Label("StackOverflowError");
+        Label divisionByZero = new Label("DivisionByZeroError");
+
+        program.addFirst(new BOV(stackOverFlow));
+        program.addFirst(new TSTO(new ImmediateInteger(program.getStackUsage())));
+
+        program.addLabel(divisionByZero);
+        program.addInstruction(new WSTR("Erreur : divison par zéro."));
         program.addInstruction(new WNL());
         program.addInstruction(new ERROR());
-        // TODO: ajouter SP pour les variables globales
-
+        program.addLabel(stackOverFlow);
+        program.addInstruction(new WSTR("Erreur : débordement de la pile."));
+        program.addInstruction(new WNL());
+        program.addInstruction(new ERROR());
     }
 
     @Override
@@ -90,12 +100,13 @@ public class Program extends AbstractProgram {
         getClasses().decompile(s);
         getMain().decompile(s);
     }
-    
+
     @Override
     protected void iterChildren(TreeFunction f) {
         classes.iter(f);
         main.iter(f);
     }
+
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         classes.prettyPrint(s, prefix, false);

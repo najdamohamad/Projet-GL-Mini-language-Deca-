@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -7,6 +8,11 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -86,5 +92,33 @@ public class IfThenElse extends AbstractInst {
 
     public void setElseBranch(ListInst elseBranch) {
         this.elseBranch = elseBranch;
+    }
+
+    @Override
+    public void codeGen(IMAProgram program) {
+        program.addComment("begin/if_then_else");
+
+        Label elseLabel = new Label("branch_else_" + hashCode());
+        Label endLabel = new Label("branch_end_" + hashCode());
+
+        condition.codeGen(program);
+
+        // Go to the else clause if the returned value is false.
+        program.addInstruction(new CMP(0, Register.R0));
+        program.addInstruction(new BEQ(elseLabel));
+
+        thenBranch.codeGen(program);
+        program.addInstruction(new BRA(endLabel));
+
+        program.addLabel(elseLabel);
+        elseBranch.codeGen(program);
+        program.addLabel(endLabel);
+
+        program.addComment("end/if_then_else");
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
     }
 }

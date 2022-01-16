@@ -1,7 +1,8 @@
 package fr.ensimag.ima.pseudocode;
 
 import fr.ensimag.deca.codegen.OutputProgram;
-import fr.ensimag.deca.codegen.GestionRegistre;
+import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -15,10 +16,11 @@ import java.util.LinkedList;
  */
 public class IMAProgram implements OutputProgram {
     private final LinkedList<AbstractLine> lines = new LinkedList<AbstractLine>();
-    public final GestionRegistre gestionRegistre = new GestionRegistre();
+
     public void add(AbstractLine line) {
         lines.add(line);
     }
+    public int maxRegister = 15;
 
     @Override
     public void addComment(String comment) {
@@ -45,7 +47,7 @@ public class IMAProgram implements OutputProgram {
     public void append(IMAProgram p) {
         lines.addAll(p.lines);
     }
-    
+
     /**
      * Add a line at the front of the program.
      */
@@ -58,7 +60,7 @@ public class IMAProgram implements OutputProgram {
      */
     @Override
     public void display(PrintStream s) {
-        for (AbstractLine l: lines) {
+        for (AbstractLine l : lines) {
             l.display(s);
         }
     }
@@ -77,8 +79,49 @@ public class IMAProgram implements OutputProgram {
     public void addFirst(Instruction i) {
         addFirst(new Line(i));
     }
-    
+
     public void addFirst(Instruction i, String comment) {
         addFirst(new Line(null, i, comment));
+    }
+
+    private int maxRegister = 15;
+
+    public void setMaxRegister(int maxRegister) {
+        this.maxRegister = maxRegister;
+    }
+
+    private int freeRegister = 1;
+
+    public GPRegister getNextRegister() throws DecacInternalError {
+        freeRegister++;
+        if (freeRegister == maxRegister) {
+            throw new DecacInternalError("reached max register");
+        } else {
+            return Register.getR(freeRegister);
+        }
+    }
+
+    public void freeRegister() {
+        if (freeRegister > 2) {
+            freeRegister--;
+        }
+    }
+
+    private int varCount = 0;
+
+    public int getVarCount() {
+        addInstruction(new ADDSP(new ImmediateInteger(1)));
+        return ++varCount;
+    }
+
+    private int stackUsage = 0;
+
+    public int bumpStackUsage() {
+        // TODO: figure out a way to ensure this is called at every PUSH.
+        return ++stackUsage;
+    }
+
+    public int getStackUsage() {
+        return stackUsage;
     }
 }

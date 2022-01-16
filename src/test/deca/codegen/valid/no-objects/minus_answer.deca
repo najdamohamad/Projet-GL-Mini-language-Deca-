@@ -1,0 +1,8 @@
+{
+    int wrong_answer = -42;
+    if (-1 * wrong_answer == 42.0) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+}

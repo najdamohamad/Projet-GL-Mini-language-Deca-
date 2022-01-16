@@ -1,0 +1,13 @@
+// Description:
+//    Test d'une variable initialisée après sa déclaration.
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    boolean a;
+    a = true;
+    println("Ok");
+}

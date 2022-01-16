@@ -1,0 +1,11 @@
+// Description:
+//    Test de print d'une expression
+//
+// Resultats:
+//    4
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    println(2 + 2);
+}

@@ -1,0 +1,20 @@
+// Description:
+//    Test d'un if avec un résultat d'un assignement.
+//    Voir le test multiple_assign.deca pour comprendre pourquoi c'est valide.
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 15/01/2022
+
+{
+    boolean a;
+    boolean b;
+    if (a = b = true) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+}
+

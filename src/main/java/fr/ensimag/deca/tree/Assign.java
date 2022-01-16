@@ -5,6 +5,9 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 
 /**
  * Assignment, i.e. lvalue = expr.
@@ -41,4 +44,14 @@ public class Assign extends AbstractBinaryExpr {
         return "=";
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+        getRightOperand().codeGen(program);
+        AbstractIdentifier ident = (AbstractIdentifier) getLeftOperand();
+        program.addInstruction(new STORE(
+                Register.R0,
+                ident.getVariableDefinition().getOperand()
+        ));
+
+    }
 }

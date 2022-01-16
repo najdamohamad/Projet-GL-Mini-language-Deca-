@@ -1,0 +1,22 @@
+// Description:
+//    Test ou on declare des variables dans notre if and else 
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur car c'est pas permit dans notre language de declrer des variables autre que 
+//    au debut meme si dans if and else 
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    if( condition == true )
+    {
+       int x = 2   ;
+    }
+    else
+    {
+       int y = 3   ; 
+    }
+    
+}

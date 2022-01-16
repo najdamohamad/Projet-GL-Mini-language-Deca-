@@ -1,0 +1,15 @@
+// Description:
+//    Test d'un multiple assignement avec des variables.
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    boolean a;
+    boolean b;
+    boolean c = true;
+    a = b = c;
+    println("Ok");
+}

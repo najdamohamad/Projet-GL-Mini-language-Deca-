@@ -1,0 +1,20 @@
+// Description:
+//    Test de controle structure plusieurs if
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context: pas d'erreur , tout variables declarées ,condition bien respectée   
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    if(true) {
+
+    } else if(true) {
+
+    } else {
+        
+    }
+}

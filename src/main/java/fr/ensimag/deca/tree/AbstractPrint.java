@@ -59,7 +59,7 @@ public abstract class AbstractPrint extends AbstractInst {
     @Override
     public void codeGen(IMAProgram program) {
         for (AbstractExpr a : getArguments().getList()) {
-            a.codeGenDisplay(program);
+            a.codeGenDisplay(program, printHex);
         }
     }
 

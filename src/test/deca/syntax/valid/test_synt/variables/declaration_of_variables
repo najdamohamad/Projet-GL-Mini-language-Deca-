@@ -15,7 +15,7 @@
     float b  = 2.1;  
     string s = "juNGLE"; 
     boolean l = true  ; 
-    Object ob = null ;
+
     //type non defini 
     blabla m = blala ;
     bb m1 = blibli ; 

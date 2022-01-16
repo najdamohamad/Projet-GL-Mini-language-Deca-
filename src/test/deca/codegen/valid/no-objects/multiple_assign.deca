@@ -1,0 +1,19 @@
+// Description:
+//    Test d'un multiple assignement.
+//    D'après la grammaire p.63,
+//    si on prend un assign et on dérive expr;
+//    ASSIGN [LVALUE EXPR]
+//    => EXPR -> INITIALIZATION -> EXPR -> BINARY_EXPR -> ASSIGN [LVALUE EXPR]
+//    On peut donc avoir plusieurs assigns à la suite.
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    boolean a;
+    boolean b;
+    a = b = true;
+    println("Ok");
+}

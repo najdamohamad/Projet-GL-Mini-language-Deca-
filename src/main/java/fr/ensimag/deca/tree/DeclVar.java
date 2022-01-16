@@ -1,8 +1,12 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -48,6 +52,21 @@ public class DeclVar extends AbstractDeclVar {
         }
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+        // Put the address of the variable in VariableDefinition.operand of varName.
+        DAddr varAddr = new RegisterOffset(program.bumpStackUsage(), Register.GB);
+        program.addInstruction(new ADDSP(new ImmediateInteger(1)));
+        varName.getVariableDefinition().setOperand(varAddr);
+        // This will put the result of calculating the expression in R0.
+        initialization.codeGen(program);
+        program.addInstruction(new STORE(Register.R0, varAddr));
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 
     @Override
     public void decompile(IndentPrintStream s) {

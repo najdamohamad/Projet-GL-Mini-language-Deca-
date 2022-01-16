@@ -1,13 +1,16 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
-
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import java.io.PrintStream;
 
 /**
@@ -62,6 +65,29 @@ public class While extends AbstractInst {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         condition.prettyPrint(s, prefix, false);
         body.prettyPrint(s, prefix, true);
+    }
+
+    @Override
+    public void codeGen(IMAProgram program) {
+        Label condition = new Label("cmp_cond_" + hashCode());
+        Label endLabel = new Label("cmp_end_" + hashCode());
+
+        program.addLabel(condition);
+
+        // Put the result of evaluating the condition expression into R0.
+        getCondition().codeGen(program);
+        //compare resultat in R0 with 0.
+        program.addInstruction(new LOAD(new ImmediateInteger(0), Register.R1));
+        program.addInstruction(new CMP(Register.R0, Register.R1));
+        program.addInstruction(new BEQ(endLabel));
+        getBody().codeGen(program);
+        program.addInstruction(new BRA(condition));
+        program.addLabel(endLabel);
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
 }
