@@ -15,6 +15,11 @@ import java.util.LinkedList;
  * @date 01/01/2022
  */
 public class IMAProgram implements OutputProgram {
+    public int maxRegister;
+    public IMAProgram(int maxRegister) {
+        this.maxRegister = maxRegister;
+    }
+
     private final LinkedList<AbstractLine> lines = new LinkedList<AbstractLine>();
 
     public void add(AbstractLine line) {
@@ -34,6 +39,11 @@ public class IMAProgram implements OutputProgram {
         lines.add(new Line(i));
     }
 
+    /**
+     * Add an instruction with a comment.
+     * @param i The instruction.
+     * @param s The comment.
+     */
     public void addInstruction(Instruction i, String s) {
         lines.add(new Line(null, i, s));
     }
@@ -83,21 +93,26 @@ public class IMAProgram implements OutputProgram {
         addFirst(new Line(null, i, comment));
     }
 
-    private int maxRegister = 15;
-
     public void setMaxRegister(int maxRegister) {
         this.maxRegister = maxRegister;
     }
 
-    private int freeRegister = 1;
+    private int freeRegister = 2;
 
-    public GPRegister getNextRegister() throws DecacInternalError {
-        freeRegister++;
+    public GPRegister allocateRegister() throws DecacInternalError {
         if (freeRegister == maxRegister) {
             throw new DecacInternalError("reached max register");
-        } else {
-            return Register.getR(freeRegister);
         }
+        freeRegister++;
+        return Register.getR(freeRegister);
+    }
+
+    public GPRegister getMaxUsedRegister() {
+        return Register.getR(freeRegister);
+    }
+
+    public boolean isMaxUsableRegister() {
+        return freeRegister == maxRegister;
     }
 
     public void freeRegister() {

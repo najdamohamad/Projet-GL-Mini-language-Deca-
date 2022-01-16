@@ -1,0 +1,18 @@
+// Description:
+//    Test de verification de plusieurs not operator  ;
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context :  pas d'erreur 
+//
+// Historique:
+//    cree le 13/01/2022
+
+{
+    boolean x = true  ;
+    boolean y = false  ;
+    boolean z = true ; 
+    boolean h = false ; 
+    (x !=  y) != ( z != h);  
+}

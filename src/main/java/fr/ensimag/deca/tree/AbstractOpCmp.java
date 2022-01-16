@@ -29,7 +29,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
             // Get a new register to save the result of calculating the RHS,
             // to save room for the second expression.
             // Using registers is faster than addressing the stack.
-            GPRegister saveRegister = program.getNextRegister();
+            GPRegister saveRegister = program.allocateRegister();
             program.addInstruction(new LOAD(Register.R0, saveRegister));
             getRightOperand().codeGen(program);
             program.addInstruction(new LOAD(saveRegister, Register.R1));

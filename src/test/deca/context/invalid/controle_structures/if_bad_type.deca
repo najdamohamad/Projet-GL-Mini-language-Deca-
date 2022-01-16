@@ -1,0 +1,12 @@
+// Description:
+//    Test de if avec une mauvise valeur
+//
+// Resultats:
+//    Context: erreur line 11
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    if (1) {}
+}

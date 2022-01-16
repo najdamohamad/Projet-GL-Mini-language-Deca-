@@ -1,0 +1,13 @@
+// Description:
+//    X comme une instruction.
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    int x;
+    x;
+}

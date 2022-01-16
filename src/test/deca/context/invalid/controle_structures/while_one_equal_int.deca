@@ -1,0 +1,20 @@
+// Description:
+//    Test de controle structure while avec une condition int avec un seul egale .
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    context: ERROR puisque on a un int ol comme condition avec un seul
+//    egale assigne la valeur 1 dans ce cas là donc
+//     --> while(1) ne marche pas    
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    int condition = 1 ; 
+    while(condition = 1 ) 
+    {
+        print(hello) ;
+    }
+}

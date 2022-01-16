@@ -1,0 +1,16 @@
+// Description:
+//    Test de while avec un readint
+//    On ne peut pas readint vu que ca ne retourne pas un booleen
+//
+// Resultats:
+//    Context: erreur line 12
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    while(readfloat()) 
+    {
+        print("salut") ;
+    }
+}

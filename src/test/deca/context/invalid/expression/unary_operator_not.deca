@@ -1,0 +1,15 @@
+// Description:
+//    Test de verification de l'operateur unitair not "!" ;
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context :  TypeError: type incorrect dans `l'expression de négation `!x`, attendu `boolean` mais trouvé `int`.
+//
+// Historique:
+//    cree le 13/01/2022
+
+{
+    int x = 2 ; 
+    x = !x ; 
+}

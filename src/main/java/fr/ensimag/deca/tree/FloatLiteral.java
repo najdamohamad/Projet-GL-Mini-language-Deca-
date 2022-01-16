@@ -57,7 +57,7 @@ public class FloatLiteral extends AbstractExpr {
 
     @Override
     public void codeGen(IMAProgram program) {
-        program.addInstruction(new LOAD(new ImmediateFloat(value), Register.R0));
+        program.addInstruction(new LOAD(new ImmediateFloat(value), program.getMaxUsedRegister()));
     }
 
     @Override
