@@ -8,6 +8,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
+import org.apache.log4j.Logger;
 
 /**
  * Arithmetic binary operations (+, -, /, ...)
@@ -16,6 +17,7 @@ import fr.ensimag.ima.pseudocode.instructions.*;
  * @date 01/01/2022
  */
 public abstract class AbstractOpArith extends AbstractBinaryExpr {
+    private static final Logger LOG = Logger.getLogger(AbstractOpArith.class);
     public AbstractOpArith(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
     }
@@ -49,60 +51,75 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         return exprType;
     }
 
-    public void codeOpe(IMAProgram program, DVal value, GPRegister register) {
-    }
+    /**
+     * Code gen for an binary op.
+     * Instead of returning only the ADD, this returns the entire instruction:
+     * for example ADD 3(GB), R2.
+     * It also will check for overflows when dealing with floats:
+     * see [Semantique] p100, Débordements lors de l’évaluation des expressions.
+     */
+    public abstract void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg);
 
+    /**
+     * Implements the codeGenExp algorithm in 05-stage-gencode-trans p5.
+     * Here Rn = the result of program.getMaxUsedRegister().
+     */
     @Override
     public void codeGen(IMAProgram program) {
-        // TODO: refactor the shared code between OpArith and OpCmp.
+        LOG.trace("coding expr: "+this.decompile());
+        // Case 1: <codeExp(e, n)> avec <dval(e)> != T
+        // Overridden by each literal, see eg. IntLiteral which overrides codeGen
 
-        // Put the result of evaluating the LHS expression into R0.
-        getLeftOperand().codeGen(program);
-        try {
-            // Get a new register to save the result of calculating the RHS,
-            // to save room for the second expression.
-            // Using registers is faster than addressing the stack.
-            GPRegister saveRegister = program.getNextRegister();
-            program.addInstruction(new LOAD(Register.R0, saveRegister));
-            getRightOperand().codeGen(program);
-            program.addInstruction(new LOAD(saveRegister, Register.R1));
-            program.freeRegister(); // We no longer need the saveRegister.
-        } catch (DecacInternalError e) {
-            program.addInstruction(new PUSH(Register.R0));
-            program.bumpStackUsage();
-            getRightOperand().codeGen(program);
-            // Restore the saved R0 register into R1.
-            program.addInstruction(new POP(Register.R1));
+        // Case 2: <codeExp(op[e1, e2], n)> avec <dval(e2)> != T
+        if (getRightOperand().getDVal() != null) {
+            LOG.trace("codeExpr: case 2 <codeExp(op[e1, e2], n)> avec <dval(e2)> != T");
+            // <codeExp(e1, n)>
+            getLeftOperand().codeGen(program);
+            // <mnemo(op)> <dval(e2)>, Rn
+            codeGenBinaryOp(program, getRightOperand().getDVal(), program.getMaxUsedRegister());
+            return;
         }
 
-        // Put the aithmetic operation R0 OP R1 into R0.
-        switch (getOperatorName()) {
-            case "+":
-                program.addInstruction(new ADD(Register.R1, Register.R0));
-                break;
-            case "-":
-                program.addInstruction(new SUB(Register.R1, Register.R0));
-                break;
-            case "*":
-                program.addInstruction(new MUL(Register.R1, Register.R0));
-                break;
-            case "/":
-                if (getLeftOperand().isFloat()) {
-                    program.addInstruction(new CMP(new ImmediateFloat(0), Register.R0));
-                    program.addInstruction(new BEQ(new Label("DivisionByZeroError")));
-                    program.addInstruction(new DIV(Register.R1, Register.R0));
-                } else {
-                    program.addInstruction(new CMP(new ImmediateInteger(0), Register.R0));
-                    program.addInstruction(new BEQ(new Label("DivisionByZeroError")));
-                    program.addInstruction(new QUO(Register.R1, Register.R0));
-                }
-                break;
-            case "%":
-                program.addInstruction(new REM(Register.R1, Register.R0));
-                break;
-            default:
-                throw new DecacInternalError("unreachable!");
+        if (getRightOperand().getDVal() == null) {
+            if (program.isMaxUsableRegister()) {
+                // Case 3: <codeExp(e, n)> avec <dval(e2)> = T et n = max
+                // Allocate a temporary on the stack.
+                program.bumpStackUsage();
+
+                // <codeExp(e1, n)>
+                getLeftOperand().codeGen(program);
+                // PUSH Rn
+                program.addInstruction(
+                        new PUSH(program.getMaxUsedRegister())
+                );
+                // <codeExp(e2, n)>
+                getRightOperand().codeGen(program);
+                // LOAD Rn, R0
+                program.addInstruction(
+                        new LOAD(program.getMaxUsedRegister(), Register.R0)
+                );
+                // POP Rn
+                program.addInstruction(
+                        new POP(program.getMaxUsedRegister())
+                );
+                // <mnemo(op)> R0, Rn
+                codeGenBinaryOp(program, Register.R0, program.getMaxUsedRegister());
+            } else {
+                // Case 4: <codeExp(e, n)> avec <dval(e2)> = T et n < max
+                // No temporary needed, instead allocate one more register.
+
+                // <codeExp(e1, n)>
+                getLeftOperand().codeGen(program);
+                // <codeExp(e2, n+1)>
+                GPRegister regN = program.getMaxUsedRegister();
+                GPRegister regNPlusOne = program.allocateRegister();
+                codeGenBinaryOp(program, regN, regNPlusOne);
+                program.freeRegister();
+            }
+            return;
         }
+
+        LOG.fatal("codeExp did not have a valid match case. exp="+this);
+        throw new DecacInternalError("codeExp did not have a valid match case. exp="+this);
     }
-
 }

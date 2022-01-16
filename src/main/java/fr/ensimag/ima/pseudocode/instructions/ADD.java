@@ -12,4 +12,5 @@ public class ADD extends BinaryInstructionDValToReg {
     public ADD(DVal op1, GPRegister op2) {
         super(op1, op2);
     }
+
 }

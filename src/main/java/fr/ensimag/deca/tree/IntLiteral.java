@@ -44,7 +44,7 @@ public class IntLiteral extends AbstractExpr {
 
     @Override
     public void codeGen(IMAProgram program) {
-        program.addInstruction(new LOAD(new ImmediateInteger(value), Register.R0));
+        program.addInstruction(new LOAD(new ImmediateInteger(value), program.getMaxUsedRegister()));
     }
 
     @Override

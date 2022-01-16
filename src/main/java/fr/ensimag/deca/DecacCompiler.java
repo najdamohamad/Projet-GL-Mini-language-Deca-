@@ -157,7 +157,7 @@ public class DecacCompiler {
             program = new ARMProgram();
             abstractProgram.codeGen((ARMProgram) program);
         } else {
-            program = new IMAProgram();
+            program = new IMAProgram(compilerOptions.getNumberOfRegisters());
             ((IMAProgram) program).setMaxRegister(compilerOptions.getNumberOfRegisters() - 1);
             abstractProgram.codeGen((IMAProgram) program);
         }

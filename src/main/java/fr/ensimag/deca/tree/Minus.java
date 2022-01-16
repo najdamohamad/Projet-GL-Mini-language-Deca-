@@ -4,6 +4,9 @@ import fr.ensimag.arm.pseudocode.syscalls.Write;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.ADD;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.SUB;
 import fr.ensimag.ima.pseudocode.DVal;
 import org.apache.commons.lang.Validate;
@@ -17,11 +20,15 @@ public class Minus extends AbstractOpArith {
         super(leftOperand, rightOperand);
     }
 
-//    @Override
-//    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
-//        super.codeGen(program);
-//        program.addInstruction(new SUB(value, register));
-//    }
+    @Override
+    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
+        program.addInstruction(new SUB(dval, reg));
+        if (isFloat()) {
+            program.addInstruction(new BOV(Program.ARITHMETIC_OVERFLOW_ERROR),
+                    "adding two floats, overflow check for SUB");
+        }
+    }
+
     @Override
     protected String getOperatorName() {
         return "-";

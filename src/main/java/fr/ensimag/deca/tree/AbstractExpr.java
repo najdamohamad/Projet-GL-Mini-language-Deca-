@@ -138,17 +138,17 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
 
     @Override
     public void codeGenDisplay(IMAProgram program, boolean hexadecimal) {
-        if (getType() instanceof StringType) {
+        if (getType().isString()) {
             // TODO: this will require writing the chars one be one
             //       from the stack using WUT8 (write the char whoose code point is V[R1]).
             throw new UnsupportedOperationException("not yet implemented");
-        } else if (getType() instanceof IntType) {
+        } else if (getType().isInt()) {
             codeGen(program); // Result goes in R0.
-            program.addInstruction(new LOAD(Register.R0, Register.R1));
+            program.addInstruction(new LOAD(program.getMaxUsedRegister(), Register.R1));
             program.addInstruction(new WINT());
-        } else if (getType() instanceof FloatType) {
+        } else if (getType().isFloat()) {
             codeGen(program); // Result goes in R0.
-            program.addInstruction(new LOAD(Register.R0, Register.R1));
+            program.addInstruction(new LOAD(program.getMaxUsedRegister(), Register.R1));
             program.addInstruction(hexadecimal ? new WFLOATX() : new WFLOAT());
         } else {
             throw new DecacInternalError(decompile() + " is not printable, this is a verification bug.");

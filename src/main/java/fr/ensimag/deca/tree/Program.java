@@ -48,6 +48,11 @@ public class Program extends AbstractProgram {
         LOG.debug("verify program: end");
     }
 
+    // Error labels.
+    public static final Label ARITHMETIC_OVERFLOW_ERROR = new Label("ArithmeticOverflowError");
+    public static final Label STACK_OVERFLOW_ERROR = new Label("StackOverflowError");
+    public static final Label DIVISION_BY_ZERO_ERROR = new Label("DivisionByZeroError");
+
     /**
      * CodeGen for main programs.
      * Follows the code listing p209,
@@ -64,17 +69,18 @@ public class Program extends AbstractProgram {
         program.addInstruction(new HALT());
         program.addComment("End of main function.");
 
-        Label stackOverFlow = new Label("StackOverflowError");
-        Label divisionByZero = new Label("DivisionByZeroError");
-
-        program.addFirst(new BOV(stackOverFlow));
+        program.addFirst(new BOV(STACK_OVERFLOW_ERROR));
         program.addFirst(new TSTO(new ImmediateInteger(program.getStackUsage())));
 
-        program.addLabel(divisionByZero);
+        program.addLabel(ARITHMETIC_OVERFLOW_ERROR);
+        program.addInstruction(new WSTR("Erreur : débordement pendant opération arithmétique entre deux flottants."));
+        program.addInstruction(new WNL());
+        program.addInstruction(new ERROR());
+        program.addLabel(DIVISION_BY_ZERO_ERROR);
         program.addInstruction(new WSTR("Erreur : divison par zéro."));
         program.addInstruction(new WNL());
         program.addInstruction(new ERROR());
-        program.addLabel(stackOverFlow);
+        program.addLabel(STACK_OVERFLOW_ERROR);
         program.addInstruction(new WSTR("Erreur : débordement de la pile."));
         program.addInstruction(new WNL());
         program.addInstruction(new ERROR());

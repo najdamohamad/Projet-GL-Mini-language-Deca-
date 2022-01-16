@@ -58,9 +58,9 @@ public class DeclVar extends AbstractDeclVar {
         DAddr varAddr = new RegisterOffset(program.bumpStackUsage(), Register.GB);
         program.addInstruction(new ADDSP(new ImmediateInteger(1)));
         varName.getVariableDefinition().setOperand(varAddr);
-        // This will put the result of calculating the expression in R0.
+        // This will put the result of calculating the expression in max used register.
         initialization.codeGen(program);
-        program.addInstruction(new STORE(Register.R0, varAddr));
+        program.addInstruction(new STORE(program.getMaxUsedRegister(), varAddr));
     }
 
     @Override

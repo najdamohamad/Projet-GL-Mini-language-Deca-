@@ -1,9 +1,8 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.ADD;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
 
 /**
  * @author gl47
@@ -15,9 +14,12 @@ public class Plus extends AbstractOpArith {
     }
 
     @Override
-    public void codeOpe(IMAProgram program, DVal value, GPRegister register) {
-        super.codeGen(program);
-        program.addInstruction(new ADD(value, register));
+    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
+        program.addInstruction(new ADD(dval, reg));
+        if (isFloat()) {
+            program.addInstruction(new BOV(Program.ARITHMETIC_OVERFLOW_ERROR),
+            "adding two floats, overflow check for ADD");
+        }
     }
 
     @Override
