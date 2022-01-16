@@ -133,8 +133,7 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
 
     @Override
     public void codeGenDisplay(IMAProgram program, boolean hexadecimal) {
-<<<<<<< HEAD
-        if (getType() instanceof StringType) {
+        if (getType().isString()) {
             codeGen(program); // Address of first char is in R0.
 
             Label reachedZero = new Label("string_display_loop_" + hashCode());
@@ -144,7 +143,7 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
             program.addLabel(reachedZero);
             // Load the character from its address.
             program.addInstruction(new LOAD(
-                    new RegisterOffset(0, Register.R0),
+                    new RegisterOffset(0, program.getMaxUsedRegister()),
                     Register.R1
             ));
             // Exit if the character is '\0'
@@ -154,25 +153,17 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
             program.addInstruction(new WUTF8());
             // Increment the address (R0) to point to the next character.
             program.addInstruction(new LEA(
-                    new RegisterOffset(1, Register.R0),
-                    Register.R0
+                    new RegisterOffset(1, program.getMaxUsedRegister()),
+                    program.getMaxUsedRegister()
             ));
             program.addInstruction(new BRA(reachedZero));
             program.addLabel(endLabel);
-
-        } else if (getType() instanceof IntType) {
-=======
-        if (getType().isString()) {
-            // TODO: this will require writing the chars one be one
-            //       from the stack using WUT8 (write the char whoose code point is V[R1]).
-            throw new UnsupportedOperationException("not yet implemented");
         } else if (getType().isInt()) {
->>>>>>> codegen_fix_expr
-            codeGen(program); // Result goes in R0.
+            codeGen(program);
             program.addInstruction(new LOAD(program.getMaxUsedRegister(), Register.R1));
             program.addInstruction(new WINT());
         } else if (getType().isFloat()) {
-            codeGen(program); // Result goes in R0.
+            codeGen(program);
             program.addInstruction(new LOAD(program.getMaxUsedRegister(), Register.R1));
             program.addInstruction(hexadecimal ? new WFLOATX() : new WFLOAT());
         } else {
