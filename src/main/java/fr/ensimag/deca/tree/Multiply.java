@@ -19,7 +19,7 @@ public class Multiply extends AbstractOpArith {
     }
 
     @Override
-    public void codeOpe(IMAProgram program,DVal value,GPRegister register) {
+    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
         super.codeGen(program);
         program.addInstruction(new MUL(value, register));
     }

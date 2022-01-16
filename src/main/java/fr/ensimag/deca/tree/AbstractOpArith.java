@@ -16,6 +16,8 @@ import fr.ensimag.ima.pseudocode.instructions.REM;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.POP;
 import fr.ensimag.ima.pseudocode.DVal;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.ima.pseudocode.Label;
@@ -59,43 +61,31 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
         setType(exprType);
         return exprType;
     }
-    public void codeOpe(IMAProgram program,DVal value,GPRegister register) {
+    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
 
-    public void codeGenExpr(IMAProgram program){
+    public void codeGenExpr(IMAProgram program, GPRegister register){
         super.codeGen(program);
-        int premierRegistreLibre = program.gestionRegistre.getPremierRegistreLibre();
-        if (premierRegistreLibre < 16){
-            GPRegister registre = Register.getR(premierRegistreLibre);
-            program.gestionRegistre.occupeRegistre(premierRegistreLibre);
-            this.getLeftOperand().codeGenExpr(program, registre);
+        if (this.getRightOperand().getDVal() != null){
+            this.getLeftOperand().codeGenExpr(program, register);
+            mnemo(program, this.getRightOperand().getDVal(), register);
+        }
+        else if(register.getNumber() == program.maxRegister){
+            this.getLeftOperand().codeGenExpr(program, register);
+            program.addInstruction(new TSTO(1));
+            program.addInstruction(new BOV(new Label("stackOverflow")));
+            program.addInstruction(new PUSH(register));
+            this.getRightOperand().codeGenExpr(program, register);
+            program.addInstruction(new LOAD(register, Register.R0));
+            program.addInstruction(new POP(register));
+            mnemo(program,Register.R0 ,register);
         }
         else{
-            premierRegistreLibre = program.gestionRegistre.getRandomRegistre();
-            program.addInstruction(new TSTO(1));
-            program.addInstruction(new BOV(new Label("pile pleine")));
-            GPRegister registre = Register.getR(premierRegistreLibre);
-            program.addInstruction(new PUSH(registre));
-        }
-        if(this.getRightOperand().getDVal()!=null){
-            codeOpe(program, this.getRightOperand().getDVal(), Register.getR(premierRegistreLibre));
-        }
-        else {
-            int secondRegistreLibre = program.gestionRegistre.getPremierRegistreLibre();
-            if (secondRegistreLibre < 16) {
-                GPRegister registre = Register.getR(secondRegistreLibre);
-                program.gestionRegistre.occupeRegistre(secondRegistreLibre);
-                this.getRightOperand().codeGenExpr(program, registre);
-            } else {
-                secondRegistreLibre = program.gestionRegistre.getRandomRegistre(premierRegistreLibre);
-                program.addInstruction(new TSTO(1));
-                program.addInstruction(new BOV(new Label("pile pleine")));
-                GPRegister registre = Register.getR(secondRegistreLibre);
-                program.addInstruction(new PUSH(registre));
-            }
-            codeOpe(program, Register.getR(premierRegistreLibre), Register.getR(secondRegistreLibre));
+            this.getLeftOperand().codeGenExpr(program, register);
+            this.getRightOperand().codeGenExpr(program, Register.getR(register.getNumber()+1));
+            mnemo(program,Register.getR(register.getNumber()+1),register );
         }
     }
 

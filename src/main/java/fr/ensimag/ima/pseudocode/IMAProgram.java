@@ -15,10 +15,10 @@ import java.util.LinkedList;
  */
 public class IMAProgram implements OutputProgram {
     private final LinkedList<AbstractLine> lines = new LinkedList<AbstractLine>();
-    public final GestionRegistre gestionRegistre = new GestionRegistre();
     public void add(AbstractLine line) {
         lines.add(line);
     }
+    public int maxRegister = 15;
 
     @Override
     public void addComment(String comment) {

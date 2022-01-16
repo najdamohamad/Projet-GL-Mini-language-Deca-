@@ -61,7 +61,8 @@ public class IntLiteral extends AbstractExpr {
         program.addInstruction(new WINT());
     }
 
-    public void codeGenExpr(IMAProgram program,GPRegister register) {
+    @Override
+    public  void codeGenExpr(IMAProgram program,GPRegister register) {
         super.codeGen(program);
         program.addInstruction(new LOAD(new ImmediateInteger(value), register));
     }
