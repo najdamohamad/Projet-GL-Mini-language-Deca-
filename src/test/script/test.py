@@ -181,6 +181,7 @@ def suite_test_exec(dossier, sous_language, type_test):
         # //! IMA_OPTIONS: -p 42
         # L'ordre n'est pas important, mais ce doit etre les premiere ligne avant le test.
         arguments_ima = ""
+        arguments_decac = ""
         with open(fichier) as f:
             ligne = f.readline().rstrip("\n")
             while "//!" in ligne:
