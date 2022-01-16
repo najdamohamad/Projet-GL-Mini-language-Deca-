@@ -8,9 +8,13 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
+import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
 import org.apache.commons.lang.Validate;
-import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.*;
+
 import java.io.PrintStream;
 
 /**
@@ -77,8 +81,7 @@ public class While extends AbstractInst {
         // Put the result of evaluating the condition expression into R0.
         getCondition().codeGen(program);
         //compare resultat in R0 with 0.
-        program.addInstruction(new LOAD(new ImmediateInteger(0), Register.R1));
-        program.addInstruction(new CMP(Register.R0, Register.R1));
+        program.addInstruction(new CMP(new ImmediateInteger(0), program.getMaxUsedRegister()));
         program.addInstruction(new BEQ(endLabel));
         getBody().codeGen(program);
         program.addInstruction(new BRA(condition));

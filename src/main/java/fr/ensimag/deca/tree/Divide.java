@@ -1,18 +1,12 @@
 package fr.ensimag.deca.tree;
-import fr.ensimag.arm.pseudocode.*;
-import fr.ensimag.arm.pseudocode.syscalls.Write;
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.ImmediateFloat;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.*;
+
 import fr.ensimag.ima.pseudocode.DVal;
-import org.apache.commons.lang.Validate;
-import fr.ensimag.deca.context.FloatType;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
- *
  * @author gl47
  * @date 01/01/2022
  */
@@ -36,7 +30,7 @@ public class Divide extends AbstractOpArith {
             // p.108: QUO sets CP flags
             // in other words, OV flag if set if QUO with 0 as second operand
             program.addInstruction(new QUO(dval, reg));
-            program.addInstruction(new BEQ(Program.DIVISION_BY_ZERO_ERROR), "may have tried to div by 0");
+            program.addInstruction(new BOV(Program.DIVISION_BY_ZERO_ERROR), "may have tried to div by 0");
         }
     }
 

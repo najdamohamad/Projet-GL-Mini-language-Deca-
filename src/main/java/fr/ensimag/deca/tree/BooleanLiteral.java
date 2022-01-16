@@ -7,7 +7,6 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 import java.io.PrintStream;
@@ -63,7 +62,7 @@ public class BooleanLiteral extends AbstractExpr {
         int immediateValue = value ? 1 : 0;
         program.addInstruction(new LOAD(
                 immediateValue,
-                Register.R0
+                program.getMaxUsedRegister()
         ));
     }
 }
