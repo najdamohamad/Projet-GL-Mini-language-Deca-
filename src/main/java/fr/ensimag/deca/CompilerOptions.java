@@ -76,7 +76,7 @@ public class CompilerOptions {
     private boolean parseThenStop = false;
     private boolean verifyThenStop = false;
     private boolean generateARMAssembly = false;
-    private boolean shouldCheck = false;
+    private boolean shouldCheck = true;
     private int numberOfRegisters = 16;
     private List<File> sourceFiles = new ArrayList<File>();
 
