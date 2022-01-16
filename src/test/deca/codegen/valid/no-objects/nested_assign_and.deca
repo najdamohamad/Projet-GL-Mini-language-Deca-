@@ -1,0 +1,35 @@
+// Description:
+//    Test d'un assignement nested, avec &&.
+//
+// Resultats:
+//    Ok
+//    Ok
+//    Ok
+//
+// Historique:
+//    cree le 16/01/2022
+{
+    boolean a = true;
+    boolean b = false;
+    boolean c;
+
+    c = (b = !b) && (a = !a);
+
+    if (a) {
+        println("Err");
+    } else {
+        println("Ok");
+    }
+
+    if (b) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+
+    if (c) {
+        println("Err");
+    } else {
+        println("Ok");
+    }
+}

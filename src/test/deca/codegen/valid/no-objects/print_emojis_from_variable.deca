@@ -1,0 +1,12 @@
+// Description:
+//    Test d'une variable assignée immédiatement.
+//
+// Resultats:
+//    Hello, World!🎆🎆🎆
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    string message = "Hello, World!🎆🎆🎆";
+    println(message);
+}
