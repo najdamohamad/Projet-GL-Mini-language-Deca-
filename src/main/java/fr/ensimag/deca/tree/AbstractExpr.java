@@ -146,8 +146,8 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
                     new RegisterOffset(0, program.getMaxUsedRegister()),
                     Register.R1
             ));
-            // Exit if the character is '\0'
-            program.addInstruction(new CMP(new ImmediateInteger(0), Register.R1));
+            // Exit if the character is '\0' (LOAD sets the code condition, as if we did CMP #0, R1).
+            // program.addInstruction(new CMP(new ImmediateInteger(0), Register.R1));
             program.addInstruction(new BEQ(endLabel));
             // Write the character (?) in the register R1.
             program.addInstruction(new WUTF8());
