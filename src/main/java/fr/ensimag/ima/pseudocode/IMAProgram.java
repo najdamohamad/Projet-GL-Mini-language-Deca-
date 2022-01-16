@@ -84,8 +84,6 @@ public class IMAProgram implements OutputProgram {
         addFirst(new Line(null, i, comment));
     }
 
-    private int maxRegister = 15;
-
     public void setMaxRegister(int maxRegister) {
         this.maxRegister = maxRegister;
     }

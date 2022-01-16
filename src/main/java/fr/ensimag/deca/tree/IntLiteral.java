@@ -6,11 +6,9 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.WINT;
 
 import java.io.PrintStream;
 
@@ -49,22 +47,23 @@ public class IntLiteral extends AbstractExpr {
         program.addInstruction(new LOAD(new ImmediateInteger(value), Register.R0));
     }
 
-    @Overridea
+    @Override
     public String prettyPrintNode() {
         return "Int (" + getValue() + ")";
     }
-    
-    public void codeGenDisplay(IMAProgram program) {
-        super.codeGen(program);
-        program.addInstruction(new LOAD(new ImmediateInteger(value), Register.R1));
-        program.addInstruction(new WINT());
-    }
 
-    @Override
-    public  void codeGenExpr(IMAProgram program,GPRegister register) {
-        super.codeGen(program);
-        program.addInstruction(new LOAD(new ImmediateInteger(value), register));
-    }
+//    @Override
+//    public void codeGenDisplay(IMAProgram program) {
+//        super.codeGen(program);
+//        program.addInstruction(new LOAD(new ImmediateInteger(value), Register.R1));
+//        program.addInstruction(new WINT());
+//    }
+
+//    @Override
+//    public void codeGenExpr(IMAProgram program, GPRegister register) {
+//        super.codeGen(program);
+//        program.addInstruction(new LOAD(new ImmediateInteger(value), register));
+//    }
 
     @Override
     public void decompile(IndentPrintStream s) {

@@ -54,7 +54,6 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
 
     @Override
     public void codeGen(IMAProgram program) {
-
         // TODO: refactor the shared code between OpArith and OpCmp.
 
         // Put the result of evaluating the LHS expression into R0.
@@ -68,7 +67,7 @@ public abstract class AbstractOpArith extends AbstractBinaryExpr {
             getRightOperand().codeGen(program);
             program.addInstruction(new LOAD(saveRegister, Register.R1));
             program.freeRegister(); // We no longer need the saveRegister.
-        } catch (DecacInternalError _) {
+        } catch (DecacInternalError e) {
             program.addInstruction(new PUSH(Register.R0));
             program.bumpStackUsage();
             getRightOperand().codeGen(program);

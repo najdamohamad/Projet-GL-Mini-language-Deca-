@@ -40,12 +40,12 @@ public class Modulo extends AbstractOpArith {
             throw new ContextualError(message, getLocation());
         }
     }
-
-    @Override
-    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
-        super.codeGen(program);
-        program.addInstruction(new REM(value, register));
-    }
+//
+//    @Override
+//    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
+//        super.codeGen(program);
+//        program.addInstruction(new REM(value, register));
+//    }
     @Override
     protected String getOperatorName() {
         return "%";

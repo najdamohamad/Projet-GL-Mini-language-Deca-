@@ -17,11 +17,11 @@ public class Minus extends AbstractOpArith {
         super(leftOperand, rightOperand);
     }
 
-    @Override
-    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
-        super.codeGen(program);
-        program.addInstruction(new SUB(value, register));
-    }
+//    @Override
+//    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
+//        super.codeGen(program);
+//        program.addInstruction(new SUB(value, register));
+//    }
     @Override
     protected String getOperatorName() {
         return "-";

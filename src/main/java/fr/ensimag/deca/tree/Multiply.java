@@ -18,11 +18,11 @@ public class Multiply extends AbstractOpArith {
         super(leftOperand, rightOperand);
     }
 
-    @Override
-    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
-        super.codeGen(program);
-        program.addInstruction(new MUL(value, register));
-    }
+//    @Override
+//    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
+//        super.codeGen(program);
+//        program.addInstruction(new MUL(value, register));
+//    }
 
     @Override
     protected String getOperatorName() {

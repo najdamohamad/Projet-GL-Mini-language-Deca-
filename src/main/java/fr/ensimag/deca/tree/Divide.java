@@ -20,18 +20,18 @@ public class Divide extends AbstractOpArith {
         super(leftOperand, rightOperand);
     }
 
-    @Override
-    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
-        super.codeGen(program);
-        if (this.getLeftOperand().isFloat()){
-            //division floattants
-            program.addInstruction(new DIV(value, register));
-        }
-        else{
-            //division entier
-            program.addInstruction(new QUO(value, register));
-        }
-    }
+//    @Override
+//    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
+//        super.codeGen(program);
+//        if (this.getLeftOperand().isFloat()){
+//            //division floattants
+//            program.addInstruction(new DIV(value, register));
+//        }
+//        else{
+//            //division entier
+//            program.addInstruction(new QUO(value, register));
+//        }
+//    }
     @Override
     protected String getOperatorName() {
         return "/";
