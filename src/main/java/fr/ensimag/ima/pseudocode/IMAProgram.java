@@ -16,8 +16,20 @@ import java.util.LinkedList;
  */
 public class IMAProgram implements OutputProgram {
     public int maxRegister;
-    public IMAProgram(int maxRegister) {
+    private final boolean shouldCheck;
+
+    public IMAProgram(int maxRegister, boolean shouldCheck) {
         this.maxRegister = maxRegister;
+        this.shouldCheck = shouldCheck;
+    }
+
+    /**
+     * Should we check according to the -n (no check) options?
+     * This means we should ignore 11.1 and 11.3 of [Sémantique].
+     * @return true if we check.
+     */
+    public boolean shouldCheck() {
+        return shouldCheck;
     }
 
     private final LinkedList<AbstractLine> lines = new LinkedList<AbstractLine>();

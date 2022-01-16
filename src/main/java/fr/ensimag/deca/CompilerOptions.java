@@ -32,7 +32,7 @@ public class CompilerOptions {
                     + "\t                         traces.                                          \n"
                     + "\t. -P    (parallel)     : s’il y a plusieurs fichiers sources,             \n"
                     + "\t                         lance la compilation des fichiers en             \n"
-                    + "\t                         parallèle (pour accélérer la compilation).       \n";
+                    + "\t                         parallèle (pour accélérer la compilation)        \n";
 
     public int getDebug() {
         return debug;
@@ -58,6 +58,10 @@ public class CompilerOptions {
         return generateARMAssembly;
     }
 
+    public boolean getShouldCheck() {
+        return shouldCheck;
+    }
+
     public int getNumberOfRegisters() {
         return numberOfRegisters;
     }
@@ -72,6 +76,7 @@ public class CompilerOptions {
     private boolean parseThenStop = false;
     private boolean verifyThenStop = false;
     private boolean generateARMAssembly = false;
+    private boolean shouldCheck = false;
     private int numberOfRegisters = 16;
     private List<File> sourceFiles = new ArrayList<File>();
 
@@ -112,7 +117,10 @@ public class CompilerOptions {
                 case "-r":
                     numberOfRegisters = Integer.parseInt(it.next());
                     break;
-                // TODO: finish option parsing
+                // Do not check overflow.
+                case "-n":
+                    shouldCheck = false;
+                    break;
                 default:
                     sourceFiles.add(new File(token));
                     break;

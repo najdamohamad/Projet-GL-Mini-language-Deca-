@@ -40,11 +40,13 @@ public class Modulo extends AbstractOpArith {
 
     @Override
     public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
-        // Check for divide by 0
-        // p.108:  OV = (V[dval] = 0)
-        // in other words, OV flag if set if QUO with 0 as second operand
         program.addInstruction(new REM(dval, reg));
-        program.addInstruction(new BOV(Program.DIVISION_BY_ZERO_ERROR));
+        if (program.shouldCheck()) {
+            // Check for divide by 0
+            // p.108:  OV = (V[dval] = 0)
+            // in other words, OV flag if set if QUO with 0 as second operand
+            program.addInstruction(new BOV(Program.DIVISION_BY_ZERO_ERROR));
+        }
     }
 
 

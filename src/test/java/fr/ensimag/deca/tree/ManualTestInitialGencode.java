@@ -31,7 +31,7 @@ public class ManualTestInitialGencode {
     }
     
     public static String gencodeSource(AbstractProgram source) {
-        OutputProgram program = new IMAProgram(15);
+        OutputProgram program = new IMAProgram(15, true);
         source.codeGen((IMAProgram) program);
         return program.display();
     }
