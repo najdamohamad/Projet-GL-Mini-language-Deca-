@@ -1,0 +1,1 @@
+Erreur : divison par zéro.
