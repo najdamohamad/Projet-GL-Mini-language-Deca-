@@ -8,6 +8,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.RINT;
 
@@ -30,6 +31,7 @@ public class ReadInt extends AbstractReadExpr {
     @Override
     public void codeGen(IMAProgram program) {
         program.addInstruction(new RINT());
+        program.addInstruction(new BOV(Program.IO_ERROR));
         program.addInstruction(new LOAD(Register.R1, program.getMaxUsedRegister()));
     }
 

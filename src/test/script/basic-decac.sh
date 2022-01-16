@@ -41,7 +41,7 @@ if [ "$?" -ne 0 ]; then
 fi
 
 [ -s "$tmpdir/test.ass" ] || die "Pas de fichier .ass généré"
-grep "$tmpdir/test.ass" -i -e "BOV" -e "Erreur"
+grep "$tmpdir/test.ass" -i -e "débordement"
 if [ "$?" -eq 0 ]; then
     die "Decac génère des check avec l'option -n "
 fi
@@ -53,9 +53,21 @@ if [ "$?" -ne 0 ]; then
 fi
 
 [ -s "$tmpdir/test.ass" ] || die "Pas de fichier .ass généré"
-grep "$tmpdir/test.ass" -i -e "BOV" -e "Erreur" >/dev/null
+grep "$tmpdir/test.ass" -i -e "débordement" >/dev/null
 if [ "$?" -ne 0 ]; then
     die "Decac ne génère pas des check sans l'option -n "
+fi
+
+# Make sure that checks for readInt/Float are always generated, even without -n
+echo "{readInt();}" > $fichier_test
+decac_sans_n=$(decac -n $fichier_test)
+if [ "$?" -ne 0 ]; then
+    die "Decac ne compile pas un readint avec -n"
+fi
+
+grep "$tmpdir/test.ass" -i -e "BOV" >/dev/null
+if [ "$?" -ne 0 ]; then
+    die "Decac ne génère pas de check IO avec l'option -n, alors qu'il devrait"
 fi
 
 echo "{(((1-1)+(1-1))+((1-1)+(1-1))+((1-1)+(1-1))+((1-1)+(1-1)));}" > $fichier_test

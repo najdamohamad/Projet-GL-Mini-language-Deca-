@@ -1,14 +1,11 @@
 package fr.ensimag.deca.tree;
-import fr.ensimag.arm.pseudocode.*;
-import fr.ensimag.arm.pseudocode.syscalls.Write;
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.instructions.ADD;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.MUL;
-import fr.ensimag.ima.pseudocode.DVal;
-import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 
 /**
@@ -16,6 +13,8 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2022
  */
 public class Multiply extends AbstractOpArith {
+    private static final Logger LOG = Logger.getLogger(AbstractOpArith.class);
+
     public Multiply(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
     }
@@ -23,9 +22,14 @@ public class Multiply extends AbstractOpArith {
     @Override
     public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
         program.addInstruction(new MUL(dval, reg));
+        LOG.trace("Multiply/codeGen: " + this.decompile()
+                + " , type = " + getType() + isFloat()
+                + ", OV-Checks? " + program.shouldCheck()
+        );
         if (isFloat() && program.shouldCheck()) {
+            LOG.trace("Multiply/codeGen: adding BOV");
             program.addInstruction(new BOV(Program.ARITHMETIC_OVERFLOW_ERROR),
-                    "adding two floats, overflow check for MUL");
+                    "multiplying two floats, overflow check for MUL");
         }
     }
 

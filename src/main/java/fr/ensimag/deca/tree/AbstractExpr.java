@@ -46,7 +46,7 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
     }
 
     public boolean isFloat() {
-        return false;
+        return type.isFloat();
     }
 
     @Override
