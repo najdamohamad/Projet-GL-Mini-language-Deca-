@@ -1,6 +1,10 @@
 package fr.ensimag.deca;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -12,7 +16,7 @@ import org.apache.log4j.Logger;
 public class DecacMain {
     private static Logger LOG = Logger.getLogger(DecacMain.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // example log4j message.
         LOG.info("Decac compiler started");
         boolean error = false;
@@ -35,11 +39,35 @@ public class DecacMain {
             System.exit(0);
         }
         if (options.getParallel()) {
-            // A FAIRE : instancier DecacCompiler pour chaque fichier à
-            // compiler, et lancer l'exécution des méthodes compile() de chaque
-            // instance en parallèle. Il est conseillé d'utiliser
-            // java.util.concurrent de la bibliothèque standard Java.
-            throw new UnsupportedOperationException("Parallel build not yet implemented");
+            int nbProcs = Runtime.getRuntime().availableProcessors();
+            ExecutorService executorService = Executors.newFixedThreadPool(nbProcs);
+
+            List<Callable<Boolean>> tasks = new ArrayList<>();
+            for (File source : options.getSourceFiles()) {
+                tasks.add(() -> {
+                    DecacCompiler compiler = new DecacCompiler(options, source);
+                    return compiler.compile();
+                });
+            }
+
+            List<Future<Boolean>> futures = executorService.invokeAll(tasks);
+
+            // Wait for all futures to finish. If one fails, the whole operation
+            // should fail, but compile the other files anyway.
+            for (Future<Boolean> future : futures) {
+                try {
+                    boolean hadCompileError = future.get();
+                    if (hadCompileError) {
+                        LOG.debug("A parrallel compilation failed");
+                        error = true;
+                    }
+                } catch (InterruptedException | ExecutionException e) {
+                    LOG.debug("Parrallel compilation error: "+e);
+                    error = true;
+                }
+            }
+
+            executorService.shutdown();
         } else {
             for (File source : options.getSourceFiles()) {
                 DecacCompiler compiler = new DecacCompiler(options, source);

@@ -125,6 +125,10 @@ public class CompilerOptions {
                 case "-d":
                     debug++;
                     break;
+                // Parrallel compilation.
+                case "-P":
+                    parallel = true;
+                    break;
                 default:
                     sourceFiles.add(new File(token));
                     break;
