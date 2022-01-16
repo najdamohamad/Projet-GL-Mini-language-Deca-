@@ -60,7 +60,9 @@ public class DeclVar extends AbstractDeclVar {
         varName.getVariableDefinition().setOperand(varAddr);
         // This will put the result of calculating the expression in max used register.
         initialization.codeGen(program);
-        program.addInstruction(new STORE(program.getMaxUsedRegister(), varAddr));
+        if (initialization instanceof Initialization) {
+            program.addInstruction(new STORE(program.getMaxUsedRegister(), varAddr));
+        }
     }
 
     @Override
