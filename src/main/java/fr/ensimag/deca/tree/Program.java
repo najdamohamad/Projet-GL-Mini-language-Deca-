@@ -52,6 +52,7 @@ public class Program extends AbstractProgram {
     public static final Label ARITHMETIC_OVERFLOW_ERROR = new Label("ArithmeticOverflowError");
     public static final Label STACK_OVERFLOW_ERROR = new Label("StackOverflowError");
     public static final Label DIVISION_BY_ZERO_ERROR = new Label("DivisionByZeroError");
+    public static final Label IO_ERROR = new Label("IOError");
 
     /**
      * CodeGen for main programs.
@@ -69,6 +70,13 @@ public class Program extends AbstractProgram {
         program.addInstruction(new HALT());
         program.addComment("End of main function.");
 
+        // -r option specifies that only 11.1 and 11.3 should be ignored,
+        // NOT 11.2 which are the IO errors.
+        program.addLabel(IO_ERROR);
+        program.addInstruction(new WSTR("Erreur : valeur entrée pas dans le type attendu."));
+        program.addInstruction(new WNL());
+        program.addInstruction(new ERROR());
+
         if (program.shouldCheck()) {
             program.addFirst(new BOV(STACK_OVERFLOW_ERROR));
             program.addFirst(new TSTO(new ImmediateInteger(program.getStackUsage())));
@@ -78,7 +86,7 @@ public class Program extends AbstractProgram {
             program.addInstruction(new WNL());
             program.addInstruction(new ERROR());
             program.addLabel(DIVISION_BY_ZERO_ERROR);
-            program.addInstruction(new WSTR("Erreur : divison par zéro."));
+            program.addInstruction(new WSTR("Erreur : division par zéro."));
             program.addInstruction(new WNL());
             program.addInstruction(new ERROR());
             program.addLabel(STACK_OVERFLOW_ERROR);

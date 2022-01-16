@@ -1,1 +1,1 @@
-Erreur : divison par zéro.
+Erreur : division par zéro.
