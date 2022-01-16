@@ -20,6 +20,7 @@ public class IMAProgram implements OutputProgram {
     public void add(AbstractLine line) {
         lines.add(line);
     }
+    public int maxRegister = 15;
 
     @Override
     public void addComment(String comment) {

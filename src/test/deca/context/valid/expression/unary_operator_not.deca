@@ -1,0 +1,20 @@
+// Description:
+//    Test de verification de l'operateur unitair not "!" ;
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context :  pas d'erreur 
+//
+// Historique:
+//    cree le 13/01/2022
+
+{
+    boolean x = true  ;
+    boolean y = false  ;
+    x = !x ; 
+    // meme si on laisse x = true ça marche la puisqu'on test juste le context 
+    x == y ;
+   
+
+}

@@ -77,6 +77,15 @@ public class IfThenElse extends AbstractInst {
         elseBranch.prettyPrint(s, prefix, true);
     }
 
+    /**
+     * Code generation for an if-then-else branch.
+     * Implements the algorithm p225, 8.1. Conditionelles
+     */
+    @Override
+    public void codeGen(IMAProgram program) {
+        super.codeGen(program);
+    }
+
     public ListInst getElseBranch() {
         return elseBranch;
     }

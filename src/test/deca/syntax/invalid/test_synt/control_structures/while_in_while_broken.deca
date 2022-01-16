@@ -1,0 +1,15 @@
+// Description:
+//    Declaration dun while dans un while
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur de parse instruction ligne 13
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    while(true) {
+        while(true)
+    }
+}

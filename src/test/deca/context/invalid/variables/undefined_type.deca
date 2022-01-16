@@ -1,0 +1,23 @@
+// Description:
+//    Test pour verifier que les types indefinies ne sont marchent pas 
+//
+//  Resultats : 
+//
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context : erreur --> le type `object` n'est pas défini.
+//
+// Historique:
+//    cree le 13/01/2022
+
+{
+    //type connu 
+    int a = 2 ;
+    float b  = 2.1;  
+    string s = "juNGLE"; 
+    boolean l = true  ; 
+    
+
+    //type inconnue 
+    object o = null ; 
+}

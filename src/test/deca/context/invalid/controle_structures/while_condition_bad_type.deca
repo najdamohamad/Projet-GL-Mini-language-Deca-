@@ -1,0 +1,16 @@
+// Description:
+//    Test de while avec une condition addition
+//    Les seules condition dans les print sont des boolenes mais 2+2 nest pas booleen
+//
+// Resultats:
+//    Context: erreur line 12
+//
+// Historique:
+//    cree le 14/01/2022
+
+{
+    while(2+2) 
+    {
+        print("salut") ;
+    }
+}

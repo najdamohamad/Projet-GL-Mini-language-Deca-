@@ -1,0 +1,16 @@
+// Description:
+//    Test de verification de l'operateur unitair not "!" ;
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context :  TypeError: type incorrect dans `l'expression 
+//    de d'inversion de signe `-x`, attendu `int` ou bien `float` mais trouvé `boolean`.
+//
+// Historique:
+//    cree le 13/01/2022
+
+{
+    boolean x = true  ; 
+    x = -x ;  
+}

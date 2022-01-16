@@ -1,0 +1,16 @@
+// Description:
+//    Test de fonction de l'operateur + avec des int 
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context : pas d'erreur 
+//
+// Historique:
+//    cree le 12/01/2022
+{
+    int x = 2 ; 
+    int y = 3 ;
+    x + y ;  
+    
+}

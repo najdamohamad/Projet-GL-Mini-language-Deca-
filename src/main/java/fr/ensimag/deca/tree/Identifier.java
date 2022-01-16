@@ -9,6 +9,8 @@ import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.commons.lang.Validate;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
 
 import java.io.PrintStream;
 
@@ -26,7 +28,10 @@ public class Identifier extends AbstractIdentifier {
             throw new DecacInternalError("Identifier " + this.getName() + " has no attached Definition");
         }
     }
-
+/*TODO: passage de identifier à DVal
+    @Override
+    public DVal getDVal(){return new ImmediateInteger(this.getName().getName()); }
+*/
     @Override
     public Definition getDefinition() {
         return definition;

@@ -255,6 +255,9 @@ suite_test_exec('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
 suite_test_exec('src/test/deca/codegen/invalid/no-objects', 'no-objects', 'invalid')
 
 # Tests expression
+suite_test_lex('src/test/deca/syntax/invalid/test_lex/expressions', 'expressions', 'invalid',)
+suite_test_synt('src/test/deca/syntax/invalid/test_synt/expressions', 'expressions', 'invalid')
+suite_test_synt('src/test/deca/syntax/valid/test_synt/expressions', 'expressions', 'valid',)
 
 print()
 print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {nb_tests_total}, Echec: {nb_echecs_total}')
