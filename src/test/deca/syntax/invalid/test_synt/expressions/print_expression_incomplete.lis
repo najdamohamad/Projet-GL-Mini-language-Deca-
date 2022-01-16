@@ -1,1 +1,1 @@
-src/test/deca/syntax/invalid/test_synt/expressions/print_expression_incomplete.deca:13:16: mismatched input ')' expecting {'false', 'new', 'null', 'readint', 'readfloat', 'this', 'true', IDENT, '-', '(', '!', INT, FLOAT, STRING}
+src/test/deca/syntax/invalid/test_synt/expressions/print_expression_incomplete.deca:13:16: mismatched input ')' expecting {'false', 'new', 'null', 'readInt', 'readFloat', 'this', 'true', IDENT, '-', '(', '!', INT, FLOAT, STRING}
