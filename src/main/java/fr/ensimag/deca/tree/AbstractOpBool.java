@@ -5,10 +5,8 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
@@ -50,6 +48,11 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
     public abstract void codeGenControlFlow(IMAProgram program, boolean branchCondition, Label label);
 
     @Override
+    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
+        throw new DecacInternalError("unreachable");
+    }
+
+    @Override
     public void codeGen(IMAProgram program) {
         Label returnTrue = new Label("op_bool_true_" + hashCode());
         Label endLabel = new Label("op_bool_end" + hashCode());
@@ -59,7 +62,7 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
         // Return false.
         program.addInstruction(new LOAD(
                 new ImmediateInteger(0),
-                Register.R0
+                program.getMaxUsedRegister()
         ));
         program.addInstruction(new BRA(endLabel));
 
@@ -67,7 +70,7 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
         // Return true.
         program.addInstruction(new LOAD(
                 new ImmediateInteger(1),
-                Register.R0
+                program.getMaxUsedRegister()
         ));
 
         program.addLabel(endLabel);

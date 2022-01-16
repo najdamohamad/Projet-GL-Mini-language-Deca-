@@ -9,7 +9,6 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.BEQ;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
@@ -99,7 +98,7 @@ public class IfThenElse extends AbstractInst {
         condition.codeGen(program);
 
         // Go to the else clause if the returned value is false.
-        program.addInstruction(new CMP(0, Register.R0));
+        program.addInstruction(new CMP(0, program.getMaxUsedRegister()));
         program.addInstruction(new BEQ(elseLabel));
 
         thenBranch.codeGen(program);

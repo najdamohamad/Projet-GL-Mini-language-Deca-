@@ -3,7 +3,6 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.BEQ;
 import fr.ensimag.ima.pseudocode.instructions.BNE;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
@@ -36,7 +35,7 @@ public class And extends AbstractOpBool {
         // This one calculates the left expression in R2 (R0?).
         // TODO: switch all calculation results to R0.
         getLeftOperand().codeGen(program);
-        program.addInstruction(new CMP(0, Register.R0));
+        program.addInstruction(new CMP(0, program.getMaxUsedRegister()));
         if (branchCondition) {
             // If branchCondtion is true, we should jump to "end" when the result
             // of evaluating the LHS expression is 0.
@@ -52,7 +51,7 @@ public class And extends AbstractOpBool {
         //    1. We can reuse the same register for the two checks on LHS and RHS.
         //    2. We avoid unecessary cod execution and effectively short circuit.
         getRightOperand().codeGen(program);
-        program.addInstruction(new CMP(1, Register.R0));
+        program.addInstruction(new CMP(1, program.getMaxUsedRegister()));
         if (branchCondition) {
             // If branchCondtion is true, we should jump to "label" when the result
             // of evaluating the RHS expression is 1. Since AND == true.

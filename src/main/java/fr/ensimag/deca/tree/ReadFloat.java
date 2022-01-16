@@ -30,7 +30,7 @@ public class ReadFloat extends AbstractReadExpr {
     @Override
     public void codeGen(IMAProgram program) {
         program.addInstruction(new RFLOAT());
-        program.addInstruction(new LOAD(Register.R1, Register.R0));
+        program.addInstruction(new LOAD(Register.R1, program.getMaxUsedRegister()));
     }
 
     @Override
