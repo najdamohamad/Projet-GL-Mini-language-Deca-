@@ -232,6 +232,11 @@ def suite_test_exec(dossier, sous_language, type_test):
 
         print(f"{color.OKGREEN}REUSSI{color.END}: {fichier_nom_court}")
 
+    assList = glob.glob(f'{dossier}/*.ass')
+    for ass in assList:
+        print(ass)
+        os.remove(ass)
+
     os.remove('temp.res')
     print(f'{color.HEADER}[SUITE]{color.END} {color.BOLD}RESULTAT{color.END} '
           f'Tests exécution, {sous_language}: Tests lancés: {nb_tests}, Echecs: {nb_echecs}');
