@@ -69,21 +69,23 @@ public class Program extends AbstractProgram {
         program.addInstruction(new HALT());
         program.addComment("End of main function.");
 
-        program.addFirst(new BOV(STACK_OVERFLOW_ERROR));
-        program.addFirst(new TSTO(new ImmediateInteger(program.getStackUsage())));
+        if (program.shouldCheck()) {
+            program.addFirst(new BOV(STACK_OVERFLOW_ERROR));
+            program.addFirst(new TSTO(new ImmediateInteger(program.getStackUsage())));
 
-        program.addLabel(ARITHMETIC_OVERFLOW_ERROR);
-        program.addInstruction(new WSTR("Erreur : débordement pendant opération arithmétique entre deux flottants."));
-        program.addInstruction(new WNL());
-        program.addInstruction(new ERROR());
-        program.addLabel(DIVISION_BY_ZERO_ERROR);
-        program.addInstruction(new WSTR("Erreur : divison par zéro."));
-        program.addInstruction(new WNL());
-        program.addInstruction(new ERROR());
-        program.addLabel(STACK_OVERFLOW_ERROR);
-        program.addInstruction(new WSTR("Erreur : débordement de la pile."));
-        program.addInstruction(new WNL());
-        program.addInstruction(new ERROR());
+            program.addLabel(ARITHMETIC_OVERFLOW_ERROR);
+            program.addInstruction(new WSTR("Erreur : débordement pendant opération arithmétique entre deux flottants."));
+            program.addInstruction(new WNL());
+            program.addInstruction(new ERROR());
+            program.addLabel(DIVISION_BY_ZERO_ERROR);
+            program.addInstruction(new WSTR("Erreur : divison par zéro."));
+            program.addInstruction(new WNL());
+            program.addInstruction(new ERROR());
+            program.addLabel(STACK_OVERFLOW_ERROR);
+            program.addInstruction(new WSTR("Erreur : débordement de la pile."));
+            program.addInstruction(new WNL());
+            program.addInstruction(new ERROR());
+        }
     }
 
     @Override

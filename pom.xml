@@ -215,6 +215,16 @@
                             <goal>exec</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>basic-decac</id>
+                        <configuration>
+                            <executable>./src/test/script/basic-decac.sh</executable>
+                        </configuration>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
 
                     <execution>
                         <id>unit-test-locations</id>
