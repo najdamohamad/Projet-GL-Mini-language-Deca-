@@ -71,6 +71,7 @@ fi
 
 echo '{println("Hello world");}' > "$tmpdir/a.deca"
 echo '{println("Goodbye world");}' > "$tmpdir/b.deca"
+echo '{println(x);}' > "$tmpdir/err.deca"
 decac "$tmpdir/a.deca" "$tmpdir/b.deca"
 if [ "$?" -ne 0 ]; then
     die "Decac ne compile pas avec plusieurs fichiers"
@@ -85,6 +86,23 @@ if [ "$?" -ne 0 ]; then
 fi
 [ -s "$tmpdir/a.ass" ] || die "a.ass non généré"
 [ -s "$tmpdir/b.ass" ] || die "b.ass non généré"
+
+rm "$tmpdir/a.ass" "$tmpdir/b.ass"
+decac "$tmpdir/a.deca" "$tmpdir/err.deca" "$tmpdir/b.deca" 2>/dev/null
+if [ "$?" -eq 0 ]; then
+    die "Decac n'a pas retourné d'erreur pour un fichier invalide sans -P"
+fi
+[ -s "$tmpdir/a.ass" ] || die "a.ass non généré"
+[ -s "$tmpdir/b.ass" ] || die "b.ass non généré"
+
+rm "$tmpdir/a.ass" "$tmpdir/b.ass"
+decac -P "$tmpdir/a.deca" "$tmpdir/err.deca" "$tmpdir/b.deca" 2>/dev/null
+if [ "$?" -eq 0 ]; then
+    die "Decac n'a pas retourné d'erreur pour un fichier invalide avec -P"
+fi
+[ -s "$tmpdir/a.ass" ] || die "a.ass non généré"
+[ -s "$tmpdir/b.ass" ] || die "b.ass non généré"
+
 
 decac -p -v 2>/dev/null
 if [ "$?" -eq 0 ]; then
@@ -108,5 +126,3 @@ fi
 
 rm -fr "$tmpdir"
 echo "Pas de probleme detecté avec l'interface ligne de commande decac."
-
-# ... et ainsi de suite.
