@@ -57,33 +57,36 @@ public class StringLiteral extends AbstractStringLiteral {
         // It's important to encode the String as UTF-8 since that's
         // what IMA expects, and Java by default encodes String in UTF-16.
         byte[] utf8String = value.getBytes(StandardCharsets.UTF_8);
-        // Allocate space on the Stack.
-        program.addInstruction(new LEA(
-                new RegisterOffset(1, Register.SP),
-                Register.R0
-        ));
-        program.addInstruction(new ADDSP(utf8String.length + 1));
         // Put all the Bytes of the String on the Stack.
         for (byte utf8Byte : utf8String) {
             // The bytes are negative and IMA doesn't like that (?)
             // using String.codePointAt() doesn't work either ...
-            // TODO: don't use R0 and R1
+            // TODO: don't use R0
             // TODO: this wastes too much space on the stack for chars with 1+ bytes.
             program.addInstruction(new LOAD(
                     utf8Byte + 256,
-                    Register.R1
+                    program.getMaxUsedRegister()
             ));
             program.addInstruction(new STORE(
-                    Register.R1,
+                    program.getMaxUsedRegister(),
                     new RegisterOffset(program.bumpStackUsage(), Register.GB)
             ));
         }
         // Add a zero byte to terminate it (C-Style).
-        program.addInstruction(new LOAD(0, Register.R1));
+        program.addInstruction(new LOAD(
+                0,
+                program.getMaxUsedRegister()
+        ));
         program.addInstruction(new STORE(
-                Register.R1,
+                program.getMaxUsedRegister(),
                 new RegisterOffset(program.bumpStackUsage(), Register.GB))
         );
+        // Allocate space on the Stack.
+        program.addInstruction(new LEA(
+                new RegisterOffset(1, Register.SP),
+                program.getMaxUsedRegister()
+        ));
+        program.addInstruction(new ADDSP(utf8String.length + 1));
         program.addComment("End string codeGen");
     }
 
