@@ -32,7 +32,7 @@ public class CompilerOptions {
                     + "\t                         traces.                                          \n"
                     + "\t. -P    (parallel)     : s’il y a plusieurs fichiers sources,             \n"
                     + "\t                         lance la compilation des fichiers en             \n"
-                    + "\t                         parallèle (pour accélérer la compilation)        \n";
+                    + "\t                         parallèle (pour accélérer la compilation)        ";
 
     public int getDebug() {
         return debug;
@@ -120,6 +120,10 @@ public class CompilerOptions {
                 // Do not check overflow.
                 case "-n":
                     shouldCheck = false;
+                    break;
+                // Add a log level.
+                case "-d":
+                    debug++;
                     break;
                 default:
                     sourceFiles.add(new File(token));
