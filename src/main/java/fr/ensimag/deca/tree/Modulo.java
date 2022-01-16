@@ -5,14 +5,11 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
-import fr.ensimag.arm.pseudocode.*;
-import fr.ensimag.arm.pseudocode.syscalls.Write;
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.instructions.REM;
 import fr.ensimag.ima.pseudocode.DVal;
-import org.apache.commons.lang.Validate;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
+import fr.ensimag.ima.pseudocode.instructions.REM;
 
 /**
  * @author gl47
@@ -40,12 +37,17 @@ public class Modulo extends AbstractOpArith {
             throw new ContextualError(message, getLocation());
         }
     }
-//
-//    @Override
-//    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
-//        super.codeGen(program);
-//        program.addInstruction(new REM(value, register));
-//    }
+
+    @Override
+    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
+        // Check for divide by 0
+        // p.108:  OV = (V[dval] = 0)
+        // in other words, OV flag if set if QUO with 0 as second operand
+        program.addInstruction(new REM(dval, reg));
+        program.addInstruction(new BOV(Program.DIVISION_BY_ZERO_ERROR));
+    }
+
+
     @Override
     protected String getOperatorName() {
         return "%";

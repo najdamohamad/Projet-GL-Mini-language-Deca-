@@ -7,7 +7,6 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.FLOAT;
 
 /**
@@ -43,7 +42,7 @@ public class ConvFloat extends AbstractUnaryExpr {
     @Override
     public void codeGen(IMAProgram program) {
         getOperand().codeGen(program);
-        program.addInstruction(new FLOAT(Register.R0, Register.R0));
+        program.addInstruction(new FLOAT(program.getMaxUsedRegister(), program.getMaxUsedRegister()));
     }
 
     @Override

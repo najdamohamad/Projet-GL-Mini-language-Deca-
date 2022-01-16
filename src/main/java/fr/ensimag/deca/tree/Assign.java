@@ -5,8 +5,10 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 
 /**
@@ -44,14 +46,28 @@ public class Assign extends AbstractBinaryExpr {
         return "=";
     }
 
+    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
+        throw new DecacInternalError("unreachable");
+    }
+
     @Override
     public void codeGen(IMAProgram program) {
+        // Allocate a register for the return value.
+        // Register reg = program.allocateRegister();
+//        program.addComment("allocate " + reg + " (> 1 register available in assignment with non-trivial RHS)");
+
         getRightOperand().codeGen(program);
+
+        // The rvalue has been computed after this, so the register can be freed now.
+        // program.addComment("release " + reg);
+//        program.freeRegister();
+
+        // Store the return value.
         AbstractIdentifier ident = (AbstractIdentifier) getLeftOperand();
         program.addInstruction(new STORE(
-                Register.R0,
-                ident.getVariableDefinition().getOperand()
-        ));
-
+                        program.getMaxUsedRegister(), // TODO: hardcoded to R2 here, we should allocate registers instead
+                        ident.getVariableDefinition().getOperand()
+                ),
+                "return value of assignement");
     }
 }

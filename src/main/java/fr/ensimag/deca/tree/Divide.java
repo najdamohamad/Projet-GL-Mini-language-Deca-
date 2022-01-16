@@ -1,17 +1,12 @@
 package fr.ensimag.deca.tree;
-import fr.ensimag.arm.pseudocode.*;
-import fr.ensimag.arm.pseudocode.syscalls.Write;
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.instructions.DIV;
-import fr.ensimag.ima.pseudocode.instructions.QUO;
+
 import fr.ensimag.ima.pseudocode.DVal;
-import org.apache.commons.lang.Validate;
-import fr.ensimag.deca.context.FloatType;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateFloat;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
- *
  * @author gl47
  * @date 01/01/2022
  */
@@ -20,18 +15,25 @@ public class Divide extends AbstractOpArith {
         super(leftOperand, rightOperand);
     }
 
-//    @Override
-//    public void mnemo(IMAProgram program,DVal value,GPRegister register) {
-//        super.codeGen(program);
-//        if (this.getLeftOperand().isFloat()){
-//            //division floattants
-//            program.addInstruction(new DIV(value, register));
-//        }
-//        else{
-//            //division entier
-//            program.addInstruction(new QUO(value, register));
-//        }
-//    }
+    @Override
+    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
+        if (isFloat()) {
+            // Check for divide by 0
+            program.addInstruction(new CMP(new ImmediateFloat(0), reg));
+            program.addInstruction(new BEQ(Program.DIVISION_BY_ZERO_ERROR), "second op may be 0");
+            program.addInstruction(new DIV(dval, reg));
+            // Division may have overflowed
+            program.addInstruction(new BOV(Program.ARITHMETIC_OVERFLOW_ERROR),
+                    "two floats, overflow check for DIV");
+        } else {
+            // Check for divide by 0
+            // p.108: QUO sets CP flags
+            // in other words, OV flag if set if QUO with 0 as second operand
+            program.addInstruction(new QUO(dval, reg));
+            program.addInstruction(new BOV(Program.DIVISION_BY_ZERO_ERROR), "may have tried to div by 0");
+        }
+    }
+
     @Override
     protected String getOperatorName() {
         return "/";

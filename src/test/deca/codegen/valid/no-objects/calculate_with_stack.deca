@@ -1,0 +1,15 @@
+//! DECAC_OPTIONS: -r 4
+// Description:
+//    Test d'une expression assez compliquée pour devoir utilisé le stack.
+//    On utilise l'option -r de Decac pour avoir un nombre de registre dispo assez petit.
+//
+// Resultats:
+//    0
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    int a = ((((1 - 1) + (1 - 1)) + ((1 - 1) + (1 - 1))) + (((1 - 1) + (1 - 1)) + ((1 - 1) + (1 - 1))))
+    ;
+    println(a);
+}

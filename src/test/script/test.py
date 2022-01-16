@@ -174,8 +174,26 @@ def suite_test_exec(dossier, sous_language, type_test):
         print(f"[{i}/{nb_tests}] ", end='')
         fichier_nom_court = fichier.removeprefix("src/test/deca/")
 
+        # Récuperer les options de ima. et de deacac
+        # On utilise une syntaxe spéciale pour spécifier les options a passer à ima,
+        # qui doit etre en premiere ligne du fichier, par exemple:
+        # //! DECAC_OPTIONS: -r 4
+        # //! IMA_OPTIONS: -p 42
+        # L'ordre n'est pas important, mais ce doit etre les premiere ligne avant le test.
+        arguments_ima = ""
+        arguments_decac = ""
+        with open(fichier) as f:
+            ligne = f.readline().rstrip("\n")
+            while "//!" in ligne:
+                if "//! IMA_OPTIONS:" in ligne:
+                    arguments_ima = ligne.lstrip("//! IMA_OPTIONS:")
+                if "//! DECAC_OPTIONS:" in ligne:
+                    arguments_decac = ligne.lstrip("//! DECAC_OPTIONS:")
+                ligne = f.readline().rstrip("\n")
+
         # Compiler le programme avec decac. Cela doit toujours marcher, on tente lexecution apres
-        if os.system(f"./src/main/bin/decac {fichier}") != 0:
+        print(f"./src/main/bin/decac {arguments_decac} {fichier}")
+        if os.system(f"./src/main/bin/decac {arguments_decac} {fichier}") != 0:
             print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, la compilation de {fichier_nom_court} a echoue")
             tests_echoues.append(fichier_nom_court)
             tous_test_echoues.append(fichier_nom_court)
@@ -185,16 +203,6 @@ def suite_test_exec(dossier, sous_language, type_test):
 
         # On stocke la sortie dans un temp.lis, ce fichier sera celui à comparer.
         fichier_ass = replace_ending(fichier, '.deca', '.ass')
-
-        # Récuperer les options de ima.
-        # On utilise une syntaxe spéciale pour spécifier les options a passer à ima,
-        # qui doit etre en premiere ligne du fichier, par exemple:
-        # //! IMA_OPTIONS: -p 42
-        arguments_ima = ""
-        with open(fichier) as f:
-            premiere_ligne = f.readline()
-            if "//! IMA_OPTIONS" in premiere_ligne:
-                arguments_ima = premiere_ligne.lstrip("//! IMA_OPTIONS:").rstrip("\n")
 
         if type_test == "invalid":
             if os.system(f"ima {arguments_ima} {fichier_ass} > temp.res 2>&1") == 0:
