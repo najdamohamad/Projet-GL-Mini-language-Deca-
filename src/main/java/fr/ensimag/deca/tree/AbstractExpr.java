@@ -139,7 +139,7 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
             Label reachedZero = new Label("string_display_loop_" + hashCode());
             Label endLabel = new Label("string_display_loop_end_" + hashCode());
 
-            // Keep writing all the characters from the Heap until reaching 0.
+            // Keep writing all the characters from the Stack until reaching 0.
             program.addLabel(reachedZero);
             // Load the character from its address.
             program.addInstruction(new LOAD(
