@@ -10,10 +10,14 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.instructions.WSTR;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
+import java.util.PrimitiveIterator;
 
 /**
  * String literal
@@ -50,9 +54,50 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     public void codeGen(IMAProgram program) {
-        // TODO: this will require pusing the chars one be one
-        //       on the stack, but in what order, and where do you put the len?
-        throw new UnsupportedOperationException("not yet implemented");
+        program.addComment("Begin string codeGen");
+        // Put all the Bytes of the String on the Stack.
+        for (PrimitiveIterator.OfInt it = value.codePoints().iterator(); it.hasNext(); ) {
+            int character = it.next();
+            // It's important to encode the String as UTF-8 since that's
+            // what IMA expects, and Java by default encodes String in UTF-16.
+            byte[] bytes = Character.toString(character).getBytes(StandardCharsets.UTF_8);
+            // Put the UTF-8 character into a 32 signed integer by shifting the available.
+            // e.g: The smiley emoji has the Unicode code point U+1F600 which, UTF-8 encoding is:
+            //     f0 9f 98 80, and is constructed the following way:
+            //     (0xf0 << 8 * 3) | (0x9f << 8 * 2) | (0x98 << 8) | 0x80
+            // It doesn't matter if the word ends up in unsigned representation since that's
+            // the only integer type available in IMA. Moreoever, the conversion is done under
+            // the hood for us prior to writing the character (See utf8_es.adb in IMA source code).
+            int utf8IMAWord = 0;
+            for (int i = 0; i < bytes.length; i++) {
+                int unsignedByte = Byte.toUnsignedInt(bytes[i]);
+                utf8IMAWord |= unsignedByte << 8 * (bytes.length - i - 1);
+            }
+            program.addInstruction(new LOAD(
+                    utf8IMAWord,
+                    program.getMaxUsedRegister()
+            ));
+            program.addInstruction(new STORE(
+                    program.getMaxUsedRegister(),
+                    new RegisterOffset(program.bumpStackUsage(), Register.GB)
+            ));
+        }
+        // Add a zero byte to terminate it (C-Style).
+        program.addInstruction(new LOAD(
+                0,
+                program.getMaxUsedRegister()
+        ));
+        program.addInstruction(new STORE(
+                program.getMaxUsedRegister(),
+                new RegisterOffset(program.bumpStackUsage(), Register.GB))
+        );
+        // Allocate space on the Stack.
+        program.addInstruction(new LEA(
+                new RegisterOffset(1, Register.SP),
+                program.getMaxUsedRegister()
+        ));
+        program.addInstruction(new ADDSP(value.length() + 1));
+        program.addComment("End string codeGen");
     }
 
     @Override

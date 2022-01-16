@@ -6,13 +6,8 @@ import fr.ensimag.deca.codegen.CodeGenDisplay;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.WFLOAT;
-import fr.ensimag.ima.pseudocode.instructions.WFLOATX;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -139,15 +134,36 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
     @Override
     public void codeGenDisplay(IMAProgram program, boolean hexadecimal) {
         if (getType().isString()) {
-            // TODO: this will require writing the chars one be one
-            //       from the stack using WUT8 (write the char whoose code point is V[R1]).
-            throw new UnsupportedOperationException("not yet implemented");
+            codeGen(program); // Address of first char is in R0.
+
+            Label reachedZero = new Label("string_display_loop_" + hashCode());
+            Label endLabel = new Label("string_display_loop_end_" + hashCode());
+
+            // Keep writing all the characters from the Stack until reaching 0.
+            program.addLabel(reachedZero);
+            // Load the character from its address.
+            program.addInstruction(new LOAD(
+                    new RegisterOffset(0, program.getMaxUsedRegister()),
+                    Register.R1
+            ));
+            // Exit if the character is '\0' (LOAD sets the code condition, as if we did CMP #0, R1).
+            // program.addInstruction(new CMP(new ImmediateInteger(0), Register.R1));
+            program.addInstruction(new BEQ(endLabel));
+            // Write the character (?) in the register R1.
+            program.addInstruction(new WUTF8());
+            // Increment the address (R0) to point to the next character.
+            program.addInstruction(new LEA(
+                    new RegisterOffset(1, program.getMaxUsedRegister()),
+                    program.getMaxUsedRegister()
+            ));
+            program.addInstruction(new BRA(reachedZero));
+            program.addLabel(endLabel);
         } else if (getType().isInt()) {
-            codeGen(program); // Result goes in R0.
+            codeGen(program);
             program.addInstruction(new LOAD(program.getMaxUsedRegister(), Register.R1));
             program.addInstruction(new WINT());
         } else if (getType().isFloat()) {
-            codeGen(program); // Result goes in R0.
+            codeGen(program);
             program.addInstruction(new LOAD(program.getMaxUsedRegister(), Register.R1));
             program.addInstruction(hexadecimal ? new WFLOATX() : new WFLOAT());
         } else {
