@@ -76,7 +76,7 @@ fragment SIGN: '+' | '-';
 fragment EXP: ('E' | 'e') SIGN? NUM;
 fragment DEC: NUM '.' NUM;
 fragment FLOAT_DEC: DEC EXP? ('F' + 'f')?;
-fragment DIGIT_HEX: DIGIT | 'a' .. 'z' | 'A' .. 'Z';
+fragment DIGIT_HEX: DIGIT | 'a' .. 'f' | 'A' .. 'F';
 fragment NUM_HEX: DIGIT_HEX+;
 fragment FLOAT_HEX: ('0x' | '0X') NUM_HEX '.' NUM_HEX ('p' | 'P') SIGN NUM ('F' + 'f')?;
 FLOAT: FLOAT_DEC | FLOAT_HEX;

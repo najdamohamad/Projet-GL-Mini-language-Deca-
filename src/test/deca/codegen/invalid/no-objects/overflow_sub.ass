@@ -1,0 +1,30 @@
+	TSTO #1
+	BOV StackOverflowError
+; Main program
+; Beginning of main function:
+	ADDSP #1
+	LOAD #0x1.0p31, R2
+	STORE R2, 1(GB)
+	LOAD #1, R2
+	FLOAT R2, R2
+	SUB 1(GB), R2
+	BOV ArithmeticOverflowError	; adding two floats, overflow check for SUB
+; End of main function.
+	HALT
+; End of main function.
+IOError:
+	WSTR "Erreur : valeur entrée pas dans le type attendu."
+	WNL
+	ERROR
+ArithmeticOverflowError:
+	WSTR "Erreur : débordement pendant opération arithmétique entre deux flottants."
+	WNL
+	ERROR
+DivisionByZeroError:
+	WSTR "Erreur : division par zéro."
+	WNL
+	ERROR
+StackOverflowError:
+	WSTR "Erreur : débordement de la pile."
+	WNL
+	ERROR

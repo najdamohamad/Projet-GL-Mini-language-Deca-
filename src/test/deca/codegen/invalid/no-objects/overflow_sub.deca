@@ -1,0 +1,12 @@
+// Description:
+//    Test d'une soustraction de flottant jusqu'a overflow
+//
+// Resultats:
+//    Erreur : débordement pendant opération arithmétique entre deux flottants.
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    float a = 0xFE.FFFFFEp0;
+    println(a);
+}
