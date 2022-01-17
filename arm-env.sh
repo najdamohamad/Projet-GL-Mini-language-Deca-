@@ -50,7 +50,7 @@ case "$SUBCOMMAND" in
         LD="${XTOOLCHAIN_PATH}/bin/arm-none-linux-gnueabihf-ld"
         $AS "${ARGUMENT}" -o "${ARGUMENT%.*}.o"
         $LD "${ARGUMENT%.*}.o" -o "${ARGUMENT%.*}"
-        qemu-arm -cpu $ARM_CPU_MODEL "${ARGUMENT%.*}"
+        qemu-arm -cpu $ARM_CPU_MODEL -R 0xfffffff "${ARGUMENT%.*}"
         ;;
     *)
         set +x
