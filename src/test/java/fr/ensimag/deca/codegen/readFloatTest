@@ -1,0 +1,29 @@
+	TSTO #0
+	BOV StackOverflowError
+; Main program
+; Beginning of main function:
+	RFLOAT
+	BOV IOError
+	LOAD R1, R2
+	LOAD R2, R1
+	WFLOAT
+	WNL
+; End of main function.
+	HALT
+; End of main function.
+IOError:
+	WSTR "Erreur : valeur entrée pas dans le type attendu."
+	WNL
+	ERROR
+ArithmeticOverflowError:
+	WSTR "Erreur : débordement pendant opération arithmétique entre deux flottants."
+	WNL
+	ERROR
+DivisionByZeroError:
+	WSTR "Erreur : division par zéro."
+	WNL
+	ERROR
+StackOverflowError:
+	WSTR "Erreur : débordement de la pile."
+	WNL
+	ERROR
