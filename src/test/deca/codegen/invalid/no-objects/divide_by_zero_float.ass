@@ -1,14 +1,15 @@
-	TSTO #1
+	TSTO #0
 	BOV StackOverflowError
 ; Main program
 ; Beginning of main function:
-	ADDSP #1
-	LOAD #0x1.0p31, R2
-	STORE R2, 1(GB)
-	LOAD #1, R2
-	FLOAT R2, R2
-	SUB 1(GB), R2
-	BOV ArithmeticOverflowError	; adding two floats, overflow check for SUB
+	LOAD #0x1.4p2, R2
+	CMP #0x0.0p0, R2
+	BEQ DivisionByZeroError	; second op may be 0
+	DIV #0x0.0p0, R2
+	BOV ArithmeticOverflowError	; two floats, overflow check for DIV
+	LOAD R2, R1
+	WFLOAT
+	WNL
 ; End of main function.
 	HALT
 ; End of main function.

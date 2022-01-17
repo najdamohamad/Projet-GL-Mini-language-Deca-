@@ -1,0 +1,13 @@
+// Description:
+//    Test d'une divison par zero
+//    D'après la sémantique de Déca, cette erreur est une
+//    débordement arithmétique sur les flottants (inclut la division flottante par 0.0)
+//
+// Resultats:
+//    Erreur: divison par zéro
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    println(5.0 / 0.0);
+}
