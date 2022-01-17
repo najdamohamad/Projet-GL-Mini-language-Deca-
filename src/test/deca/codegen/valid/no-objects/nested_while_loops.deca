@@ -1,0 +1,29 @@
+// Description:
+//    Branches while imbriquées.
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    int i = 0;
+    int j = 0;
+    int k = 0;
+
+    while (i != 3) {
+        while (j != 3) {
+            while (k != 3) {
+                k = k + 1;
+            }
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+
+    if (i == 3 && j == 3 && k == 3) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+}
