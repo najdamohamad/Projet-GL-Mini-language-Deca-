@@ -1,0 +1,21 @@
+// Description:
+//    Calcult de factoriel pour dépasser la taille d'un float.
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 17/01/2022
+{
+    int x = 1;
+    float y = 1;
+    int i = 0;
+
+    while (true) {
+        println(y);
+        y = y * x;
+        x = x + 1;
+        i = i + 1;
+    }
+}
+
