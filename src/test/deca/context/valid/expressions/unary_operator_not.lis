@@ -1,0 +1,35 @@
+`> [12, 0] Program
+   +> ListDeclClass [List with 0 elements]
+   `> [12, 0] Main
+      +> [13, 4] ListDeclVar [List with 2 elements]
+      |  []> [13, 12] DeclVar
+      |  ||  +> [13, 4] Identifier (boolean)
+      |  ||  |  definition: type defined at null, type=boolean
+      |  ||  +> [13, 12] Identifier (x)
+      |  ||  |  definition: variable defined at [13, 12], type=boolean
+      |  ||  `> [13, 12] Initialization
+      |  ||     `> [13, 16] BooleanLiteral (true)
+      |  ||        type: boolean
+      |  []> [14, 12] DeclVar
+      |      +> [14, 4] Identifier (boolean)
+      |      |  definition: type defined at null, type=boolean
+      |      +> [14, 12] Identifier (y)
+      |      |  definition: variable defined at [14, 12], type=boolean
+      |      `> [14, 12] Initialization
+      |         `> [14, 16] BooleanLiteral (false)
+      |            type: boolean
+      `> [15, 4] ListInst [List with 2 elements]
+         []> [15, 4] Assign
+         ||  type: boolean
+         ||  +> [15, 4] Identifier (x)
+         ||  |  definition: variable defined at [13, 12], type=boolean
+         ||  `> [15, 8] Not
+         ||     type: boolean
+         ||     `> [15, 9] Identifier (x)
+         ||        definition: variable defined at [13, 12], type=boolean
+         []> [17, 4] Equals
+             type: boolean
+             +> [17, 4] Identifier (x)
+             |  definition: variable defined at [13, 12], type=boolean
+             `> [17, 9] Identifier (y)
+                definition: variable defined at [14, 12], type=boolean

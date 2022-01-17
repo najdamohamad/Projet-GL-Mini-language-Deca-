@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/expressions/modulo_int_float.deca:12:4: TypeError: type(s) incorrect(s) dans `l'expression arithmétique `(x % y)`, attendu `int`.

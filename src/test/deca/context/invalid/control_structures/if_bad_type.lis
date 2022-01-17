@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/control_structures/if_bad_type.deca:11:8: TypeError: type incorrect pour expression `1`, attendu `boolean` mais trouvé `int`.

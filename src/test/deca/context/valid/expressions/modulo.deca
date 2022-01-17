@@ -1,0 +1,12 @@
+// Description:
+//    Test de modulo
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 17/01/2022
+
+{
+        1 % 1;
+}

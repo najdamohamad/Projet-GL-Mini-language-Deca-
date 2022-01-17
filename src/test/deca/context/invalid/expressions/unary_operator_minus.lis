@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/expressions/unary_operator_minus.deca:15:8: TypeError: type incorrect dans `l'expression d'inversion de signe `-x`, attendu `int` ou bien `float` mais trouvé `boolean`.

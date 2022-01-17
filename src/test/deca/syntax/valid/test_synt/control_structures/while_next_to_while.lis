@@ -1,0 +1,11 @@
+`> [10, 0] Program
+   +> ListDeclClass [List with 0 elements]
+   `> [10, 0] Main
+      +> [11, 4] ListDeclVar [List with 0 elements]
+      `> [11, 4] ListInst [List with 2 elements]
+         []> [11, 4] While
+         ||  +> [11, 10] BooleanLiteral (true)
+         ||  `> ListInst [List with 0 elements]
+         []> [12, 6] While
+             +> [12, 12] BooleanLiteral (true)
+             `> ListInst [List with 0 elements]

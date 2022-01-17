@@ -1,0 +1,1 @@
+src/test/deca/syntax/invalid/test_synt/expressions/multi_operations_times.deca:13:12: extraneous input '*' expecting {'false', 'new', 'null', 'readInt', 'readFloat', 'this', 'true', IDENT, '-', '(', '!', INT, FLOAT, STRING}

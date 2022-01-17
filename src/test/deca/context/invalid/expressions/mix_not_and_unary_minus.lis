@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/expressions/mix_not_and_unary_minus.deca:12:4: TypeError: type incorrect dans `l'expression d'inversion de signe `-!false`, attendu `int` ou bien `float` mais trouvé `boolean`.

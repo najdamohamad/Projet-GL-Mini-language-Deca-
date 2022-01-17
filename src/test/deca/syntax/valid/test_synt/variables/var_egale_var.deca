@@ -1,5 +1,5 @@
 // Description:
-//    Test dans lequel on 
+//    Test dans lequel on assigne une var a une var
 // Resultats:
 //    Lexeur: pas d'erreur
 //    Parseur: pas d'erreur 
@@ -12,5 +12,5 @@
     x = 5  ;
     y = 6 ;
     z = x + y ; 
-   print(z) ;
+    print(z) ;
 }

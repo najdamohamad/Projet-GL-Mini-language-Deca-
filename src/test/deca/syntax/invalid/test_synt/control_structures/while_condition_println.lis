@@ -1,0 +1,1 @@
+src/test/deca/syntax/invalid/test_synt/control_structures/while_condition_println.deca:11:10: extraneous input 'println' expecting {'false', 'new', 'null', 'readInt', 'readFloat', 'this', 'true', IDENT, '-', '(', '!', INT, FLOAT, STRING}
