@@ -98,8 +98,9 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
             throw new ContextualError(message, getLocation());
         }
         if (exprType.isInt() && expectedType.isFloat()) {
-            setType(compiler.getTypeDefinition("float").getType());
-            return new ConvFloat(this);
+            ConvFloat convFloat = new ConvFloat(this);
+            convFloat.setType(compiler.getType("float"));
+            return convFloat;
         }
         setType(exprType);
         return this;

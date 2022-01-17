@@ -24,8 +24,10 @@ public abstract class AbstractOpIneq extends AbstractOpCmp {
         Type rightExprType = getRightOperand().verifyExpr(compiler, localEnv, currentClass);
         if (leftExprType.isInt() && rightExprType.isFloat()) {
             setLeftOperand(new ConvFloat(getLeftOperand()));
+            getLeftOperand().setType(compiler.getType("float"));
         } else if (rightExprType.isInt() && leftExprType.isFloat()) {
             setRightOperand(new ConvFloat(getRightOperand()));
+            getRightOperand().setType(compiler.getType("float"));
         } else if (!leftExprType.isIntOrFloat() || !rightExprType.isIntOrFloat()) {
             String message = "TypeError: type(s) incorrect(s) dans `"
                     + "l'expression d'inégalité `" + this.decompile()
