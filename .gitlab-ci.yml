@@ -26,6 +26,8 @@ compile:
 test:
   stage: test
   script:
+    - ./arm-env.sh install
+    - ./arm-test.sh
     - mvn $MAVEN_CLI_OPTS verify $MAVEN_OPTS
   # Run jacoco regardless of if the build failed or succeded,
   # so that we can see the coverage check.
