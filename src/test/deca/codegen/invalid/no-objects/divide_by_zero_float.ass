@@ -1,0 +1,31 @@
+	TSTO #0
+	BOV StackOverflowError
+; Main program
+; Beginning of main function:
+	LOAD #0x1.4p2, R2
+	CMP #0x0.0p0, R2
+	BEQ DivisionByZeroError	; second op may be 0
+	DIV #0x0.0p0, R2
+	BOV ArithmeticOverflowError	; two floats, overflow check for DIV
+	LOAD R2, R1
+	WFLOAT
+	WNL
+; End of main function.
+	HALT
+; End of main function.
+IOError:
+	WSTR "Erreur : valeur entrée pas dans le type attendu."
+	WNL
+	ERROR
+ArithmeticOverflowError:
+	WSTR "Erreur : débordement pendant opération arithmétique entre deux flottants."
+	WNL
+	ERROR
+DivisionByZeroError:
+	WSTR "Erreur : division par zéro."
+	WNL
+	ERROR
+StackOverflowError:
+	WSTR "Erreur : débordement de la pile."
+	WNL
+	ERROR

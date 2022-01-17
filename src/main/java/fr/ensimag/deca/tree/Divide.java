@@ -18,11 +18,6 @@ public class Divide extends AbstractOpArith {
     @Override
     public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
         if (isFloat()) {
-            if (program.shouldCheck()) {
-                // Check for divide by 0
-                program.addInstruction(new CMP(new ImmediateFloat(0), reg));
-                program.addInstruction(new BEQ(Program.DIVISION_BY_ZERO_ERROR), "second op may be 0");
-            }
             program.addInstruction(new DIV(dval, reg));
             if (program.shouldCheck()) {
                 // Division may have overflowed
