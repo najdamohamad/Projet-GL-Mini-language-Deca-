@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/variables/double_definition.deca:11:8: ScopeError: l'identificateur `x` ne peut être défini plus qu'une fois.
