@@ -19,9 +19,9 @@ ARM_CPU_MODEL="cortex-a15"
 
 install () {
     # Download arm toolchain
-    if command -v wget &> /dev/null
+    if command -v wget > /dev/null
     then
-        wget $TOOLCHAIN_URL -O $TOOLCHAIN_PATH
+        wget -q $TOOLCHAIN_URL -O $TOOLCHAIN_PATH
     else
         echo "arm-env: wget not found, falling back to curl"
         curl -L $TOOLCHAIN_URL -o $TOOLCHAIN_PATH
@@ -29,7 +29,7 @@ install () {
 
     # Extract archive
     mkdir $XTOOLCHAIN_PATH
-    tar xvf $TOOLCHAIN_PATH -C $XTOOLCHAIN_PATH --strip-components=1
+    tar xf $TOOLCHAIN_PATH -C $XTOOLCHAIN_PATH --strip-components=1
     rm $TOOLCHAIN_PATH
 }
 

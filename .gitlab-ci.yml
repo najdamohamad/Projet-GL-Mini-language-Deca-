@@ -1,7 +1,7 @@
 image: frolvlad/alpine-glibc:latest
 
 before_script:
-  - apk add maven python3 openjdk17 -q
+  - apk add maven python3 openjdk17 qemu-arm -q
   - . source-pipeline.sh
 
 stages:
