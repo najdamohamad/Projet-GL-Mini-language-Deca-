@@ -1,4 +1,4 @@
-//! IMA_OPTIONS: -r 1
+//! DECAC_OPTIONS: -r 4
 // Description:
 //    Branches if/else imbriquées.
 //
