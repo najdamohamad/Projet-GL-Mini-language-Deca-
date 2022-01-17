@@ -13,4 +13,6 @@ echo $(get_abs_filename './ima')
 echo $(get_abs_filename '')
 PATH="$PATH:$(get_abs_filename './ima')"
 chmod +x ./ima/ima-x86_64-Linux
-PATH="$PATH:$(get_abs_filename '')"
+# QEMU related, otherwhise doesn't run in vm, wtf?
+# https://docs.windriver.com/fr-FR/bundle/Wind_River_Linux_Release_Notes_LTS_21_tki1589820771450/page/yiz1629749231871.html
+echo "vm.mmap_min_addr = 65536" > /etc/sysctl.d/mmap_min_addr.conf
