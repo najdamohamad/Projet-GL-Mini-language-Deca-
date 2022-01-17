@@ -1,0 +1,144 @@
+`> [12, 0] Program
+   +> ListDeclClass [List with 0 elements]
+   `> [12, 0] Main
+      +> [13, 4] ListDeclVar [List with 5 elements]
+      |  []> [13, 8] DeclVar
+      |  ||  +> [13, 4] Identifier (int)
+      |  ||  |  definition: type defined at null, type=int
+      |  ||  +> [13, 8] Identifier (x)
+      |  ||  |  definition: variable defined at [13, 8], type=int
+      |  ||  `> [13, 8] Initialization
+      |  ||     `> [13, 12] Int (4)
+      |  ||        type: int
+      |  []> [14, 8] DeclVar
+      |  ||  +> [14, 4] Identifier (int)
+      |  ||  |  definition: type defined at null, type=int
+      |  ||  +> [14, 8] Identifier (y)
+      |  ||  |  definition: variable defined at [14, 8], type=int
+      |  ||  `> [14, 8] Initialization
+      |  ||     `> [14, 12] Int (5)
+      |  ||        type: int
+      |  []> [15, 12] DeclVar
+      |  ||  +> [15, 4] Identifier (boolean)
+      |  ||  |  definition: type defined at null, type=boolean
+      |  ||  +> [15, 12] Identifier (condition)
+      |  ||  |  definition: variable defined at [15, 12], type=boolean
+      |  ||  `> [15, 12] NoInitialization
+      |  []> [15, 22] DeclVar
+      |  ||  +> [15, 4] Identifier (boolean)
+      |  ||  |  definition: type defined at null, type=boolean
+      |  ||  +> [15, 22] Identifier (condition1)
+      |  ||  |  definition: variable defined at [15, 22], type=boolean
+      |  ||  `> [15, 22] NoInitialization
+      |  []> [15, 34] DeclVar
+      |      +> [15, 4] Identifier (boolean)
+      |      |  definition: type defined at null, type=boolean
+      |      +> [15, 34] Identifier (condition2)
+      |      |  definition: variable defined at [15, 34], type=boolean
+      |      `> [15, 34] NoInitialization
+      `> [16, 4] ListInst [List with 6 elements]
+         []> [16, 4] Assign
+         ||  type: boolean
+         ||  +> [16, 4] Identifier (condition)
+         ||  |  definition: variable defined at [15, 12], type=boolean
+         ||  `> [16, 16] BooleanLiteral (true)
+         ||     type: boolean
+         []> [17, 4] Assign
+         ||  type: boolean
+         ||  +> [17, 4] Identifier (condition1)
+         ||  |  definition: variable defined at [15, 22], type=boolean
+         ||  `> [17, 17] BooleanLiteral (false)
+         ||     type: boolean
+         []> [18, 4] Assign
+         ||  type: boolean
+         ||  +> [18, 4] Identifier (condition2)
+         ||  |  definition: variable defined at [15, 34], type=boolean
+         ||  `> [18, 17] BooleanLiteral (true)
+         ||     type: boolean
+         []> [19, 4] IfThenElse
+         ||  +> [19, 9] Equals
+         ||  |  type: boolean
+         ||  |  +> [19, 9] Identifier (condition)
+         ||  |  |  definition: variable defined at [15, 12], type=boolean
+         ||  |  `> [19, 22] BooleanLiteral (true)
+         ||  |     type: boolean
+         ||  +> ListInst [List with 1 elements]
+         ||  |  []> [21, 8] Assign
+         ||  |      type: int
+         ||  |      +> [21, 8] Identifier (x)
+         ||  |      |  definition: variable defined at [13, 8], type=int
+         ||  |      `> [21, 12] Plus
+         ||  |         type: int
+         ||  |         +> [21, 12] Identifier (x)
+         ||  |         |  definition: variable defined at [13, 8], type=int
+         ||  |         `> [21, 16] Int (1)
+         ||  |            type: int
+         ||  `> ListInst [List with 1 elements]
+         ||     []> [26, 8] Assign
+         ||         type: int
+         ||         +> [26, 8] Identifier (y)
+         ||         |  definition: variable defined at [14, 8], type=int
+         ||         `> [26, 12] Plus
+         ||            type: int
+         ||            +> [26, 12] Identifier (y)
+         ||            |  definition: variable defined at [14, 8], type=int
+         ||            `> [26, 16] Int (1)
+         ||               type: int
+         []> [28, 4] IfThenElse
+         ||  +> [28, 7] Equals
+         ||  |  type: boolean
+         ||  |  +> [28, 7] Identifier (condition1)
+         ||  |  |  definition: variable defined at [15, 22], type=boolean
+         ||  |  `> [28, 21] BooleanLiteral (false)
+         ||  |     type: boolean
+         ||  +> ListInst [List with 1 elements]
+         ||  |  []> [30, 8] Assign
+         ||  |      type: int
+         ||  |      +> [30, 8] Identifier (x)
+         ||  |      |  definition: variable defined at [13, 8], type=int
+         ||  |      `> [30, 12] Plus
+         ||  |         type: int
+         ||  |         +> [30, 12] Identifier (x)
+         ||  |         |  definition: variable defined at [13, 8], type=int
+         ||  |         `> [30, 16] Int (2)
+         ||  |            type: int
+         ||  `> ListInst [List with 1 elements]
+         ||     []> [34, 8] Assign
+         ||         type: int
+         ||         +> [34, 8] Identifier (y)
+         ||         |  definition: variable defined at [14, 8], type=int
+         ||         `> [34, 12] Plus
+         ||            type: int
+         ||            +> [34, 12] Identifier (y)
+         ||            |  definition: variable defined at [14, 8], type=int
+         ||            `> [34, 16] Int (2)
+         ||               type: int
+         []> [36, 4] IfThenElse
+             +> [36, 7] Equals
+             |  type: boolean
+             |  +> [36, 7] Identifier (condition2)
+             |  |  definition: variable defined at [15, 34], type=boolean
+             |  `> [36, 21] BooleanLiteral (true)
+             |     type: boolean
+             +> ListInst [List with 1 elements]
+             |  []> [38, 8] Assign
+             |      type: int
+             |      +> [38, 8] Identifier (x)
+             |      |  definition: variable defined at [13, 8], type=int
+             |      `> [38, 12] Plus
+             |         type: int
+             |         +> [38, 12] Identifier (x)
+             |         |  definition: variable defined at [13, 8], type=int
+             |         `> [38, 16] Int (3)
+             |            type: int
+             `> ListInst [List with 1 elements]
+                []> [42, 8] Assign
+                    type: int
+                    +> [42, 8] Identifier (y)
+                    |  definition: variable defined at [14, 8], type=int
+                    `> [42, 12] Plus
+                       type: int
+                       +> [42, 12] Identifier (y)
+                       |  definition: variable defined at [14, 8], type=int
+                       `> [42, 16] Int (3)
+                          type: int

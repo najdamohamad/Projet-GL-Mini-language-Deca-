@@ -1,5 +1,5 @@
 // Description:
-//    Test des operateur binaire avec readfloat
+//    Test des operateur binaire avec readint
 //
 // Resultats:
 //    context: erreur de type int et bool`
@@ -8,5 +8,5 @@
 //    cree le 13/01/2022
 
 {
-    true && readint();
+    true || readInt();
 }

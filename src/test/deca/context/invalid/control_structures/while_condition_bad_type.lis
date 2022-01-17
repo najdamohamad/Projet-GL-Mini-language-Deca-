@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/control_structures/while_condition_bad_type.deca:12:10: TypeError: type incorrect pour expression `(2 + 2)`, attendu `boolean` mais trouvé `int`.

@@ -1,0 +1,1 @@
+src/test/deca/syntax/invalid/test_synt/expressions/multi_op_and.deca:13:17: mismatched input ')' expecting {'false', 'new', 'null', 'readInt', 'readFloat', 'this', 'true', IDENT, '-', '(', '!', INT, FLOAT, STRING}

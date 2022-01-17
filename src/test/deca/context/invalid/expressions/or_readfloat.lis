@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/expressions/or_readfloat.deca:11:4: TypeError: type(s) incorrect(s) dans `l'expression booléenne `(true || readFloat())`, attendu `boolean`

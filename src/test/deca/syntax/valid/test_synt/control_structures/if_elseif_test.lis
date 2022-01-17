@@ -1,0 +1,22 @@
+`> [11, 0] Program
+   +> ListDeclClass [List with 0 elements]
+   `> [11, 0] Main
+      +> [12, 4] ListDeclVar [List with 0 elements]
+      `> [12, 4] ListInst [List with 1 elements]
+         []> [12, 4] IfThenElse
+             +> [12, 8] Equals
+             |  +> [12, 8] Identifier (condition)
+             |  `> [12, 21] BooleanLiteral (true)
+             +> ListInst [List with 1 elements]
+             |  []> [13, 8] Assign
+             |      +> [13, 8] Identifier (x)
+             |      `> [13, 12] Plus
+             |         +> [13, 12] Identifier (x)
+             |         `> [13, 16] Int (1)
+             `> ListInst [List with 1 elements]
+                []> [19, 8] Assign
+                    +> [19, 8] Identifier (a)
+                    `> [19, 12] Plus
+                       +> [19, 12] Identifier (a)
+                       `> [19, 16] Int (1)
+TODO: this tests fails because y, z are not parsed correctly

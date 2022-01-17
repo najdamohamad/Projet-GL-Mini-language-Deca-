@@ -1,0 +1,13 @@
+// Description:
+//    Test de modulo d'un int et float
+//
+// Resultats:
+//    Context: erreur ligne 12, modulo impossible entre int et float
+//
+// Historique:
+//    cree le 13/01/2022
+{
+    int x = 2 ;
+    float y = 3.2 ;
+    x % y;
+}

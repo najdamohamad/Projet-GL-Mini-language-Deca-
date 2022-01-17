@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/expressions/unary_operator_not.deca:14:8: TypeError: type incorrect dans `l'expression de négation `!x`, attendu `boolean` mais trouvé `int`.

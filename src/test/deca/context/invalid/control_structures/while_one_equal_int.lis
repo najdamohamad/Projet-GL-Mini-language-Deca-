@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/control_structures/while_one_equal_int.deca:16:10: TypeError: type incorrect pour expression `(condition = 1)`, attendu `boolean` mais trouvé `int`.

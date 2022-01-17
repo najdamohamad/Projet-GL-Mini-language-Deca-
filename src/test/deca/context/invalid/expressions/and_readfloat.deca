@@ -8,5 +8,5 @@
 //    cree le 13/01/2022
 
 {
-    true && readfloat();
+    true && readFloat();
 }

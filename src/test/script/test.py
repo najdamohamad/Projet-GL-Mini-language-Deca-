@@ -192,7 +192,6 @@ def suite_test_exec(dossier, sous_language, type_test):
                 ligne = f.readline().rstrip("\n")
 
         # Compiler le programme avec decac. Cela doit toujours marcher, on tente lexecution apres
-        print(f"./src/main/bin/decac {arguments_decac} {fichier}")
         if os.system(f"./src/main/bin/decac {arguments_decac} {fichier}") != 0:
             print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, la compilation de {fichier_nom_court} a echoue")
             tests_echoues.append(fichier_nom_court)
@@ -242,7 +241,6 @@ def suite_test_exec(dossier, sous_language, type_test):
 
     assList = glob.glob(f'{dossier}/*.ass')
     for ass in assList:
-        print(ass)
         os.remove(ass)
 
     os.remove('temp.res')
@@ -264,6 +262,8 @@ def suite_test_exec(dossier, sous_language, type_test):
 # suite_test_context('src/test/deca/context/invalid/hello_world', 'helloworld', 'invalid')
 # suite_test_context('src/test/deca/context/valid/hello_world', 'helloworld', 'valid')
 # suite_test_exec('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
+
+# Test exec no objects
 suite_test_exec('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
 suite_test_exec('src/test/deca/codegen/invalid/no-objects', 'no-objects', 'invalid')
 
@@ -271,6 +271,20 @@ suite_test_exec('src/test/deca/codegen/invalid/no-objects', 'no-objects', 'inval
 suite_test_lex('src/test/deca/syntax/invalid/test_lex/expressions', 'expressions', 'invalid',)
 suite_test_synt('src/test/deca/syntax/invalid/test_synt/expressions', 'expressions', 'invalid')
 suite_test_synt('src/test/deca/syntax/valid/test_synt/expressions', 'expressions', 'valid',)
+suite_test_context('src/test/deca/context/invalid/expressions', 'expressions', 'invalid',)
+suite_test_context('src/test/deca/context/valid/expressions', 'expressions', 'valid',)
+# Tests variables
+suite_test_lex('src/test/deca/syntax/invalid/test_lex/variables', 'variables', 'invalid',)
+suite_test_synt('src/test/deca/syntax/invalid/test_synt/variables', 'variables', 'invalid',)
+suite_test_synt('src/test/deca/syntax/valid/test_synt/variables', 'variables', 'valid',)
+suite_test_context('src/test/deca/context/invalid/variables', 'variables', 'invalid',)
+suite_test_context('src/test/deca/context/valid/variables', 'variables', 'valid',)
+# Tests struct controles
+suite_test_lex('src/test/deca/syntax/invalid/test_lex/control_structures', 'control_structures', 'invalid',)
+suite_test_synt('src/test/deca/syntax/invalid/test_synt/control_structures', 'control_structures', 'invalid',)
+suite_test_synt('src/test/deca/syntax/valid/test_synt/control_structures', 'control_structures', 'valid',)
+suite_test_context('src/test/deca/context/invalid/control_structures', 'control_structures', 'invalid',)
+suite_test_context('src/test/deca/context/valid/control_structures', 'control_structures', 'valid',)
 
 print()
 print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {nb_tests_total}, Echec: {nb_echecs_total}')

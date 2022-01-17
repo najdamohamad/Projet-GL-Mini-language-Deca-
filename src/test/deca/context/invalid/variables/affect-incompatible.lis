@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/variables/affect-incompatible.deca:15:7: TypeError: type incorrect pour expression `b`, attendu `int` mais trouvé `boolean`.
