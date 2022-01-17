@@ -1,0 +1,20 @@
+// Description:
+//    Calcult de factoriel pour dépasser 32-bit.
+//
+// Resultats:
+//    ...
+//
+// Historique:
+//    cree le 17/01/2022
+{
+    int x = 1;
+    int y = 1;
+    int i = 0;
+
+    while (i < 20) {
+        println(y);
+        y = y * x;
+        x = x + 1;
+        i = i + 1;
+    }
+}

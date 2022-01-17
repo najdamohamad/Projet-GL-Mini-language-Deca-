@@ -1,0 +1,19 @@
+// Description:
+//    Test de elsif.
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 17/01/2022
+{
+    if (false) {
+        println("Err");
+    } else if (false) {
+        println("Err");
+    } else if (false) {
+        println("Err");
+    } else {
+        println("Ok");
+    }
+}

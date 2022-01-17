@@ -14,8 +14,19 @@
              |         +> [15, 12] Identifier (x)
              |         `> [15, 16] Int (1)
              `> ListInst [List with 1 elements]
-                []> [25, 11] Assign
-                    +> [25, 11] Identifier (z)
-                    `> [25, 15] Plus
-                       +> [25, 15] Identifier (z)
-                       `> [25, 18] Int (1)
+                []> [18, 4] IfThenElse
+                    +> [18, 13] Equals
+                    |  +> [18, 13] Identifier (condition1)
+                    |  `> [18, 27] BooleanLiteral (true)
+                    +> ListInst [List with 1 elements]
+                    |  []> [21, 8] Assign
+                    |      +> [21, 8] Identifier (y)
+                    |      `> [21, 12] Plus
+                    |         +> [21, 12] Identifier (y)
+                    |         `> [21, 16] Int (1)
+                    `> ListInst [List with 1 elements]
+                       []> [25, 11] Assign
+                           +> [25, 11] Identifier (z)
+                           `> [25, 15] Plus
+                              +> [25, 15] Identifier (z)
+                              `> [25, 18] Int (1)

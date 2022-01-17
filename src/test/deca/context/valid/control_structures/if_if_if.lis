@@ -7,5 +7,9 @@
              +> [13, 7] BooleanLiteral (true)
              |  type: boolean
              +> ListInst [List with 0 elements]
-             `> ListInst [List with 0 elements]
-TODO: this test fails
+             `> ListInst [List with 1 elements]
+                []> [15, 6] IfThenElse
+                    +> [15, 14] BooleanLiteral (true)
+                    |  type: boolean
+                    +> ListInst [List with 0 elements]
+                    `> ListInst [List with 0 elements]
