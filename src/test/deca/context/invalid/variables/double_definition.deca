@@ -1,0 +1,12 @@
+// Description:
+//    Définir une variable deux fois.
+//
+// Resultats:
+//    Ligne 15: Affectation de types incompatibles.
+// 
+// Historique:
+//    cree le 17/01/2022
+{
+    int x = 0;
+    int x = 1;
+}

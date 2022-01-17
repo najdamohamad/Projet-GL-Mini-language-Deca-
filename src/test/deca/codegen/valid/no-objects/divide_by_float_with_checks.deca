@@ -1,0 +1,16 @@
+// Description:
+//    Expression de division avec float.
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    float x = 5.0 / 2;
+    if (x == 2.5) {
+        println("Ok");
+    } else {
+        println("Err");
+    }
+}
