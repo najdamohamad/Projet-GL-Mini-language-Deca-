@@ -1,14 +1,14 @@
 #!/bin/sh
 
+usage() {
+    echo "Usage: ./arm-env.sh install | run <program>.s"
+}
+
 if [ $# -lt 1 ]; then
     usage
     echo "ERROR: no subcommand is provided"
     exit 1
 fi
-
-usage() {
-    echo "Usage: ./arm-env.sh install | run <program>.s"
-}
 
 TOOLCHAIN_URL="https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz"
 
