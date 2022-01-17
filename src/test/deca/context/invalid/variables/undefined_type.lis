@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/variables/undefined_type.deca:22:4: ScopeError: le type `object` n'est pas défini.

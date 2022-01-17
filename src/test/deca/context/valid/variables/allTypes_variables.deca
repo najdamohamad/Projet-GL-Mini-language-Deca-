@@ -12,6 +12,5 @@
     int a = 2 ;
     float b  = 2.1;  
     string s = "juNGLE"; 
-    boolean l = true  ; 
-    Object ob = null ;
+    boolean l = true  ;
 }

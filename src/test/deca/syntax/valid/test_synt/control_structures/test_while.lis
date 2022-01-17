@@ -1,0 +1,13 @@
+`> [11, 0] Program
+   +> ListDeclClass [List with 0 elements]
+   `> [11, 0] Main
+      +> [12, 4] ListDeclVar [List with 0 elements]
+      `> [12, 4] ListInst [List with 1 elements]
+         []> [12, 4] While
+             +> [12, 10] Equals
+             |  +> [12, 10] Identifier (condition)
+             |  `> [12, 23] BooleanLiteral (true)
+             `> ListInst [List with 1 elements]
+                []> [14, 8] Print
+                    `> ListExpr [List with 1 elements]
+                       []> [14, 14] Identifier (hello)

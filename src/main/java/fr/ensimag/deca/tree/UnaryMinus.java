@@ -9,6 +9,7 @@ import fr.ensimag.deca.context.Type;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.instructions.MUL;
+import fr.ensimag.ima.pseudocode.instructions.OPP;
 
 /**
  * @author gl47
@@ -26,7 +27,7 @@ public class UnaryMinus extends AbstractUnaryExpr {
         Type operandType = getOperand().verifyExpr(compiler, localEnv, currentClass);
         if (!operandType.isIntOrFloat()) {
             String message = "TypeError: type incorrect dans `"
-                    + "l'expression de d'inversion de signe `" + this.decompile()
+                    + "l'expression d'inversion de signe `" + this.decompile()
                     + "`, attendu `int` ou bien `float` mais trouvé `"
                     + operandType + "`.";
             throw new ContextualError(message, getLocation());
@@ -44,7 +45,7 @@ public class UnaryMinus extends AbstractUnaryExpr {
     @Override
     public void codeGen(IMAProgram program) {
         getOperand().codeGen(program);
-        program.addInstruction(new MUL(new ImmediateInteger(-1), program.getMaxUsedRegister()));
+        program.addInstruction(new OPP(program.getMaxUsedRegister(), program.getMaxUsedRegister()));
     }
 
     @Override

@@ -1,0 +1,49 @@
+`> [11, 0] Program
+   +> ListDeclClass [List with 0 elements]
+   `> [11, 0] Main
+      +> [12, 4] ListDeclVar [List with 3 elements]
+      |  []> [12, 8] DeclVar
+      |  ||  +> [12, 4] Identifier (int)
+      |  ||  |  definition: type defined at null, type=int
+      |  ||  +> [12, 8] Identifier (x)
+      |  ||  |  definition: variable defined at [12, 8], type=int
+      |  ||  `> [12, 8] NoInitialization
+      |  []> [12, 12] DeclVar
+      |  ||  +> [12, 4] Identifier (int)
+      |  ||  |  definition: type defined at null, type=int
+      |  ||  +> [12, 12] Identifier (y)
+      |  ||  |  definition: variable defined at [12, 12], type=int
+      |  ||  `> [12, 12] NoInitialization
+      |  []> [13, 11] DeclVar
+      |      +> [13, 4] Identifier (float)
+      |      |  definition: type defined at null, type=float
+      |      +> [13, 11] Identifier (z)
+      |      |  definition: variable defined at [13, 11], type=float
+      |      `> [13, 11] NoInitialization
+      `> [14, 4] ListInst [List with 4 elements]
+         []> [14, 4] Assign
+         ||  type: int
+         ||  +> [14, 4] Identifier (x)
+         ||  |  definition: variable defined at [12, 8], type=int
+         ||  `> [14, 8] Int (2)
+         ||     type: int
+         []> [15, 4] Assign
+         ||  type: int
+         ||  +> [15, 4] Identifier (y)
+         ||  |  definition: variable defined at [12, 12], type=int
+         ||  `> [15, 8] Int (3)
+         ||     type: int
+         []> [16, 4] Assign
+         ||  type: float
+         ||  +> [16, 4] Identifier (z)
+         ||  |  definition: variable defined at [13, 11], type=float
+         ||  `> [16, 8] Plus
+         ||     type: int
+         ||     +> [16, 8] Identifier (x)
+         ||     |  definition: variable defined at [12, 8], type=int
+         ||     `> [16, 12] Identifier (y)
+         ||        definition: variable defined at [12, 12], type=int
+         []> [17, 4] Print
+             `> ListExpr [List with 1 elements]
+                []> [17, 10] Identifier (z)
+                    definition: variable defined at [13, 11], type=float

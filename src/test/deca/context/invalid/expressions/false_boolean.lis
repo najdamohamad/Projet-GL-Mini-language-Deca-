@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/expressions/false_boolean.deca:11:4: TypeError: type(s) incorrect(s) dans `l'expression booléenne `(true && 1)`, attendu `boolean`

@@ -1,0 +1,1 @@
+src/test/deca/syntax/invalid/test_synt/control_structures/while_semicolon.deca:11:15: missing '{' at ';'
