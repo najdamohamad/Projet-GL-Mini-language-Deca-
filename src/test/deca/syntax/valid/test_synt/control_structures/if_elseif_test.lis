@@ -14,9 +14,30 @@
              |         +> [13, 12] Identifier (x)
              |         `> [13, 16] Int (1)
              `> ListInst [List with 1 elements]
-                []> [19, 8] Assign
-                    +> [19, 8] Identifier (a)
-                    `> [19, 12] Plus
-                       +> [19, 12] Identifier (a)
-                       `> [19, 16] Int (1)
-TODO: this tests fails because y, z are not parsed correctly
+                []> [14, 6] IfThenElse
+                    +> [14, 15] Equals
+                    |  +> [14, 15] Identifier (condition1)
+                    |  `> [14, 29] BooleanLiteral (true)
+                    +> ListInst [List with 1 elements]
+                    |  []> [15, 8] Assign
+                    |      +> [15, 8] Identifier (y)
+                    |      `> [15, 12] Plus
+                    |         +> [15, 12] Identifier (y)
+                    |         `> [15, 16] Int (1)
+                    `> ListInst [List with 1 elements]
+                       []> [16, 6] IfThenElse
+                           +> [16, 15] Equals
+                           |  +> [16, 15] Identifier (cond2)
+                           |  `> [16, 24] BooleanLiteral (true)
+                           +> ListInst [List with 1 elements]
+                           |  []> [17, 8] Assign
+                           |      +> [17, 8] Identifier (z)
+                           |      `> [17, 12] Plus
+                           |         +> [17, 12] Identifier (z)
+                           |         `> [17, 16] Int (1)
+                           `> ListInst [List with 1 elements]
+                              []> [19, 8] Assign
+                                  +> [19, 8] Identifier (a)
+                                  `> [19, 12] Plus
+                                     +> [19, 12] Identifier (a)
+                                     `> [19, 16] Int (1)
