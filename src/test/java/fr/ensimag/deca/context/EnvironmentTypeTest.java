@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -47,5 +46,16 @@ public class EnvironmentTypeTest {
             assertEquals("type", typedef.getNature());
             assertTrue(type.sameType(typedef.getType()));
         }
+    }
+
+    @Test
+    public void testDoubleDef() throws EnvironmentType.DoubleDefException {
+        EnvironmentType e = new EnvironmentType(compiler);
+        SymbolTable.Symbol classSymbol = compiler.createSymbol("ObjectA");
+        e.declare(classSymbol, new TypeDefinition(new ClassType(classSymbol), null));
+
+        assertThrows(EnvironmentType.DoubleDefException.class, () -> {
+            e.declare(classSymbol, new TypeDefinition(new ClassType(classSymbol), null));
+        });
     }
 }

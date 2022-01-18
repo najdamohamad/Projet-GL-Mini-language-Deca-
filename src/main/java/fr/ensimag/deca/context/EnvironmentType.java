@@ -38,6 +38,7 @@ public class EnvironmentType {
         } catch (DoubleDefException e) {
             // Should be unreachable.
             LOG.error("declared symbol twice in EnvironmentType, error: " + e.getMessage());
+            assert true;
         }
     }
 
