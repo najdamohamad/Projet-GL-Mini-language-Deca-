@@ -21,6 +21,7 @@ cache:
 compile:
   stage: compile
   script:
+    - mvn $MAVEN_CLI_OPTS clean $MAVEN_OPTS
     - mvn $MAVEN_CLI_OPTS compile $MAVEN_OPTS
 
 test:
