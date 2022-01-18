@@ -21,6 +21,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
     public abstract Instruction getMnemonic(Label label);
 
     public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
+        program.addComment(getLocation() + " cmp begin");
         // Compare the results of evaluating the LHS and RHS expressions.
 
         Label returnTrue = new Label("cmp_true_" + hashCode());
@@ -45,5 +46,6 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         ));
 
         program.addLabel(endLabel);
+        program.addComment(getLocation() + " cmp end");
     }
 }

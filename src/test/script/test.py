@@ -149,7 +149,7 @@ def suite_test_synt(dossier, sous_language, type_test):
 def suite_test_context(dossier, sous_language, type_test):
     suite_test(dossier, sous_language, type_test, 'contexte')
 
-def suite_test_exec(dossier, sous_language, type_test):
+def _suite_test_exec(dossier, sous_language, type_test, arm=False):
     # global: je veux modifier les variable globales
     global nb_tests_total, nb_echecs_total, tous_test_echoues
 
@@ -191,7 +191,11 @@ def suite_test_exec(dossier, sous_language, type_test):
                     arguments_decac = ligne.lstrip("//! DECAC_OPTIONS:")
                 ligne = f.readline().rstrip("\n")
 
+        if arm:
+            arguments_decac += " -a"
+
         # Compiler le programme avec decac. Cela doit toujours marcher, on tente lexecution apres
+        print(f"./src/main/bin/decac {arguments_decac} {fichier}")
         if os.system(f"./src/main/bin/decac {arguments_decac} {fichier}") != 0:
             print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, la compilation de {fichier_nom_court} a echoue")
             tests_echoues.append(fichier_nom_court)
@@ -201,19 +205,30 @@ def suite_test_exec(dossier, sous_language, type_test):
             continue
 
         # On stocke la sortie dans un temp.lis, ce fichier sera celui à comparer.
-        fichier_ass = replace_ending(fichier, '.deca', '.ass')
+        fichier_ass = ''
+        if arm:
+            fichier_ass = replace_ending(fichier, '.deca', '.s')
+        else:
+            fichier_ass = replace_ending(fichier, '.deca', '.ass')
 
+        commande_exec = ''
+        if arm:
+            commande_exec = './arm-env.sh run'
+        else:
+            commande_exec = 'ima'
+
+        print(f"{commande_exec} {arguments_ima} {fichier_ass} > temp.res 2>&1")
         if type_test == "invalid":
-            if os.system(f"ima {arguments_ima} {fichier_ass} > temp.res 2>&1") == 0:
-                print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, execution par IMA réussite, echec attendue")
+            if os.system(f"{commande_exec} {arguments_ima} {fichier_ass} > temp.res 2>&1") == 0:
+                print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, execution par {commande_exec} réussite, echec attendue")
                 tests_echoues.append(fichier_nom_court)
                 tous_test_echoues.append(fichier_nom_court)
                 nb_echecs += 1
                 nb_echecs_total += 1
                 continue
         else:
-            if os.system(f"ima {arguments_ima} {fichier_ass} > temp.res 2>&1") != 0:
-                print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, execution par IMA échouée, reussite attendue")
+            if os.system(f"{commande_exec} {arguments_ima} {fichier_ass} > temp.res 2>&1") != 0:
+                print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court}, execution par {commande_exec} échouée, reussite attendue")
                 tests_echoues.append(fichier_nom_court)
                 tous_test_echoues.append(fichier_nom_court)
                 nb_echecs += 1
@@ -251,40 +266,50 @@ def suite_test_exec(dossier, sous_language, type_test):
         for test in tests_echoues:
             print(f"{color.FAIL}ECHEC{color.END} {test}")
 
+def suite_test_ima(dossier, sous_language, type_test):
+    _suite_test_exec(dossier, sous_language, type_test, arm=False)
+
+def suite_test_arm(dossier, sous_language, type_test):
+    _suite_test_exec(dossier, sous_language, type_test, arm=True)
+
+if not Path('arm-toolchain').exists():
+    print(f"{color.FAIL}[ERREUR]{color.END} Le toolchain ARM n'est pas installé.. \n"
+          f"Veuillez lancer ./arm-env.sh install.")
 # WHich tests to run
 # a modifier si on veut ajouter de nouveau test ajouter un nouvelle ligne suite_test()
 
 # Tests hello world
-suite_test_lex('src/test/deca/syntax/invalid/test_lex/hello_world', 'helloworld', 'invalid',)
-suite_test_lex('src/test/deca/syntax/valid/test_lex/hello_world', 'helloworld', 'valid',)
-suite_test_synt('src/test/deca/syntax/invalid/test_synt/hello_world', 'helloworld', 'invalid')
-suite_test_synt('src/test/deca/syntax/valid/test_synt/hello_world', 'helloworld', 'valid',)
-suite_test_context('src/test/deca/context/invalid/hello_world', 'helloworld', 'invalid')
-suite_test_context('src/test/deca/context/valid/hello_world', 'helloworld', 'valid')
-suite_test_exec('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
-
-# Test exec no objects
-suite_test_exec('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
-suite_test_exec('src/test/deca/codegen/invalid/no-objects', 'no-objects', 'invalid')
-
-# Tests expression
-suite_test_lex('src/test/deca/syntax/invalid/test_lex/expressions', 'expressions', 'invalid',)
-suite_test_synt('src/test/deca/syntax/invalid/test_synt/expressions', 'expressions', 'invalid')
-suite_test_synt('src/test/deca/syntax/valid/test_synt/expressions', 'expressions', 'valid',)
-suite_test_context('src/test/deca/context/invalid/expressions', 'expressions', 'invalid',)
-suite_test_context('src/test/deca/context/valid/expressions', 'expressions', 'valid',)
-# Tests variables
-suite_test_lex('src/test/deca/syntax/invalid/test_lex/variables', 'variables', 'invalid',)
-suite_test_synt('src/test/deca/syntax/invalid/test_synt/variables', 'variables', 'invalid',)
-suite_test_synt('src/test/deca/syntax/valid/test_synt/variables', 'variables', 'valid',)
-suite_test_context('src/test/deca/context/invalid/variables', 'variables', 'invalid',)
-suite_test_context('src/test/deca/context/valid/variables', 'variables', 'valid',)
-# Tests struct controles
-suite_test_lex('src/test/deca/syntax/invalid/test_lex/control_structures', 'control_structures', 'invalid',)
-suite_test_synt('src/test/deca/syntax/invalid/test_synt/control_structures', 'control_structures', 'invalid',)
-suite_test_synt('src/test/deca/syntax/valid/test_synt/control_structures', 'control_structures', 'valid',)
-suite_test_context('src/test/deca/context/invalid/control_structures', 'control_structures', 'invalid',)
-suite_test_context('src/test/deca/context/valid/control_structures', 'control_structures', 'valid',)
+suite_test_arm('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
+# suite_test_lex('src/test/deca/syntax/invalid/test_lex/hello_world', 'helloworld', 'invalid',)
+# suite_test_lex('src/test/deca/syntax/valid/test_lex/hello_world', 'helloworld', 'valid',)
+# suite_test_synt('src/test/deca/syntax/invalid/test_synt/hello_world', 'helloworld', 'invalid')
+# suite_test_synt('src/test/deca/syntax/valid/test_synt/hello_world', 'helloworld', 'valid',)
+# suite_test_context('src/test/deca/context/invalid/hello_world', 'helloworld', 'invalid')
+# suite_test_context('src/test/deca/context/valid/hello_world', 'helloworld', 'valid')
+# suite_test_ima('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
+#
+# # Test exec no objects
+# suite_test_ima('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
+# suite_test_ima('src/test/deca/codegen/invalid/no-objects', 'no-objects', 'invalid')
+#
+# # Tests expression
+# suite_test_lex('src/test/deca/syntax/invalid/test_lex/expressions', 'expressions', 'invalid',)
+# suite_test_synt('src/test/deca/syntax/invalid/test_synt/expressions', 'expressions', 'invalid')
+# suite_test_synt('src/test/deca/syntax/valid/test_synt/expressions', 'expressions', 'valid',)
+# suite_test_context('src/test/deca/context/invalid/expressions', 'expressions', 'invalid',)
+# suite_test_context('src/test/deca/context/valid/expressions', 'expressions', 'valid',)
+# # Tests variables
+# suite_test_lex('src/test/deca/syntax/invalid/test_lex/variables', 'variables', 'invalid',)
+# suite_test_synt('src/test/deca/syntax/invalid/test_synt/variables', 'variables', 'invalid',)
+# suite_test_synt('src/test/deca/syntax/valid/test_synt/variables', 'variables', 'valid',)
+# suite_test_context('src/test/deca/context/invalid/variables', 'variables', 'invalid',)
+# suite_test_context('src/test/deca/context/valid/variables', 'variables', 'valid',)
+# # Tests struct controles
+# suite_test_lex('src/test/deca/syntax/invalid/test_lex/control_structures', 'control_structures', 'invalid',)
+# suite_test_synt('src/test/deca/syntax/invalid/test_synt/control_structures', 'control_structures', 'invalid',)
+# suite_test_synt('src/test/deca/syntax/valid/test_synt/control_structures', 'control_structures', 'valid',)
+# suite_test_context('src/test/deca/context/invalid/control_structures', 'control_structures', 'invalid',)
+# suite_test_context('src/test/deca/context/valid/control_structures', 'control_structures', 'valid',)
 
 print()
 print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {nb_tests_total}, Echec: {nb_echecs_total}')

@@ -10,5 +10,7 @@ get_abs_filename() {
 }
 
 echo $(get_abs_filename './ima')
+echo $(get_abs_filename '')
 PATH="$PATH:$(get_abs_filename './ima')"
 chmod +x ./ima/ima-x86_64-Linux
+PATH="$PATH:$(get_abs_filename '')"

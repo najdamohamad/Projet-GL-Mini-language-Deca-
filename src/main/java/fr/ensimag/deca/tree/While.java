@@ -76,6 +76,7 @@ public class While extends AbstractInst {
         Label condition = new Label("cmp_cond_" + hashCode());
         Label endLabel = new Label("cmp_end_" + hashCode());
 
+        program.addComment(getLocation() + " while begin");
         program.addLabel(condition);
 
         // Put the result of evaluating the condition expression into R0.
@@ -86,6 +87,7 @@ public class While extends AbstractInst {
         getBody().codeGen(program);
         program.addInstruction(new BRA(condition));
         program.addLabel(endLabel);
+        program.addComment(getLocation() + " while end");
     }
 
     @Override
