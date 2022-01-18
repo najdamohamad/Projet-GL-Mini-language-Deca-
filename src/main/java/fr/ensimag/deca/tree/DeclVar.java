@@ -36,7 +36,7 @@ public class DeclVar extends AbstractDeclVar {
                                  EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         Type varType = type.verifyType(compiler);
-        if (varType.sameType(compiler.getType("void"))) {
+        if (varType.isVoid()) { // JACOCO should use isVoid()--sameType(compiler.getType("void"))
             String message = "TypeError: il est impossible de déclarer des identificateurs de type `void`.";
             throw new ContextualError(message, getLocation());
         }
