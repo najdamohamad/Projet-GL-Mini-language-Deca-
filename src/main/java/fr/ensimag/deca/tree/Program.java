@@ -58,6 +58,7 @@ public class Program extends AbstractProgram {
      * CodeGen for main programs.
      * Follows the code listing p209,
      * 1 Génération de code pour le langage Deca « sans objet ».
+     *
      * @param program Abstract representation of the IMA assembly code.
      */
     @Override
@@ -66,6 +67,7 @@ public class Program extends AbstractProgram {
         // TODO: test de dépassement de pile doit être fait à la fin du programme
         // Utiliser les possibilités du paquet pseudocode, voir p210
         main.codeGen(program);
+        classes.codeGen(program);
 
         program.addInstruction(new HALT());
         program.addComment("End of main function.");
