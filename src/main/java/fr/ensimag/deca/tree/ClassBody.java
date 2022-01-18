@@ -11,7 +11,7 @@ import java.io.PrintStream;
  * @author gl47
  * @date 01/01/2022
  */
-public class MethodBody extends AbstractExpr{
+public class ClassBody extends AbstractExpr{
         private ListDeclMethod methods;
         private ListDeclField listDeclField;
 

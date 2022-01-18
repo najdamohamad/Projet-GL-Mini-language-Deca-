@@ -522,9 +522,9 @@ class_extension returns[AbstractIdentifier tree]
         }
     ;
 
-class_body returns [MethodBody tree]
+class_body returns [ClassBody tree]
 @init {
-    $tree = new MethodBody();
+    $tree = new ClassBody();
 }
     : (m=decl_method {
             assert($m.tree != null);

@@ -1,0 +1,15 @@
+// Description:
+//    Test de déclaration de class
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+    public class coordonnees{
+        private int x, y;
+    }
+}

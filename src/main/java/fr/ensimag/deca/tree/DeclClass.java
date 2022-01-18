@@ -15,28 +15,28 @@ import org.apache.commons.lang.Validate;
  */
 public class DeclClass extends AbstractDeclClass {
     final private AbstractIdentifier identifier;
-    final private AbstractIdentifier Extension;
-    final private MethodBody ClassBody;
+    final private AbstractIdentifier extension;
+    final private ClassBody classBody;
 
-    public DeclClass(AbstractIdentifier identifier, AbstractIdentifier Extension, MethodBody ClassBody){
+    public DeclClass(AbstractIdentifier identifier, AbstractIdentifier extension, ClassBody classBody){
         Validate.notNull(identifier);
-        Validate.notNull(Extension);
-        Validate.notNull(ClassBody);
+        Validate.notNull(extension);
+        Validate.notNull(classBody);
         this.identifier = identifier;
-        this.Extension = Extension;
-        this.ClassBody = ClassBody;
+        this.extension = extension;
+        this.classBody = classBody;
     }
 
     public AbstractIdentifier getExtension() {
-        return Extension;
+        return extension;
     }
 
     public AbstractIdentifier getIdentifier() {
         return identifier;
     }
 
-    public MethodBody getClassBody() {
-        return ClassBody;
+    public ClassBody getClassBody() {
+        return classBody;
     }
 
     @Override
