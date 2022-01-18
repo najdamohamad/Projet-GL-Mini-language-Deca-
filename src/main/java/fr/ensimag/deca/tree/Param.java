@@ -26,7 +26,7 @@ public class Param extends AbstractExpr {
     public AbstractIdentifier getIdent() {
         return this.Ident;
     }
-    public AbstractIdentifier getType() {
+    public AbstractIdentifier getTypeId() {
         return this.Type;
     }
 
@@ -56,7 +56,7 @@ public class Param extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        getType().decompile(s);
+        getTypeId().decompile(s);
         s.print(" ");
         getIdent().decompile(s);
     }
@@ -69,14 +69,14 @@ public class Param extends AbstractExpr {
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        getType().iter(f);
-        getIdent().iter(f);
+        Type.iter(f);
+        Ident.iter(f);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        getType().prettyPrint(s, prefix, false);
-        getIdent().prettyPrint(s, prefix, false);
+        Type.prettyPrint(s, prefix, false);
+        Ident.prettyPrint(s, prefix, false);
     }
 
     @Override

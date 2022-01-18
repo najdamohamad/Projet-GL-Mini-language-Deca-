@@ -22,13 +22,13 @@ public class ListDeclParam extends TreeList<Param> {
     @Override
     public void decompile(IndentPrintStream s) {
         boolean notFirst = false;
-        for (Iterator<AbstractDeclVar> it = iterator(); it.hasNext(); ) {
-            AbstractDeclVar decl = it.next();
+        for (Iterator<Param> it = iterator(); it.hasNext(); ) {
+            Param param = it.next();
 
             if (notFirst) {
                 s.println(); // newline
             }
-            decl.decompile(s);
+            param.decompile(s);
             notFirst = true;
         }
     }
@@ -44,12 +44,14 @@ public class ListDeclParam extends TreeList<Param> {
      *                     the "env_exp_r" attribute
      * @param currentClass corresponds to "class" attribute (null in the main bloc).
      */
+    /*
     void verifyListDeclVariable(DecacCompiler compiler, EnvironmentExp localEnv,
                                 ClassDefinition currentClass) throws ContextualError {
         for (AbstractDeclVar declVar : getList()) {
             declVar.verifyDeclVar(compiler, localEnv, currentClass);
         }
-    }
 
+    }
+*/
 
 }

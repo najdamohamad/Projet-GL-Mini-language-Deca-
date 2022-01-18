@@ -16,14 +16,14 @@ import java.util.List;
  * @author gl47
  * @date 01/01/2022
  */
-public class ListDeclMethod extends TreeList<DeclMethod > {
+public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
     private static final Logger LOG = Logger.getLogger(Program.class);
 
     @Override
     public void decompile(IndentPrintStream s) {
         boolean notFirst = false;
-        for (Iterator<AbstractDeclVar> it = iterator(); it.hasNext(); ) {
-            AbstractDeclVar decl = it.next();
+        for (Iterator<AbstractDeclMethod> it = iterator(); it.hasNext(); ) {
+            AbstractDeclMethod decl = it.next();
 
             if (notFirst) {
                 s.println(); // newline
@@ -44,12 +44,13 @@ public class ListDeclMethod extends TreeList<DeclMethod > {
      *                     the "env_exp_r" attribute
      * @param currentClass corresponds to "class" attribute (null in the main bloc).
      */
+    /*
     void verifyListDeclVariable(DecacCompiler compiler, EnvironmentExp localEnv,
                                 ClassDefinition currentClass) throws ContextualError {
         for (AbstractDeclVar declVar : getList()) {
             declVar.verifyDeclVar(compiler, localEnv, currentClass);
         }
     }
-
+*/
 
 }

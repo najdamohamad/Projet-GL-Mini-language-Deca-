@@ -37,11 +37,11 @@ public class DeclField extends AbstractDeclVar {
     public void setExpression(AbstractExpr expr){
         this.expression = expr;
     }
-    /*
+
     @Override
-    protected void verifyDeclField(DecacCompiler compiler,
+    protected void verifyDeclVar(DecacCompiler compiler,
                                  EnvironmentExp localEnv, ClassDefinition currentClass)
-            throws ContextualError {
+            throws ContextualError {/*
         Type varType = type.verifyType(compiler);
         if (varType.sameType(compiler.getType("void"))) {
             String message = "TypeError: il est impossible de déclarer des identificateurs de type `void`.";
@@ -56,32 +56,29 @@ public class DeclField extends AbstractDeclVar {
             String message = "ScopeError: l'identificateur `"
                     + varName.decompile() + "` ne peut être défini plus qu'une fois.";
             throw new ContextualError(message, getLocation());
-        }
+        }*/
     }
 
 
     @Override
     public void decompile(IndentPrintStream s) {
-        type.decompile(s);
+        name.decompile(s);
         s.print(" ");
-        varName.decompile(s);
-        initialization.decompile(s);
+        expression.decompile(s);
         s.print(";");
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        type.iter(f);
-        varName.iter(f);
-        initialization.iter(f);
+        name.iter(f);
+        expression.iter(f);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        type.prettyPrint(s, prefix, false);
-        varName.prettyPrint(s, prefix, false);
-        initialization.prettyPrint(s, prefix, true);
+        name.prettyPrint(s, prefix, false);
+        expression.prettyPrint(s, prefix, false);
     }
 
-     */
+
 }

@@ -11,7 +11,7 @@ import java.io.PrintStream;
  * @author gl47
  * @date 01/01/2022
  */
-public class DeclMethodAsm extends DeclMethod {
+public class DeclMethodAsm extends AbstractDeclMethod {
 
 
     final private AbstractIdentifier type;
@@ -24,59 +24,46 @@ public class DeclMethodAsm extends DeclMethod {
         Validate.notNull(type);
         Validate.notNull(name);
         Validate.notNull(params);
-        validate.notNull(text);
-        validate.notNull(location);
+        Validate.notNull(text);
+        Validate.notNull(location);
         this.type = type;
         this.name = name;
         this.params = params;
         this.text = text;
         this.location = location;
     }
-/*
-    @Override
-    protected void verifyDeclVar(DecacCompiler compiler,
-                                 EnvironmentExp localEnv, ClassDefinition currentClass)
-            throws ContextualError {
-        Type varType = type.verifyType(compiler);
-        if (varType.sameType(compiler.getType("void"))) {
-            String message = "TypeError: il est impossible de déclarer des identificateurs de type `void`.";
-            throw new ContextualError(message, getLocation());
-        }
-        try {
-            ExpDefinition varDefinition = new VariableDefinition(varType, getLocation());
-            varName.setDefinition(varDefinition);
-            localEnv.declare(varName.getName(), varDefinition);
-            initialization.verifyInitialization(compiler, varType, localEnv, currentClass);
-        } catch (EnvironmentExp.DoubleDefException e) {
-            String message = "ScopeError: l'identificateur `"
-                    + varName.decompile() + "` ne peut être défini plus qu'une fois.";
-            throw new ContextualError(message, getLocation());
-        }
-    }
 
+    @Override
+    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass){
+        Type intType = compiler.getType("int");
+        setType(intType);
+        return intType;
+    }
 
     @Override
     public void decompile(IndentPrintStream s) {
         type.decompile(s);
         s.print(" ");
-        varName.decompile(s);
-        initialization.decompile(s);
+        name.decompile(s);
+        s.print(" ");
+        params.decompile(s);
+        s.print(" ");
+        s.print(text);
         s.print(";");
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
         type.iter(f);
-        varName.iter(f);
-        initialization.iter(f);
+        name.iter(f);
+        params.iter(f);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         type.prettyPrint(s, prefix, false);
-        varName.prettyPrint(s, prefix, false);
-        initialization.prettyPrint(s, prefix, true);
+        name.prettyPrint(s, prefix, false);
+        params.prettyPrint(s, prefix, false);
     }
 
- */
 }

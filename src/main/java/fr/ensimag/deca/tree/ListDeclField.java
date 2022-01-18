@@ -16,7 +16,7 @@ import java.util.List;
  * @author gl47
  * @date 01/01/2022
  */
-public class ListDeclField extends TreeList<DeclField> {
+public class ListDeclField extends TreeList<AbstractDeclVar> {
     private static final Logger LOG = Logger.getLogger(Program.class);
 
     @Override
@@ -44,12 +44,13 @@ public class ListDeclField extends TreeList<DeclField> {
      *                     the "env_exp_r" attribute
      * @param currentClass corresponds to "class" attribute (null in the main bloc).
      */
+    /*
     void verifyListDeclVariable(DecacCompiler compiler, EnvironmentExp localEnv,
                                 ClassDefinition currentClass) throws ContextualError {
         for (AbstractDeclVar declVar : getList()) {
             declVar.verifyDeclVar(compiler, localEnv, currentClass);
         }
     }
-
+*/
 
 }
