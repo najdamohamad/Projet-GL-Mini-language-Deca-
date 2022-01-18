@@ -110,8 +110,8 @@ public class StringLiteral extends AbstractStringLiteral {
         program.addLineInSection("data", literalValue);
         Line literalLength = new Assign(
                 literalName + "_len",
-                new Subtraction(new Label("."), new Label(literalName))
-        );
+                new Subtraction(new Label("."), new Subtraction(new Label(literalName), new Text("1"))
+        ));
         program.addLineInSection("data", literalLength);
         // Perform the write syscall.
         Line writeString = new Write(

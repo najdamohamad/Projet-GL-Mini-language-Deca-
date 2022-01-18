@@ -7,6 +7,7 @@ import sys
 import glob
 from pathlib import Path
 import filecmp
+import binascii
 
 class color:
     HEADER = '\033[95m'
@@ -240,11 +241,25 @@ def _suite_test_exec(dossier, sous_language, type_test, arm=False):
             print(f"{color.WARNING}AVERTISSEMENT{color.END}: pas de résultat .res trouvée pour {fichier_nom_court}")
             continue
 
+
         if not filecmp.cmp(fichier_res, 'temp.res'):
             print(f"{color.FAIL}ECHEC{color.END}: {fichier_nom_court} diffère du .res")
             if len(sys.argv) > 1 and sys.argv[1] == '-X': # show debug
+                print("expected")
+                with open(fichier_res, 'r') as f:
+                    print(f.read())
+                print("actual")
                 with open(f'temp.res', 'r') as f:
                     print(f.read())
+                print("expected [hexdump]")
+                with open(fichier_res, 'rb') as f:
+                    c = f.read()
+                    print(binascii.hexlify(c))
+                print("actual [hexdump]")
+                with open(f'temp.res', 'rb') as f:
+                    c = f.read()
+                    print(binascii.hexlify(c))
+
 
             tests_echoues.append(fichier_nom_court)
             tous_test_echoues.append(fichier_nom_court)
@@ -257,6 +272,9 @@ def _suite_test_exec(dossier, sous_language, type_test, arm=False):
     assList = glob.glob(f'{dossier}/*.ass')
     for ass in assList:
         os.remove(ass)
+    sList = glob.glob(f'{dossier}/*.s')
+    for s in sList:
+        os.remove(s)
 
     os.remove('temp.res')
     print(f'{color.HEADER}[SUITE]{color.END} {color.BOLD}RESULTAT{color.END} '
@@ -279,6 +297,7 @@ if not Path('arm-toolchain').exists():
 # a modifier si on veut ajouter de nouveau test ajouter un nouvelle ligne suite_test()
 
 # Tests hello world
+suite_test_ima('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
 suite_test_arm('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
 # suite_test_lex('src/test/deca/syntax/invalid/test_lex/hello_world', 'helloworld', 'invalid',)
 # suite_test_lex('src/test/deca/syntax/valid/test_lex/hello_world', 'helloworld', 'valid',)
