@@ -11,7 +11,7 @@ import java.util.Map;
 public class EnvironmentType {
     private static Logger LOG = Logger.getLogger(EnvironmentType.class);
 
-    private Map<Symbol, TypeDefinition> environmentType;
+    private final Map<Symbol, TypeDefinition> environmentType;
 
     private EnvironmentType() {
         environmentType = new HashMap<>();
@@ -28,18 +28,12 @@ public class EnvironmentType {
         Symbol intSymbol = compiler.createSymbol("int");
         Symbol stringSymbol = compiler.createSymbol("string");
         Symbol nullSymbol = compiler.createSymbol("null");
-        try {
-            declare(voidSymbol, new TypeDefinition(new VoidType(voidSymbol), null));
-            declare(booleanSymbol, new TypeDefinition(new BooleanType(booleanSymbol), null));
-            declare(floatSymbol, new TypeDefinition(new FloatType(floatSymbol), null));
-            declare(intSymbol, new TypeDefinition(new IntType(intSymbol), null));
-            declare(stringSymbol, new TypeDefinition(new StringType(stringSymbol), null));
-            declare(nullSymbol, new TypeDefinition(new NullType(nullSymbol), null));
-        } catch (DoubleDefException e) {
-            // Should be unreachable.
-            LOG.error("declared symbol twice in EnvironmentType, error: " + e.getMessage());
-            assert true;
-        }
+        environmentType.put(voidSymbol, new TypeDefinition(new VoidType(voidSymbol), null));
+        environmentType.put(booleanSymbol, new TypeDefinition(new BooleanType(booleanSymbol), null));
+        environmentType.put(floatSymbol, new TypeDefinition(new FloatType(floatSymbol), null));
+        environmentType.put(intSymbol, new TypeDefinition(new IntType(intSymbol), null));
+        environmentType.put(stringSymbol, new TypeDefinition(new StringType(stringSymbol), null));
+        environmentType.put(nullSymbol, new TypeDefinition(new NullType(nullSymbol), null));
     }
 
     /**
