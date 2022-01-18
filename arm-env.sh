@@ -11,9 +11,9 @@ if [ $# -lt 1 ]; then
 fi
 
 TOOLCHAIN_URL="https://developer.arm.com/-/media/Files/downloads/gnu-a/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz"
-
-TOOLCHAIN_PATH="$PWD/gcc-arm-none-linux-gnueabihf.tar.xz"
-XTOOLCHAIN_PATH="$PWD/arm-toolchain"
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+TOOLCHAIN_PATH="$SCRIPT_DIR/gcc-arm-none-linux-gnueabihf.tar.xz"
+XTOOLCHAIN_PATH="$SCRIPT_DIR/arm-toolchain"
 
 ARM_CPU_MODEL="cortex-a15"
 
