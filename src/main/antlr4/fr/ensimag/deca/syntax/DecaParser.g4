@@ -544,9 +544,10 @@ decl_field_set[ListDeclField tree]
 
 visibility returns [Visibility v]
     : /* epsilon */ {
+            $v = Visibility.PUBLIC;
         }
     | PROTECTED {
-            $v = null;
+            $v = Visibility.PROTECTED;
         }
     ;
 
