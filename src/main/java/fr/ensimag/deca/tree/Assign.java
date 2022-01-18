@@ -1,5 +1,8 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
+import fr.ensimag.arm.pseudocode.Operand;
+import fr.ensimag.arm.pseudocode.Register;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -47,6 +50,11 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
+        throw new DecacInternalError("unreachable");
+    }
+
+    @Override
+    public void codeGenBinaryOp(ARMProgram program, Operand dVal, Register reg) {
         throw new DecacInternalError("unreachable");
     }
 

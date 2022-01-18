@@ -25,6 +25,12 @@ def replace_ending(sentence, old, new): #https://stackoverflow.com/a/61550058/13
         return sentence[:-len(old)] + new
     return sentence
 
+def remove_prefix(text, prefix):
+    if text.startswith(prefix):
+        return text[len(prefix):]
+    return text  # or whatever
+
+
 # Nous voudrions changer de répertoire courant, quelque soit
 # le dossier dans lequel on lance le script.0
 abspath = os.path.abspath(__file__)  # Répertoire absolu du lancement du script
@@ -82,7 +88,7 @@ def suite_test(dossier, sous_language, type_test, etape_test):
         i += 1
         nb_tests_total += 1
         print(f"[{i}/{nb_tests}] ", end='')
-        fichier_nom_court = fichier.removeprefix("src/test/deca/")
+        fichier_nom_court = remove_prefix(fichier, "src/test/deca/")
 
 
         if type_test == 'invalid':
@@ -173,7 +179,7 @@ def _suite_test_exec(dossier, sous_language, type_test, arm=False):
         i += 1
         nb_tests_total += 1
         print(f"[{i}/{nb_tests}] ", end='')
-        fichier_nom_court = fichier.removeprefix("src/test/deca/")
+        fichier_nom_court = remove_prefix(fichier, "src/test/deca/")
 
         # Récuperer les options de ima. et de deacac
         # On utilise une syntaxe spéciale pour spécifier les options a passer à ima,
@@ -308,7 +314,8 @@ suite_test_arm('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
 # suite_test_ima('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
 #
 # # Test exec no objects
-# suite_test_ima('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
+#suite_test_ima('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
+suite_test_arm('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
 # suite_test_ima('src/test/deca/codegen/invalid/no-objects', 'no-objects', 'invalid')
 #
 # # Tests expression

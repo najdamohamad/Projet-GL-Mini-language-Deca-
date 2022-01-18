@@ -1,9 +1,6 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.arm.pseudocode.ARMProgram;
-import fr.ensimag.arm.pseudocode.Immediate;
-import fr.ensimag.arm.pseudocode.Label;
-import fr.ensimag.arm.pseudocode.Line;
+import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.syscalls.Write;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
@@ -33,9 +30,9 @@ public class Println extends AbstractPrint {
     public void codeGen(ARMProgram program) {
         super.codeGen(program);
         Line writeNewline = new Write(
-                new Immediate(1), // fd = stdout
+                new ImmediateInteger(1), // fd = stdout
                 new Label("newline"),
-                new Immediate(1)
+                new ImmediateInteger(1)
         );
         program.addLineInSection("text", writeNewline);
     }

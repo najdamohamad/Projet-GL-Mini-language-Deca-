@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -10,6 +11,7 @@ import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.REM;
+import org.apache.commons.lang.NotImplementedException;
 
 /**
  * @author gl47
@@ -49,6 +51,10 @@ public class Modulo extends AbstractOpArith {
         }
     }
 
+    @Override
+    public void codeGenBinaryOp(ARMProgram program, fr.ensimag.arm.pseudocode.Operand dVal, fr.ensimag.arm.pseudocode.Register reg) {
+        throw new NotImplementedException("todo");
+    }
 
     @Override
     protected String getOperatorName() {

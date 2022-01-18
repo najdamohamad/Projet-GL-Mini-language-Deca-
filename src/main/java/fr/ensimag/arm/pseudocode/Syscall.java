@@ -1,6 +1,6 @@
 package fr.ensimag.arm.pseudocode;
 
-import fr.ensimag.arm.pseudocode.instructions.LDR;
+import fr.ensimag.arm.pseudocode.instructions.LDRPseudoInstruction;
 import fr.ensimag.arm.pseudocode.instructions.MOV;
 import fr.ensimag.arm.pseudocode.instructions.SVC;
 
@@ -19,19 +19,19 @@ public abstract class Syscall implements Line {
     }
 
     private Line syscallNumber() {
-        return new MOV(new Register(7), new Immediate(getNumber()));
+        return new MOV(Register.R7, new ImmediateInteger(getNumber()));
     }
 
     private Line syscallArgument(int i) {
         if (operands[i] instanceof Immediate) {
-            return new MOV(new Register(i), operands[i]);
+            return new MOV(Register.getR(i), operands[i]);
         } else {
-            return new LDR(new Register(i), (Label)operands[i]);
+            return new LDRPseudoInstruction(Register.getR(i), (Label)operands[i]);
         }
     }
 
     private Line superVisorCall() {
-       return new SVC(new Immediate(0));
+       return new SVC(new ImmediateInteger(0));
     }
 
     @Override

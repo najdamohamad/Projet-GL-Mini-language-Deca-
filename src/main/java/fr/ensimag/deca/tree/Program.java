@@ -107,7 +107,7 @@ public class Program extends AbstractProgram {
         program.addLineInSection("data", newlineLabel);
         program.addLineInSection("data", newlineByte);
         main.codeGen(program);
-        Line exitProgram = new Exit(new Immediate(0)); // status = 0
+        Line exitProgram = new Exit(new fr.ensimag.arm.pseudocode.ImmediateInteger(0)); // status = 0
         program.addLineInSection("text", exitProgram);
     }
 

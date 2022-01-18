@@ -44,6 +44,12 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
     public DVal getDVal() {
         return null;
     }
+    public boolean isDVal() {
+        return getDVal() != null;
+    }
+    public fr.ensimag.arm.pseudocode.Operand getDValArm() {
+        return null;
+    }
 
     public boolean isFloat() {
         return type.isFloat();

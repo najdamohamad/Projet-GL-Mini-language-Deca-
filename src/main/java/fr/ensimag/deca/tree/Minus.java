@@ -1,9 +1,11 @@
 package fr.ensimag.deca.tree;
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.SUB;
 import fr.ensimag.ima.pseudocode.DVal;
+import org.apache.commons.lang.NotImplementedException;
 
 /**
  * @author gl47
@@ -23,6 +25,10 @@ public class Minus extends AbstractOpArith {
         }
     }
 
+    @Override
+    public void codeGenBinaryOp(ARMProgram program, fr.ensimag.arm.pseudocode.Operand dVal, fr.ensimag.arm.pseudocode.Register reg) {
+        throw new NotImplementedException("todo");
+    }
     @Override
     protected String getOperatorName() {
         return "-";

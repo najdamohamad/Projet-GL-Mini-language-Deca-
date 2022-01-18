@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.Operand;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
@@ -35,6 +36,11 @@ public class FloatLiteral extends AbstractExpr {
     @Override
     public DVal getDVal() {
         return new ImmediateFloat(value);
+    }
+
+    @Override
+    public Operand getDValArm() {
+        return new fr.ensimag.arm.pseudocode.ImmediateFloat(value);
     }
 
     private float value;

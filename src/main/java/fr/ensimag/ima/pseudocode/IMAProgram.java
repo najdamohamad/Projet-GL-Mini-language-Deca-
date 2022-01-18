@@ -111,25 +111,42 @@ public class IMAProgram implements OutputProgram {
 
     private int freeRegister = 2;
 
+    /**
+     * Allocate a register. This must be freed with {@link #freeRegister()}.
+     * @return The register that was allocated.
+     * @throws DecacInternalError if no registers are allocable. This should never happen.
+     */
     public GPRegister allocateRegister() throws DecacInternalError {
-        if (freeRegister == maxRegister) {
+        if (isMaxUsableRegister()) {
             throw new DecacInternalError("reached max register");
         }
         freeRegister++;
         return Register.getR(freeRegister);
     }
 
+    /**
+     * Get the max used register, ie. the last allocated one.
+     * @return the register
+     */
     public GPRegister getMaxUsedRegister() {
         return Register.getR(freeRegister);
     }
 
+    /**
+     * Can we allocate a register?
+     */
     public boolean isMaxUsableRegister() {
         return freeRegister == maxRegister;
     }
 
+    /**
+     * Free a register.
+     */
     public void freeRegister() {
         if (freeRegister > 2) {
             freeRegister--;
+        } else {
+            throw new DecacInternalError("attempted free but no registers left to free");
         }
     }
 

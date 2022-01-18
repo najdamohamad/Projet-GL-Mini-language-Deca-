@@ -1,8 +1,10 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.ADD;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
+import org.apache.commons.lang.NotImplementedException;
 
 /**
  * @author gl47
@@ -20,6 +22,10 @@ public class Plus extends AbstractOpArith {
             program.addInstruction(new BOV(Program.ARITHMETIC_OVERFLOW_ERROR),
             "adding two floats, overflow check for ADD");
         }
+    }
+    @Override
+    public void codeGenBinaryOp(ARMProgram program, fr.ensimag.arm.pseudocode.Operand dVal, fr.ensimag.arm.pseudocode.Register reg) {
+        throw new NotImplementedException("todo");
     }
 
     @Override

@@ -115,7 +115,7 @@ public class StringLiteral extends AbstractStringLiteral {
         program.addLineInSection("data", literalLength);
         // Perform the write syscall.
         Line writeString = new Write(
-                new Immediate(1), // fd = stdout
+                new ImmediateInteger(1), // fd = stdout
                 new Label(literalName),
                 new Label(literalName + "_len")
         );

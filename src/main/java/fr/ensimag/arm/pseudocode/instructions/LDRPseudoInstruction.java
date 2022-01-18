@@ -1,22 +1,20 @@
 package fr.ensimag.arm.pseudocode.instructions;
 
-import fr.ensimag.arm.pseudocode.BinaryInstructionRegToAny;
-import fr.ensimag.arm.pseudocode.Label;
-import fr.ensimag.arm.pseudocode.Register;
+import fr.ensimag.arm.pseudocode.*;
 
 import java.io.PrintStream;
 
 /**
- * Normal LDR
+ * https://stackoverflow.com/questions/37840754/what-does-an-equals-sign-on-the-right-side-of-a-ldr-instruction-in-arm-mean
  */
-public class LDR extends BinaryInstructionRegToAny {
+public class LDRPseudoInstruction extends BinaryInstructionRegToAny {
 
     @Override
     public String getName() {
         return "ldr";
     }
 
-    public LDR(Register register, Label labelExpr) {
+    public LDRPseudoInstruction(Register register, Label labelExpr) {
         super(register, labelExpr);
     }
 

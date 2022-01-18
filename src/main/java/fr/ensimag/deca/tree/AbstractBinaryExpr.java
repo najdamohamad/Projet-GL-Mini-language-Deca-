@@ -1,5 +1,8 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
+import fr.ensimag.arm.pseudocode.Operand;
+import fr.ensimag.arm.pseudocode.instructions.MOV;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.DVal;
@@ -87,6 +90,11 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
      */
     public abstract void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg);
 
+    /**
+     * @see #codeGenBinaryOp(IMAProgram, DVal, GPRegister)
+     */
+    public abstract void codeGenBinaryOp(ARMProgram program, Operand dVal, fr.ensimag.arm.pseudocode.Register reg);
+
     @Override
     public void codeGen(IMAProgram program) {
         LOG.trace("coding expr: " + this.decompile());
@@ -94,7 +102,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         // Overridden by each literal, see eg. IntLiteral which overrides codeGen
 
         // Case 2: <codeExp(op[e1, e2], n)> avec <dval(e2)> != T
-        if (getRightOperand().getDVal() != null) {
+        if (getRightOperand().isDVal()) {
             LOG.trace("codeExpr: case 2 <codeExp(op[e1, e2], n)> avec <dval(e2)> != T");
             // <codeExp(e1, n)>
             getLeftOperand().codeGen(program);
@@ -103,7 +111,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
             return;
         }
 
-        if (getRightOperand().getDVal() == null) {
+        if (getRightOperand().isDVal()) {
             if (program.isMaxUsableRegister()) {
                 LOG.trace("codeExpr: case 3: <codeExp(e, n)> avec <dval(e2)> = T et n = max");
                 // Case 3: <codeExp(e, n)> avec <dval(e2)> = T et n = max
@@ -150,4 +158,66 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         throw new DecacInternalError("codeExp did not have a valid match case. exp=" + this);
     }
 
+    @Override
+    public void codeGen(ARMProgram program) {
+        LOG.trace("coding expr: " + decompile());
+        // Case 1: <codeExp(e, n)> avec <dval(e)> != T
+        // Overridden by each literal, see eg. IntLiteral which overrides codeGen
+
+        // Case 2: <codeExp(op[e1, e2], n)> avec <dval(e2)> != T
+        if (getRightOperand().isDVal()) {
+            LOG.trace("codeExpr: case 2 <codeExp(op[e1, e2], n)> avec <dval(e2)> != T");
+            // <codeExp(e1, n)>
+            getLeftOperand().codeGen(program);
+            // <mnemo(op)> <dval(e2)>, Rn
+            codeGenBinaryOp(program, getRightOperand().getDValArm(), program.getMaxUsedRegister());
+            return;
+        }
+
+        if (getRightOperand().isDVal()) {
+            if (program.isMaxUsableRegister()) {
+                LOG.trace("codeExpr: case 3: <codeExp(e, n)> avec <dval(e2)> = T et n = max");
+                // Case 3: <codeExp(e, n)> avec <dval(e2)> = T et n = max
+                // Allocate a temporary on the stack.
+                program.bumpStackUsage();
+
+                // <codeExp(e1, n)>
+                getLeftOperand().codeGen(program);
+                // PUSH Rn
+                program.addInstruction(
+                        new fr.ensimag.arm.pseudocode.instructions.PUSH(program.getMaxUsedRegister())
+                );
+                // <codeExp(e2, n)>
+                getRightOperand().codeGen(program);
+                // LOAD Rn, R0
+                program.addInstruction(
+                        new MOV(fr.ensimag.arm.pseudocode.Register.R0, program.getMaxUsedRegister())
+                );
+                // POP Rn
+                program.addInstruction(
+                        new fr.ensimag.arm.pseudocode.instructions.POP(program.getMaxUsedRegister())
+                );
+                // <mnemo(op)> R0, Rn
+                codeGenBinaryOp(program, fr.ensimag.arm.pseudocode.Register.R0, program.getMaxUsedRegister());
+            } else {
+                LOG.trace("codeExpr: case 4: <codeExp(e, n)> avec <dval(e2)> = T et n < max");
+                // Case 4: <codeExp(e, n)> avec <dval(e2)> = T et n < max
+                // No temporary needed, instead allocate one more register.
+
+                // <codeExp(e1, n)>
+                getLeftOperand().codeGen(program);
+                // <codeExp(e2, n+1)>
+                fr.ensimag.arm.pseudocode.Register regN = program.getMaxUsedRegister();
+                fr.ensimag.arm.pseudocode.Register regNPlusOne = program.allocateRegister();
+                getRightOperand().codeGen(program);
+                // mnemo(op), rn+1, Rn
+                codeGenBinaryOp(program, regNPlusOne, regN);
+                program.freeRegister();
+            }
+            return;
+        }
+
+        LOG.fatal("codeExp did not have a valid match case. exp=" + this);
+        throw new DecacInternalError("codeExp did not have a valid match case. exp=" + this);
+    }
 }

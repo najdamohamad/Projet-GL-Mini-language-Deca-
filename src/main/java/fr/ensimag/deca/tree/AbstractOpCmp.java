@@ -1,9 +1,12 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 
 /**
@@ -47,5 +50,10 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
 
         program.addLabel(endLabel);
         program.addComment(getLocation() + " cmp end");
+    }
+
+    @Override
+    public void codeGenBinaryOp(ARMProgram program, fr.ensimag.arm.pseudocode.Operand dVal, fr.ensimag.arm.pseudocode.Register reg) {
+        throw new NotImplementedException("todo");
     }
 }

@@ -1,10 +1,12 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.instructions.*;
+import org.apache.commons.lang.NotImplementedException;
 
 /**
  * @author gl47
@@ -33,6 +35,10 @@ public class Divide extends AbstractOpArith {
                 program.addInstruction(new BOV(Program.DIVISION_BY_ZERO_ERROR), "may have tried to div by 0");
             }
         }
+    }
+    @Override
+    public void codeGenBinaryOp(ARMProgram program, fr.ensimag.arm.pseudocode.Operand dVal, fr.ensimag.arm.pseudocode.Register reg) {
+        throw new NotImplementedException("todo");
     }
 
     @Override

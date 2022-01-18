@@ -1,10 +1,12 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.MUL;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 
 
@@ -31,6 +33,10 @@ public class Multiply extends AbstractOpArith {
             program.addInstruction(new BOV(Program.ARITHMETIC_OVERFLOW_ERROR),
                     "multiplying two floats, overflow check for MUL");
         }
+    }
+    @Override
+    public void codeGenBinaryOp(ARMProgram program, fr.ensimag.arm.pseudocode.Operand dVal, fr.ensimag.arm.pseudocode.Register reg) {
+        throw new NotImplementedException("todo");
     }
 
     @Override
