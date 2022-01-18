@@ -383,6 +383,9 @@ unary_expr returns[AbstractExpr tree]
     ;
 
 select_expr returns[AbstractExpr tree]
+@init{
+    Attribut attribut = null;
+}
     : e=primary_expr {
             assert($e.tree != null);
             $tree = $e.tree;
@@ -391,13 +394,19 @@ select_expr returns[AbstractExpr tree]
     | e1=select_expr DOT i=ident {
             assert($e1.tree != null);
             assert($i.tree != null);
+            attribut = new Attribut($e1.tree, $i.tree);
+            setLocation($tree, $e1.start);
+            setLocation($tree, $i.start);
         }
         (o=OPARENT args=list_expr CPARENT {
             // we matched "e1.i(args)"
             assert($args.tree != null);
+            $tree = new Method($e1.tree, $i.tree, $args.tree);
+            setLocation($tree, $args.start);
         }
         | /* epsilon */  {
             // we matched "e.i"
+            $tree = attribut;
         }
         )
     ;
