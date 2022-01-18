@@ -16,14 +16,14 @@ import java.util.List;
  * @author gl47
  * @date 01/01/2022
  */
-public class ListDeclParam extends TreeList<Param> {
+public class ListDeclParam extends TreeList<AbstractExpr> {
     private static final Logger LOG = Logger.getLogger(Program.class);
 
     @Override
     public void decompile(IndentPrintStream s) {
         boolean notFirst = false;
-        for (Iterator<Param> it = iterator(); it.hasNext(); ) {
-            Param param = it.next();
+        for (Iterator<AbstractExpr> it = iterator(); it.hasNext(); ) {
+            AbstractExpr param = it.next();
 
             if (notFirst) {
                 s.println(); // newline

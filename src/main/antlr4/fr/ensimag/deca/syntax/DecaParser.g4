@@ -502,10 +502,10 @@ list_classes returns[ListDeclClass tree]
 
 class_decl returns [DeclClass tree]
     : CLASS name=ident superclass=class_extension OBRACE class_body CBRACE {
-             assert($ident.tree != null);
+             assert($name.tree != null);
              assert($superclass.tree != null);
              assert($class_body.tree != null);
-             $tree = DeclClass($name.tree, $superclass.tree, $class_body.tree);
+             $tree = new DeclClass($name.tree, $superclass.tree, $class_body.tree);
              setLocation($tree, $name.start);
              setLocation($tree, $superclass.start);
              setLocation($tree, $class_body.start);
@@ -593,7 +593,7 @@ decl_method returns [AbstractDeclMethod tree]
             assert($params.tree != null);
             assert($block.decls != null);
             assert($block.insts != null);
-            currentTree = DeclMethod($type.tree, $ident.tree, $params.tree, $block.decls, $block.insts);
+            currentTree = new DeclMethod($type.tree, $ident.tree, $params.tree, $block.decls, $block.insts);
             setLocation($tree, $type.start);
             setLocation($tree, $ident.start);
             setLocation($tree, $params.start);
@@ -605,7 +605,7 @@ decl_method returns [AbstractDeclMethod tree]
             assert($params.tree != null);
             assert($code.text != null);
             assert($code.location != null);
-            currentTree = DeclMethodAsm($type.tree, $ident.tree, $params.tree, $code.text, $code.location);
+            currentTree = new DeclMethodAsm($type.tree, $ident.tree, $params.tree, $code.text, $code.location);
             setLocation($tree, $type.start);
             setLocation($tree, $ident.start);
             setLocation($tree, $params.start);
@@ -647,7 +647,7 @@ param   returns[AbstractExpr tree]
     : type ident {
             assert($type.tree != null);
             assert($ident.tree != null);
-            $tree = Param($type.tree, $ident.tree);
+            $tree = new Param($type.tree, $ident.tree);
             setLocation($tree, $ident.start);
         }
     ;
