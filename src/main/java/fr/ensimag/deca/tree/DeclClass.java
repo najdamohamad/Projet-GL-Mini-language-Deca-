@@ -39,7 +39,10 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     public void codeGen(IMAProgram program) {
-        throw new UnsupportedOperationException("Not yet supported");
+        // TODO: iterate over method declarations.
+        // TODO: call .getMethodDefinition() on the method's AbstractIdentifier
+        // TODO: call .setLabel() on the method's definition with:
+        //       "code." + className.getName() + "." + methodName.getName()
     }
 
     @Override
