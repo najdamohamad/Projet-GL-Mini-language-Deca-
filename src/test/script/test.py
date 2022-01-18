@@ -279,7 +279,7 @@ if not Path('arm-toolchain').exists():
 # a modifier si on veut ajouter de nouveau test ajouter un nouvelle ligne suite_test()
 
 # Tests hello world
-suite_test_arm('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
+# suite_test_arm('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
 suite_test_lex('src/test/deca/syntax/invalid/test_lex/hello_world', 'helloworld', 'invalid',)
 suite_test_lex('src/test/deca/syntax/valid/test_lex/hello_world', 'helloworld', 'valid',)
 suite_test_synt('src/test/deca/syntax/invalid/test_synt/hello_world', 'helloworld', 'invalid')
