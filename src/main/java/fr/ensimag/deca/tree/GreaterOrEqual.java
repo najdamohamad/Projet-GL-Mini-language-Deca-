@@ -1,9 +1,9 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Instruction;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.instructions.BGE;
+import fr.ensimag.ima.pseudocode.instructions.SGE;
 
 /**
  * Operator "x >= y"
@@ -24,7 +24,7 @@ public class GreaterOrEqual extends AbstractOpIneq {
     }
 
     @Override
-    public Instruction getMnemonic(Label label) {
-        return new BGE(label);
+    public Instruction getMnemonic(GPRegister reg) {
+        return new SGE(reg);
     }
 }

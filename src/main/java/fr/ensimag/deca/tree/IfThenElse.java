@@ -90,10 +90,10 @@ public class IfThenElse extends AbstractInst {
      */
     @Override
     public void codeGen(IMAProgram program) {
-        program.addComment("begin/if_then_else");
+        program.addComment(getLocation() + " begin/ifThenElse");
 
-        Label elseLabel = new Label("branch_else_" + hashCode());
-        Label endLabel = new Label("branch_end_" + hashCode());
+        Label elseLabel = new Label("code.ifThenElse.else." + hashCode());
+        Label endLabel = new Label("code.ifThenElse.end." + hashCode());
 
         condition.codeGen(program);
 
@@ -106,9 +106,10 @@ public class IfThenElse extends AbstractInst {
 
         program.addLabel(elseLabel);
         elseBranch.codeGen(program);
+
         program.addLabel(endLabel);
 
-        program.addComment("end/if_then_else");
+        program.addComment(getLocation() + " end/ifThenElse");
     }
 
     @Override

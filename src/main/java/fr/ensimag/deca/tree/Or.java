@@ -31,7 +31,7 @@ public class Or extends AbstractOpBool {
 
         program.addComment(decompile());
 
-        Label endLabel = new Label("cf_or_end_" + hashCode());
+        Label endLabel = new Label("code.controlFlow." + hashCode());
 
         // This one calculates the left expression in R2.
         getLeftOperand().codeGen(program); // This will use the same free register captured here.

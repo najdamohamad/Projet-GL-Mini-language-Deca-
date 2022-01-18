@@ -1,9 +1,9 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Instruction;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.instructions.BLE;
+import fr.ensimag.ima.pseudocode.instructions.SLE;
 
 /**
  * @author gl47
@@ -21,7 +21,7 @@ public class LowerOrEqual extends AbstractOpIneq {
     }
 
     @Override
-    public Instruction getMnemonic(Label label) {
-        return new BLE(label);
+    public Instruction getMnemonic(GPRegister reg) {
+        return new SLE(reg);
     }
 }
