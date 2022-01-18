@@ -140,8 +140,8 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                 GPRegister regNPlusOne = program.allocateRegister();
                 getRightOperand().codeGen(program);
                 // mnemo(op), rn+1, Rn
-                codeGenBinaryOp(program, regNPlusOne, regN);
                 program.freeRegister();
+                codeGenBinaryOp(program, regNPlusOne, regN);
             }
             return;
         }
