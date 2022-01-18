@@ -17,20 +17,17 @@ public class DeclMethodAsm extends AbstractDeclMethod {
     final private AbstractIdentifier type;
     final private AbstractIdentifier name;
     final private ListDeclParam params;
-    final private String text;
-    final private Location location;
+    final private MethodBodyASM methodBodyASM;
 
-    public DeclMethodAsm(AbstractIdentifier type, AbstractIdentifier name, ListDeclParam params, String text, Location location) {
+    public DeclMethodAsm(AbstractIdentifier type, AbstractIdentifier name, ListDeclParam params, MethodBodyASM methodBodyASM) {
         Validate.notNull(type);
         Validate.notNull(name);
         Validate.notNull(params);
-        Validate.notNull(text);
-        Validate.notNull(location);
+        Validate.notNull(methodBodyASM);
         this.type = type;
         this.name = name;
         this.params = params;
-        this.text = text;
-        this.location = location;
+        this.methodBodyASM = methodBodyASM;
     }
 
     @Override
@@ -48,8 +45,7 @@ public class DeclMethodAsm extends AbstractDeclMethod {
         s.print(" ");
         params.decompile(s);
         s.print(" ");
-        s.print(text);
-        s.print(";");
+        methodBodyASM.decompile(s);
     }
 
     @Override
@@ -57,6 +53,7 @@ public class DeclMethodAsm extends AbstractDeclMethod {
         type.iter(f);
         name.iter(f);
         params.iter(f);
+        methodBodyASM.iter(f);
     }
 
     @Override
@@ -64,6 +61,7 @@ public class DeclMethodAsm extends AbstractDeclMethod {
         type.prettyPrint(s, prefix, false);
         name.prettyPrint(s, prefix, false);
         params.prettyPrint(s, prefix, false);
+        methodBodyASM.prettyPrint(s, prefix, false);
     }
 
 }
