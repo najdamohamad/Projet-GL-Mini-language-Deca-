@@ -22,10 +22,10 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
     public abstract Instruction getMnemonic(GPRegister reg);
 
     public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
-        program.addComment(getLocation() + " cmp begin");
+        program.addComment(getLocation().getLine() + ": cmp" + decompile());
         // Compare the results of evaluating the LHS and RHS expressions.
         program.addInstruction(new CMP(dVal, reg));
         program.addInstruction(getMnemonic(program.getMaxUsedRegister()));
-        program.addComment(getLocation() + " cmp end");
+        program.addComment(getLocation().getLine() + ": cmp end");
     }
 }

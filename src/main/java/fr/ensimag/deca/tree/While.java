@@ -76,7 +76,7 @@ public class While extends AbstractInst {
         Label condition = new Label("code.while.condition." + hashCode());
         Label endLabel = new Label("code.while.end." + hashCode());
 
-        program.addComment(getLocation() + " while begin");
+        program.addComment(getLocation().getLine() + ": while ("+getCondition().decompile()+") {");
         program.addLabel(condition);
 
         getCondition().codeGen(program);
@@ -85,7 +85,7 @@ public class While extends AbstractInst {
         getBody().codeGen(program);
         program.addInstruction(new BRA(condition));
         program.addLabel(endLabel);
-        program.addComment(getLocation() + " while end");
+        program.addComment(getLocation().getLine() + ": } while end");
     }
 
     @Override
