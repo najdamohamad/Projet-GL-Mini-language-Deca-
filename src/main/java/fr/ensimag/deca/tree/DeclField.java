@@ -58,8 +58,8 @@ public class DeclField extends AbstractDeclField {
 
 
     @Override
-    protected void verifyDeclField(DecacCompiler compiler, ClassDefinition superClass,
-                                   ClassDefinition currentClass) throws ContextualError {
+    protected void verifyDeclField(DecacCompiler compiler, EnvironmentExp localEnv,
+                                   ClassDefinition superClass, ClassDefinition currentClass) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
 

@@ -17,10 +17,11 @@ public abstract class AbstractDeclField extends Tree {
      * Implements non-terminal "decl_method" of [SyntaxeContextuelle] in pass 2
      *
      * @param compiler     contains "env_types" attribute
+     * @param localEnv     corresponds to the "env_exp" of field declarations
      * @param superClass   corresponds to the "super" attribute
      * @param currentClass corresponds to the "class" attribute
      */
-    protected abstract void verifyDeclField(DecacCompiler compiler,
+    protected abstract void verifyDeclField(DecacCompiler compiler, EnvironmentExp localEnv,
                                             ClassDefinition superClass, ClassDefinition currentClass)
             throws ContextualError;
 

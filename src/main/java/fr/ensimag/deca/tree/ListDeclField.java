@@ -28,7 +28,11 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
     public EnvironmentExp verifyListDeclField(DecacCompiler compiler,
                                               ClassDefinition superClass, ClassDefinition currentClass)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        EnvironmentExp fieldEnvironment = new EnvironmentExp(null);
+        for (AbstractDeclField declField : getList()) {
+            declField.verifyDeclField(compiler, fieldEnvironment, superClass, currentClass);
+        }
+        return fieldEnvironment;
     }
 
     /**
