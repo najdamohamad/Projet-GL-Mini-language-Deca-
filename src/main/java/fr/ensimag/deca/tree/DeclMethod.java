@@ -1,11 +1,12 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
-import fr.ensimag.arm.pseudocode.ARMProgram;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+
 import java.io.PrintStream;
 
 /**
@@ -14,13 +15,13 @@ import java.io.PrintStream;
  */
 public class DeclMethod extends AbstractDeclMethod {
 
-
     final private AbstractIdentifier type;
     final private AbstractIdentifier name;
     final private ListDeclParam params;
     final private AbstractMethodBody methodBody;
 
-    public DeclMethod(AbstractIdentifier type, AbstractIdentifier name, ListDeclParam params, AbstractMethodBody methodBody) {
+    public DeclMethod(AbstractIdentifier type, AbstractIdentifier name,
+                      ListDeclParam params, AbstractMethodBody methodBody) {
         Validate.notNull(type);
         Validate.notNull(name);
         Validate.notNull(params);
@@ -29,13 +30,6 @@ public class DeclMethod extends AbstractDeclMethod {
         this.name = name;
         this.params = params;
         this.methodBody = methodBody;
-    }
-
-    @Override
-    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass){
-        Type intType = compiler.getType("int");
-        setType(intType);
-        return intType;
     }
 
     @Override
@@ -66,7 +60,14 @@ public class DeclMethod extends AbstractDeclMethod {
     }
 
     @Override
-    public void codeGen(ARMProgram program){}
+    protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv,
+                                    ClassDefinition currentClass) throws ContextualError {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
     @Override
-    public void codeGen(IMAProgram program){}
+    protected void verifyDeclMethodBody(DecacCompiler compiler, EnvironmentExp localEnv,
+                                        ClassDefinition currentClass) throws ContextualError {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 }

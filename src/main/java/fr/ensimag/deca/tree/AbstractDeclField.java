@@ -6,15 +6,26 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 
 /**
- * Binary expressions.
+ * Variable declaration
  *
  * @author gl47
  * @date 01/01/2022
  */
-public abstract class AbstractMethodBody extends Tree {
+public abstract class AbstractDeclField extends Tree {
 
     /**
-     * Implements non-terminal "method_body" of [SyntaxeContextuelle] in pass 3
+     * Implements non-terminal "decl_method" of [SyntaxeContextuelle] in pass 2
+     *
+     * @param compiler     contains "env_types" attribute
+     * @param superClass   corresponds to the "super" attribute
+     * @param currentClass corresponds to the "class" attribute
+     */
+    protected abstract void verifyDeclField(DecacCompiler compiler,
+                                            ClassDefinition superClass, ClassDefinition currentClass)
+            throws ContextualError;
+
+    /**
+     * Implements non-terminal "decl_method" of [SyntaxeContextuelle] in pass 3
      *
      * @param compiler     contains "env_types" attribute
      * @param localEnv     its "parentEnvironment" corresponds to the "env_exp_sup" attribute
@@ -24,7 +35,7 @@ public abstract class AbstractMethodBody extends Tree {
      *                     the synthetized attribute
      * @param currentClass corresponds to the "class" attribute (null in the main bloc).
      */
-    protected abstract void verifyMethodBody(DecacCompiler compiler,
-                                             EnvironmentExp localEnv, ClassDefinition currentClass)
+    protected abstract void verifyDeclFieldInit(DecacCompiler compiler, EnvironmentExp localEnv,
+                                                ClassDefinition currentClass)
             throws ContextualError;
 }
