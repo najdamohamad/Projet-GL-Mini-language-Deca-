@@ -28,6 +28,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr implements Invert
         program.addComment(getLocation().getLine() + ": cmp" + decompile());
         // Compare the results of evaluating the LHS and RHS expressions.
         program.addInstruction(new CMP(dVal, reg));
+        // TODO: We only need the SEQ instructions if we are doing an assignement. But how to know tbat's the case?
         program.addInstruction(getMnemonic(program.getMaxUsedRegister()));
         program.addComment(getLocation().getLine() + ": cmp end");
     }
