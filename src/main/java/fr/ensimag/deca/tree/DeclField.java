@@ -15,42 +15,43 @@ import java.io.PrintStream;
  */
 public class DeclField extends AbstractDeclField {
 
-    private AbstractIdentifier varName;
-    private AbstractExpr expression;
+    private final AbstractIdentifier type;
+    private final AbstractIdentifier varName;
+    private final AbstractInitialization initialization;
+    private Visibility visibility;
 
-    public DeclField(AbstractIdentifier name, AbstractExpr expression) {
-        Validate.notNull(name);
-        Validate.notNull(expression);
-        this.varName = name;
-        this.expression = expression;
-    }
-
-    public void setVarName(AbstractIdentifier varName) {
+    public DeclField(AbstractIdentifier type, AbstractIdentifier varName,
+                     AbstractInitialization initialization) {
+        Validate.notNull(type);
+        Validate.notNull(varName);
+        Validate.notNull(initialization);
+        this.type = type;
         this.varName = varName;
-    }
-
-    public void setExpression(AbstractExpr expr) {
-        this.expression = expr;
+        this.initialization = initialization;
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
+        type.decompile(s);
+        s.print(" ");
         varName.decompile(s);
         s.print(" ");
-        expression.decompile(s);
+        initialization.decompile(s);
         s.print(";");
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
+        type.iter(f);
         varName.iter(f);
-        expression.iter(f);
+        initialization.iter(f);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
+        type.prettyPrint(s, prefix, false);
         varName.prettyPrint(s, prefix, false);
-        expression.prettyPrint(s, prefix, false);
+        initialization.prettyPrint(s, prefix, true);
     }
 
 
@@ -62,5 +63,13 @@ public class DeclField extends AbstractDeclField {
     @Override
     protected void verifyDeclFieldInit(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
     }
 }
