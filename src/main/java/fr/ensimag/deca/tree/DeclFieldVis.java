@@ -1,11 +1,14 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.*;
-import fr.ensimag.deca.tools.IndentPrintStream;
-import org.apache.commons.lang.Validate;
 import fr.ensimag.arm.pseudocode.ARMProgram;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import org.apache.commons.lang.Validate;
+
 import java.io.PrintStream;
 
 /**
@@ -19,7 +22,7 @@ public class DeclFieldVis extends AbstractDeclVar {
     final private AbstractIdentifier name;
     final private AbstractExpr expression;
 
-    public DeclFieldVis(Visibility v, AbstractIdentifier type,AbstractIdentifier name, AbstractExpr expression){
+    public DeclFieldVis(Visibility v, AbstractIdentifier type, AbstractIdentifier name, AbstractExpr expression) {
         Validate.notNull(v);
         Validate.notNull(type);
         Validate.notNull(name);
@@ -29,20 +32,21 @@ public class DeclFieldVis extends AbstractDeclVar {
         this.name = name;
         this.expression = expression;
     }
+
     public DeclFieldVis(Visibility v, AbstractIdentifier type, DeclField df) {
         Validate.notNull(v);
         Validate.notNull(type);
         Validate.notNull(df);
         this.v = v;
         this.type = type;
-        this.name = df.getName();
+        this.name = df.getVarName();
         this.expression = df.getExpr();
     }
 
 
     @Override
     protected void verifyDeclVar(DecacCompiler compiler,
-                                   EnvironmentExp localEnv, ClassDefinition currentClass)
+                                 EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError {
         /*
         Type varType = type.verifyType(compiler);
@@ -72,10 +76,15 @@ public class DeclFieldVis extends AbstractDeclVar {
         expression.decompile(s);
         s.print(";");
     }
+
     @Override
-    public void codeGen(ARMProgram program){}
+    public void codeGen(ARMProgram program) {
+    }
+
     @Override
-    public void codeGen(IMAProgram program){}
+    public void codeGen(IMAProgram program) {
+    }
+
     @Override
     protected void iterChildren(TreeFunction f) {
         type.iter(f);

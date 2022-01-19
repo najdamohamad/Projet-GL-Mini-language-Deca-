@@ -656,11 +656,11 @@ multi_line_string returns[String text, Location location]
         }
     ;
 
-param   returns[AbstractExpr tree]
+param   returns[DeclParam tree]
     : type ident {
             assert($type.tree != null);
             assert($ident.tree != null);
-            $tree = new Param($type.tree, $ident.tree);
+            $tree = new DeclParam($type.tree, $ident.tree);
             setLocation($tree, $ident.start);
         }
     ;
