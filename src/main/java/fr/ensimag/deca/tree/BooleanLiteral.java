@@ -15,7 +15,7 @@ import java.io.PrintStream;
  * @author gl47
  * @date 01/01/2022
  */
-public class BooleanLiteral extends AbstractExpr {
+public class BooleanLiteral extends AbstractExpr implements Invert {
     private final static String TYPE_NAME = "boolean";
 
     private boolean value;
@@ -64,5 +64,13 @@ public class BooleanLiteral extends AbstractExpr {
                 immediateValue,
                 program.getMaxUsedRegister()
         ));
+    }
+
+    @Override
+    public AbstractExpr invert() {
+        AbstractExpr e = new BooleanLiteral(!value);
+        e.setLocation(getLocation());
+        e.setType(getType());
+        return e;
     }
 }

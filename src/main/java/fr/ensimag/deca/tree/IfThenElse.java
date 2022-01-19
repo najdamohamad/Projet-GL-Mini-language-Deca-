@@ -90,7 +90,7 @@ public class IfThenElse extends AbstractInst {
      */
     @Override
     public void codeGen(IMAProgram program) {
-        program.addComment(getLocation() + " begin/ifThenElse");
+        program.addComment(getLocation().getLine() + ": if ( "+condition.decompile()+" ) {");
 
         Label elseLabel = new Label("code.ifThenElse.else." + hashCode());
         Label endLabel = new Label("code.ifThenElse.end." + hashCode());
@@ -98,18 +98,20 @@ public class IfThenElse extends AbstractInst {
         condition.codeGen(program);
 
         // Go to the else clause if the returned value is false.
-        program.addInstruction(new CMP(0, program.getMaxUsedRegister()));
+        program.addInstruction(new CMP(0, program.getMaxUsedRegister()), "check if clause");
         program.addInstruction(new BEQ(elseLabel));
 
+        program.addComment(getLocation().getLine() + ": then clause of if {");
         thenBranch.codeGen(program);
         program.addInstruction(new BRA(endLabel));
 
+        program.addComment(getLocation().getLine() + ": } else {");
         program.addLabel(elseLabel);
         elseBranch.codeGen(program);
 
         program.addLabel(endLabel);
 
-        program.addComment(getLocation() + " end/ifThenElse");
+        program.addComment(getLocation().getLine() + ": } if end");
     }
 
     @Override

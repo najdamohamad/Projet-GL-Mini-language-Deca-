@@ -14,7 +14,7 @@ public class Plus extends AbstractOpArith {
     }
 
     @Override
-    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
+    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg, boolean invertCondition) {
         program.addInstruction(new ADD(dval, reg));
         if (isFloat() && program.shouldCheck()) {
             program.addInstruction(new BOV(Program.ARITHMETIC_OVERFLOW_ERROR),

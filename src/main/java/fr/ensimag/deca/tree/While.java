@@ -76,16 +76,20 @@ public class While extends AbstractInst {
         Label condition = new Label("code.while.condition." + hashCode());
         Label endLabel = new Label("code.while.end." + hashCode());
 
-        program.addComment(getLocation() + " while begin");
+        program.addComment(getLocation().getLine() + ": while ("+getCondition().decompile()+") {");
         program.addLabel(condition);
 
         getCondition().codeGen(program);
-        program.addInstruction(new CMP(new ImmediateInteger(0), program.getMaxUsedRegister()));
+        // Optimisation: We can elide CMP #0, Rn here. TODO: verify this
+        // The condition will have generated some code, the last of which will be some sort of LOAD.
+        // A side effect of LOAD is that it sets the CC flags like a CMP #0 was done (p.107), so no need to
+        // CMP explicitely.
+        //program.addInstruction(new CMP(new ImmediateInteger(0), program.getMaxUsedRegister()));
         program.addInstruction(new BEQ(endLabel));
         getBody().codeGen(program);
         program.addInstruction(new BRA(condition));
         program.addLabel(endLabel);
-        program.addComment(getLocation() + " while end");
+        program.addComment(getLocation().getLine() + ": } while end");
     }
 
     @Override

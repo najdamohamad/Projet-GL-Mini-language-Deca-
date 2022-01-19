@@ -3,7 +3,6 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateFloat;
 import fr.ensimag.ima.pseudocode.instructions.*;
 
 /**
@@ -16,7 +15,7 @@ public class Divide extends AbstractOpArith {
     }
 
     @Override
-    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
+    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg, boolean invertCondition) {
         if (isFloat()) {
             program.addInstruction(new DIV(dval, reg));
             if (program.shouldCheck()) {

@@ -20,7 +20,7 @@ public class Multiply extends AbstractOpArith {
     }
 
     @Override
-    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
+    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg, boolean invertCondition) {
         program.addInstruction(new MUL(dval, reg));
         LOG.trace("Multiply/codeGen: " + this.decompile()
                 + " , type = " + getType() + isFloat()

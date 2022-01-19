@@ -6,17 +6,20 @@ import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.ADDSP;
+import fr.ensimag.ima.pseudocode.instructions.SOV;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import java.io.PrintStream;
+import java.util.Objects;
 
 /**
  * @author gl47
  * @date 01/01/2022
  */
 public class DeclVar extends AbstractDeclVar {
-
+    private static final Logger LOG = Logger.getLogger(DeclVar.class);
 
     final private AbstractIdentifier type;
     final private AbstractIdentifier varName;
@@ -55,11 +58,26 @@ public class DeclVar extends AbstractDeclVar {
     @Override
     public void codeGen(IMAProgram program) {
         // Put the address of the variable in VariableDefinition.operand of varName.
+        program.addComment(getLocation().getLine() + ": "+decompile());
         DAddr varAddr = new RegisterOffset(program.bumpStackUsage(), Register.GB);
-        program.addInstruction(new ADDSP(new ImmediateInteger(1)));
+        program.incrementDeclaredVariables();
         varName.getVariableDefinition().setOperand(varAddr);
-        // This will put the result of calculating the expression in max used register.
-        initialization.codeGen(program);
+
+        // Optimisation
+        if (initialization instanceof Initialization
+                && ((Initialization) initialization).getExpression().getDVal() != null
+                && Objects.equals(((Initialization) initialization).getExpression().getDVal(), new ImmediateInteger(0))) {
+            // Instead of:   LOAD #0, R2
+            // use       :   SOV R2
+            // OV flag is guantreed to be put to 0 before this instruction,
+            // since it should never trigger in a well-formed Decac program. (If it does trigger, we go to our error handler).
+            // This saves 2 cycles over loading directly.
+            program.addInstruction(new SOV(program.getMaxUsedRegister()), varName.decompile()+" is initialized to 0, using SOV");
+        } else {
+            // This will put the result of calculating the expression in max used register.
+            initialization.codeGen(program);
+        }
+
         if (initialization instanceof Initialization) {
             program.addInstruction(new STORE(program.getMaxUsedRegister(), varAddr));
         }

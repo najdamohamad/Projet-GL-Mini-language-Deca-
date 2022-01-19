@@ -46,7 +46,7 @@ public class Assign extends AbstractBinaryExpr {
         return "=";
     }
 
-    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
+    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg, boolean invertCondition) {
         throw new DecacInternalError("unreachable");
     }
 
