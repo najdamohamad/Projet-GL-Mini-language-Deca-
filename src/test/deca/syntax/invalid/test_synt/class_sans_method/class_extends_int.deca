@@ -1,0 +1,17 @@
+// Description:
+//    Une classe qui hérite de int
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur par rapport à la règle (1.3)
+//
+// Historique:
+//    cree le 19/01/2022
+
+class A extends int {
+
+}
+
+{
+
+}
