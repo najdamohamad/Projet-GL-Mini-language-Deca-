@@ -8,6 +8,8 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 import org.apache.log4j.Logger;
 
 import java.util.Iterator;
@@ -58,6 +60,8 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> implements CodeGen {
         for (AbstractDeclVar d : getList()) {
             d.codeGen(program);
         }
+        // Now that all variables have been declared, increment SP in one shot.
+        program.addInstruction(new ADDSP(new ImmediateInteger(program.getDeclaredVariablesCount())));
     }
 
     @Override

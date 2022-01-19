@@ -56,8 +56,9 @@ public class DeclVar extends AbstractDeclVar {
     public void codeGen(IMAProgram program) {
         // Put the address of the variable in VariableDefinition.operand of varName.
         DAddr varAddr = new RegisterOffset(program.bumpStackUsage(), Register.GB);
-        program.addInstruction(new ADDSP(new ImmediateInteger(1)));
+        program.incrementDeclaredVariables();
         varName.getVariableDefinition().setOperand(varAddr);
+
         // This will put the result of calculating the expression in max used register.
         initialization.codeGen(program);
         if (initialization instanceof Initialization) {

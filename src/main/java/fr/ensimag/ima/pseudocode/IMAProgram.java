@@ -133,12 +133,29 @@ public class IMAProgram implements OutputProgram {
         }
     }
 
-    private int varCount = 0;
+    /**
+     * The number of variables declared in the program.
+     */
+    private int declaredVariables = 0;
 
-    public int getVarCount() {
-        addInstruction(new ADDSP(new ImmediateInteger(1)));
-        return ++varCount;
+    /**
+     * Tell the compiler that a new variable has been declared,
+     * and return the new number of declared variables.
+     * This count will be used later to calculate the stack usage with an ADDSP.
+     */
+    public int incrementDeclaredVariables() {
+        //addInstruction(new ADDSP(new ImmediateInteger(1)));
+        declaredVariables++;
+        return declaredVariables;
     }
+
+    /**
+     * Get the amount of declared variables.
+     */
+    public int getDeclaredVariablesCount() {
+        return declaredVariables;
+    }
+
 
     private int stackUsage = 0;
 
