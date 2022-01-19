@@ -30,7 +30,7 @@ public class And extends AbstractOpBool {
 
         program.addComment(decompile());
 
-        Label endLabel = new Label("cf_and_end_" + hashCode());
+        Label endLabel = new Label("code.controlFlow.end." + hashCode());
 
         // This one calculates the left expression in R2 (R0?).
         // TODO: switch all calculation results to R0.

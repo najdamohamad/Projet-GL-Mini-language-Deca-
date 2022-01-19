@@ -73,15 +73,13 @@ public class While extends AbstractInst {
 
     @Override
     public void codeGen(IMAProgram program) {
-        Label condition = new Label("cmp_cond_" + hashCode());
-        Label endLabel = new Label("cmp_end_" + hashCode());
+        Label condition = new Label("code.while.condition." + hashCode());
+        Label endLabel = new Label("code.while.end." + hashCode());
 
         program.addComment(getLocation() + " while begin");
         program.addLabel(condition);
 
-        // Put the result of evaluating the condition expression into R0.
         getCondition().codeGen(program);
-        //compare resultat in R0 with 0.
         program.addInstruction(new CMP(new ImmediateInteger(0), program.getMaxUsedRegister()));
         program.addInstruction(new BEQ(endLabel));
         getBody().codeGen(program);

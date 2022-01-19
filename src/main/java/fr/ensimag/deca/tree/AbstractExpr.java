@@ -138,8 +138,8 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
         if (getType().isString()) {
             codeGen(program); // Address of first char is in R0.
 
-            Label reachedZero = new Label("string_display_loop_" + hashCode());
-            Label endLabel = new Label("string_display_loop_end_" + hashCode());
+            Label reachedZero = new Label("code.displayStringLoop.condition." + hashCode());
+            Label endLabel = new Label("code.displayStringLoop.end." + hashCode());
 
             // Keep writing all the characters from the Stack until reaching 0.
             program.addLabel(reachedZero);

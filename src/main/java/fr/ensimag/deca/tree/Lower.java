@@ -1,9 +1,9 @@
 package fr.ensimag.deca.tree;
 
 
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Instruction;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.instructions.BLT;
+import fr.ensimag.ima.pseudocode.instructions.SLT;
 
 /**
  * @author gl47
@@ -22,7 +22,7 @@ public class Lower extends AbstractOpIneq {
     }
 
     @Override
-    public Instruction getMnemonic(Label label) {
-        return new BLT(label);
+    public Instruction getMnemonic(GPRegister reg) {
+        return new SLT(reg);
     }
 }

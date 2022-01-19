@@ -1,9 +1,10 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.BRA;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Instruction;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.log4j.Logger;
 
 /**
@@ -18,34 +19,13 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
         super(leftOperand, rightOperand);
     }
 
-    public abstract Instruction getMnemonic(Label label);
+    public abstract Instruction getMnemonic(GPRegister reg);
 
     public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
         program.addComment(getLocation() + " cmp begin");
         // Compare the results of evaluating the LHS and RHS expressions.
-
-        Label returnTrue = new Label("cmp_true_" + hashCode());
-        Label endLabel = new Label("cmp_end_" + hashCode());
-
-        LOG.debug("dval = " + dVal);
-        LOG.debug("reg = " + reg);
         program.addInstruction(new CMP(dVal, reg));
-        program.addInstruction(getMnemonic(returnTrue));
-        // Return false.
-        program.addInstruction(new LOAD(
-                new ImmediateInteger(0),
-                program.getMaxUsedRegister()
-        ));
-        program.addInstruction(new BRA(endLabel));
-
-        program.addLabel(returnTrue);
-        // Return true.
-        program.addInstruction(new LOAD(
-                new ImmediateInteger(1),
-                program.getMaxUsedRegister()
-        ));
-
-        program.addLabel(endLabel);
+        program.addInstruction(getMnemonic(program.getMaxUsedRegister()));
         program.addComment(getLocation() + " cmp end");
     }
 }

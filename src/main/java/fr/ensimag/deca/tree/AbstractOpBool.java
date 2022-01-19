@@ -10,6 +10,8 @@ import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.BRA;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
+import java.util.Locale;
+
 /**
  * @author gl47
  * @date 01/01/2022
@@ -54,8 +56,9 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
 
     @Override
     public void codeGen(IMAProgram program) {
-        Label returnTrue = new Label("op_bool_true_" + hashCode());
-        Label endLabel = new Label("op_bool_end" + hashCode());
+        String opName = getClass().getSimpleName().toLowerCase(Locale.ROOT);
+        Label returnTrue = new Label("code." + opName + ".returnTrue." + hashCode());
+        Label endLabel = new Label("code." + opName + ".end." + hashCode());
 
         codeGenControlFlow(program, true, returnTrue);
 
