@@ -42,6 +42,7 @@ prog returns[AbstractProgram tree]
             assert($main.tree != null);
             $tree = new Program($list_classes.tree, $main.tree);
             setLocation($tree, $list_classes.start);
+            setLocation($tree, $main.start);
         }
     ;
 
@@ -553,6 +554,7 @@ class_body returns [ListDeclMethod methods, ListDeclField decls]
 decl_field_set[ListDeclField decls]
     : v=visibility t=type list_decl_field[$v.v, $t.tree, decls]
       SEMI{
+        setLocation($decls, $t.start);
       }
     ;
 
@@ -573,7 +575,7 @@ list_decl_field[Visibility v, AbstractIdentifier t, ListDeclField l]
     }
         (COMMA dv2=decl_field[$v, $t] {
             assert($dv2.tree != null);
-            $l.add($dv1.tree);
+            $l.add($dv2.tree);
             setLocation($l, $dv2.start);
         }
       )*
@@ -586,15 +588,16 @@ decl_field[Visibility v, AbstractIdentifier t] returns [AbstractDeclField tree]
     : i=ident {
             assert($i.tree != null);
             init = new NoInitialization();
-            setLocation($i.tree, $i.start);
         }
       (EQUALS e=expr {
-        assert($e.tree != null);
-        init = new Initialization($e.tree);
-        setLocation($e.tree, $e.start);
+            assert($e.tree != null);
+            init = new Initialization($e.tree);
         }
       )? {
             $tree = new DeclField($v, $t, $i.tree, init);
+            setLocation($tree, $i.start);
+            setLocation(init, $i.start);
+            setLocation($i.tree, $i.start);
         }
     ;
 
