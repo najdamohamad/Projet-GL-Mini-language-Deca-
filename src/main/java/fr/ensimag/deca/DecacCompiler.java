@@ -211,6 +211,14 @@ public class DecacCompiler {
         return envTypesPredef.get(symbolTable.create(typeSymbol));
     }
 
+    public void declareTypeDefinition(SymbolTable.Symbol symbol, TypeDefinition definition) {
+        try {
+            envTypesPredef.declare(symbol, definition);
+        } catch (EnvironmentType.DoubleDefException e) {
+            throw new DecacInternalError("decac: double class definition, this is a verification bug.");
+        }
+    }
+
     public Type getType(String typeSymbol) {
         return getTypeDefinition(typeSymbol).getType();
     }
