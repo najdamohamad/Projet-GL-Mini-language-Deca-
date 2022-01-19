@@ -61,15 +61,6 @@ public class DeclClass extends AbstractDeclClass {
                     className,
                     new ClassDefinition(classType, getLocation(), (ClassDefinition) superClass)
             );
-
-
-                    for (AbstractDeclMethod declMethod : classBody.getListDeclMethod().getList()) {
-
-                        declMethod.ver);
-
-                    }
-                    classBody.getListDeclField();
-                    classBody.getListDeclMethod();
         } else {
             String message = "Type Error: " + superClassName.getName() + "n'est pas une classe.";
             throw new ContextualError(message, getLocation());
