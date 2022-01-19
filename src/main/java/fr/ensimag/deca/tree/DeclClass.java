@@ -1,7 +1,10 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.TypeDefinition;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -15,8 +18,8 @@ import java.io.PrintStream;
  */
 public class DeclClass extends AbstractDeclClass {
 
-    final private AbstractIdentifier identifier;
-    final private AbstractIdentifier extension;
+    final private AbstractIdentifier className;
+    final private AbstractIdentifier superClassName;
     final private ListDeclMethod listDeclMethod;
     final private ListDeclField listDeclField;
 
@@ -26,18 +29,10 @@ public class DeclClass extends AbstractDeclClass {
         Validate.notNull(extension);
         Validate.notNull(listDeclMethod);
         Validate.notNull(listDeclField);
-        this.identifier = identifier;
-        this.extension = extension;
+        this.className = identifier;
+        this.superClassName = extension;
         this.listDeclMethod = listDeclMethod;
         this.listDeclField = listDeclField;
-    }
-
-    public AbstractIdentifier getExtension() {
-        return extension;
-    }
-
-    public AbstractIdentifier getIdentifier() {
-        return identifier;
     }
 
     @Override
@@ -47,7 +42,24 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        // This implements rule (1.3) of Pass 1
+        TypeDefinition superDefinition = compiler.getTypeDefinition(superClassName.getName());
+        if (superDefinition.isClass()) {
+            ClassType classType = new ClassType(
+                    className.getName(),
+                    getLocation(),
+                    (ClassDefinition) superDefinition
+            );
+            ClassDefinition classDefinition = new ClassDefinition(
+                    classType,
+                    getLocation(),
+                    (ClassDefinition) superDefinition
+            );
+            compiler.declareTypeDefinition(className.getName(), classDefinition);
+        } else {
+            String message = "TypeError: " + superClassName.decompile() + " n'est pas une classe.";
+            throw new ContextualError(message, getLocation());
+        }
     }
 
     @Override
