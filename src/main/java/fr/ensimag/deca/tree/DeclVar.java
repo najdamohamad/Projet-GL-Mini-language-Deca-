@@ -17,7 +17,6 @@ import java.io.PrintStream;
  */
 public class DeclVar extends AbstractDeclVar {
 
-
     final private AbstractIdentifier type;
     final private AbstractIdentifier varName;
     final private AbstractInitialization initialization;
