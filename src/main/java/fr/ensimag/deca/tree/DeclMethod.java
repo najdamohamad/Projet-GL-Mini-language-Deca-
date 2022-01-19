@@ -37,10 +37,11 @@ public class DeclMethod extends AbstractDeclMethod {
         type.decompile(s);
         s.print(" ");
         name.decompile(s);
-        s.print(" ");
+        s.print("(");
         params.decompile(s);
-        s.print(" ");
+        s.print("){");
         methodBody.decompile(s);
+        s.print("}");
     }
 
     @Override

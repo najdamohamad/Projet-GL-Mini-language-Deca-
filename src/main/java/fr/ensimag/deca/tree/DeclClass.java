@@ -17,15 +17,18 @@ public class DeclClass extends AbstractDeclClass {
 
     final private AbstractIdentifier identifier;
     final private AbstractIdentifier extension;
-    final private ClassBody classBody;
+    final private ListDeclMethod methods;
+    final private ListDeclField decls;
 
-    public DeclClass(AbstractIdentifier identifier, AbstractIdentifier extension, ClassBody classBody) {
+    public DeclClass(AbstractIdentifier identifier, AbstractIdentifier extension, ListDeclMethod methods, ListDeclField decls) {
         Validate.notNull(identifier);
         Validate.notNull(extension);
-        Validate.notNull(classBody);
+        Validate.notNull(methods);
+        Validate.notNull(decls);
         this.identifier = identifier;
         this.extension = extension;
-        this.classBody = classBody;
+        this.methods = methods;
+        this.decls = decls;
     }
 
     public AbstractIdentifier getExtension() {
@@ -36,14 +39,24 @@ public class DeclClass extends AbstractDeclClass {
         return identifier;
     }
 
-    public ClassBody getClassBody() {
-        return classBody;
+    public ListDeclMethod getMethods() {
+        return methods;
     }
 
+    public ListDeclField getDecls() {
+        return decls;
+    }
 
     @Override
     public void decompile(IndentPrintStream s) {
-        s.print("class { ... A FAIRE ... }");
+        s.print("class ");
+        identifier.decompile(s);
+        s.print(" ");
+        extension.decompile(s);
+        s.print(" ");
+        decls.decompile(s);
+        s.print(" ");
+        methods.decompile(s);
     }
 
     @Override
@@ -65,12 +78,19 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        throw new UnsupportedOperationException("Not yet supported");
+        identifier.prettyPrintChildren(s, prefix);
+        extension.prettyPrintChildren(s, prefix);
+        decls.prettyPrintChildren(s, prefix);
+        methods.prettyPrintChildren(s, prefix);
+
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not yet supported");
+        identifier.iterChildren(f);
+        extension.iterChildren(f);
+        decls.iterChildren(f);
+        methods.iterChildren(f);
     }
 
 }
