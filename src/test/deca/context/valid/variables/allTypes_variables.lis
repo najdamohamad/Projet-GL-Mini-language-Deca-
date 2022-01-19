@@ -1,7 +1,7 @@
 `> [11, 0] Program
    +> ListDeclClass [List with 0 elements]
    `> [11, 0] Main
-      +> [12, 4] ListDeclVar [List with 4 elements]
+      +> [12, 4] ListDeclVar [List with 3 elements]
       |  []> [12, 8] DeclVar
       |  ||  +> [12, 4] Identifier (int)
       |  ||  |  definition: type defined at null, type=int
@@ -18,20 +18,12 @@
       |  ||  `> [13, 10] Initialization
       |  ||     `> [13, 15] Float (2.1)
       |  ||        type: float
-      |  []> [14, 11] DeclVar
-      |  ||  +> [14, 4] Identifier (string)
-      |  ||  |  definition: type defined at null, type=string
-      |  ||  +> [14, 11] Identifier (s)
-      |  ||  |  definition: variable defined at [14, 11], type=string
-      |  ||  `> [14, 11] Initialization
-      |  ||     `> [14, 15] StringLiteral (juNGLE)
-      |  ||        type: string
-      |  []> [15, 12] DeclVar
-      |      +> [15, 4] Identifier (boolean)
+      |  []> [14, 12] DeclVar
+      |      +> [14, 4] Identifier (boolean)
       |      |  definition: type defined at null, type=boolean
-      |      +> [15, 12] Identifier (l)
-      |      |  definition: variable defined at [15, 12], type=boolean
-      |      `> [15, 12] Initialization
-      |         `> [15, 16] BooleanLiteral (true)
+      |      +> [14, 12] Identifier (l)
+      |      |  definition: variable defined at [14, 12], type=boolean
+      |      `> [14, 12] Initialization
+      |         `> [14, 16] BooleanLiteral (true)
       |            type: boolean
-      `> [16, 0] ListInst [List with 0 elements]
+      `> [15, 0] ListInst [List with 0 elements]
