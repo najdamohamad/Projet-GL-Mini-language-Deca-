@@ -611,10 +611,10 @@ decl_method returns [AbstractDeclMethod tree]
             assert($block.decls != null);
             assert($block.insts != null);
             currentTree = new DeclMethod($type.tree, $ident.tree, $params.tree, new MethodBody($block.decls, $block.insts));
-            setLocation($tree, $type.start);
-            setLocation($tree, $ident.start);
-            setLocation($tree, $params.start);
-            setLocation($tree, $block.start);
+            setLocation(currentTree, $type.start);
+            setLocation(currentTree, $ident.start);
+            setLocation(currentTree, $params.start);
+            setLocation(currentTree, $block.start);
         }
       | ASM OPARENT code=multi_line_string CPARENT SEMI {
             assert($type.tree != null);
@@ -623,10 +623,10 @@ decl_method returns [AbstractDeclMethod tree]
             assert($code.text != null);
             assert($code.location != null);
             currentTree = new DeclMethodAsm($type.tree, $ident.tree, $params.tree, new MethodAsmBody($code.text, $code.location));
-            setLocation($tree, $type.start);
-            setLocation($tree, $ident.start);
-            setLocation($tree, $params.start);
-            setLocation($tree, $code.start);
+            setLocation(currentTree, $type.start);
+            setLocation(currentTree, $ident.start);
+            setLocation(currentTree, $params.start);
+            setLocation(currentTree, $code.start);
         }
       ) {
             $tree = currentTree;
