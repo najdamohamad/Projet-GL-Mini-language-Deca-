@@ -98,9 +98,9 @@ public class Program extends AbstractProgram {
 
     @Override
     public void codeGen(ARMProgram program) {
-        Line programEntryGlobal = new Directive("global", "_start");
-        program.addLineInSection("text", programEntryGlobal);
-        Line programEntry = new LabelDefinition("_start");
+        program.addLineInSection("text", new Directive("global", "main"));
+        program.addLineInSection("text", new Directive("extern", "printf"));
+        Line programEntry = new LabelDefinition("main");
         program.addLineInSection("text", programEntry);
         Line newlineLabel = new LabelDefinition("newline");
         Line newlineByte = new Directive("byte", "0xA");

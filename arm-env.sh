@@ -48,8 +48,10 @@ case "$SUBCOMMAND" in
         ARGUMENT=$2
         AS="${XTOOLCHAIN_PATH}/bin/arm-none-linux-gnueabihf-as"
         LD="${XTOOLCHAIN_PATH}/bin/arm-none-linux-gnueabihf-ld"
+        CC="${XTOOLCHAIN_PATH}/bin/arm-none-linux-gnueabihf-gcc"
         $AS "${ARGUMENT}" -o "${ARGUMENT%.*}.o"
-        $LD "${ARGUMENT%.*}.o" -o "${ARGUMENT%.*}"
+        # use gcc
+        $CC "${ARGUMENT%.*}.o" -static -o "${ARGUMENT%.*}"
         qemu-arm -cpu $ARM_CPU_MODEL -R 0xfffffff "${ARGUMENT%.*}"
         ;;
     *)

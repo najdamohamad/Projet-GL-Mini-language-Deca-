@@ -185,7 +185,15 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
 
     @Override
     public void codeGenDisplay(ARMProgram program) {
-        throw new UnsupportedOperationException("not yet implemented");
+        if (getType().isInt()) {
+            codeGen(program);
+            // TODO: display int
+        } else if (getType().isFloat()) {
+            codeGen(program);
+            // TODO: display float
+        } else {
+            throw new DecacInternalError(decompile() + " is not printable, this is a verification bug.");
+        }
     }
 
     @Override

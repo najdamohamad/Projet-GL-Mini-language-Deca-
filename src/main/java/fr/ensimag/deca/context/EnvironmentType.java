@@ -8,7 +8,8 @@ import org.apache.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EnvironmentType {
+public class EnvironmentType
+{
     private static Logger LOG = Logger.getLogger(EnvironmentType.class);
 
     private Map<Symbol, TypeDefinition> environmentType;
