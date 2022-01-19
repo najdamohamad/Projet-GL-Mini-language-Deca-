@@ -1,0 +1,15 @@
+// Description:
+//    Test pour verifier que les types indefinies ne sont marchent pas
+//
+//  Resultats :
+//
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    context : erreur --> le type `void` n'est pas défini.
+//
+// Historique:
+//    cree le 18/01/2022
+
+{
+    void objectc ;
+}

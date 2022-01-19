@@ -5,6 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import java.io.PrintStream;
+import org.apache.commons.lang.Validate;
 
 /**
  * Declaration of a class (<code>class name extends superClass {members}<code>).
@@ -13,6 +14,31 @@ import java.io.PrintStream;
  * @date 01/01/2022
  */
 public class DeclClass extends AbstractDeclClass {
+    final private AbstractIdentifier identifier;
+    final private AbstractIdentifier extension;
+    final private ClassBody classBody;
+
+    public DeclClass(AbstractIdentifier identifier, AbstractIdentifier extension, ClassBody classBody){
+        Validate.notNull(identifier);
+        Validate.notNull(extension);
+        Validate.notNull(classBody);
+        this.identifier = identifier;
+        this.extension = extension;
+        this.classBody = classBody;
+    }
+
+    public AbstractIdentifier getExtension() {
+        return extension;
+    }
+
+    public AbstractIdentifier getIdentifier() {
+        return identifier;
+    }
+
+    public ClassBody getClassBody() {
+        return classBody;
+    }
+
 
     @Override
     public void decompile(IndentPrintStream s) {
