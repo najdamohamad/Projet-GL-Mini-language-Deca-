@@ -19,5 +19,6 @@
     
 
     //type inconnue 
-    object o = null ; 
+    object o = null ;
+
 }

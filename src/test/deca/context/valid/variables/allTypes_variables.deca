@@ -10,7 +10,6 @@
 
 {
     int a = 2 ;
-    float b  = 2.1;  
-    string s = "juNGLE"; 
+    float b  = 2.1;
     boolean l = true  ;
 }

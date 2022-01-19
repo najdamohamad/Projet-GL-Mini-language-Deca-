@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/variables/void_var.deca:14:9: TypeError: il est impossible de déclarer des identificateurs de type `void`.

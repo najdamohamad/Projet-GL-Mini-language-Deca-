@@ -15,10 +15,7 @@ public class IncludeFileNotFound extends DecaRecognitionException {
         super(recognizer, input);
         this.name = name;
     }
-    
-    public String getName() {
-        return name;
-    }
+
 
     @Override
     public String getMessage() {
