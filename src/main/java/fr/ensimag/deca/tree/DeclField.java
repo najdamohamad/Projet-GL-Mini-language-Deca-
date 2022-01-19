@@ -15,10 +15,10 @@ import java.io.PrintStream;
  */
 public class DeclField extends AbstractDeclField {
 
-    private final AbstractIdentifier type;
-    private final AbstractIdentifier varName;
-    private final AbstractInitialization initialization;
-    private final Visibility visibility;
+    private AbstractIdentifier type;
+    private AbstractIdentifier varName;
+    private AbstractInitialization initialization;
+    private Visibility visibility;
 
     public DeclField(Visibility visibility, AbstractIdentifier type,
                      AbstractIdentifier varName, AbstractInitialization initialization) {
@@ -34,6 +34,9 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     public void decompile(IndentPrintStream s) {
+        if(visibility == Visibility.PROTECTED){
+            s.print("protected ");
+        }
         type.decompile(s);
         s.print(" ");
         varName.decompile(s);
@@ -51,6 +54,9 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
+        if(visibility == Visibility.PROTECTED){
+            s.print("protected \n");
+        }
         type.prettyPrint(s, prefix, false);
         varName.prettyPrint(s, prefix, false);
         initialization.prettyPrint(s, prefix, true);

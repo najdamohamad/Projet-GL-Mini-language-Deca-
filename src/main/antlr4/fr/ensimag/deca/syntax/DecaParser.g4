@@ -528,11 +528,11 @@ class_decl returns [DeclClass tree]
 class_extension returns[AbstractIdentifier tree]
     : EXTENDS ident {
              assert($ident.tree != null);
-             $tree = new ClassExtension($ident.tree);
+             $tree = $ident.tree;
              setLocation($tree, $ident.start);
         }
     | /* epsilon */ {
-            $tree = new ClassExtension();
+            $tree = new Identifier(getDecacCompiler().createSymbol(" extends Object"));
         }
     ;
 
@@ -554,7 +554,6 @@ class_body returns [ListDeclMethod methods, ListDeclField decls]
 decl_field_set[ListDeclField decls]
     : v=visibility t=type list_decl_field[$v.v, $t.tree, decls]
       SEMI{
-        setLocation($decls, $t.start);
       }
     ;
 
