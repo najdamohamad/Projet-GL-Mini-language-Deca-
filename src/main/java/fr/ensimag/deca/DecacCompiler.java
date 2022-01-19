@@ -157,7 +157,11 @@ public class DecacCompiler {
             program = new ARMProgram();
             abstractProgram.codeGen((ARMProgram) program);
         } else {
-            program = new IMAProgram(compilerOptions.getNumberOfRegisters(), compilerOptions.getShouldCheck());
+            program = new IMAProgram(
+                    compilerOptions.getNumberOfRegisters(),
+                    compilerOptions.getShouldCheck(),
+                    this
+            );
             ((IMAProgram) program).setMaxRegister(compilerOptions.getNumberOfRegisters() - 1);
             abstractProgram.codeGen((IMAProgram) program);
         }
@@ -209,6 +213,14 @@ public class DecacCompiler {
 
     public TypeDefinition getTypeDefinition(String typeSymbol) {
         return envTypesPredef.get(symbolTable.create(typeSymbol));
+    }
+
+    public void declareTypeDefinition(SymbolTable.Symbol symbol, TypeDefinition definition) {
+        try {
+            envTypesPredef.declare(symbol, definition);
+        } catch (EnvironmentType.DoubleDefException e) {
+            throw new DecacInternalError("decac: double class definition, this is a verification bug.");
+        }
     }
 
     public Type getType(String typeSymbol) {

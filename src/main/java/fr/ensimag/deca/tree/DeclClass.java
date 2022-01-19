@@ -39,10 +39,17 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     public void codeGen(IMAProgram program) {
+        // Method Labels.
         // TODO: iterate over method declarations.
         // TODO: call .getMethodDefinition() on the method's AbstractIdentifier
         // TODO: call .setLabel() on the method's definition with:
         //       "code." + className.getName() + "." + methodName.getName()
+
+        // Method Table
+        // TODO: get the method table address for this class.
+        // TODO: loop over the method declarations again.
+        // TODO: make sure this class contains its inherited methods.
+        // TODO: use the index to put the the method label in the right spot.
     }
 
     @Override

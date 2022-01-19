@@ -1,5 +1,6 @@
 package fr.ensimag.ima.pseudocode;
 
+import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.OutputProgram;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.ima.pseudocode.instructions.ADDSP;
@@ -17,15 +18,18 @@ import java.util.LinkedList;
 public class IMAProgram implements OutputProgram {
     public int maxRegister;
     private final boolean shouldCheck;
+    private final DecacCompiler compiler;
 
-    public IMAProgram(int maxRegister, boolean shouldCheck) {
+    public IMAProgram(int maxRegister, boolean shouldCheck, DecacCompiler compiler) {
         this.maxRegister = maxRegister;
         this.shouldCheck = shouldCheck;
+        this.compiler = compiler;
     }
 
     /**
      * Should we check according to the -n (no check) options?
      * This means we should ignore 11.1 and 11.3 of [Sémantique].
+     *
      * @return true if we check.
      */
     public boolean shouldCheck() {
@@ -53,6 +57,7 @@ public class IMAProgram implements OutputProgram {
 
     /**
      * Add an instruction with a comment.
+     *
      * @param i The instruction.
      * @param s The comment.
      */
@@ -149,5 +154,9 @@ public class IMAProgram implements OutputProgram {
 
     public int getStackUsage() {
         return stackUsage;
+    }
+
+    public DecacCompiler getCompiler() {
+        return compiler;
     }
 }

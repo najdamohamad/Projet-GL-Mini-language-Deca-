@@ -1,13 +1,17 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.Line;
 import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.syscalls.Exit;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -63,12 +67,38 @@ public class Program extends AbstractProgram {
      */
     @Override
     public void codeGen(IMAProgram program) {
-        program.addComment("Main program");
         // TODO: test de dépassement de pile doit être fait à la fin du programme
         // Utiliser les possibilités du paquet pseudocode, voir p210
-        main.codeGen(program);
+        DecacCompiler compiler = program.getCompiler();
+
+        program.addComment("----------------------------------");
+        program.addComment("           Method Table           ");
+        program.addComment("----------------------------------");
+        program.addComment("Object: method table construction.");
+        program.addInstruction(new LOAD(new NullOperand(), Register.R0));
+        program.addInstruction(new STORE(
+                Register.R0,
+                new RegisterOffset(program.bumpStackUsage(), Register.R0)
+        ));
+        program.addInstruction(new LOAD(
+                new LabelOperand(new Label("code.object.equals")),
+                Register.R0
+        ));
+        program.addInstruction(new STORE(
+                Register.R0,
+                new RegisterOffset(program.bumpStackUsage(), Register.R0)
+        ));
+        Symbol objectName = compiler.createSymbol("Object");
+        // FIXME: the object class doesn't really exist in source code.
+        ClassType objectType = new ClassType(objectName, null, null);
+        ClassDefinition definition = new ClassDefinition(objectType, null, null);
+        definition.setMethodTableAddr(new RegisterOffset(1, Register.GB));
+        compiler.declareTypeDefinition(objectName, definition);
         classes.codeGen(program);
 
+
+        program.addComment("Main program");
+        main.codeGen(program);
         program.addInstruction(new HALT());
         program.addComment("End of main function.");
 
