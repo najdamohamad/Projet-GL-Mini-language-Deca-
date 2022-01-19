@@ -1,10 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ClassType;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.TypeDefinition;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -65,7 +62,30 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        ClassDefinition classDefinition =
+                (ClassDefinition) compiler.getTypeDefinition(className.getName());
+        try {
+            // "En pratique, une implémentation pourra simplement ajouter les nouvelles définitions
+            // à l’environnement contenu dans la définition de classe construite en passe 1.
+            // Il n’est pas nécessaire de créer une nouvelle définition de classe et l’empilement
+            // d’environnement peut être fait dès la création de la définition de classe en passe 1."
+            //     -- Page 81, règle (2.3)
+            EnvironmentExp fieldEnvironment = listDeclField.verifyListDeclField(
+                    compiler, className.getClassDefinition(), superClassName.getClassDefinition()
+            );
+            classDefinition.getMembers().join(fieldEnvironment);
+            EnvironmentExp methodEnvironment = listDeclMethod.verifyListDeclMethod(
+                    compiler, className.getClassDefinition()
+            );
+            classDefinition.getMembers().join(methodEnvironment);
+
+        } catch (EnvironmentExp.DoubleDefException e) {
+            // FIXME: the only evidence for this is page 77 where it says the OPLUS operator
+            //        is not defined when the intersection of environment is non-empty.
+            String message = "ScopeError: il n'est pas possible d'utiliser le même identificateur" +
+                    "pour un champ et une méthode.";
+            throw new ContextualError(message, getLocation());
+        }
     }
 
     @Override

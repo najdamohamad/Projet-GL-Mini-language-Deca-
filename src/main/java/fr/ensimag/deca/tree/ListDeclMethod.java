@@ -23,8 +23,8 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
      * @param superClass corresponds to "super" attribute
      * @return corresponds to the "env_exp_r" attribute
      */
-    public EnvironmentExp verifyListDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv,
-                                               ClassDefinition superClass) throws ContextualError {
+    public EnvironmentExp verifyListDeclMethod(DecacCompiler compiler, ClassDefinition superClass)
+            throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
