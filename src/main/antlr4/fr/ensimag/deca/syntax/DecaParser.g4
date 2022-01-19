@@ -533,13 +533,14 @@ class_extension returns[AbstractIdentifier tree]
              setLocation($tree, $ident.start);
         }
     | /* epsilon */ {
+            $tree = new Identifier(getDecacCompiler().createSymbol("Object"));
         }
     ;
 
 class_body returns[ListDeclField fields, ListDeclMethod methods]
 @init {
-    ListDeclField fields = new ListDeclField();
-    ListDeclMethod methods = new ListDeclMethod();
+    $fields = new ListDeclField();
+    $methods = new ListDeclMethod();
 }
     : (m=decl_method {
             assert($m.tree != null);
