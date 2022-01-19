@@ -1,12 +1,12 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
-import fr.ensimag.arm.pseudocode.ARMProgram;
 
-import fr.ensimag.ima.pseudocode.IMAProgram;
 import java.io.PrintStream;
 
 /**
@@ -15,28 +15,21 @@ import java.io.PrintStream;
  */
 public class DeclMethodAsm extends AbstractDeclMethod {
 
-
     final private AbstractIdentifier type;
     final private AbstractIdentifier name;
     final private ListDeclParam params;
-    final private MethodBodyASM methodBodyASM;
+    final private MethodAsmBody methodAsmBody;
 
-    public DeclMethodAsm(AbstractIdentifier type, AbstractIdentifier name, ListDeclParam params, MethodBodyASM methodBodyASM) {
+    public DeclMethodAsm(AbstractIdentifier type, AbstractIdentifier name,
+                         ListDeclParam params, MethodAsmBody methodAsmBody) {
         Validate.notNull(type);
         Validate.notNull(name);
         Validate.notNull(params);
-        Validate.notNull(methodBodyASM);
+        Validate.notNull(methodAsmBody);
         this.type = type;
         this.name = name;
         this.params = params;
-        this.methodBodyASM = methodBodyASM;
-    }
-
-    @Override
-    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass){
-        Type intType = compiler.getType("int");
-        setType(intType);
-        return intType;
+        this.methodAsmBody = methodAsmBody;
     }
 
     @Override
@@ -47,7 +40,7 @@ public class DeclMethodAsm extends AbstractDeclMethod {
         s.print(" ");
         params.decompile(s);
         s.print(" ");
-        methodBodyASM.decompile(s);
+        methodAsmBody.decompile(s);
     }
 
     @Override
@@ -55,7 +48,7 @@ public class DeclMethodAsm extends AbstractDeclMethod {
         type.iter(f);
         name.iter(f);
         params.iter(f);
-        methodBodyASM.iter(f);
+        methodAsmBody.iter(f);
     }
 
     @Override
@@ -63,10 +56,18 @@ public class DeclMethodAsm extends AbstractDeclMethod {
         type.prettyPrint(s, prefix, false);
         name.prettyPrint(s, prefix, false);
         params.prettyPrint(s, prefix, false);
-        methodBodyASM.prettyPrint(s, prefix, false);
+        methodAsmBody.prettyPrint(s, prefix, false);
     }
+
     @Override
-    public void codeGen(ARMProgram program){}
+    protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv,
+                                    ClassDefinition currentClass) throws ContextualError {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
     @Override
-    public void codeGen(IMAProgram program){}
+    protected void verifyDeclMethodBody(DecacCompiler compiler, EnvironmentExp localEnv,
+                                        ClassDefinition currentClass) throws ContextualError {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 }

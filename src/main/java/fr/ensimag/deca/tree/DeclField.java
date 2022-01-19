@@ -1,88 +1,75 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+
 import java.io.PrintStream;
-import fr.ensimag.arm.pseudocode.ARMProgram;
+
 /**
  * @author gl47
  * @date 01/01/2022
  */
-public class DeclField extends AbstractDeclVar {
+public class DeclField extends AbstractDeclField {
 
-    private AbstractIdentifier name;
-    private AbstractExpr expression;
+    private final AbstractIdentifier type;
+    private final AbstractIdentifier varName;
+    private final AbstractInitialization initialization;
+    private final Visibility visibility;
 
-    public DeclField(AbstractIdentifier name, AbstractExpr expression) {
-        Validate.notNull(name);
-        Validate.notNull(expression);
-        this.name = name;
-        this.expression = expression;
+    public DeclField(Visibility visibility, AbstractIdentifier type,
+                     AbstractIdentifier varName, AbstractInitialization initialization) {
+        Validate.notNull(visibility);
+        Validate.notNull(type);
+        Validate.notNull(varName);
+        Validate.notNull(initialization);
+        this.visibility = visibility;
+        this.type = type;
+        this.varName = varName;
+        this.initialization = initialization;
     }
-
-    public AbstractExpr getExpr() {
-        return expression;
-    }
-
-    public AbstractIdentifier getName() {
-        return name;
-    }
-
-    public void setName(AbstractIdentifier name){
-        this.name = name;
-    }
-    public void setExpression(AbstractExpr expr){
-        this.expression = expr;
-    }
-
-    @Override
-    protected void verifyDeclVar(DecacCompiler compiler,
-                                 EnvironmentExp localEnv, ClassDefinition currentClass)
-            throws ContextualError {/*
-        Type varType = type.verifyType(compiler);
-        if (varType.sameType(compiler.getType("void"))) {
-            String message = "TypeError: il est impossible de déclarer des identificateurs de type `void`.";
-            throw new ContextualError(message, getLocation());
-        }
-        try {
-            ExpDefinition varDefinition = new VariableDefinition(varType, getLocation());
-            varName.setDefinition(varDefinition);
-            localEnv.declare(varName.getName(), varDefinition);
-            initialization.verifyInitialization(compiler, varType, localEnv, currentClass);
-        } catch (EnvironmentExp.DoubleDefException e) {
-            String message = "ScopeError: l'identificateur `"
-                    + varName.decompile() + "` ne peut être défini plus qu'une fois.";
-            throw new ContextualError(message, getLocation());
-        }*/
-    }
-
 
     @Override
     public void decompile(IndentPrintStream s) {
-        name.decompile(s);
+        type.decompile(s);
         s.print(" ");
-        expression.decompile(s);
+        varName.decompile(s);
+        s.print(" ");
+        initialization.decompile(s);
         s.print(";");
     }
 
     @Override
-    public void codeGen(ARMProgram program){}
-    @Override
-    public void codeGen(IMAProgram program){}
-    @Override
     protected void iterChildren(TreeFunction f) {
-        name.iter(f);
-        expression.iter(f);
+        type.iter(f);
+        varName.iter(f);
+        initialization.iter(f);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        name.prettyPrint(s, prefix, false);
-        expression.prettyPrint(s, prefix, false);
+        type.prettyPrint(s, prefix, false);
+        varName.prettyPrint(s, prefix, false);
+        initialization.prettyPrint(s, prefix, true);
     }
 
 
+    @Override
+    protected void verifyDeclField(DecacCompiler compiler, ClassDefinition superClass,
+                                   ClassDefinition currentClass) throws ContextualError {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    protected void verifyDeclFieldInit(DecacCompiler compiler, EnvironmentExp localEnv,
+                                       ClassDefinition currentClass) throws ContextualError {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
 }

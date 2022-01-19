@@ -1,30 +1,35 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import java.io.PrintStream;
 import org.apache.commons.lang.Validate;
+
+import java.io.PrintStream;
 
 /**
  * Declaration of a class (<code>class name extends superClass {members}<code>).
- * 
+ *
  * @author gl47
  * @date 01/01/2022
  */
 public class DeclClass extends AbstractDeclClass {
+
     final private AbstractIdentifier identifier;
     final private AbstractIdentifier extension;
-    final private ClassBody classBody;
+    final private ListDeclMethod listDeclMethod;
+    final private ListDeclField listDeclField;
 
-    public DeclClass(AbstractIdentifier identifier, AbstractIdentifier extension, ClassBody classBody){
+    public DeclClass(AbstractIdentifier identifier, AbstractIdentifier extension,
+                     ListDeclMethod listDeclMethod, ListDeclField listDeclField) {
         Validate.notNull(identifier);
         Validate.notNull(extension);
-        Validate.notNull(classBody);
+        Validate.notNull(listDeclMethod);
+        Validate.notNull(listDeclField);
         this.identifier = identifier;
         this.extension = extension;
-        this.classBody = classBody;
+        this.listDeclMethod = listDeclMethod;
+        this.listDeclField = listDeclField;
     }
 
     public AbstractIdentifier getExtension() {
@@ -34,11 +39,6 @@ public class DeclClass extends AbstractDeclClass {
     public AbstractIdentifier getIdentifier() {
         return identifier;
     }
-
-    public ClassBody getClassBody() {
-        return classBody;
-    }
-
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -55,7 +55,7 @@ public class DeclClass extends AbstractDeclClass {
             throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
-    
+
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
