@@ -17,15 +17,19 @@ public class DeclClass extends AbstractDeclClass {
 
     final private AbstractIdentifier identifier;
     final private AbstractIdentifier extension;
-    final private ClassBody classBody;
+    final private ListDeclMethod listDeclMethod;
+    final private ListDeclField listDeclField;
 
-    public DeclClass(AbstractIdentifier identifier, AbstractIdentifier extension, ClassBody classBody) {
+    public DeclClass(AbstractIdentifier identifier, AbstractIdentifier extension,
+                     ListDeclMethod listDeclMethod, ListDeclField listDeclField) {
         Validate.notNull(identifier);
         Validate.notNull(extension);
-        Validate.notNull(classBody);
+        Validate.notNull(listDeclMethod);
+        Validate.notNull(listDeclField);
         this.identifier = identifier;
         this.extension = extension;
-        this.classBody = classBody;
+        this.listDeclMethod = listDeclMethod;
+        this.listDeclField = listDeclField;
     }
 
     public AbstractIdentifier getExtension() {
@@ -35,11 +39,6 @@ public class DeclClass extends AbstractDeclClass {
     public AbstractIdentifier getIdentifier() {
         return identifier;
     }
-
-    public ClassBody getClassBody() {
-        return classBody;
-    }
-
 
     @Override
     public void decompile(IndentPrintStream s) {

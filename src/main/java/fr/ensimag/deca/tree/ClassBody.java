@@ -1,19 +1,16 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import org.apache.commons.lang.Validate;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+
 import java.io.PrintStream;
-import fr.ensimag.arm.pseudocode.ARMProgram;
+
 /**
  * @author gl47
  * @date 01/01/2022
  */
-public class ClassBody extends AbstractExpr{
-        private ListDeclMethod methods;
-        private ListDeclField listDeclField;
+public class ClassBody extends Tree {
+    private ListDeclMethod methods;
+    private ListDeclField listDeclField;
 
     public ListDeclField getListDeclField() {
         return listDeclField;
@@ -30,14 +27,6 @@ public class ClassBody extends AbstractExpr{
     public void setMethods(ListDeclMethod methods) {
         this.methods = methods;
     }
-
-    @Override
-    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass){
-        Type intType = compiler.getType("int");
-        setType(intType);
-        return intType;
-    }
-
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -58,8 +47,4 @@ public class ClassBody extends AbstractExpr{
         listDeclField.prettyPrint(s, prefix, false);
     }
 
-    @Override
-    public void codeGen(ARMProgram program){}
-    @Override
-    public void codeGen(IMAProgram program){}
 }
