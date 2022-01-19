@@ -19,25 +19,30 @@ import fr.ensimag.ima.pseudocode.instructions.WINT;
 import org.apache.commons.lang.Validate;
 import fr.ensimag.ima.pseudocode.DVal;
 import java.io.PrintStream;
-
+import fr.ensimag.arm.pseudocode.ARMProgram;
 /**
- * Method
+ * Attribut
  *
  * @author gl47
  * @date 01/01/2022
  */
-public class Method extends AbstractExpr {
-    private AbstractExpr expression;
-    private AbstractIdentifier method;
-    private ListExpr list_params;
+public class Selection extends AbstractLValue {
+    final private AbstractExpr expression;
+    final private AbstractIdentifier attribut;
 
-    public Method(AbstractExpr expression, AbstractIdentifier method, ListExpr list_params) {
+    public AbstractExpr getExpression() {
+        return expression;
+    }
+
+    public AbstractIdentifier getAttribut() {
+        return attribut;
+    }
+
+    public Selection(AbstractExpr expression, AbstractIdentifier attribut) {
         Validate.notNull(expression);
-        Validate.notNull(method);
-        Validate.notNull(list_params);
-        this.expression =expression;
-        this.method = method;
-        this.list_params = list_params;
+        Validate.notNull(attribut);
+        this.expression = expression;
+        this.attribut = attribut;
     }
 
     @Override
@@ -48,15 +53,15 @@ public class Method extends AbstractExpr {
         return intType;
     }
 
-    @Override
-    public void codeGenDisplay(IMAProgram program) {
-    }
+
 
     public void codeGenExpr(IMAProgram program,GPRegister register) {
     }
 
     @Override
     public void decompile(IndentPrintStream s) {
+        expression.decompile(s);
+        attribut.decompile(s);
     }
 
     @Override
@@ -67,4 +72,8 @@ public class Method extends AbstractExpr {
     protected void prettyPrintChildren(PrintStream s, String prefix) {
     }
 
+    @Override
+    public void codeGen(ARMProgram program){}
+    @Override
+    public void codeGen(IMAProgram program){}
 }

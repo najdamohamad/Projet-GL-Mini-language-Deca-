@@ -4,9 +4,9 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
-
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import java.io.PrintStream;
-
+import fr.ensimag.arm.pseudocode.ARMProgram;
 /**
  * @author gl47
  * @date 01/01/2022
@@ -68,6 +68,10 @@ public class DeclField extends AbstractDeclVar {
         s.print(";");
     }
 
+    @Override
+    public void codeGen(ARMProgram program){}
+    @Override
+    public void codeGen(IMAProgram program){}
     @Override
     protected void iterChildren(TreeFunction f) {
         name.iter(f);

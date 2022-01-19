@@ -4,7 +4,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
-
+import fr.ensimag.arm.pseudocode.ARMProgram;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import java.io.PrintStream;
 
 /**
@@ -71,7 +72,10 @@ public class DeclFieldVis extends AbstractDeclVar {
         expression.decompile(s);
         s.print(";");
     }
-
+    @Override
+    public void codeGen(ARMProgram program){}
+    @Override
+    public void codeGen(IMAProgram program){}
     @Override
     protected void iterChildren(TreeFunction f) {
         type.iter(f);

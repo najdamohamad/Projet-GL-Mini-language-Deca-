@@ -47,6 +47,10 @@ nb_tests_total = 0
 nb_echecs_total = 0
 tous_test_echoues = []
 
+def remove_prefix(text, prefix):
+    if text.startswith(prefix):
+        return text[len(prefix):]
+    return text
 
 def suite_test(dossier, sous_language, type_test, etape_test):
     """
@@ -81,7 +85,7 @@ def suite_test(dossier, sous_language, type_test, etape_test):
         i += 1
         nb_tests_total += 1
         print(f"[{i}/{nb_tests}] ", end='')
-        fichier_nom_court = fichier.removeprefix("src/test/deca/")
+        fichier_nom_court = remove_prefix(fichier, "src/test/deca/")
 
 
         if type_test == 'invalid':
@@ -172,7 +176,7 @@ def _suite_test_exec(dossier, sous_language, type_test, arm=False):
         i += 1
         nb_tests_total += 1
         print(f"[{i}/{nb_tests}] ", end='')
-        fichier_nom_court = fichier.removeprefix("src/test/deca/")
+        fichier_nom_court = remove_prefix(fichier, "src/test/deca/")
 
         # Récuperer les options de ima. et de deacac
         # On utilise une syntaxe spéciale pour spécifier les options a passer à ima,
@@ -279,38 +283,49 @@ if not Path('arm-toolchain').exists():
 # a modifier si on veut ajouter de nouveau test ajouter un nouvelle ligne suite_test()
 
 # Tests hello world
-suite_test_arm('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
-# suite_test_lex('src/test/deca/syntax/invalid/test_lex/hello_world', 'helloworld', 'invalid',)
-# suite_test_lex('src/test/deca/syntax/valid/test_lex/hello_world', 'helloworld', 'valid',)
+# suite_test_arm('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
+# suite_test_lex('src/test/deca/syntax/invalid/test_lex/hello_world', 'helloworld', 'invalid')
+# suite_test_lex('src/test/deca/syntax/valid/test_lex/hello_world', 'helloworld', 'valid')
 # suite_test_synt('src/test/deca/syntax/invalid/test_synt/hello_world', 'helloworld', 'invalid')
 # suite_test_synt('src/test/deca/syntax/valid/test_synt/hello_world', 'helloworld', 'valid',)
 # suite_test_context('src/test/deca/context/invalid/hello_world', 'helloworld', 'invalid')
 # suite_test_context('src/test/deca/context/valid/hello_world', 'helloworld', 'valid')
 # suite_test_ima('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
-#
-# # Test exec no objects
+
+# Test exec no objects
 # suite_test_ima('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
 # suite_test_ima('src/test/deca/codegen/invalid/no-objects', 'no-objects', 'invalid')
-#
-# # Tests expression
-# suite_test_lex('src/test/deca/syntax/invalid/test_lex/expressions', 'expressions', 'invalid',)
-# suite_test_synt('src/test/deca/syntax/invalid/test_synt/expressions', 'expressions', 'invalid')
-# suite_test_synt('src/test/deca/syntax/valid/test_synt/expressions', 'expressions', 'valid',)
-# suite_test_context('src/test/deca/context/invalid/expressions', 'expressions', 'invalid',)
-# suite_test_context('src/test/deca/context/valid/expressions', 'expressions', 'valid',)
-# # Tests variables
-# suite_test_lex('src/test/deca/syntax/invalid/test_lex/variables', 'variables', 'invalid',)
-# suite_test_synt('src/test/deca/syntax/invalid/test_synt/variables', 'variables', 'invalid',)
-# suite_test_synt('src/test/deca/syntax/valid/test_synt/variables', 'variables', 'valid',)
-# suite_test_context('src/test/deca/context/invalid/variables', 'variables', 'invalid',)
-# suite_test_context('src/test/deca/context/valid/variables', 'variables', 'valid',)
-# # Tests struct controles
-# suite_test_lex('src/test/deca/syntax/invalid/test_lex/control_structures', 'control_structures', 'invalid',)
-# suite_test_synt('src/test/deca/syntax/invalid/test_synt/control_structures', 'control_structures', 'invalid',)
-# suite_test_synt('src/test/deca/syntax/valid/test_synt/control_structures', 'control_structures', 'valid',)
-# suite_test_context('src/test/deca/context/invalid/control_structures', 'control_structures', 'invalid',)
-# suite_test_context('src/test/deca/context/valid/control_structures', 'control_structures', 'valid',)
 
+# Tests expression
+# suite_test_lex('src/test/deca/syntax/invalid/test_lex/expressions', 'expressions', 'invalid')
+# suite_test_synt('src/test/deca/syntax/invalid/test_synt/expressions', 'expressions', 'invalid')
+# suite_test_synt('src/test/deca/syntax/valid/test_synt/expressions', 'expressions', 'valid')
+# suite_test_context('src/test/deca/context/invalid/expressions', 'expressions', 'invalid')
+# suite_test_context('src/test/deca/context/valid/expressions', 'expressions', 'valid')
+# Tests variables
+# suite_test_lex('src/test/deca/syntax/invalid/test_lex/variables', 'variables', 'invalid')
+# suite_test_synt('src/test/deca/syntax/invalid/test_synt/variables', 'variables', 'invalid')
+# suite_test_synt('src/test/deca/syntax/valid/test_synt/variables', 'variables', 'valid')
+# suite_test_context('src/test/deca/context/invalid/variables', 'variables', 'invalid')
+# suite_test_context('src/test/deca/context/valid/variables', 'variables', 'valid')
+# Tests struct controles
+# suite_test_lex('src/test/deca/syntax/invalid/test_lex/control_structures', 'control_structures', 'invalid')
+# suite_test_synt('src/test/deca/syntax/invalid/test_synt/control_structures', 'control_structures', 'invalid')
+# suite_test_synt('src/test/deca/syntax/valid/test_synt/control_structures', 'control_structures', 'valid')
+# suite_test_context('src/test/deca/context/invalid/control_structures', 'control_structures', 'invalid')
+# suite_test_context('src/test/deca/context/valid/control_structures', 'control_structures', 'valid')
+# Tests Class without method
+#  suite_test_lex('src/test/deca/syntax/invalid/test_lex/class_sans_method', 'class_sans_method', 'invalid')
+#  suite_test_synt('src/test/deca/syntax/invalid/test_synt/class_sans_method', 'class_sans_method', 'invalid')
+suite_test_synt('src/test/deca/syntax/valid/test_synt/class_sans_method', 'class_sans_method', 'valid')
+#  suite_test_context('src/test/deca/context/invalid/class_sans_method', 'class_sans_method', 'invalid')
+#  suite_test_context('src/test/deca/context/valid/class_sans_method', 'class_sans_method', 'valid')
+# Tests Class without cast and InstanceOf
+# suite_test_lex('src/test/deca/syntax/invalid/test_lex/class', 'class', 'invalid')
+# suite_test_synt('src/test/deca/syntax/invalid/test_synt/class', 'class', 'invalid')
+# suite_test_synt('src/test/deca/syntax/valid/test_synt/class', 'class', 'valid')
+# suite_test_context('src/test/deca/context/invalid/class', 'class', 'invalid')
+# suite_test_context('src/test/deca/context/valid/class', 'class', 'valid')
 print()
 print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {nb_tests_total}, Echec: {nb_echecs_total}')
 if nb_echecs_total > 0:

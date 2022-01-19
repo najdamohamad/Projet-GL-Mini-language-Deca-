@@ -4,9 +4,9 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
-
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import java.io.PrintStream;
-
+import fr.ensimag.arm.pseudocode.ARMProgram;
 /**
  * @author gl47
  * @date 01/01/2022
@@ -58,5 +58,8 @@ public class ClassBody extends AbstractExpr{
         listDeclField.prettyPrint(s, prefix, false);
     }
 
-
+    @Override
+    public void codeGen(ARMProgram program){}
+    @Override
+    public void codeGen(IMAProgram program){}
 }

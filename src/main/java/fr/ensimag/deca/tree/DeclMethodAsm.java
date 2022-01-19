@@ -4,7 +4,9 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
+import fr.ensimag.arm.pseudocode.ARMProgram;
 
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import java.io.PrintStream;
 
 /**
@@ -63,5 +65,8 @@ public class DeclMethodAsm extends AbstractDeclMethod {
         params.prettyPrint(s, prefix, false);
         methodBodyASM.prettyPrint(s, prefix, false);
     }
-
+    @Override
+    public void codeGen(ARMProgram program){}
+    @Override
+    public void codeGen(IMAProgram program){}
 }
