@@ -18,13 +18,15 @@ public class DeclField extends AbstractDeclField {
     private final AbstractIdentifier type;
     private final AbstractIdentifier varName;
     private final AbstractInitialization initialization;
-    private Visibility visibility;
+    private final Visibility visibility;
 
-    public DeclField(AbstractIdentifier type, AbstractIdentifier varName,
-                     AbstractInitialization initialization) {
+    public DeclField(Visibility visibility, AbstractIdentifier type,
+                     AbstractIdentifier varName, AbstractInitialization initialization) {
+        Validate.notNull(visibility);
         Validate.notNull(type);
         Validate.notNull(varName);
         Validate.notNull(initialization);
+        this.visibility = visibility;
         this.type = type;
         this.varName = varName;
         this.initialization = initialization;
@@ -56,20 +58,18 @@ public class DeclField extends AbstractDeclField {
 
 
     @Override
-    protected void verifyDeclField(DecacCompiler compiler, ClassDefinition superClass, ClassDefinition currentClass) throws ContextualError {
+    protected void verifyDeclField(DecacCompiler compiler, ClassDefinition superClass,
+                                   ClassDefinition currentClass) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override
-    protected void verifyDeclFieldInit(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass) throws ContextualError {
+    protected void verifyDeclFieldInit(DecacCompiler compiler, EnvironmentExp localEnv,
+                                       ClassDefinition currentClass) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
     public Visibility getVisibility() {
         return visibility;
-    }
-
-    public void setVisibility(Visibility visibility) {
-        this.visibility = visibility;
     }
 }
