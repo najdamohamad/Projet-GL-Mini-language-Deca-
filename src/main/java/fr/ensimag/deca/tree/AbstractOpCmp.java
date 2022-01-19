@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
  * @author gl47
  * @date 01/01/2022
  */
-public abstract class AbstractOpCmp extends AbstractBinaryExpr {
+public abstract class AbstractOpCmp extends AbstractBinaryExpr implements Invert {
 
     private static final Logger LOG = Logger.getLogger(AbstractOpArith.class);
 
@@ -21,7 +21,10 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr {
 
     public abstract Instruction getMnemonic(GPRegister reg);
 
-    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
+    @Override
+    public abstract AbstractExpr invert();
+
+    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg, boolean invertCondition) {
         program.addComment(getLocation().getLine() + ": cmp" + decompile());
         // Compare the results of evaluating the LHS and RHS expressions.
         program.addInstruction(new CMP(dVal, reg));

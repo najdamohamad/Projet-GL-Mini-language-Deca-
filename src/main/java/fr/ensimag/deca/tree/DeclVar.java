@@ -72,7 +72,7 @@ public class DeclVar extends AbstractDeclVar {
             // OV flag is guantreed to be put to 0 before this instruction,
             // since it should never trigger in a well-formed Decac program. (If it does trigger, we go to our error handler).
             // This saves 2 cycles over loading directly.
-            program.addInstruction(new SOV(program.getMaxUsedRegister()));
+            program.addInstruction(new SOV(program.getMaxUsedRegister()), varName.decompile()+" is initialized to 0, using SOV");
         } else {
             // This will put the result of calculating the expression in max used register.
             initialization.codeGen(program);

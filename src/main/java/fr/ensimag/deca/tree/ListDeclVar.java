@@ -61,7 +61,7 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> implements CodeGen {
             d.codeGen(program);
         }
         // Now that all variables have been declared, increment SP in one shot.
-        program.addInstruction(new ADDSP(new ImmediateInteger(program.getDeclaredVariablesCount())));
+        program.addInstruction(new ADDSP(new ImmediateInteger(program.getDeclaredVariablesCount())), program.getDeclaredVariablesCount()+" variables declared");
     }
 
     @Override

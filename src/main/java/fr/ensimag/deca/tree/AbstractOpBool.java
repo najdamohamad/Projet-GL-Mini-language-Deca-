@@ -50,7 +50,7 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
     public abstract void codeGenControlFlow(IMAProgram program, boolean branchCondition, Label label);
 
     @Override
-    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
+    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg, boolean invertCondition) {
         throw new DecacInternalError("unreachable");
     }
 

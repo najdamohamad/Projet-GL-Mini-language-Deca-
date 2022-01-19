@@ -293,8 +293,8 @@ if not Path('arm-toolchain').exists():
 # suite_test_ima('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
 
 # Test exec no objects
-# suite_test_ima('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
-# suite_test_ima('src/test/deca/codegen/invalid/no-objects', 'no-objects', 'invalid')
+suite_test_ima('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
+suite_test_ima('src/test/deca/codegen/invalid/no-objects', 'no-objects', 'invalid')
 
 # Tests expression
 # suite_test_lex('src/test/deca/syntax/invalid/test_lex/expressions', 'expressions', 'invalid')
@@ -317,7 +317,7 @@ if not Path('arm-toolchain').exists():
 # Tests Class without method
 #  suite_test_lex('src/test/deca/syntax/invalid/test_lex/class_sans_method', 'class_sans_method', 'invalid')
 #  suite_test_synt('src/test/deca/syntax/invalid/test_synt/class_sans_method', 'class_sans_method', 'invalid')
-suite_test_synt('src/test/deca/syntax/valid/test_synt/class_sans_method', 'class_sans_method', 'valid')
+# suite_test_synt('src/test/deca/syntax/valid/test_synt/class_sans_method', 'class_sans_method', 'valid')
 #  suite_test_context('src/test/deca/context/invalid/class_sans_method', 'class_sans_method', 'invalid')
 #  suite_test_context('src/test/deca/context/valid/class_sans_method', 'class_sans_method', 'valid')
 # Tests Class without cast and InstanceOf

@@ -80,6 +80,10 @@ public class While extends AbstractInst {
         program.addLabel(condition);
 
         getCondition().codeGen(program);
+        // Optimisation: We can elide CMP #0, Rn here.
+        // The condition will have generated some code, the last of which will be some sort of LOAD.
+        // A side effect of LOAD is that it sets the CC flags like a CMP #0 was done (p.107), so no need to
+        // CMP explicitely.
         program.addInstruction(new CMP(new ImmediateInteger(0), program.getMaxUsedRegister()));
         program.addInstruction(new BEQ(endLabel));
         getBody().codeGen(program);
