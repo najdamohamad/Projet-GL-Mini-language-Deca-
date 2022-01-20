@@ -1,25 +1,14 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.Type;
-import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.arm.pseudocode.Assign;
-import fr.ensimag.arm.pseudocode.*;
-import fr.ensimag.arm.pseudocode.syscalls.Write;
-import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.WINT;
-import org.apache.commons.lang.Validate;
-import fr.ensimag.ima.pseudocode.DVal;
-import java.io.PrintStream;
 import fr.ensimag.arm.pseudocode.ARMProgram;
+import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import org.apache.commons.lang.Validate;
+
+import java.io.PrintStream;
+
 /**
  * Method
  *
@@ -27,6 +16,7 @@ import fr.ensimag.arm.pseudocode.ARMProgram;
  * @date 01/01/2022
  */
 public class MethodCall extends AbstractExpr {
+
     private AbstractExpr expression;
     private AbstractIdentifier method;
     private ListExpr listArgs;
@@ -43,14 +33,28 @@ public class MethodCall extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
-        Type intType = compiler.getType("int");
-        setType(intType);
-        return intType;
+        String message = "TypeError: " + expression.decompile() + "` n'est pas un objet.";
+        ClassType exprType = expression
+                .verifyExpr(compiler, localEnv, currentClass)
+                .asClassType(message, getLocation());
+        message = "TypeError: `" + method.decompile() + "` n'est pas une méthode.";
+        MethodDefinition definition = currentClass
+                .getMembers()
+                .get(method.getName())
+                .asMethodDefinition(message, getLocation());
+        ClassType classType = currentClass.getType();
+        for (int i = 0; i < listArgs.size(); i++) {
+            Type paramType = definition.getSignature().paramNumber(i);
+            // TODO: verify that we should do ConvFloat in method arguments.
+            AbstractExpr rvalueArg = listArgs
+                    .getList()
+                    .get(i)
+                    .verifyRValue(compiler, localEnv, currentClass, paramType);
+            listArgs.set(i, rvalueArg);
+        }
+        return exprType;
     }
 
-
-    public void codeGenExpr(IMAProgram program,GPRegister register) {
-    }
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -77,7 +81,12 @@ public class MethodCall extends AbstractExpr {
     }
 
     @Override
-    public void codeGen(ARMProgram program){}
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("Not yet supported");
+    }
+
     @Override
-    public void codeGen(IMAProgram program){}
+    public void codeGen(IMAProgram program) {
+        throw new UnsupportedOperationException("Not yet supported");
+    }
 }

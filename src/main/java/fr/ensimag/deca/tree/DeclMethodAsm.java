@@ -59,14 +59,15 @@ public class DeclMethodAsm extends AbstractDeclMethod {
         methodAsmBody.prettyPrintChildren(s, prefix);
     }
 
+
     @Override
     protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv,
-                                    ClassDefinition currentClass) throws ContextualError {
+                                    ClassDefinition currentClass, ClassDefinition superClass) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
     @Override
-    protected void verifyDeclMethodBody(DecacCompiler compiler, EnvironmentExp localEnv,
+    protected void verifyDeclMethodBody(DecacCompiler compiler,
                                         ClassDefinition currentClass) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }

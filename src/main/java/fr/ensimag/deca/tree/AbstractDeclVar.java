@@ -5,6 +5,8 @@ import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import org.apache.commons.lang.NotImplementedException;
 
 /**
  * Variable declaration
@@ -28,4 +30,8 @@ public abstract class AbstractDeclVar extends Tree implements CodeGen {
     protected abstract void verifyDeclVar(DecacCompiler compiler,
                                           EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
+
+    public void codeGen(IMAProgram program, ListDeclVar decls) {
+        throw new NotImplementedException("bad");
+    };
 }

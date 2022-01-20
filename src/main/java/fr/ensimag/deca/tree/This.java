@@ -16,6 +16,10 @@ public class This extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
+        if (currentClass == null) {
+            String message = "TypeError: `this` ne peut être utilisée que dans le contexte d'une classe.";
+            throw new ContextualError(message, getLocation());
+        }
         return currentClass.getType();
     }
 

@@ -7,12 +7,18 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.instructions.ADDSP;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
+import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * List of declarations (e.g. int x; float y,z).
@@ -22,6 +28,19 @@ import java.util.Iterator;
  */
 public class ListDeclVar extends TreeList<AbstractDeclVar> implements CodeGen {
     private static final Logger LOG = Logger.getLogger(Program.class);
+
+    /**
+     * A mapping from variable names to adresses on the stack.
+     * This will be used to write any global variables that have been allocated into registers
+     * to the stack at the end.
+     */
+    private final Map<GPRegister, DAddr> registerToAdress = new HashMap<>();
+
+    public void addGlobalVariableRegister(GPRegister reg, DAddr addr) {
+        Validate.notNull(reg);
+        Validate.notNull(addr);
+        registerToAdress.put(reg, addr);
+    }
 
     @Override
     public void decompile(IndentPrintStream s) {
@@ -58,10 +77,20 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> implements CodeGen {
     @Override
     public void codeGen(IMAProgram program) {
         for (AbstractDeclVar d : getList()) {
-            d.codeGen(program);
+            d.codeGen(program, this);
         }
         // Now that all variables have been declared, increment SP in one shot.
         program.addInstruction(new ADDSP(new ImmediateInteger(program.getDeclaredVariablesCount())), program.getDeclaredVariablesCount()+" variables declared");
+    }
+
+    /**
+     * This epilogue pushes every global variable that has been allocated to a register on the stack.
+     */
+    public void epilogue(IMAProgram program) {
+        program.addComment("loading global variables from register to stack, to respect calling convention");
+        for (Map.Entry<GPRegister, DAddr> entry : registerToAdress.entrySet()) {
+            program.addInstruction(new STORE(entry.getKey(), entry.getValue()));
+        }
     }
 
     @Override

@@ -95,11 +95,20 @@ public class IfThenElse extends AbstractInst {
         Label elseLabel = new Label("code.ifThenElse.else." + hashCode());
         Label endLabel = new Label("code.ifThenElse.end." + hashCode());
 
-        condition.codeGen(program);
-
-        // Go to the else clause if the returned value is false.
-        program.addInstruction(new CMP(0, program.getMaxUsedRegister()), "check if clause");
-        program.addInstruction(new BEQ(elseLabel));
+        // Optimisation: If the if clause contains a comparaison, use the related operators (BEQ, BNE, BGT...)
+        // and do not codegen for the condition.
+        if (condition instanceof AbstractOpCmp) {
+            program.setAssign(false);
+            condition.codeGen(program);
+            AbstractOpCmp cmp = ((AbstractOpCmp) ((AbstractOpCmp) condition).invert());
+            program.addInstruction(cmp.getBranchMnemonic(elseLabel), "if has top-level compare, branch using mnenmonic");
+            program.setAssign(true);
+        } else {
+            condition.codeGen(program);
+            // Go to the else clause if the returned value is false.
+            program.addInstruction(new CMP(0, program.getMaxUsedRegister()), "check if clause");
+            program.addInstruction(new BEQ(elseLabel));
+        }
 
         program.addComment(getLocation().getLine() + ": then clause of if {");
         thenBranch.codeGen(program);

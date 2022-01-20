@@ -1,0 +1,16 @@
+// Description:
+//    Un constructeur correct
+//
+// Resultats:
+//    Context: pas d'erreur
+//
+// Historique:
+//    cree le 20/01/2022
+
+class A {
+
+}
+
+{
+    A a = new A();
+}

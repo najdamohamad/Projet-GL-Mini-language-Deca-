@@ -18,9 +18,19 @@ public class IMAProgram implements OutputProgram {
     public int maxRegister;
     private final boolean shouldCheck;
 
+    private boolean isAssign = true;
+
     public IMAProgram(int maxRegister, boolean shouldCheck) {
         this.maxRegister = maxRegister;
         this.shouldCheck = shouldCheck;
+    }
+
+    public void setAssign(boolean assign) {
+        isAssign = assign;
+    }
+
+    public boolean isAssign() {
+        return isAssign;
     }
 
     /**
@@ -109,14 +119,15 @@ public class IMAProgram implements OutputProgram {
         this.maxRegister = maxRegister;
     }
 
-    private int freeRegister = 2;
+    private int freeRegister = 2; // Actually starts at 2
 
     public GPRegister allocateRegister() throws DecacInternalError {
         if (freeRegister == maxRegister) {
             throw new DecacInternalError("reached max register");
         }
         freeRegister++;
-        return Register.getR(freeRegister);
+        GPRegister r = Register.getR(freeRegister);
+        return r;
     }
 
     public GPRegister getMaxUsedRegister() {
