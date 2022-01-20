@@ -20,33 +20,39 @@ import java.io.PrintStream;
  */
 public class New extends AbstractExpr {
 
-    public AbstractIdentifier getIdent() {
-        return Ident;
+    public AbstractIdentifier getClassName() {
+        return className;
     }
 
-    protected void setIdent(AbstractIdentifier Ident) {
-        Validate.notNull(Ident);
-        this.Ident = Ident;
+    protected void setClassName(AbstractIdentifier className) {
+        Validate.notNull(className);
+        this.className = className;
     }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type exprType = className.verifyType(compiler);
+        if (!exprType.isClass()) {
+            String message = "TypeError: impossible d'instancier `"
+                    + className.decompile() + "`ce n'est pas une classe.";
+            throw new ContextualError(message, getLocation());
+        }
+        return exprType;
     }
 
-    private AbstractIdentifier Ident;
+    private AbstractIdentifier className;
 
-    public New(AbstractIdentifier Ident) {
-        Validate.notNull(Ident, "ident cannot be null");
-        this.Ident = Ident;
+    public New(AbstractIdentifier className) {
+        Validate.notNull(className, "ident cannot be null");
+        this.className = className;
     }
 
 
     @Override
     public void decompile(IndentPrintStream s) {
         s.print("new ");
-        getIdent().decompile(s);
+        getClassName().decompile(s);
         s.print("()");
     }
 
@@ -54,16 +60,14 @@ public class New extends AbstractExpr {
         return "new ()";
     }
 
-    ;
-
     @Override
     protected void iterChildren(TreeFunction f) {
-        Ident.iter(f);
+        className.iter(f);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        Ident.prettyPrint(s, prefix, false);
+        className.prettyPrint(s, prefix, false);
     }
 
     @Override

@@ -1,0 +1,25 @@
+// Description:
+//    Double négation.
+//
+// Resultats:
+//    Ok
+//    Ok
+//    Ok
+//
+// Historique:
+//    cree le 20/01/2022
+{
+    boolean a = true;
+
+    if (!!true) {
+        println("Ok");
+    }
+
+    if (!!a) {
+        println("Ok");
+    }
+
+    if (true && !!a) {
+        println("Ok");
+    }
+}

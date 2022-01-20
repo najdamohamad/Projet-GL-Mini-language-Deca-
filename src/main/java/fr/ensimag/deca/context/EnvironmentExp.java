@@ -53,6 +53,16 @@ public class EnvironmentExp {
     }
 
     /**
+     * Add all the entries in other to this environment,
+     * corresponds to the OPLUS operation for joining.
+     */
+    public void join(EnvironmentExp other) throws DoubleDefException {
+        for (Map.Entry<Symbol, ExpDefinition> entry : other.currentEnvironment.entrySet()) {
+            declare(entry.getKey(), entry.getValue());
+        }
+    }
+
+    /**
      * Add the definition def associated to the symbol name in the environment.
      * <p>
      * Adding a symbol which is already defined in the environment,

@@ -1,9 +1,7 @@
 package fr.ensimag.deca.context;
 
-import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.deca.tree.Location;
-import org.apache.commons.lang.Validate;
 
 /**
  * Type defined by a class.
@@ -12,13 +10,13 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2022
  */
 public class ClassType extends Type {
-    
+
     protected ClassDefinition definition;
-    
+
     public ClassDefinition getDefinition() {
         return this.definition;
     }
-            
+
     @Override
     public ClassType asClassType(String errorMessage, Location l) {
         return this;
@@ -49,7 +47,7 @@ public class ClassType extends Type {
     protected ClassType(Symbol className) {
         super(className);
     }
-    
+
 
     @Override
     public boolean sameType(Type otherType) {
@@ -60,7 +58,11 @@ public class ClassType extends Type {
      * Return true if potentialSuperClass is a superclass of this class.
      */
     public boolean isSubClassOf(ClassType potentialSuperClass) {
-        throw new UnsupportedOperationException("not yet implemented"); 
+        ClassType superClassType = definition.getType();
+        if (potentialSuperClass.sameType(superClassType)) {
+            return true;
+        }
+        return potentialSuperClass.isSubClassOf(superClassType);
     }
 
 

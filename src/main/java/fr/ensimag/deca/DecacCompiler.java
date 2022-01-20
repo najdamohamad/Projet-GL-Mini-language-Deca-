@@ -207,11 +207,24 @@ public class DecacCompiler {
         return parser.parseProgramAndManageErrors(err);
     }
 
+    public TypeDefinition getTypeDefinition(SymbolTable.Symbol typeSymbol) {
+        return envTypesPredef.get(typeSymbol);
+    }
+
+    public void declareTypeDefinition(SymbolTable.Symbol typeSymbol, TypeDefinition definition) {
+        try {
+            envTypesPredef.declare(typeSymbol, definition);
+        } catch (EnvironmentType.DoubleDefException e) {
+            throw new DecacInternalError("double class definition, this is a verification bug");
+        }
+    }
+
     public TypeDefinition getTypeDefinition(String typeSymbol) {
-        return envTypesPredef.get(symbolTable.create(typeSymbol));
+        return getTypeDefinition(symbolTable.create(typeSymbol));
     }
 
     public Type getType(String typeSymbol) {
         return getTypeDefinition(typeSymbol).getType();
     }
+
 }

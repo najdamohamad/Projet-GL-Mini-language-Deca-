@@ -9,6 +9,7 @@ import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import java.io.PrintStream;
 
@@ -19,7 +20,7 @@ import java.io.PrintStream;
  * @date 01/01/2022
  */
 public class Identifier extends AbstractIdentifier {
-
+    private static final Logger LOG = Logger.getLogger(Identifier.class);
     @Override
     protected void checkDecoration() {
         if (getDefinition() == null) {
@@ -29,7 +30,7 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public DVal getDVal() {
-        return getVariableDefinition().getOperand();
+        return getVariableDefinition().getDVal();
     }
 
     @Override
@@ -167,6 +168,11 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError(message, getLocation());
         }
         setDefinition(expDefinition);
+        if (expDefinition.isMethod()) {
+            String message =
+                    "ScopeError: seuls les identificateurs champs, paramètres et variables peuvent être des lvalue.`";
+            throw new ContextualError(message, getLocation());
+        }
         Type identifierType = expDefinition.getType();
         setType(identifierType);
         return identifierType;
@@ -190,11 +196,12 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public void codeGen(IMAProgram program) {
-        // Load the value of the identifier from the stack.
-        program.addInstruction(new LOAD(
-                getVariableDefinition().getOperand(),
-                program.getMaxUsedRegister()
-        ));
+        // Load the value of the identifier from the stack/ a register.
+        LOG.trace("gen identifier, dval="+getVariableDefinition().getDVal());
+            program.addInstruction(new LOAD(
+                    getVariableDefinition().getDVal(),
+                    program.getMaxUsedRegister()
+        ), "identifier "+getName()+ " stored in "+getVariableDefinition().getDVal());
     }
 
     private Definition definition;

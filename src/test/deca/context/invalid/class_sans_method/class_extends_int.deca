@@ -1,0 +1,16 @@
+// Description:
+//    Une classe hérite de int
+//
+// Resultats:
+//    Context: erreur line 10
+//
+// Historique:
+//    cree le 20/01/2022
+
+class A extends int {
+
+}
+
+{
+
+}

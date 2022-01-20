@@ -2,6 +2,8 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Instruction;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
 import fr.ensimag.ima.pseudocode.instructions.SEQ;
 import fr.ensimag.ima.pseudocode.instructions.SNE;
 
@@ -23,6 +25,11 @@ public class Equals extends AbstractOpExactCmp {
     @Override
     public Instruction getMnemonic(GPRegister reg) {
         return new SEQ(reg);
+    }
+
+    @Override
+    public Instruction getBranchMnemonic(Label label) {
+        return new BEQ(label);
     }
 
     @Override

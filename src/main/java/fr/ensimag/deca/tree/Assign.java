@@ -9,6 +9,7 @@ import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 
 /**
@@ -46,7 +47,7 @@ public class Assign extends AbstractBinaryExpr {
         return "=";
     }
 
-    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg, boolean invertCondition) {
+    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
         throw new DecacInternalError("unreachable");
     }
 
@@ -56,11 +57,19 @@ public class Assign extends AbstractBinaryExpr {
 
         // Store the return value.
         AbstractIdentifier ident = (AbstractIdentifier) getLeftOperand();
-        program.addInstruction(new STORE(
-                        program.getMaxUsedRegister(),
-                        ident.getVariableDefinition().getOperand()
-                ),
-                "return value of assignement"
-        );
+        if (ident.getVariableDefinition().isRegister()) {
+            program.addInstruction(new LOAD(
+                    program.getMaxUsedRegister(),
+                    ident.getVariableDefinition().getRegister()
+            ),
+                    "return value of assignement");
+        } else {
+            program.addInstruction(new STORE(
+                            program.getMaxUsedRegister(),
+                            ident.getVariableDefinition().getAdress()
+                    ),
+                    "return value of assignement"
+            );
+        }
     }
 }

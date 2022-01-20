@@ -1,0 +1,12 @@
+// Description:
+//    Un constructeur incorrect
+//
+// Resultats:
+//    Context: erreur line 11
+//
+// Historique:
+//    cree le 20/01/2022
+
+{
+    int x = new NotAClass();
+}

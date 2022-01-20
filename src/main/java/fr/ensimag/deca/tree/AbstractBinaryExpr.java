@@ -85,7 +85,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
      * It also will check for overflows when dealing with floats:
      * see [Semantique] p100, Débordements lors de l’évaluation des expressions.
      */
-    public abstract void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg, boolean invertCondition);
+    public abstract void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg);
 
     @Override
     public void codeGen(IMAProgram program) {
@@ -99,7 +99,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
             // <codeExp(e1, n)>
             getLeftOperand().codeGen(program);
             // <mnemo(op)> <dval(e2)>, Rn
-            codeGenBinaryOp(program, getRightOperand().getDVal(), program.getMaxUsedRegister(), false);
+            codeGenBinaryOp(program, getRightOperand().getDVal(), program.getMaxUsedRegister());
             return;
         }
 
@@ -127,7 +127,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                         new POP(program.getMaxUsedRegister())
                 );
                 // <mnemo(op)> R0, Rn
-                codeGenBinaryOp(program, Register.R0, program.getMaxUsedRegister(), false);
+                codeGenBinaryOp(program, Register.R0, program.getMaxUsedRegister());
             } else {
                 LOG.trace("codeExpr: case 4: <codeExp(e, n)> avec <dval(e2)> = T et n < max");
                 // Case 4: <codeExp(e, n)> avec <dval(e2)> = T et n < max
@@ -138,10 +138,11 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                 // <codeExp(e2, n+1)>
                 GPRegister regN = program.getMaxUsedRegister();
                 GPRegister regNPlusOne = program.allocateRegister();
+                LOG.trace("used registers: "+regN+", "+regNPlusOne);
                 getRightOperand().codeGen(program);
                 // mnemo(op), rn+1, Rn
                 program.freeRegister();
-                codeGenBinaryOp(program, regNPlusOne, regN, false);
+                codeGenBinaryOp(program, regNPlusOne, regN);
             }
             return;
         }
