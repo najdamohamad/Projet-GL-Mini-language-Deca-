@@ -1,0 +1,24 @@
+//! DECAC_OPTIONS: -r 4
+// Description:
+//    Test push stack with min reg.
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 15/01/2022
+{
+    int a = 1;
+    int b = 2;
+    int c = 3;
+    int d = 4;
+    int e = 5;
+    int f = 6;
+
+    if (a == 1) {
+        println("Ok");
+    }
+
+    if (f == 6) {
+        println("Ok");
+    }
+}
