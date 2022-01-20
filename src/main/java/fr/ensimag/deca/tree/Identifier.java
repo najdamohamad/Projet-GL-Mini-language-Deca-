@@ -167,6 +167,11 @@ public class Identifier extends AbstractIdentifier {
             throw new ContextualError(message, getLocation());
         }
         setDefinition(expDefinition);
+        if (expDefinition.isMethod()) {
+            String message =
+                    "ScopeError: seuls les identificateurs champs, paramètres et variables peuvent être des lvalue.`";
+            throw new ContextualError(message, getLocation());
+        }
         Type identifierType = expDefinition.getType();
         setType(identifierType);
         return identifierType;
