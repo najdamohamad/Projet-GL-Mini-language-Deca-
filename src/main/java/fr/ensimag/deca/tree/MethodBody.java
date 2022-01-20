@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -47,7 +48,7 @@ public class MethodBody extends AbstractMethodBody {
 
     @Override
     protected void verifyMethodBody(DecacCompiler compiler, EnvironmentExp localEnv,
-                                    ClassDefinition currentClass) throws ContextualError {
+                                    ClassDefinition currentClass, Type returnType) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
 }

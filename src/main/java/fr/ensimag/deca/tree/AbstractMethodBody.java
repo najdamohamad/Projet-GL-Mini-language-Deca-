@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 
 /**
  * Binary expressions.
@@ -24,7 +25,7 @@ public abstract class AbstractMethodBody extends Tree {
      *                     the synthetized attribute
      * @param currentClass corresponds to the "class" attribute (null in the main bloc).
      */
-    protected abstract void verifyMethodBody(DecacCompiler compiler,
-                                             EnvironmentExp localEnv, ClassDefinition currentClass)
+    protected abstract void verifyMethodBody(DecacCompiler compiler, EnvironmentExp localEnv,
+                                             ClassDefinition currentClass, Type returnType)
             throws ContextualError;
 }
