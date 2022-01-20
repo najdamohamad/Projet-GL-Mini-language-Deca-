@@ -68,7 +68,7 @@ public class DeclMethod extends AbstractDeclMethod {
                 superDefinition.asMethodDefinition(message, getLocation());
         Signature signature = superMethodDefinition.getSignature();
         boolean sameSig = signature
-                .equals(params.verifyDeclParamType(compiler));
+                .equals(params.verifyListDeclParamType(compiler));
         // TODO: finish implement subType in the context class.
         boolean sameType = Context.subType(compiler, superMethodDefinition.getType(), methodType);
         if (!sameType || !sameSig) {
@@ -93,6 +93,8 @@ public class DeclMethod extends AbstractDeclMethod {
     @Override
     protected void verifyDeclMethodBody(DecacCompiler compiler,
                                         ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type methodType = type.verifyType(compiler);
+        EnvironmentExp paramEnvironment = params.verifyListDeclParam(compiler);
+        methodBody.verifyMethodBody(compiler, paramEnvironment, currentClass, methodType);
     }
 }

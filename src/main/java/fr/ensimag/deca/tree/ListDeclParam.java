@@ -17,11 +17,11 @@ import java.util.Iterator;
  */
 public class ListDeclParam extends TreeList<AbstractDeclParam> {
     /**
-     * Implements non-terminal "decl_param" of [SyntaxeContextuelle] in pass 2
+     * Implements non-terminal "list_decl_param" of [SyntaxeContextuelle] in pass 2
      *
      * @param compiler contains "env_types" attribute
      */
-    protected Signature verifyDeclParamType(DecacCompiler compiler) throws ContextualError {
+    protected Signature verifyListDeclParamType(DecacCompiler compiler) throws ContextualError {
         Signature signature = new Signature();
         for (AbstractDeclParam declParam : getList()) {
             signature.add(declParam.verifyDeclParamType(compiler));
@@ -30,12 +30,11 @@ public class ListDeclParam extends TreeList<AbstractDeclParam> {
     }
 
     /**
-     * Implements non-terminal "decl_param" of [SyntaxeContextuelle] in pass 3
+     * Implements non-terminal "list_decl_param" of [SyntaxeContextuelle] in pass 3
      *
      * @param compiler contains "env_types" attribute
-     * @param localEnv corresponds to the "env_exp_r" attribute
      */
-    protected void verifyDeclParam(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
+    protected EnvironmentExp verifyListDeclParam(DecacCompiler compiler) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
