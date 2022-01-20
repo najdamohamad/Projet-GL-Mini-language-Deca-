@@ -2,10 +2,7 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
@@ -36,7 +33,26 @@ public class MethodCall extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("Not yet supported");
+        String message = "TypeError: " + expression.decompile() + "` n'est pas un objet.";
+        ClassType exprType = expression
+                .verifyExpr(compiler, localEnv, currentClass)
+                .asClassType(message, getLocation());
+        message = "TypeError: `" + method.decompile() + "` n'est pas une méthode.";
+        MethodDefinition definition = currentClass
+                .getMembers()
+                .get(method.getName())
+                .asMethodDefinition(message, getLocation());
+        ClassType classType = currentClass.getType();
+        for (int i = 0; i < listParams.size(); i++) {
+            Type paramType = definition.getSignature().paramNumber(i);
+            // TODO: verify that we should do ConvFloat in method arguments.
+            AbstractExpr rvalueArg = listParams
+                    .getList()
+                    .get(i)
+                    .verifyRValue(compiler, localEnv, currentClass, paramType);
+            listParams.set(i, rvalueArg);
+        }
+        return exprType;
     }
 
 
