@@ -450,7 +450,7 @@ select_expr returns[AbstractExpr tree]
             assert($e1.tree != null);
             assert($i.tree != null);
             selection = new Selection($e1.tree, $i.tree);
-            setLocation($tree, $e1.start);
+            setLocation(selection, $e1.start);
             setLocation($e1.tree, $e1.start);
             setLocation($i.tree, $i.start);
         }
@@ -458,7 +458,6 @@ select_expr returns[AbstractExpr tree]
             // we matched "e1.i(args)"
             assert($args.tree != null);
             $tree = new MethodCall($e1.tree, $i.tree, $args.tree);
-            setLocation($tree, $o);
             setLocation($args.tree, $args.start);
         }
         | /* epsilon */  {
