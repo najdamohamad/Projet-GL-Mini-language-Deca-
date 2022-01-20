@@ -39,7 +39,7 @@ public class Modulo extends AbstractOpArith {
     }
 
     @Override
-    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg, boolean invertCondition) {
+    public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
         program.addInstruction(new REM(dval, reg));
         if (program.shouldCheck()) {
             // Check for divide by 0

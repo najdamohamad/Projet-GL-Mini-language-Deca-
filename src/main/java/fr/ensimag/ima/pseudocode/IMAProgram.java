@@ -109,14 +109,15 @@ public class IMAProgram implements OutputProgram {
         this.maxRegister = maxRegister;
     }
 
-    private int freeRegister = 2;
+    private int freeRegister = 2; // Actually starts at 2
 
     public GPRegister allocateRegister() throws DecacInternalError {
         if (freeRegister == maxRegister) {
             throw new DecacInternalError("reached max register");
         }
         freeRegister++;
-        return Register.getR(freeRegister);
+        GPRegister r = Register.getR(freeRegister);
+        return r;
     }
 
     public GPRegister getMaxUsedRegister() {

@@ -24,7 +24,7 @@ public abstract class AbstractOpCmp extends AbstractBinaryExpr implements Invert
     @Override
     public abstract AbstractExpr invert();
 
-    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg, boolean invertCondition) {
+    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
         program.addComment(getLocation().getLine() + ": cmp" + decompile());
         // Compare the results of evaluating the LHS and RHS expressions.
         program.addInstruction(new CMP(dVal, reg));
