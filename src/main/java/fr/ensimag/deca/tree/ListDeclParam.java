@@ -35,7 +35,11 @@ public class ListDeclParam extends TreeList<AbstractDeclParam> {
      * @param compiler contains "env_types" attribute
      */
     protected EnvironmentExp verifyListDeclParam(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        EnvironmentExp paramEnvironment = new EnvironmentExp(null);
+        for (AbstractDeclParam declParam : getList()) {
+            declParam.verifyDeclParam(compiler, paramEnvironment);
+        }
+        return paramEnvironment;
     }
 
     private static final Logger LOG = Logger.getLogger(Program.class);
