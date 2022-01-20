@@ -54,9 +54,7 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        if(visibility == Visibility.PROTECTED){
-            s.print("protected \n");
-        }
+        printNodeLine(s, prefix, false, false, "Visibility " + visibility.toString());
         type.prettyPrint(s, prefix, false);
         varName.prettyPrint(s, prefix, false);
         initialization.prettyPrint(s, prefix, true);

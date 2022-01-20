@@ -1,0 +1,22 @@
+// Description:
+//    Test de déclaration de class
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 11/01/2022
+
+class coordonnees{
+     int x;
+     int y;
+}
+
+{
+    int x,y,z  ;
+    x = 5  ;
+    y = 6 ;
+    z = x + y ;
+   print(z) ;
+}
