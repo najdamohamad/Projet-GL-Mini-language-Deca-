@@ -63,7 +63,12 @@ public class DeclParam extends AbstractDeclParam {
 
     @Override
     protected Type verifyDeclParamType(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type paramType = type.verifyType(compiler);
+        if (paramType.isVoid()) {
+            String message = "TypeError: un paramètre ne peut être déclaré avec le type `void`";
+            throw new ContextualError(message, getLocation());
+        }
+        return paramType;
     }
 
     @Override
