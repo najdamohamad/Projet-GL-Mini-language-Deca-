@@ -44,7 +44,9 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
     public void verifyListDeclFieldInit(DecacCompiler compiler,
                                         ClassDefinition currentClass)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        for (AbstractDeclField declField : getList()) {
+            declField.verifyDeclFieldInit(compiler, currentClass);
+        }
     }
 
     private static final Logger LOG = Logger.getLogger(Program.class);
