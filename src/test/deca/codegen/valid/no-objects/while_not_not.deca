@@ -1,0 +1,15 @@
+// Description:
+//    Test de not dans while.
+//
+// Resultats:
+//    Ok
+//
+// Historique:
+//    cree le 05/01/2022
+{
+    boolean not = true;
+    while (!!true && not) {
+        not = false;
+    }
+    println("Ok");
+}

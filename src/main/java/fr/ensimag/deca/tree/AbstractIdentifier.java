@@ -11,6 +11,7 @@ import fr.ensimag.deca.context.ExpDefinition;
 import fr.ensimag.deca.context.VariableDefinition;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.ima.pseudocode.DAddr;
 
 /**
  *
@@ -18,7 +19,6 @@ import fr.ensimag.deca.tools.DecacInternalError;
  * @date 01/01/2022
  */
 public abstract class AbstractIdentifier extends AbstractLValue {
-
     /**
      * Like {@link #getDefinition()}, but works only if the definition is a
      * ClassDefinition.

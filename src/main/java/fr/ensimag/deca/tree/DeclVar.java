@@ -1,22 +1,27 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.arm.pseudocode.ARMProgram;
+import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.ADDSP;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.SOV;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import java.io.PrintStream;
+import java.util.Objects;
 
 /**
  * @author gl47
  * @date 01/01/2022
  */
 public class DeclVar extends AbstractDeclVar {
-
+    private static final Logger LOG = Logger.getLogger(DeclVar.class);
 
     final private AbstractIdentifier type;
     final private AbstractIdentifier varName;
@@ -52,16 +57,73 @@ public class DeclVar extends AbstractDeclVar {
         }
     }
 
+    // bad code, should find a way to use this instead
     @Override
     public void codeGen(IMAProgram program) {
+        throw new NotImplementedException("use codeGen with ListDeclVar");
+    }
+
+    @Override
+    public void codeGen(IMAProgram program, ListDeclVar decls) {
         // Put the address of the variable in VariableDefinition.operand of varName.
+        program.addComment(getLocation().getLine() + ": "+decompile());
+
         DAddr varAddr = new RegisterOffset(program.bumpStackUsage(), Register.GB);
-        program.addInstruction(new ADDSP(new ImmediateInteger(1)));
-        varName.getVariableDefinition().setOperand(varAddr);
-        // This will put the result of calculating the expression in max used register.
-        initialization.codeGen(program);
-        if (initialization instanceof Initialization) {
-            program.addInstruction(new STORE(program.getMaxUsedRegister(), varAddr));
+        // Optimisation
+        // If we have some free registers, use them instead of the stack.
+        // Because of the linking convention, we'll still initialize the stack at the end with the variables.
+        // See ListDeclVar.initStack() for how we do this.
+        if (!program.isMaxUsableRegister()) {
+            GPRegister reg = program.getMaxUsedRegister();
+            LOG.trace("decl var, allocated reg="+reg);
+            VariableDefinition varDef = varName.getVariableDefinition();
+            varDef.setAdress(varAddr);
+            varDef.setRegister(reg);
+            decls.addGlobalVariableRegister(reg, varAddr);
+        } else {
+            varName.getVariableDefinition().setAdress(varAddr);
+        }
+        program.incrementDeclaredVariables();
+
+        // Optimisation
+        // TODO: this code can probably be refactored in Initialization.
+        if (initialization instanceof Initialization
+                && ((Initialization) initialization).getExpression().getDVal() != null
+                && Objects.equals(((Initialization) initialization).getExpression().getDVal(), new ImmediateInteger(0))) {
+            // Instead of:   LOAD #0, R2
+            // use       :   SOV R2
+            // OV flag is guantreed to be put to 0 before this instruction,
+            // since it should never trigger in a well-formed Decac program. (If it does trigger, we go to our error handler).
+            // This saves 2 cycles over loading directly.
+
+            // Store directly into the reg if possible.
+            if (varName.getVariableDefinition().isRegister()) {
+                program.addInstruction(new SOV(varName.getVariableDefinition().getRegister()), varName.decompile()+" is initialized to 0, using SOV");
+            } else {
+                program.addInstruction(new SOV(program.getMaxUsedRegister()), varName.decompile()+" is initialized to 0, using SOV");
+                program.addInstruction(new STORE(program.getMaxUsedRegister(), varAddr));
+            }
+        } else if (initialization instanceof Initialization
+                && ((Initialization) initialization).getExpression().getDVal() != null
+                && varName.getVariableDefinition().isRegister()) {
+            // Optimisation: load the dval directly
+            DVal dval = ((Initialization) initialization).getExpression().getDVal();
+            program.addInstruction(new LOAD(dval, varName.getVariableDefinition().getRegister()));
+        } else {
+            initialization.codeGen(program);
+
+            if (varName.getVariableDefinition().isRegister()) {
+                new LOAD(program.getMaxUsedRegister(), varName.getVariableDefinition().getRegister());
+            } else {
+                program.addInstruction(new STORE(program.getMaxUsedRegister(), varAddr));
+            }
+        }
+
+        // Allocate the register only at the end.
+        // This is done so that operations that use the max free register, like AbstractOpArith,
+        // put the results into the right register (when computing the operation).
+        if (varName.getVariableDefinition().isRegister()) {
+            program.allocateRegister();
         }
     }
 

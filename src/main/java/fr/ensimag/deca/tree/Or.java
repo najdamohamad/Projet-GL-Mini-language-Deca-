@@ -12,7 +12,7 @@ import org.apache.commons.lang.Validate;
  * @author gl47
  * @date 01/01/2022
  */
-public class Or extends AbstractOpBool {
+public class Or extends AbstractOpBool implements Invert {
 
     public Or(AbstractExpr leftOperand, AbstractExpr rightOperand) {
         super(leftOperand, rightOperand);
@@ -66,4 +66,11 @@ public class Or extends AbstractOpBool {
         program.addLabel(endLabel);
     }
 
+    @Override
+    public AbstractExpr invert() {
+        AbstractExpr e = new And(getLeftOperand(), getRightOperand());
+        e.setLocation(getLocation());
+        e.setType(getType());
+        return e;
+    }
 }

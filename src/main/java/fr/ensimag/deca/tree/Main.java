@@ -53,6 +53,7 @@ public class Main extends AbstractMain implements CodeGen {
         program.addComment("Beginning of main function:");
         declVariables.codeGen(program);
         insts.codeGen(program);
+        declVariables.epilogue(program);
         program.addComment("End of main function.");
     }
 

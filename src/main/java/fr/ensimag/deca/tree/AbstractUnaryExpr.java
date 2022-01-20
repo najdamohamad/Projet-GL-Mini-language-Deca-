@@ -17,6 +17,10 @@ public abstract class AbstractUnaryExpr extends AbstractExpr {
         return operand;
     }
 
+    public void setOperand(AbstractExpr operand) {
+        this.operand = operand;
+    }
+
     private AbstractExpr operand;
 
     public AbstractUnaryExpr(AbstractExpr operand) {

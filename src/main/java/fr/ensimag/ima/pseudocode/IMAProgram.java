@@ -18,9 +18,19 @@ public class IMAProgram implements OutputProgram {
     public int maxRegister;
     private final boolean shouldCheck;
 
+    private boolean isAssign = true;
+
     public IMAProgram(int maxRegister, boolean shouldCheck) {
         this.maxRegister = maxRegister;
         this.shouldCheck = shouldCheck;
+    }
+
+    public void setAssign(boolean assign) {
+        isAssign = assign;
+    }
+
+    public boolean isAssign() {
+        return isAssign;
     }
 
     /**
@@ -109,14 +119,15 @@ public class IMAProgram implements OutputProgram {
         this.maxRegister = maxRegister;
     }
 
-    private int freeRegister = 2;
+    private int freeRegister = 2; // Actually starts at 2
 
     public GPRegister allocateRegister() throws DecacInternalError {
         if (freeRegister == maxRegister) {
             throw new DecacInternalError("reached max register");
         }
         freeRegister++;
-        return Register.getR(freeRegister);
+        GPRegister r = Register.getR(freeRegister);
+        return r;
     }
 
     public GPRegister getMaxUsedRegister() {
@@ -133,12 +144,29 @@ public class IMAProgram implements OutputProgram {
         }
     }
 
-    private int varCount = 0;
+    /**
+     * The number of variables declared in the program.
+     */
+    private int declaredVariables = 0;
 
-    public int getVarCount() {
-        addInstruction(new ADDSP(new ImmediateInteger(1)));
-        return ++varCount;
+    /**
+     * Tell the compiler that a new variable has been declared,
+     * and return the new number of declared variables.
+     * This count will be used later to calculate the stack usage with an ADDSP.
+     */
+    public int incrementDeclaredVariables() {
+        //addInstruction(new ADDSP(new ImmediateInteger(1)));
+        declaredVariables++;
+        return declaredVariables;
     }
+
+    /**
+     * Get the amount of declared variables.
+     */
+    public int getDeclaredVariablesCount() {
+        return declaredVariables;
+    }
+
 
     private int stackUsage = 0;
 

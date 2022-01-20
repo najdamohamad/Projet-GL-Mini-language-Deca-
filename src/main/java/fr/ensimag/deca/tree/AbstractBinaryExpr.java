@@ -138,6 +138,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                 // <codeExp(e2, n+1)>
                 GPRegister regN = program.getMaxUsedRegister();
                 GPRegister regNPlusOne = program.allocateRegister();
+                LOG.trace("used registers: "+regN+", "+regNPlusOne);
                 getRightOperand().codeGen(program);
                 // mnemo(op), rn+1, Rn
                 program.freeRegister();

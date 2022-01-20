@@ -3,7 +3,10 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.Instruction;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.BGT;
 import fr.ensimag.ima.pseudocode.instructions.SGT;
+import fr.ensimag.ima.pseudocode.instructions.SLE;
 
 /**
  * @author gl47
@@ -24,5 +27,18 @@ public class Greater extends AbstractOpIneq {
     @Override
     public Instruction getMnemonic(GPRegister reg) {
         return new SGT(reg);
+    }
+
+    @Override
+    public Instruction getBranchMnemonic(Label label) {
+        return new BGT(label);
+    }
+
+    @Override
+    public AbstractExpr invert() {
+        AbstractExpr e = new LowerOrEqual(getLeftOperand(), getRightOperand());
+        e.setLocation(getLocation());
+        e.setType(getType());
+        return e;
     }
 }
