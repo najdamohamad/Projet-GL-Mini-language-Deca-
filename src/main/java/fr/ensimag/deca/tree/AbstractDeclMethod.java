@@ -24,8 +24,8 @@ public abstract class AbstractDeclMethod extends Tree {
      *                     the synthetized attribute
      * @param currentClass corresponds to the "class" attribute (null in the main bloc).
      */
-    protected abstract void verifyDeclMethod(DecacCompiler compiler,
-                                             EnvironmentExp localEnv, ClassDefinition currentClass)
+    protected abstract void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv,
+                                             ClassDefinition currentClass, ClassDefinition superClass)
             throws ContextualError;
 
     /**

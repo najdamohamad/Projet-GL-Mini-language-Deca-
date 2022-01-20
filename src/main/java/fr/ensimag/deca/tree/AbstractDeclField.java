@@ -22,7 +22,7 @@ public abstract class AbstractDeclField extends Tree {
      * @param currentClass corresponds to the "class" attribute
      */
     protected abstract void verifyDeclField(DecacCompiler compiler, EnvironmentExp localEnv,
-                                            ClassDefinition superClass, ClassDefinition currentClass)
+                                            ClassDefinition currentClass, ClassDefinition superClass)
             throws ContextualError;
 
     /**

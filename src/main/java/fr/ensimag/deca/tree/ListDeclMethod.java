@@ -23,11 +23,12 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
      * @param superClass corresponds to "super" attribute
      * @return corresponds to the "env_exp_r" attribute
      */
-    public EnvironmentExp verifyListDeclMethod(DecacCompiler compiler, ClassDefinition superClass)
+    public EnvironmentExp verifyListDeclMethod(DecacCompiler compiler,
+                                               ClassDefinition currentClass, ClassDefinition superClass)
             throws ContextualError {
         EnvironmentExp methodEnvironment = new EnvironmentExp(null);
         for (AbstractDeclMethod declMethod : getList()) {
-            declMethod.verifyDeclMethod(compiler, methodEnvironment, superClass);
+            declMethod.verifyDeclMethod(compiler, methodEnvironment, currentClass, superClass);
         }
         return methodEnvironment;
     }

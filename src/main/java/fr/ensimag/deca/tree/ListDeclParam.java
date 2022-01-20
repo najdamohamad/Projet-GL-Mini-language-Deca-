@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.log4j.Logger;
 
@@ -20,7 +21,7 @@ public class ListDeclParam extends TreeList<DeclParam> {
      *
      * @param compiler contains "env_types" attribute
      */
-    protected void verifyDeclParamType(DecacCompiler compiler) throws ContextualError {
+    protected Signature verifyDeclParamType(DecacCompiler compiler) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
 

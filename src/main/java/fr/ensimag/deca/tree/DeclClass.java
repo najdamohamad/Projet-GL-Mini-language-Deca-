@@ -75,7 +75,7 @@ public class DeclClass extends AbstractDeclClass {
             );
             classDefinition.getMembers().join(fieldEnvironment);
             EnvironmentExp methodEnvironment = listDeclMethod.verifyListDeclMethod(
-                    compiler, className.getClassDefinition()
+                    compiler, className.getClassDefinition(), superClassName.getClassDefinition()
             );
             classDefinition.getMembers().join(methodEnvironment);
 

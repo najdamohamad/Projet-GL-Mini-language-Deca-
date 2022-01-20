@@ -56,7 +56,7 @@ public class DeclField extends AbstractDeclField {
 
     @Override
     protected void verifyDeclField(DecacCompiler compiler, EnvironmentExp localEnv,
-                                   ClassDefinition superClass, ClassDefinition currentClass) throws ContextualError {
+                                   ClassDefinition currentClass, ClassDefinition superClass) throws ContextualError {
         Type fieldType = type.verifyType(compiler);
         if (fieldType.isVoid()) {
             String message = "TypeError: un champ ne peut être déclaré avec le type `void`";

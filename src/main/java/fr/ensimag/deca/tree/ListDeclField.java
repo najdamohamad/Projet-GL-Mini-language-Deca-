@@ -26,11 +26,11 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
      * @return corresponds to the "env_exp_r" synthesized environment.
      */
     public EnvironmentExp verifyListDeclField(DecacCompiler compiler,
-                                              ClassDefinition superClass, ClassDefinition currentClass)
+                                              ClassDefinition currentClass, ClassDefinition superClass)
             throws ContextualError {
         EnvironmentExp fieldEnvironment = new EnvironmentExp(null);
         for (AbstractDeclField declField : getList()) {
-            declField.verifyDeclField(compiler, fieldEnvironment, superClass, currentClass);
+            declField.verifyDeclField(compiler, fieldEnvironment, currentClass, superClass);
         }
         return fieldEnvironment;
     }
