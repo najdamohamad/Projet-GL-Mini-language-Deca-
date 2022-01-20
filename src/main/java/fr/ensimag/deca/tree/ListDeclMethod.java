@@ -25,7 +25,11 @@ public class ListDeclMethod extends TreeList<AbstractDeclMethod> {
      */
     public EnvironmentExp verifyListDeclMethod(DecacCompiler compiler, ClassDefinition superClass)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        EnvironmentExp methodEnvironment = new EnvironmentExp(null);
+        for (AbstractDeclMethod declMethod : getList()) {
+            declMethod.verifyDeclMethod(compiler, methodEnvironment, superClass);
+        }
+        return methodEnvironment;
     }
 
     /**
