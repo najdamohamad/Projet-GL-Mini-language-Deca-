@@ -70,7 +70,7 @@ public class DeclMethod extends AbstractDeclMethod {
         boolean sameSig = signature
                 .equals(params.verifyListDeclParamType(compiler));
         // TODO: finish implement subType in the context class.
-        boolean sameType = Context.subType(compiler, superMethodDefinition.getType(), methodType);
+        boolean sameType = Context.subType(superMethodDefinition.getType(), methodType);
         if (!sameType || !sameSig) {
             throw new ContextualError(message, getLocation());
         }
