@@ -9,6 +9,7 @@ import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.SOV;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -56,8 +57,14 @@ public class DeclVar extends AbstractDeclVar {
         }
     }
 
+    // bad code, should find a way to use this instead
     @Override
     public void codeGen(IMAProgram program) {
+        throw new NotImplementedException("use codeGen with ListDeclVar");
+    }
+
+    @Override
+    public void codeGen(IMAProgram program, ListDeclVar decls) {
         // Put the address of the variable in VariableDefinition.operand of varName.
         program.addComment(getLocation().getLine() + ": "+decompile());
 
@@ -72,6 +79,7 @@ public class DeclVar extends AbstractDeclVar {
             VariableDefinition varDef = varName.getVariableDefinition();
             varDef.setAdress(varAddr);
             varDef.setRegister(reg);
+            decls.addGlobalVariableRegister(reg, varAddr);
         } else {
             varName.getVariableDefinition().setAdress(varAddr);
         }
