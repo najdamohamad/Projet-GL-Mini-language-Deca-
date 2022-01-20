@@ -51,6 +51,7 @@ public class Program extends AbstractProgram {
     // Error labels.
     public static final Label ARITHMETIC_OVERFLOW_ERROR = new Label("ArithmeticOverflowError");
     public static final Label STACK_OVERFLOW_ERROR = new Label("StackOverflowError");
+    public static final Label HEAP_OVERFLOW_ERROR = new Label("HeapOverflowError");
     public static final Label DIVISION_BY_ZERO_ERROR = new Label("DivisionByZeroError");
     public static final Label IO_ERROR = new Label("IOError");
 
@@ -58,6 +59,7 @@ public class Program extends AbstractProgram {
      * CodeGen for main programs.
      * Follows the code listing p209,
      * 1 Génération de code pour le langage Deca « sans objet ».
+     *
      * @param program Abstract representation of the IMA assembly code.
      */
     @Override

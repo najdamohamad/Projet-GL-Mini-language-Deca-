@@ -7,7 +7,8 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -72,7 +73,22 @@ public class New extends AbstractExpr {
 
     @Override
     public void codeGen(IMAProgram program) {
-        throw new UnsupportedOperationException("not yet implemented");
+        ClassDefinition definition =
+                (ClassDefinition) program.getCompiler().getTypeDefinition(className.getName());
+        int objectSize = definition.getNumberOfFields();
+        program.addInstruction(new NEW(objectSize, program.getMaxUsedRegister()));
+        program.addInstruction(new BOV(Program.HEAP_OVERFLOW_ERROR));
+        // TODO: store the actual method table address.
+        // program.addInstruction(new LEA(..., Register.R0));
+        program.addInstruction(new STORE(
+                Register.R0,
+                new RegisterOffset(0, program.getMaxUsedRegister()))
+        );
+        program.addInstruction(new PUSH(program.getMaxUsedRegister()));
+        program.addInstruction(new BSR(
+                new LabelOperand(new Label("init." + className.getName()))
+        ));
+        program.addInstruction(new PUSH(program.getMaxUsedRegister()));
     }
 
     @Override
