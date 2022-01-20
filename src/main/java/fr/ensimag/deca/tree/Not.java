@@ -26,6 +26,7 @@ public class Not extends AbstractUnaryExpr implements Invert {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
+
         Type operandType = getOperand().verifyExpr(compiler, localEnv, currentClass);
         if (!operandType.isBoolean()) {
             String message = "TypeError: type incorrect dans `"
@@ -35,9 +36,9 @@ public class Not extends AbstractUnaryExpr implements Invert {
         }
         Type exprType = compiler.getType("boolean");
         setType(exprType);
+
         return exprType;
     }
-
 
     @Override
     protected String getOperatorName() {

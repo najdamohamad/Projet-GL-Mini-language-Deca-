@@ -18,9 +18,19 @@ public class IMAProgram implements OutputProgram {
     public int maxRegister;
     private final boolean shouldCheck;
 
+    private boolean isAssign = true;
+
     public IMAProgram(int maxRegister, boolean shouldCheck) {
         this.maxRegister = maxRegister;
         this.shouldCheck = shouldCheck;
+    }
+
+    public void setAssign(boolean assign) {
+        isAssign = assign;
+    }
+
+    public boolean isAssign() {
+        return isAssign;
     }
 
     /**
