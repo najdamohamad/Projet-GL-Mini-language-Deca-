@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 
 public abstract class AbstractDeclParam extends Tree {
     /**
@@ -10,7 +11,7 @@ public abstract class AbstractDeclParam extends Tree {
      *
      * @param compiler contains "env_types" attribute
      */
-    protected abstract void verifyDeclParamType(DecacCompiler compiler) throws ContextualError;
+    protected abstract Type verifyDeclParamType(DecacCompiler compiler) throws ContextualError;
 
     /**
      * Implements non-terminal "decl_param" of [SyntaxeContextuelle] in pass 3

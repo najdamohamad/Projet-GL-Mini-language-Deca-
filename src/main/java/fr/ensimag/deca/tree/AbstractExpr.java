@@ -1,6 +1,5 @@
 package fr.ensimag.deca.tree;
 
-import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.CodeGenDisplay;
@@ -92,7 +91,7 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
                                      Type expectedType)
             throws ContextualError {
         Type exprType = verifyExpr(compiler, localEnv, currentClass);
-        if (!Context.assignCompatible(compiler, expectedType, exprType)) {
+        if (!Context.assignCompatible(expectedType, exprType)) {
             String message = "TypeError: type incorrect pour expression `"
                     + this.decompile() + "`, attendu `" + expectedType
                     + "` mais trouvé `" + exprType + "`.";

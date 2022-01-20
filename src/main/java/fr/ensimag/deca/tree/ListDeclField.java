@@ -26,26 +26,27 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
      * @return corresponds to the "env_exp_r" synthesized environment.
      */
     public EnvironmentExp verifyListDeclField(DecacCompiler compiler,
-                                              ClassDefinition superClass, ClassDefinition currentClass)
+                                              ClassDefinition currentClass, ClassDefinition superClass)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        EnvironmentExp fieldEnvironment = new EnvironmentExp(null);
+        for (AbstractDeclField declField : getList()) {
+            declField.verifyDeclField(compiler, fieldEnvironment, currentClass, superClass);
+        }
+        return fieldEnvironment;
     }
 
     /**
      * Implements non-terminal "list_decl_field" of [SyntaxeContextuelle] in pass 3
      *
      * @param compiler     contains "env_types" attribute
-     * @param localEnv     its "parentEnvironment" corresponds to the "env_exp" attribute
-     *                     in precondition, its "current" dictionary corresponds to
-     *                     the "env_exp" attribute
-     *                     in postcondition, its "current" dictionary corresponds to
-     *                     the synthetized attribute
      * @param currentClass corresponds to the "class" attribute.
      */
-    public void verifyListDeclFieldInit(DecacCompiler compiler, EnvironmentExp localEnv,
+    public void verifyListDeclFieldInit(DecacCompiler compiler,
                                         ClassDefinition currentClass)
             throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        for (AbstractDeclField declField : getList()) {
+            declField.verifyDeclFieldInit(compiler, currentClass);
+        }
     }
 
     private static final Logger LOG = Logger.getLogger(Program.class);

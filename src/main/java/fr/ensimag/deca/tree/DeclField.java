@@ -1,9 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -56,17 +54,43 @@ public class DeclField extends AbstractDeclField {
         initialization.prettyPrint(s, prefix, true);
     }
 
-
     @Override
-    protected void verifyDeclField(DecacCompiler compiler, ClassDefinition superClass,
-                                   ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+    protected void verifyDeclField(DecacCompiler compiler, EnvironmentExp localEnv,
+                                   ClassDefinition currentClass, ClassDefinition superClass) throws ContextualError {
+        Type fieldType = type.verifyType(compiler);
+        if (fieldType.isVoid()) {
+            String message = "TypeError: un champ ne peut être déclaré avec le type `void`";
+            throw new ContextualError(message, getLocation());
+        }
+        // Si l’identificateur name est déjà défini dans l’environnement
+        // des expressions de la super-classe, alors ce doit être un identificateur de champ.
+        ExpDefinition superDefinition = superClass.getMembers().get(varName.getName());
+        if (superDefinition != null && !superDefinition.isField()) {
+            String message = "ScopeError: tentative de redéfinir une méthode en un champ.";
+            throw new ContextualError(message, getLocation());
+        }
+        FieldDefinition fieldDefinition = new FieldDefinition(
+                fieldType,
+                getLocation(),
+                visibility,
+                currentClass,
+                currentClass.getNumberOfFields()
+        );
+        currentClass.incNumberOfFields();
+        try {
+            localEnv.declare(varName.getName(), fieldDefinition);
+        } catch (EnvironmentExp.DoubleDefException e) {
+            String message = "ScopeError: tentative de définir le champ `"
+                    + varName.decompile() + "` deux fois.";
+            throw new ContextualError(message, getLocation());
+        }
     }
 
     @Override
-    protected void verifyDeclFieldInit(DecacCompiler compiler, EnvironmentExp localEnv,
+    protected void verifyDeclFieldInit(DecacCompiler compiler,
                                        ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type fieldType = type.verifyType(compiler);
+        initialization.verifyInitialization(compiler, fieldType, currentClass.getMembers(), currentClass);
     }
 
     public Visibility getVisibility() {
