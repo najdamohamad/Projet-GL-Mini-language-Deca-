@@ -15,14 +15,18 @@ import java.util.Iterator;
  * @author gl47
  * @date 01/01/2022
  */
-public class ListDeclParam extends TreeList<DeclParam> {
+public class ListDeclParam extends TreeList<AbstractDeclParam> {
     /**
      * Implements non-terminal "decl_param" of [SyntaxeContextuelle] in pass 2
      *
      * @param compiler contains "env_types" attribute
      */
     protected Signature verifyDeclParamType(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Signature signature = new Signature();
+        for (AbstractDeclParam declParam : getList()) {
+            signature.add(declParam.verifyDeclParamType(compiler));
+        }
+        return signature;
     }
 
     /**
@@ -40,8 +44,8 @@ public class ListDeclParam extends TreeList<DeclParam> {
     @Override
     public void decompile(IndentPrintStream s) {
         boolean notFirst = false;
-        for (Iterator<DeclParam> it = iterator(); it.hasNext(); ) {
-            DeclParam param = it.next();
+        for (Iterator<AbstractDeclParam> it = iterator(); it.hasNext(); ) {
+            AbstractDeclParam param = it.next();
 
             if (notFirst) {
                 s.println(); // newline

@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
 
@@ -61,7 +62,7 @@ public class DeclParam extends AbstractDeclParam {
     }
 
     @Override
-    protected void verifyDeclParamType(DecacCompiler compiler) throws ContextualError {
+    protected Type verifyDeclParamType(DecacCompiler compiler) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
 
