@@ -56,7 +56,7 @@ public class DeclMethod extends AbstractDeclMethod {
         type.prettyPrint(s, prefix, false);
         name.prettyPrint(s, prefix, false);
         params.prettyPrint(s, prefix, false);
-        methodBody.prettyPrint(s, prefix, false);
+        methodBody.prettyPrintChildren(s, prefix);
     }
 
     @Override

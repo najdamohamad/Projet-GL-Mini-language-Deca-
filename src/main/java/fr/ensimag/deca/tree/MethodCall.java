@@ -29,15 +29,15 @@ import fr.ensimag.arm.pseudocode.ARMProgram;
 public class MethodCall extends AbstractExpr {
     private AbstractExpr expression;
     private AbstractIdentifier method;
-    private ListExpr list_params;
+    private ListExpr listArgs;
 
-    public MethodCall(AbstractExpr expression, AbstractIdentifier method, ListExpr list_params) {
+    public MethodCall(AbstractExpr expression, AbstractIdentifier method, ListExpr listArgs) {
         Validate.notNull(expression);
         Validate.notNull(method);
-        Validate.notNull(list_params);
+        Validate.notNull(listArgs);
         this.expression =expression;
         this.method = method;
-        this.list_params = list_params;
+        this.listArgs = listArgs;
     }
 
     @Override
@@ -54,15 +54,28 @@ public class MethodCall extends AbstractExpr {
 
     @Override
     public void decompile(IndentPrintStream s) {
+        expression.decompile(s);
+        s.print(".");
+        method.decompile(s);
+        s.print("(");
+        listArgs.decompile(s);
+        s.print(")");
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
+        expression.iterChildren(f);
+        method.iterChildren(f);
+        listArgs.iterChildren(f);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
+        expression.prettyPrintChildren(s, prefix);
+        method.prettyPrintChildren(s, prefix);
+        listArgs.prettyPrintChildren(s, prefix);
     }
+
     @Override
     public void codeGen(ARMProgram program){}
     @Override

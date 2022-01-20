@@ -56,7 +56,7 @@ public class DeclMethodAsm extends AbstractDeclMethod {
         type.prettyPrint(s, prefix, false);
         name.prettyPrint(s, prefix, false);
         params.prettyPrint(s, prefix, false);
-        methodAsmBody.prettyPrint(s, prefix, false);
+        methodAsmBody.prettyPrintChildren(s, prefix);
     }
 
     @Override

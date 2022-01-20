@@ -39,16 +39,22 @@ public class Selection extends AbstractLValue {
     @Override
     public void decompile(IndentPrintStream s) {
         expression.decompile(s);
+        s.print(".");
         attribute.decompile(s);
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
+        expression.iter(f);
+        attribute.iter(f);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
+        expression.prettyPrintChildren(s, prefix);
+        attribute.prettyPrintChildren(s, prefix);
     }
+
 
     @Override
     public void codeGen(IMAProgram program) {
