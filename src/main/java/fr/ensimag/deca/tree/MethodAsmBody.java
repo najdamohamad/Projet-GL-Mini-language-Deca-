@@ -1,34 +1,28 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+
 import java.io.PrintStream;
-import fr.ensimag.arm.pseudocode.ARMProgram;
+
 /**
  * @author gl47
  * @date 01/01/2022
  */
-public class MethodBodyASM extends AbstractMethodBody {
-
+public class MethodAsmBody extends AbstractMethodBody {
 
     final private String text;
     final private Location location;
 
-    public MethodBodyASM(String text, Location location) {
+    public MethodAsmBody(String text, Location location) {
         Validate.notNull(text);
         Validate.notNull(location);
         this.text = text;
         this.location = location;
-    }
-
-    @Override
-    public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv, ClassDefinition currentClass){
-        Type intType = compiler.getType("int");
-        setType(intType);
-        return intType;
     }
 
     @Override
@@ -46,7 +40,8 @@ public class MethodBodyASM extends AbstractMethodBody {
     }
 
     @Override
-    public void codeGen(ARMProgram program){}
-    @Override
-    public void codeGen(IMAProgram program){}
+    protected void verifyMethodBody(DecacCompiler compiler, EnvironmentExp localEnv,
+                                    ClassDefinition currentClass) throws ContextualError {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 }

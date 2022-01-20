@@ -516,8 +516,10 @@ class_decl returns [DeclClass tree]
     : CLASS name=ident superclass=class_extension OBRACE class_body CBRACE {
              assert($name.tree != null);
              assert($superclass.tree != null);
-             assert($class_body.tree != null);
-             $tree = new DeclClass($name.tree, $superclass.tree, $class_body.tree);
+             assert($class_body.methods != null);
+             assert($class_body.fields != null);
+             $tree = new DeclClass($name.tree, $superclass.tree,
+                    $class_body.methods, $class_body.fields);
              setLocation($tree, $name.start);
              setLocation($tree, $superclass.start);
              setLocation($tree, $class_body.start);
@@ -534,16 +536,17 @@ class_extension returns[AbstractIdentifier tree]
         }
     ;
 
-class_body returns [ClassBody tree]
+class_body returns[ListDeclField fields, ListDeclMethod methods]
 @init {
-    $tree = new ClassBody();
+    ListDeclField fields = new ListDeclField();
+    ListDeclMethod methods = new ListDeclMethod();
 }
     : (m=decl_method {
             assert($m.tree != null);
-            $tree.getMethods().add($m.tree);
-            setLocation($tree, $m.start);
+            $methods.add($m.tree);
+            setLocation($m.tree, $m.start);
         }
-      | decl_field_set[$tree.getListDeclField()]{
+      | decl_field_set[$fields]{
       }
       )*
     ;
@@ -563,36 +566,39 @@ visibility returns [Visibility v]
         }
     ;
 
-list_decl_field[Visibility v, AbstractIdentifier t, ListDeclField tree]
-    : dv1=decl_field{
+list_decl_field[Visibility v, AbstractIdentifier t, ListDeclField l]
+    : dv1=decl_field[$v, $t] {
         assert($dv1.tree != null);
-        tree.add(new DeclFieldVis(v, t, $dv1.tree));
-        setLocation($tree, $dv1.start);
+        $l.add($dv1.tree);
+        setLocation($l, $dv1.start);
     }
-        (COMMA dv2=decl_field{
+        (COMMA dv2=decl_field[$v, $t] {
             assert($dv2.tree != null);
-            tree.add(new DeclFieldVis(v, t, $dv2.tree));
-            setLocation($tree, $dv2.start);
+            $l.add($dv1.tree);
+            setLocation($l, $dv2.start);
         }
       )*
     ;
 
-decl_field returns [DeclField tree]
+decl_field[Visibility v, AbstractIdentifier t] returns [AbstractDeclField tree]
 @init {
-    DeclField currentDF = null;
+    AbstractInitialization init = null;
 }
     : i=ident {
             assert($i.tree != null);
-            currentDF.setName($i.tree);
+            init = new NoInitialization();
             setLocation($tree, $e.start);
         }
       (EQUALS e=expr {
         assert($e.tree != null);
-        currentDF.setExpression($e.tree);
+        init = new Initialization($e.tree);
         setLocation($tree, $e.start);
         }
       )? {
-            $tree = currentDF;
+            setLocation(init, $i.start);
+            $tree = new DeclField($v, $t, $i.tree, init);
+            setLocation($tree, $i.start);
+            setLocation($i.tree, $i.start);
         }
     ;
 
@@ -618,7 +624,7 @@ decl_method returns [AbstractDeclMethod tree]
             assert($params.tree != null);
             assert($code.text != null);
             assert($code.location != null);
-            currentTree = new DeclMethodAsm($type.tree, $ident.tree, $params.tree, new MethodBodyASM($code.text, $code.location));
+            currentTree = new DeclMethodAsm($type.tree, $ident.tree, $params.tree, new MethodAsmBody($code.text, $code.location));
             setLocation($tree, $type.start);
             setLocation($tree, $ident.start);
             setLocation($tree, $params.start);
@@ -656,11 +662,11 @@ multi_line_string returns[String text, Location location]
         }
     ;
 
-param   returns[AbstractExpr tree]
+param   returns[DeclParam tree]
     : type ident {
             assert($type.tree != null);
             assert($ident.tree != null);
-            $tree = new Param($type.tree, $ident.tree);
+            $tree = new DeclParam($type.tree, $ident.tree);
             setLocation($tree, $ident.start);
         }
     ;

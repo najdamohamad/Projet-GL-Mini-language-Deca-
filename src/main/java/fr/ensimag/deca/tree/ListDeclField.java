@@ -8,7 +8,6 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.log4j.Logger;
 
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * List of declarations (e.g. int x; float y,z).
@@ -16,14 +15,46 @@ import java.util.List;
  * @author gl47
  * @date 01/01/2022
  */
-public class ListDeclField extends TreeList<AbstractDeclVar> {
+public class ListDeclField extends TreeList<AbstractDeclField> {
+
+    /**
+     * Implements non-terminal "list_decl_field" of [SyntaxeContextuelle] in pass 2
+     *
+     * @param compiler     contains "env_types" attribute
+     * @param superClass   corresponds to the "super" attribute
+     * @param currentClass corresponds to the "class" attribute
+     * @return corresponds to the "env_exp_r" synthesized environment.
+     */
+    public EnvironmentExp verifyListDeclField(DecacCompiler compiler,
+                                              ClassDefinition superClass, ClassDefinition currentClass)
+            throws ContextualError {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    /**
+     * Implements non-terminal "list_decl_field" of [SyntaxeContextuelle] in pass 3
+     *
+     * @param compiler     contains "env_types" attribute
+     * @param localEnv     its "parentEnvironment" corresponds to the "env_exp" attribute
+     *                     in precondition, its "current" dictionary corresponds to
+     *                     the "env_exp" attribute
+     *                     in postcondition, its "current" dictionary corresponds to
+     *                     the synthetized attribute
+     * @param currentClass corresponds to the "class" attribute.
+     */
+    public void verifyListDeclFieldInit(DecacCompiler compiler, EnvironmentExp localEnv,
+                                        ClassDefinition currentClass)
+            throws ContextualError {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
     private static final Logger LOG = Logger.getLogger(Program.class);
 
     @Override
     public void decompile(IndentPrintStream s) {
         boolean notFirst = false;
-        for (Iterator<AbstractDeclVar> it = iterator(); it.hasNext(); ) {
-            AbstractDeclVar decl = it.next();
+        for (Iterator<AbstractDeclField> it = iterator(); it.hasNext(); ) {
+            AbstractDeclField decl = it.next();
 
             if (notFirst) {
                 s.println(); // newline
@@ -32,25 +63,5 @@ public class ListDeclField extends TreeList<AbstractDeclVar> {
             notFirst = true;
         }
     }
-
-    /**
-     * Implements non-terminal "list_decl_var" of [SyntaxeContextuelle] in pass 3
-     *
-     * @param compiler     contains the "env_types" attribute
-     * @param localEnv     its "parentEnvironment" corresponds to "env_exp_sup" attribute
-     *                     in precondition, its "current" dictionary corresponds to
-     *                     the "env_exp" attribute
-     *                     in postcondition, its "current" dictionary corresponds to
-     *                     the "env_exp_r" attribute
-     * @param currentClass corresponds to "class" attribute (null in the main bloc).
-     */
-    /*
-    void verifyListDeclVariable(DecacCompiler compiler, EnvironmentExp localEnv,
-                                ClassDefinition currentClass) throws ContextualError {
-        for (AbstractDeclVar declVar : getList()) {
-            declVar.verifyDeclVar(compiler, localEnv, currentClass);
-        }
-    }
-*/
 
 }
