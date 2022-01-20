@@ -1,8 +1,10 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -50,6 +52,7 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
         // This implements rule (1.3) of Pass 1
+        LOG.debug("begin verifyClass");
         TypeDefinition superDefinition = compiler.getTypeDefinition(superClassName.getName());
         LOG.debug("super class = " + superClassName.getName());
         if (superDefinition.isClass()) {
@@ -69,6 +72,7 @@ public class DeclClass extends AbstractDeclClass {
             String message = "TypeError: " + superClassName.decompile() + " n'est pas une classe.";
             throw new ContextualError(message, getLocation());
         }
+        LOG.debug("end verifyClass");
     }
 
     @Override
@@ -107,6 +111,7 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
+        LOG.debug("begin ");
         //  On construit un environnement qui contient les champs et les méthodes,
         //  ainsi que les paramètres des méthodes et les variables locales.
         ClassDefinition classDefinition =
@@ -134,4 +139,22 @@ public class DeclClass extends AbstractDeclClass {
         listDeclMethod.iterChildren(f);
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+        // TODO: init all fields to 0
+        for (AbstractDeclField declField : listDeclField.getList()) {
+            declField.codeGenInitFieldsZero(program);
+        }
+        // TODO: init the inherited fields
+
+        // TODO: init these fields
+        for (AbstractDeclField declField : listDeclField.getList()) {
+            declField.codeGen(program);
+        }
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 }

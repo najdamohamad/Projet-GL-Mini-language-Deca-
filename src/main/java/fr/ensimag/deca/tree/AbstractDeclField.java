@@ -1,9 +1,11 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  * Variable declaration
@@ -11,7 +13,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
  * @author gl47
  * @date 01/01/2022
  */
-public abstract class AbstractDeclField extends Tree {
+public abstract class AbstractDeclField extends Tree implements CodeGen {
 
     /**
      * Implements non-terminal "decl_method" of [SyntaxeContextuelle] in pass 2
@@ -34,4 +36,6 @@ public abstract class AbstractDeclField extends Tree {
     protected abstract void verifyDeclFieldInit(DecacCompiler compiler,
                                                 ClassDefinition currentClass)
             throws ContextualError;
+
+    public abstract void codeGenInitFieldsZero(IMAProgram program);
 }

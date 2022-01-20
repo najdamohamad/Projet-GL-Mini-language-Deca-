@@ -1,10 +1,13 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.log4j.Logger;
 
 import java.util.Iterator;
@@ -15,7 +18,7 @@ import java.util.Iterator;
  * @author gl47
  * @date 01/01/2022
  */
-public class ListDeclField extends TreeList<AbstractDeclField> {
+public class ListDeclField extends TreeList<AbstractDeclField> implements CodeGen {
 
     /**
      * Implements non-terminal "list_decl_field" of [SyntaxeContextuelle] in pass 2
@@ -65,4 +68,15 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
         }
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+        for (AbstractDeclField declField : getList()) {
+            declField.codeGen(program);
+        }
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 }

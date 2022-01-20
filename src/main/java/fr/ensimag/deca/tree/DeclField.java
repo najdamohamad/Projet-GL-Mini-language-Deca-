@@ -1,9 +1,16 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import java.io.PrintStream;
 
@@ -12,6 +19,8 @@ import java.io.PrintStream;
  * @date 01/01/2022
  */
 public class DeclField extends AbstractDeclField {
+
+    private static final Logger LOG = Logger.getLogger(Identifier.class);
 
     private final AbstractIdentifier type;
     private final AbstractIdentifier varName;
@@ -97,5 +106,33 @@ public class DeclField extends AbstractDeclField {
 
     public Visibility getVisibility() {
         return visibility;
+    }
+
+    @Override
+    public void codeGenInitFieldsZero(IMAProgram program) {
+        FieldDefinition field = varName.getFieldDefinition();
+        program.addComment("initializing " + field.getContainingClass() + "." + varName + "to 0");
+        initialization.codeGen(program);
+        program.addInstruction(new LOAD(0, program.getMaxUsedRegister()));
+        program.addInstruction(new STORE(
+                program.getMaxUsedRegister(),
+                new RegisterOffset(field.getIndex(), Register.R1)
+        ));
+    }
+
+    @Override
+    public void codeGen(IMAProgram program) {
+        FieldDefinition field = varName.getFieldDefinition();
+        program.addComment("initializing " + field.getContainingClass() + "." + varName);
+        initialization.codeGen(program);
+        program.addInstruction(new STORE(
+                program.getMaxUsedRegister(),
+                new RegisterOffset(field.getIndex(), Register.R1)
+        ));
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
     }
 }
