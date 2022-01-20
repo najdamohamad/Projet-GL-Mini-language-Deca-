@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Signature;
@@ -34,8 +35,9 @@ public class ListDeclParam extends TreeList<AbstractDeclParam> {
      *
      * @param compiler contains "env_types" attribute
      */
-    protected EnvironmentExp verifyListDeclParam(DecacCompiler compiler) throws ContextualError {
-        EnvironmentExp paramEnvironment = new EnvironmentExp(null);
+    protected EnvironmentExp verifyListDeclParam(DecacCompiler compiler, ClassDefinition currentClass)
+            throws ContextualError {
+        EnvironmentExp paramEnvironment = new EnvironmentExp(currentClass.getMembers());
         for (AbstractDeclParam declParam : getList()) {
             declParam.verifyDeclParam(compiler, paramEnvironment);
         }

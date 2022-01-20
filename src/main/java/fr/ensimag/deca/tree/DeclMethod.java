@@ -94,7 +94,7 @@ public class DeclMethod extends AbstractDeclMethod {
     protected void verifyDeclMethodBody(DecacCompiler compiler,
                                         ClassDefinition currentClass) throws ContextualError {
         Type methodType = type.verifyType(compiler);
-        EnvironmentExp paramEnvironment = params.verifyListDeclParam(compiler);
+        EnvironmentExp paramEnvironment = params.verifyListDeclParam(compiler, currentClass);
         methodBody.verifyMethodBody(compiler, paramEnvironment, currentClass, methodType);
     }
 }

@@ -49,6 +49,9 @@ public class MethodBody extends AbstractMethodBody {
     @Override
     protected void verifyMethodBody(DecacCompiler compiler, EnvironmentExp localEnv,
                                     ClassDefinition currentClass, Type returnType) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        // TODO: when there were no classes, we simply ignored the members of the currectClass,
+        //       now everything should be checked to account for it.
+        decls.verifyListDeclVariable(compiler, localEnv, currentClass);
+        insts.verifyListInst(compiler, localEnv, currentClass, returnType);
     }
 }
