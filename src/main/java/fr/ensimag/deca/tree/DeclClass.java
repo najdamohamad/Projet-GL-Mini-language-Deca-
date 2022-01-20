@@ -90,7 +90,12 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        //  On construit un environnement qui contient les champs et les méthodes,
+        //  ainsi que les paramètres des méthodes et les variables locales.
+        ClassDefinition classDefinition =
+                (ClassDefinition) compiler.getTypeDefinition(className.getName());
+        listDeclField.verifyListDeclFieldInit(compiler, classDefinition);
+        listDeclMethod.verifyListDeclMethodBody(compiler, classDefinition);
     }
 
 

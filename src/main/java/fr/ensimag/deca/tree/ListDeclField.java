@@ -39,14 +39,9 @@ public class ListDeclField extends TreeList<AbstractDeclField> {
      * Implements non-terminal "list_decl_field" of [SyntaxeContextuelle] in pass 3
      *
      * @param compiler     contains "env_types" attribute
-     * @param localEnv     its "parentEnvironment" corresponds to the "env_exp" attribute
-     *                     in precondition, its "current" dictionary corresponds to
-     *                     the "env_exp" attribute
-     *                     in postcondition, its "current" dictionary corresponds to
-     *                     the synthetized attribute
      * @param currentClass corresponds to the "class" attribute.
      */
-    public void verifyListDeclFieldInit(DecacCompiler compiler, EnvironmentExp localEnv,
+    public void verifyListDeclFieldInit(DecacCompiler compiler,
                                         ClassDefinition currentClass)
             throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
