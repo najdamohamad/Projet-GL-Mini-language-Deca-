@@ -1,8 +1,11 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Label;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -124,4 +127,14 @@ public class DeclClass extends AbstractDeclClass {
         listDeclMethod.iterChildren(f);
     }
 
+    @Override
+    public void codeGen(IMAProgram program) {
+        program.addLabel(new Label("init." + className.getName()));
+        // program.addInstruction(new LOAD(new RegisterOffset(-2, program.getMaxUsedRegister())));
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 }
