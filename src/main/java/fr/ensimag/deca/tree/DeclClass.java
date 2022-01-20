@@ -34,7 +34,14 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     public void decompile(IndentPrintStream s) {
-        s.print("class { ... A FAIRE ... }");
+        s.print("class ");
+        identifier.decompile(s);
+        s.print(" ");
+        extension.decompile(s);
+        s.print(" ");
+        decls.decompile(s);
+        s.print(" ");
+        methods.decompile(s);
     }
 
     @Override
@@ -87,7 +94,7 @@ public class DeclClass extends AbstractDeclClass {
             throw new ContextualError(message, getLocation());
         }
     }
-
+    
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
         //  On construit un environnement qui contient les champs et les méthodes,
@@ -101,12 +108,19 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        throw new UnsupportedOperationException("Not yet supported");
+        identifier.prettyPrintChildren(s, prefix);
+        extension.prettyPrintChildren(s, prefix);
+        decls.prettyPrintChildren(s, prefix);
+        methods.prettyPrintChildren(s, prefix);
+
     }
 
     @Override
     protected void iterChildren(TreeFunction f) {
-        throw new UnsupportedOperationException("Not yet supported");
+        identifier.iterChildren(f);
+        extension.iterChildren(f);
+        decls.iterChildren(f);
+        methods.iterChildren(f);
     }
 
 }

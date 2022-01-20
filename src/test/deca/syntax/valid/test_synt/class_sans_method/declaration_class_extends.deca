@@ -8,12 +8,11 @@
 // Historique:
 //    cree le 11/01/2022
 
-{
-    public class coordonneesPlan{
-        private int x;
-        private int y;
+    class coordonneesPlan{
+        int x;
+        int y;
     }
-    public class coordonneesSpace extends coordonneesPlan{
-        private int z;
+
+    class coordonneesSpace extends coordonneesPlan{
+        int z;
     }
-}

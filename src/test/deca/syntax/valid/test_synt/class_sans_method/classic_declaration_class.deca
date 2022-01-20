@@ -8,9 +8,7 @@
 // Historique:
 //    cree le 11/01/2022
 
-{
-    public class coordonnees{
-        private int x;
-        private int y;
-    }
+class coordonnees{
+     int x;
+     int y;
 }

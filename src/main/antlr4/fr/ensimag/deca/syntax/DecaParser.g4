@@ -42,6 +42,7 @@ prog returns[AbstractProgram tree]
             assert($main.tree != null);
             $tree = new Program($list_classes.tree, $main.tree);
             setLocation($tree, $list_classes.start);
+            setLocation($tree, $main.start);
         }
     ;
 
@@ -571,19 +572,20 @@ list_decl_field[Visibility v, AbstractIdentifier t, ListDeclField l]
     : dv1=decl_field[$v, $t] {
         assert($dv1.tree != null);
         $l.add($dv1.tree);
+        setLocation($dv1.tree, $dv1.start);
         setLocation($l, $dv1.start);
     }
         (COMMA dv2=decl_field[$v, $t] {
             assert($dv2.tree != null);
-            $l.add($dv1.tree);
+            $l.add($dv2.tree);
             setLocation($l, $dv2.start);
         }
       )*
     ;
 
-decl_field[Visibility v, AbstractIdentifier t] returns [AbstractDeclField tree]
+decl_field returns [DeclField tree]
 @init {
-    AbstractInitialization init = null;
+    DeclField currentDF = null;
 }
     : i=ident {
             assert($i.tree != null);
