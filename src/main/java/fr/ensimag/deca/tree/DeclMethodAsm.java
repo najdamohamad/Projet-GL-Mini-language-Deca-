@@ -67,7 +67,7 @@ public class DeclMethodAsm extends AbstractDeclMethod {
     }
 
     @Override
-    protected void verifyDeclMethodBody(DecacCompiler compiler, EnvironmentExp localEnv,
+    protected void verifyDeclMethodBody(DecacCompiler compiler,
                                         ClassDefinition currentClass) throws ContextualError {
         throw new UnsupportedOperationException("not yet implemented");
     }
