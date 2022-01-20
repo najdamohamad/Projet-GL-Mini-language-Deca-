@@ -357,6 +357,10 @@ inequality_expr returns[AbstractExpr tree]
     | e1=inequality_expr INSTANCEOF type {
             assert($e1.tree != null);
             assert($type.tree != null);
+            $tree = new InstanceOf($e1.tree, $type.tree);
+            setLocation($tree, $e1.start);
+            setLocation($e1.tree, $e1.start);
+            setLocation($type.tree, $type.start);
         }
     ;
 
@@ -476,7 +480,7 @@ primary_expr returns[AbstractExpr tree]
     | m=ident OPARENT args=list_expr CPARENT {
             assert($args.tree != null);
             assert($m.tree != null);
-            $tree = $m.tree;
+            $tree = new MethodCall(new Identifier(getDecacCompiler().createSymbol("this")), $ident.tree, $args.tree);
             setLocation($tree, $m.start);
             setLocation($args.tree, $args.start);
         }
