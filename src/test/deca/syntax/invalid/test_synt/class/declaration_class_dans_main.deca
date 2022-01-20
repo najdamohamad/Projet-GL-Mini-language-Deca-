@@ -1,0 +1,19 @@
+// Description:
+//    Test de declaration d'une classe dans le bloc
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur de syntax --> en Deca on Commence tjrs par la declaration de notre Class
+//                                  "list__classe" avant de passer à la partie main .
+//
+// Historique:
+//    cree le 19/01/2022
+
+
+{
+   class coordonnees{
+       int x;
+       int y;
+    }
+
+}

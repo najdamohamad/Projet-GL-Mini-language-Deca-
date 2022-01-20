@@ -1,0 +1,23 @@
+// Description:
+//    Test de declaration d'une classe avec une methode dedans
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 20/01/2022
+
+
+class Maths{
+
+    int power(int x){
+        return x*x;
+    }
+}
+
+{
+    int y ;
+    Maths m = new Maths();
+    y = m.power(2);
+}

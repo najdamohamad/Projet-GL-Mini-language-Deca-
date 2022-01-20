@@ -8,10 +8,12 @@
 // Historique:
 //    cree le 11/01/2022
 
-    class coordonneesPlan{
-        int x;
-        int y;
+
+
+    class coordonnees{
+       int x;
+       int y;
     }
-    class coordonneesSpace extends coordonneesPlan{
-        int z;
-    }
+{
+
+}
