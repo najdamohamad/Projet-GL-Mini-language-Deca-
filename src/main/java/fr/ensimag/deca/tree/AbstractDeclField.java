@@ -6,6 +6,7 @@ import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import org.apache.commons.lang.NotImplementedException;
 
 /**
  * Variable declaration
@@ -37,5 +38,12 @@ public abstract class AbstractDeclField extends Tree implements CodeGen {
                                                 ClassDefinition currentClass)
             throws ContextualError;
 
-    public abstract void codeGenInitFieldsZero(IMAProgram program);
+    public abstract void codeGenInitFieldsZero(IMAProgram programInit, int fieldOffset);
+
+    public abstract int codeGen(IMAProgram programInit, int fieldOffset);
+
+    @Override
+    public int codeGen(IMAProgram program) {
+        throw new NotImplementedException("should not be implemented, use codeGen(programInit, fieldOffset)");
+    }
 }

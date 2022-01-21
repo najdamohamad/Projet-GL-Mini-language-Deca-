@@ -138,22 +138,30 @@ public class DeclClass extends AbstractDeclClass {
     public int codeGen(IMAProgram program) {
         IMAProgram programInit = new IMAProgram(program);
         LOG.debug("codegen "+className);
+        int numberOfSuperclassFields = className.getClassDefinition().getNumberOfSuperclassFields();
+        LOG.debug("class has "+numberOfSuperclassFields+" superclass fields");
 
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
             LOG.trace("init "+declField+" to 0");
-            declField.codeGenInitFieldsZero(programInit);
+            declField.codeGenInitFieldsZero(programInit, numberOfSuperclassFields);
         }
+
         // TODO: init the inherited fields
+
 
         // For any fields with any explicit initialization, initialize them now.
         int stackUsage = listDeclField.getList().stream().map((AbstractDeclField declField) -> {
             LOG.trace("maybe init "+declField+" with initialization");
-            return declField.codeGen(programInit);
+            return declField.codeGen(programInit, numberOfSuperclassFields);
         }).max(Integer::compare).orElse(0);
 
         programInit.addInstruction(new RTS());
-        programInit.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
+        if (stackUsage > 0) {
+            programInit.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
+        } else {
+            programInit.addComment("stack usage is 0, no TSTO added");
+        }
         programInit.addFirstLabel(new Label("init."+className));
         program.append(programInit);
         return stackUsage;
