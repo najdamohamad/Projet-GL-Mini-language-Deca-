@@ -5,6 +5,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.RTS;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -139,18 +141,31 @@ public class DeclClass extends AbstractDeclClass {
         listDeclMethod.iterChildren(f);
     }
 
+    /**
+     * The class initialization must follow the order described in p216, 4.3:
+     * - initialize all of our fields to 0.
+     * - call initializer for superclass.
+     * - use the explicit initialization if present.
+     * @param program Abstract representation of the IMA assembly code.
+     */
     @Override
     public void codeGen(IMAProgram program) {
-        // TODO: init all fields to 0
+        LOG.debug("codegen "+className);
+        program.addLabel(new Label("init."+className));
+
+        // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
+            LOG.trace("init "+declField+" to 0");
             declField.codeGenInitFieldsZero(program);
         }
         // TODO: init the inherited fields
 
-        // TODO: init these fields
+        // For any fields with any explicit initialization, initialize them now.
         for (AbstractDeclField declField : listDeclField.getList()) {
+            LOG.trace("maybe init "+declField+" with initialization");
             declField.codeGen(program);
         }
+        program.addInstruction(new RTS());
     }
 
     @Override
