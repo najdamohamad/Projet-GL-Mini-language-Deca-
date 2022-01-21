@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/instanciate_non_class.deca:11:16: ScopeError: le type `NotAClass` n'est pas défini.

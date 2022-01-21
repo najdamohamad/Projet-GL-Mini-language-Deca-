@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/mauvais_ordre.deca:23:12: ScopeError: l'identificateur `coords` n'est pas défini.

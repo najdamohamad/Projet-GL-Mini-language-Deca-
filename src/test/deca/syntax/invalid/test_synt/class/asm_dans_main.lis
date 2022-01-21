@@ -1,0 +1,1 @@
+src/test/deca/syntax/invalid/test_synt/class/asm_dans_main.deca:13:4: mismatched input 'asm' expecting {'false', 'if', 'new', 'null', 'readInt', 'readFloat', 'print', 'println', 'printx', 'printlnx', 'return', 'this', 'true', 'while', IDENT, '-', '(', '}', '!', ';', INT, FLOAT, STRING}

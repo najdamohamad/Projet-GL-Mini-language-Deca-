@@ -3,7 +3,7 @@
 //
 // Resultats:
 //    Lexeur: pas d'erreur
-//    Parseur: erreur dans ident de la method ( ident ne commence pas par un chiffre )
+//    Parseur: erreur dans ident dans le parametre ligne 16, pas de deuxieme parametre
 //
 //
 // Historique:

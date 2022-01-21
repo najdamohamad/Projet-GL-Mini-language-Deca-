@@ -1,0 +1,14 @@
+`> [13, 0] Program
+   +> [13, 0] ListDeclClass [List with 1 elements]
+   |  []> [13, 0] DeclClass
+   |      +> [13, 6] Identifier (coordonnees)
+   |      +> [13, 0] extends
+   |      +> [13, 17] Identifier (Object)
+   |      []> [14, 4] DeclMethodAsm
+   |          +> [14, 4] Identifier (int)
+   |          +> [14, 8] Identifier (plan)
+   |          +> [14, 13] ListDeclParam [List with 1 elements]
+   |          |  []> [14, 13] DeclParam
+   |          |      +> [14, 13] Identifier (int)
+   |          |      +> [14, 17] Identifier (z)
+   `> [17, 1] EmptyMain

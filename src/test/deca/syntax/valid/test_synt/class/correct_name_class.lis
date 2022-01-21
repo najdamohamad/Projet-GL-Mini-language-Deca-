@@ -1,0 +1,41 @@
+`> [14, 3] Program
+   +> [14, 3] ListDeclClass [List with 4 elements]
+   |  []> [14, 3] DeclClass
+   |  ||  +> [14, 9] Identifier (_coordonnees)
+   |  ||  +> [14, 3] extends
+   |  ||  +> [14, 21] Identifier (Object)
+   |  ||  []> [15, 11] DeclField
+   |  ||      +> [15, 11] Visibility PUBLIC
+   |  ||      +> [15, 7] Identifier (int)
+   |  ||      +> [15, 11] Identifier (x)
+   |  ||      `> [15, 11] NoInitialization
+   |  []> [18, 3] DeclClass
+   |  ||  +> [18, 9] Identifier ($coordonnees)
+   |  ||  +> [18, 3] extends
+   |  ||  +> [18, 21] Identifier (Object)
+   |  ||  []> [19, 14] DeclField
+   |  ||      +> [19, 14] Visibility PUBLIC
+   |  ||      +> [19, 10] Identifier (int)
+   |  ||      +> [19, 14] Identifier (y)
+   |  ||      `> [19, 14] NoInitialization
+   |  []> [22, 3] DeclClass
+   |  ||  +> [22, 9] Identifier (Coordonnees)
+   |  ||  +> [22, 3] extends
+   |  ||  +> [22, 20] Identifier (Object)
+   |  ||  []> [23, 17] DeclField
+   |  ||      +> [23, 17] Visibility PUBLIC
+   |  ||      +> [23, 13] Identifier (int)
+   |  ||      +> [23, 17] Identifier (z)
+   |  ||      `> [23, 17] NoInitialization
+   |  []> [25, 3] DeclClass
+   |      +> [25, 9] Identifier (c12300rdonnees)
+   |      +> [25, 3] extends
+   |      +> [25, 23] Identifier (Object)
+   |      []> [26, 20] DeclField
+   |          +> [26, 20] Visibility PUBLIC
+   |          +> [26, 16] Identifier (int)
+   |          +> [26, 20] Identifier (h)
+   |          `> [26, 20] NoInitialization
+   `> [29, 0] Main
+      +> [30, 0] ListDeclVar [List with 0 elements]
+      `> [30, 0] ListInst [List with 0 elements]

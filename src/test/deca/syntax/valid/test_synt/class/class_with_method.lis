@@ -1,0 +1,36 @@
+`> [12, 0] Program
+   +> [12, 0] ListDeclClass [List with 1 elements]
+   |  []> [12, 0] DeclClass
+   |      +> [12, 6] Identifier (Maths)
+   |      +> [12, 0] extends
+   |      +> [12, 11] Identifier (Object)
+   |      []> [14, 4] DeclMethod
+   |          +> [14, 4] Identifier (int)
+   |          +> [14, 8] Identifier (power)
+   |          +> [14, 14] ListDeclParam [List with 1 elements]
+   |          |  []> [14, 14] DeclParam
+   |          |      +> [14, 14] Identifier (int)
+   |          |      +> [14, 18] Identifier (x)
+   |          +> [14, 20] ListDeclVar [List with 0 elements]
+   |          +> [14, 20] ListInst [List with 1 elements]
+   |          |  []> [15, 8] Return
+   |          |      +> [15, 15] Multiply
+   |          |      |  +> [15, 15] Identifier (x)
+   |          |      |  `> [15, 17] Identifier (x)
+   `> [19, 0] Main
+      +> [20, 4] ListDeclVar [List with 2 elements]
+      |  []> [20, 8] DeclVar
+      |  ||  +> [20, 4] Identifier (int)
+      |  ||  +> [20, 8] Identifier (y)
+      |  ||  `> [20, 8] NoInitialization
+      |  []> [21, 10] DeclVar
+      |      +> [21, 4] Identifier (Maths)
+      |      +> [21, 10] Identifier (m)
+      |      `> [21, 14] Initialization
+      |         `> [21, 14] New
+      |            +> [21, 18] Identifier (Maths)
+      `> [22, 4] ListInst [List with 1 elements]
+         []> [22, 4] Assign
+             +> [22, 4] Identifier (y)
+             `> [22, 8] MethodCall
+                []> [22, 16] Int (2)

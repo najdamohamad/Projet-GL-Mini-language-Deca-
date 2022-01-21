@@ -286,8 +286,8 @@ suite_test_synt('src/test/deca/syntax/valid/test_synt/hello_world', 'helloworld'
 suite_test_context('src/test/deca/context/invalid/hello_world', 'helloworld', 'invalid')
 suite_test_context('src/test/deca/context/valid/hello_world', 'helloworld', 'valid')
 suite_test_ima('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
-
-# Test exec no objects
+#
+# # Test exec no objects
 suite_test_ima('src/test/deca/codegen/valid/no-objects', 'no-objects', 'valid')
 suite_test_ima('src/test/deca/codegen/invalid/no-objects', 'no-objects', 'invalid')
 
@@ -309,12 +309,6 @@ suite_test_synt('src/test/deca/syntax/invalid/test_synt/control_structures', 'co
 suite_test_synt('src/test/deca/syntax/valid/test_synt/control_structures', 'control_structures', 'valid')
 suite_test_context('src/test/deca/context/invalid/control_structures', 'control_structures', 'invalid')
 suite_test_context('src/test/deca/context/valid/control_structures', 'control_structures', 'valid')
-# Tests Class without method
-suite_test_lex('src/test/deca/syntax/invalid/test_lex/class_sans_method', 'class_sans_method', 'invalid')
-suite_test_synt('src/test/deca/syntax/invalid/test_synt/class_sans_method', 'class_sans_method', 'invalid')
-suite_test_synt('src/test/deca/syntax/valid/test_synt/class_sans_method', 'class_sans_method', 'valid')
-suite_test_context('src/test/deca/context/invalid/class_sans_method', 'class_sans_method', 'invalid')
-suite_test_context('src/test/deca/context/valid/class_sans_method', 'class_sans_method', 'valid')
 # Tests Class without cast and InstanceOf
 suite_test_lex('src/test/deca/syntax/invalid/test_lex/class', 'class', 'invalid')
 suite_test_synt('src/test/deca/syntax/invalid/test_synt/class', 'class', 'invalid')
