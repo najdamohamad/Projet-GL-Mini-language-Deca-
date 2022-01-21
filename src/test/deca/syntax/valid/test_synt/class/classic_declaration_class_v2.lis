@@ -1,0 +1,19 @@
+`> [12, 4] Program
+   +> [12, 4] ListDeclClass [List with 1 elements]
+   |  []> [12, 4] DeclClass
+   |      +> [12, 10] Identifier (coordonnees)
+   |      +> [12, 4] extends
+   |      +> [12, 21] Identifier (Object)
+   |      []> [13, 11] DeclField
+   |      ||  +> [13, 11] Visibility PUBLIC
+   |      ||  +> [13, 7] Identifier (int)
+   |      ||  +> [13, 11] Identifier (x)
+   |      ||  `> [13, 11] NoInitialization
+   |      []> [13, 14] DeclField
+   |          +> [13, 14] Visibility PUBLIC
+   |          +> [13, 7] Identifier (int)
+   |          +> [13, 14] Identifier (y)
+   |          `> [13, 14] NoInitialization
+   `> [15, 0] Main
+      +> [17, 0] ListDeclVar [List with 0 elements]
+      `> [17, 0] ListInst [List with 0 elements]

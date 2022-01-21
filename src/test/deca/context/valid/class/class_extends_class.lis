@@ -1,0 +1,13 @@
+`> [12, 0] Program
+   +> [12, 0] ListDeclClass [List with 2 elements]
+   |  []> [12, 0] DeclClass
+   |  ||  +> [12, 6] Identifier (A)
+   |  ||  +> [12, 0] extends
+   |  ||  +> [12, 8] Identifier (Object)
+   |  []> [16, 0] DeclClass
+   |      +> [16, 6] Identifier (B)
+   |      +> [16, 0] extends
+   |      +> [16, 8] Identifier (A)
+   `> [20, 0] Main
+      +> [22, 0] ListDeclVar [List with 0 elements]
+      `> [22, 0] ListInst [List with 0 elements]
