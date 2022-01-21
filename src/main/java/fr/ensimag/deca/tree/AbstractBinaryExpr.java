@@ -88,7 +88,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
     public abstract void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg);
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         LOG.trace("coding expr: " + this.decompile());
         // Case 1: <codeExp(e, n)> avec <dval(e)> != T
         // Overridden by each literal, see eg. IntLiteral which overrides codeGen
@@ -97,27 +97,27 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
         if (getRightOperand().getDVal() != null) {
             LOG.trace("codeExpr: case 2 <codeExp(op[e1, e2], n)> avec <dval(e2)> != T");
             // <codeExp(e1, n)>
-            getLeftOperand().codeGen(program);
+            int stackUsage = getLeftOperand().codeGen(program);
             // <mnemo(op)> <dval(e2)>, Rn
             codeGenBinaryOp(program, getRightOperand().getDVal(), program.getMaxUsedRegister());
-            return;
+            return stackUsage;
         }
 
         if (getRightOperand().getDVal() == null) {
             if (program.isMaxUsableRegister()) {
                 LOG.trace("codeExpr: case 3: <codeExp(e, n)> avec <dval(e2)> = T et n = max");
                 // Case 3: <codeExp(e, n)> avec <dval(e2)> = T et n = max
-                // Allocate a temporary on the stack.
-                program.bumpStackUsage();
 
                 // <codeExp(e1, n)>
-                getLeftOperand().codeGen(program);
+                int leftStackUsage = getLeftOperand().codeGen(program);
                 // PUSH Rn
                 program.addInstruction(
                         new PUSH(program.getMaxUsedRegister())
                 );
                 // <codeExp(e2, n)>
-                getRightOperand().codeGen(program);
+                // Allocate a temporary on the stack.
+                // Stack usage is +1 here because of the temporary.
+                int rightStackUsage = getRightOperand().codeGen(program) + 1;
                 // LOAD Rn, R0
                 program.addInstruction(
                         new LOAD(program.getMaxUsedRegister(), Register.R0)
@@ -128,23 +128,25 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                 );
                 // <mnemo(op)> R0, Rn
                 codeGenBinaryOp(program, Register.R0, program.getMaxUsedRegister());
+                // stack usage for this method is 1, since it allocated a
+                return Math.max(leftStackUsage, rightStackUsage);
             } else {
                 LOG.trace("codeExpr: case 4: <codeExp(e, n)> avec <dval(e2)> = T et n < max");
                 // Case 4: <codeExp(e, n)> avec <dval(e2)> = T et n < max
                 // No temporary needed, instead allocate one more register.
 
                 // <codeExp(e1, n)>
-                getLeftOperand().codeGen(program);
+                int leftStackUsage = getLeftOperand().codeGen(program);
                 // <codeExp(e2, n+1)>
                 GPRegister regN = program.getMaxUsedRegister();
                 GPRegister regNPlusOne = program.allocateRegister();
                 LOG.trace("used registers: "+regN+", "+regNPlusOne);
-                getRightOperand().codeGen(program);
+                int rightStackUsage = getRightOperand().codeGen(program);
                 // mnemo(op), rn+1, Rn
                 program.freeRegister();
                 codeGenBinaryOp(program, regNPlusOne, regN);
+                return Math.max(leftStackUsage, rightStackUsage);
             }
-            return;
         }
 
         LOG.fatal("codeExp did not have a valid match case. exp=" + this);

@@ -5,8 +5,11 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Line;
 import fr.ensimag.ima.pseudocode.instructions.RTS;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -149,23 +152,28 @@ public class DeclClass extends AbstractDeclClass {
      * @param program Abstract representation of the IMA assembly code.
      */
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
+        IMAProgram programInit = new IMAProgram(program);
         LOG.debug("codegen "+className);
-        program.addLabel(new Label("init."+className));
 
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
             LOG.trace("init "+declField+" to 0");
-            declField.codeGenInitFieldsZero(program);
+            declField.codeGenInitFieldsZero(programInit);
         }
         // TODO: init the inherited fields
 
         // For any fields with any explicit initialization, initialize them now.
-        for (AbstractDeclField declField : listDeclField.getList()) {
+        int stackUsage = listDeclField.getList().stream().map((AbstractDeclField declField) -> {
             LOG.trace("maybe init "+declField+" with initialization");
-            declField.codeGen(program);
-        }
-        program.addInstruction(new RTS());
+            return declField.codeGen(programInit);
+        }).max(Integer::compare).orElse(0);
+
+        programInit.addInstruction(new RTS());
+        programInit.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
+        programInit.addFirstLabel(new Label("init."+className));
+        program.append(programInit);
+        return stackUsage;
     }
 
     @Override

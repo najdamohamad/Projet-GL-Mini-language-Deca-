@@ -55,7 +55,7 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         String opName = getClass().getSimpleName().toLowerCase(Locale.ROOT);
         Label returnTrue = new Label("code." + opName + ".returnTrue." + hashCode());
         Label endLabel = new Label("code." + opName + ".end." + hashCode());
@@ -77,5 +77,6 @@ public abstract class AbstractOpBool extends AbstractBinaryExpr {
         ));
 
         program.addLabel(endLabel);
+        return 0; // No stack usage for binary ops
     }
 }

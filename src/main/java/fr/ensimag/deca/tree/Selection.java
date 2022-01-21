@@ -77,7 +77,7 @@ public class Selection extends AbstractLValue {
 
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 }
