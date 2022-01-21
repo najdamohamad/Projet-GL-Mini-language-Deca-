@@ -29,6 +29,8 @@
    |          +> [17, 19] ListInst [List with 1 elements]
    |          |  []> [18, 8] Return
    |          |      +> [18, 15] Selection
+   |          |      |  +> [18, 15] Null
+   |          |      |  +> [18, 20] Identifier (x)
    `> [22, 0] Main
       +> [23, 4] ListDeclVar [List with 2 elements]
       |  []> [23, 8] DeclVar
@@ -49,4 +51,6 @@
       `> [25, 4] ListInst [List with 1 elements]
          []> [25, 4] Assign
              +> [25, 4] Selection
+             |  +> [25, 4] Identifier (coords)
+             |  +> [25, 11] Identifier (x)
              `> [25, 15] Int (5)

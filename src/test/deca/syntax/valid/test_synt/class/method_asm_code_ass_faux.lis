@@ -4,7 +4,7 @@
    |      +> [12, 6] Identifier (coordonnees)
    |      +> [12, 0] extends
    |      +> [12, 17] Identifier (Object)
-   |      []> [13, 4] DeclMethodAsm
+   |      []> [13, 4] DeclMethod
    |          +> [13, 4] Identifier (int)
    |          +> [13, 8] Identifier (plan)
    |          +> [13, 13] ListDeclParam [List with 1 elements]
