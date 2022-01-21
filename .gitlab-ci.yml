@@ -33,6 +33,8 @@ test:
     # See [Jacoco] p155.
     # Also see the gitlab wiki for why we do this.
     - mvn jacoco:restore-instrumented-classes jacoco:report
+    # Print coverage in CI.
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' target/site/jacoco.csv
   artifacts:
     when: always
     expose_as: 'JaCoCo couverture de code'
