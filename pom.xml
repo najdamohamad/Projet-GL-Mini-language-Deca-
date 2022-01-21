@@ -194,11 +194,10 @@
                         <id>test_runner</id>
                         <configuration>
                             <executable>./src/test/script/test.py</executable>
-                            <!-- If we need to pass arguments :
                                  <arguments>
-                                 <argument>...</argument>
+                                 <argument> -e </argument>
                                  </arguments>
-                            -->
+
                         </configuration>
                         <phase>test</phase>
                         <goals>

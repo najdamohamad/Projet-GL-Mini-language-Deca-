@@ -36,4 +36,13 @@ public abstract class AbstractDeclMethod extends Tree {
      */
     protected abstract void verifyDeclMethodBody(DecacCompiler compiler, ClassDefinition currentClass)
             throws ContextualError;
+
+
+    /**
+     * Implements non-terminal "decl_method" of [codeGen] in pass 1
+     *
+     * @param compiler     contains "env_types" attribute
+     */
+    protected abstract int codeGen(DecacCompiler compiler)
+            throws ContextualError;
 }

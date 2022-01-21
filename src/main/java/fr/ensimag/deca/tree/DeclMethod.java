@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -97,5 +98,10 @@ public class DeclMethod extends AbstractDeclMethod {
         Type methodType = type.verifyType(compiler);
         EnvironmentExp paramEnvironment = params.verifyListDeclParam(compiler, currentClass);
         methodBody.verifyMethodBody(compiler, paramEnvironment, currentClass, methodType);
+    }
+
+    @Override
+    public int codeGen(IMAProgram program){
+        return 1;
     }
 }

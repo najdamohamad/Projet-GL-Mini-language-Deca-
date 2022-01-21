@@ -52,18 +52,6 @@ public class IntLiteral extends AbstractExpr {
         return "Int (" + getValue() + ")";
     }
 
-//    @Override
-//    public void codeGenDisplay(IMAProgram program) {
-//        super.codeGen(program);
-//        program.addInstruction(new LOAD(new ImmediateInteger(value), Register.R1));
-//        program.addInstruction(new WINT());
-//    }
-
-//    @Override
-//    public void codeGenExpr(IMAProgram program, GPRegister register) {
-//        super.codeGen(program);
-//        program.addInstruction(new LOAD(new ImmediateInteger(value), register));
-//    }
 
     @Override
     public void decompile(IndentPrintStream s) {

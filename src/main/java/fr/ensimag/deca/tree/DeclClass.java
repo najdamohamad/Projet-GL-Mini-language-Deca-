@@ -152,7 +152,10 @@ public class DeclClass extends AbstractDeclClass {
     public void codeGen(IMAProgram program) {
         LOG.debug("codegen "+className);
         program.addLabel(new Label("init."+className));
-
+        // Init table method
+        for (AbstractDeclMethod method : listDeclMethod.getList()) {
+            int position = method.codeGen(program);
+        }
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
             LOG.trace("init "+declField+" to 0");
