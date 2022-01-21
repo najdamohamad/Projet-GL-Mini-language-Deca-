@@ -694,7 +694,7 @@ decl_method returns [AbstractDeclMethod tree]
             assert($params.tree != null);
             assert($code.text != null);
             assert($code.location != null);
-            currentTree = new DeclMethodAsm($type.tree, $ident.tree, $params.tree, new MethodAsmBody($code.text, $code.location));
+            currentTree = new DeclMethod($type.tree, $ident.tree, $params.tree, new MethodAsmBody($code.text, $code.location));
         }
       ) {
             $tree = currentTree;
