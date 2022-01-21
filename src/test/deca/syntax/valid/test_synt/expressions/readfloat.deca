@@ -1,0 +1,12 @@
+// Description:
+//    Test de fonction readfloat
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 11/01/2022
+
+{
+    readFloat();
+}

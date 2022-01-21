@@ -1,8 +1,8 @@
 `> [15, 0] Program
-   +> ListDeclClass [List with 0 elements]
+   +> [15, 0] ListDeclClass [List with 0 elements]
    `> [15, 0] Main
       +> [16, 8] ListDeclVar [List with 0 elements]
       `> [16, 8] ListInst [List with 1 elements]
          []> [16, 8] Println
-             `> ListExpr [List with 1 elements]
+             `> [16, 16] ListExpr [List with 1 elements]
                 []> [16, 16] StringLiteral ( \\ )

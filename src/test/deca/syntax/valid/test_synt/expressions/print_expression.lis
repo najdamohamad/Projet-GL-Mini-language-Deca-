@@ -1,83 +1,83 @@
 `> [11, 0] Program
-   +> ListDeclClass [List with 0 elements]
+   +> [11, 0] ListDeclClass [List with 0 elements]
    `> [11, 0] Main
       +> [12, 4] ListDeclVar [List with 0 elements]
       `> [12, 4] ListInst [List with 16 elements]
          []> [12, 4] Println
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [12, 12] ListExpr [List with 1 elements]
          ||     []> [12, 12] Plus
          ||         +> [12, 12] Int (2)
          ||         `> [12, 14] Int (2)
          []> [13, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [13, 10] ListExpr [List with 1 elements]
          ||     []> [13, 10] Minus
          ||         +> [13, 10] Int (1)
          ||         `> [13, 12] Int (2)
          []> [14, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [14, 10] ListExpr [List with 1 elements]
          ||     []> [14, 10] Plus
          ||         +> [14, 10] Int (5)
          ||         `> [14, 12] Int (11)
          []> [15, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [15, 10] ListExpr [List with 1 elements]
          ||     []> [15, 10] Multiply
          ||         +> [15, 10] Int (5)
          ||         `> [15, 12] Int (2)
          []> [16, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [16, 10] ListExpr [List with 1 elements]
          ||     []> [16, 10] Divide
          ||         +> [16, 10] Int (3)
          ||         `> [16, 12] Int (2)
          []> [17, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [17, 10] ListExpr [List with 1 elements]
          ||     []> [17, 10] Modulo
          ||         +> [17, 10] Int (4)
          ||         `> [17, 12] Int (2)
          []> [18, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [18, 10] ListExpr [List with 1 elements]
          ||     []> [18, 10] UnaryMinus
          ||         `> [18, 11] Int (3)
          []> [19, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [19, 10] ListExpr [List with 1 elements]
          ||     []> [19, 10] Not
          ||         `> [19, 11] Int (4)
          []> [20, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [20, 10] ListExpr [List with 1 elements]
          ||     []> [20, 10] Equals
          ||         +> [20, 10] Int (4)
          ||         `> [20, 13] Int (4)
          []> [21, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [21, 10] ListExpr [List with 1 elements]
          ||     []> [21, 10] NotEquals
          ||         +> [21, 10] Int (4)
          ||         `> [21, 14] Int (5)
          []> [22, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [22, 10] ListExpr [List with 1 elements]
          ||     []> [22, 10] LowerOrEqual
          ||         +> [22, 10] Int (4)
          ||         `> [22, 15] Int (14)
          []> [23, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [23, 11] ListExpr [List with 1 elements]
          ||     []> [23, 11] GreaterOrEqual
          ||         +> [23, 11] Int (4)
          ||         `> [23, 15] Int (12)
          []> [24, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [24, 11] ListExpr [List with 1 elements]
          ||     []> [24, 11] Lower
          ||         +> [24, 11] Int (3)
          ||         `> [24, 15] Int (4)
          []> [25, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [25, 13] ListExpr [List with 1 elements]
          ||     []> [25, 13] Greater
          ||         +> [25, 13] Int (3)
          ||         `> [25, 17] Int (4)
          []> [26, 4] Print
-         ||  `> ListExpr [List with 1 elements]
+         ||  `> [26, 11] ListExpr [List with 1 elements]
          ||     []> [26, 11] And
          ||         +> [26, 11] Int (3)
          ||         `> [26, 14] Int (4)
          []> [27, 4] Print
-             `> ListExpr [List with 1 elements]
+             `> [27, 13] ListExpr [List with 1 elements]
                 []> [27, 13] Or
                     +> [27, 13] Int (3)
                     `> [27, 18] Int (4)

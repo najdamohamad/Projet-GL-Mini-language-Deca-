@@ -1,45 +1,45 @@
 `> [12, 0] Program
-   +> ListDeclClass [List with 0 elements]
+   +> [12, 0] ListDeclClass [List with 0 elements]
    `> [12, 0] Main
       +> [14, 4] ListDeclVar [List with 8 elements]
       |  []> [14, 8] DeclVar
       |  ||  +> [14, 4] Identifier (int)
       |  ||  +> [14, 8] Identifier (a)
-      |  ||  `> [14, 8] Initialization
+      |  ||  `> [14, 12] Initialization
       |  ||     `> [14, 12] Int (2)
       |  []> [15, 10] DeclVar
       |  ||  +> [15, 4] Identifier (float)
       |  ||  +> [15, 10] Identifier (b)
-      |  ||  `> [15, 10] Initialization
+      |  ||  `> [15, 15] Initialization
       |  ||     `> [15, 15] Float (2.1)
       |  []> [16, 11] DeclVar
       |  ||  +> [16, 4] Identifier (string)
       |  ||  +> [16, 11] Identifier (s)
-      |  ||  `> [16, 11] Initialization
+      |  ||  `> [16, 15] Initialization
       |  ||     `> [16, 15] StringLiteral (juNGLE)
       |  []> [17, 12] DeclVar
       |  ||  +> [17, 4] Identifier (boolean)
       |  ||  +> [17, 12] Identifier (l)
-      |  ||  `> [17, 12] Initialization
+      |  ||  `> [17, 16] Initialization
       |  ||     `> [17, 16] BooleanLiteral (true)
       |  []> [20, 11] DeclVar
       |  ||  +> [20, 4] Identifier (Object)
       |  ||  +> [20, 11] Identifier (ob)
-      |  ||  `> [20, 11] Initialization
+      |  ||  `> [20, 16] Initialization
       |  ||     `> [20, 16] Null
       |  []> [21, 11] DeclVar
       |  ||  +> [21, 4] Identifier (blabla)
       |  ||  +> [21, 11] Identifier (m)
-      |  ||  `> [21, 11] Initialization
+      |  ||  `> [21, 15] Initialization
       |  ||     `> [21, 15] Identifier (blala)
       |  []> [22, 7] DeclVar
       |  ||  +> [22, 4] Identifier (bb)
       |  ||  +> [22, 7] Identifier (m1)
-      |  ||  `> [22, 7] Initialization
+      |  ||  `> [22, 12] Initialization
       |  ||     `> [22, 12] Identifier (blibli)
       |  []> [23, 8] DeclVar
       |      +> [23, 4] Identifier (bbb)
       |      +> [23, 8] Identifier (m2)
-      |      `> [23, 8] Initialization
+      |      `> [23, 13] Initialization
       |         `> [23, 13] Identifier (bleble)
       `> [27, 0] ListInst [List with 0 elements]
