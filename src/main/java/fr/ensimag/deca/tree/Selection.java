@@ -51,6 +51,9 @@ public class Selection extends AbstractLValue {
                         + "` doit être un sous type de `" + definition.getType() + ".";
                 throw new ContextualError(message, getLocation());
             }
+        } else {
+            message = "ScopeError: le champ `" + attribute.decompile() + "` est protégé.";
+            throw new ContextualError(message, getLocation());
         }
         return definition.getType();
     }
