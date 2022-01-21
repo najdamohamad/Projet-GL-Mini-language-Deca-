@@ -480,7 +480,9 @@ primary_expr returns[AbstractExpr tree]
     | m=ident OPARENT args=list_expr CPARENT {
             assert($args.tree != null);
             assert($m.tree != null);
-            $tree = new MethodCall(new Identifier(getDecacCompiler().createSymbol("this")), $ident.tree, $args.tree);
+            AbstractExpr thisKeyword = new This();
+            $tree = new MethodCall(thisKeyword, $ident.tree, $args.tree);
+            setLocation(thisKeyword, $m.start);
             setLocation($tree, $m.start);
             setLocation($args.tree, $args.start);
         }
