@@ -1,7 +1,9 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.*;
+import fr.ensimag.deca.context.ClassType;
+import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -50,36 +52,20 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
         // This implements rule (1.3) of Pass 1
-        TypeDefinition superDefinition = compiler.getTypeDefinition(superClassName.getName());
-        LOG.debug("super class = " + superClassName.getName());
-        if (superDefinition.isClass()) {
-            ClassType classType = new ClassType(
-                    className.getName(),
-                    getLocation(),
-                    (ClassDefinition) superDefinition
-            );
-            ClassDefinition classDefinition = new ClassDefinition(
-                    classType,
-                    getLocation(),
-                    (ClassDefinition) superDefinition
-            );
-            className.setDefinition(classDefinition);
-            compiler.declareTypeDefinition(className.getName(), classDefinition);
-        } else {
-            String message = "TypeError: " + superClassName.decompile() + " n'est pas une classe.";
-            throw new ContextualError(message, getLocation());
-        }
+        String message = "TypeError: " + superClassName.decompile() + " n'est pas une classe.";
+        ClassType superType =
+                superClassName.verifyType(compiler).asClassType(message, getLocation());
+        ClassType classType =
+                new ClassType(className.getName(), getLocation(), superType.getDefinition());
+        compiler.declareTypeDefinition(className.getName(), classType.getDefinition());
     }
 
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
         LOG.debug("start verifying the members of class " + className.getName());
-        ClassDefinition classDefinition =
-                (ClassDefinition) compiler.getTypeDefinition(className.getName());
-        if (superClassName.getName().equals(compiler.createSymbol("Object"))) {
-            superClassName.setDefinition(compiler.getTypeDefinition("Object"));
-        }
+        ClassType classType = (ClassType) className.verifyType(compiler);
+        ClassType superType = (ClassType) superClassName.verifyType(compiler);
         try {
             // "En pratique, une implémentation pourra simplement ajouter les nouvelles définitions
             // à l’environnement contenu dans la définition de classe construite en passe 1.
@@ -87,13 +73,13 @@ public class DeclClass extends AbstractDeclClass {
             // d’environnement peut être fait dès la création de la définition de classe en passe 1."
             //     -- Page 81, règle (2.3)
             EnvironmentExp fieldEnvironment = listDeclField.verifyListDeclField(
-                    compiler, className.getClassDefinition(), superClassName.getClassDefinition()
+                    compiler, classType.getDefinition(), superType.getDefinition()
             );
-            classDefinition.getMembers().join(fieldEnvironment);
+            classType.getDefinition().getMembers().join(fieldEnvironment);
             EnvironmentExp methodEnvironment = listDeclMethod.verifyListDeclMethod(
-                    compiler, className.getClassDefinition(), superClassName.getClassDefinition()
+                    compiler, classType.getDefinition(), superType.getDefinition()
             );
-            classDefinition.getMembers().join(methodEnvironment);
+            classType.getDefinition().getMembers().join(methodEnvironment);
 
         } catch (EnvironmentExp.DoubleDefException e) {
             // FIXME: the only evidence for this is page 77 where it says the OPLUS operator
@@ -109,10 +95,9 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
         //  On construit un environnement qui contient les champs et les méthodes,
         //  ainsi que les paramètres des méthodes et les variables locales.
-        ClassDefinition classDefinition =
-                (ClassDefinition) compiler.getTypeDefinition(className.getName());
-        listDeclField.verifyListDeclFieldInit(compiler, classDefinition);
-        listDeclMethod.verifyListDeclMethodBody(compiler, classDefinition);
+        ClassType classType = (ClassType) className.verifyType(compiler);
+        listDeclField.verifyListDeclFieldInit(compiler, classType.getDefinition());
+        listDeclMethod.verifyListDeclMethodBody(compiler, classType.getDefinition());
     }
 
 
