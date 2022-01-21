@@ -1,0 +1,52 @@
+`> [13, 0] Program
+   +> [13, 0] ListDeclClass [List with 1 elements]
+   |  []> [13, 0] DeclClass
+   |      +> [13, 6] Identifier (coordonnees)
+   |      +> [13, 0] extends
+   |      +> [13, 17] Identifier (Object)
+   |      []> [14, 8] DeclField
+   |      ||  +> [14, 8] Visibility PUBLIC
+   |      ||  +> [14, 4] Identifier (int)
+   |      ||  +> [14, 8] Identifier (x)
+   |      ||  `> [14, 12] Initialization
+   |      ||     `> [14, 12] Int (5)
+   |      []> [15, 8] DeclField
+   |          +> [15, 8] Visibility PUBLIC
+   |          +> [15, 4] Identifier (int)
+   |          +> [15, 8] Identifier (y)
+   |          `> [15, 12] Initialization
+   |             `> [15, 12] Plus
+   |                +> [15, 12] Int (10)
+   |                `> [15, 17] Int (204)
+   |      []> [17, 4] DeclMethod
+   |          +> [17, 4] Identifier (int)
+   |          +> [17, 8] Identifier (plan)
+   |          +> [17, 13] ListDeclParam [List with 1 elements]
+   |          |  []> [17, 13] DeclParam
+   |          |      +> [17, 13] Identifier (int)
+   |          |      +> [17, 17] Identifier (z)
+   |          +> [17, 19] ListDeclVar [List with 0 elements]
+   |          +> [17, 19] ListInst [List with 1 elements]
+   |          |  []> [18, 8] Return
+   |          |      +> [18, 15] Selection
+   `> [22, 0] Main
+      +> [23, 4] ListDeclVar [List with 2 elements]
+      |  []> [23, 8] DeclVar
+      |  ||  +> [23, 4] Identifier (int)
+      |  ||  +> [23, 8] Identifier (k)
+      |  ||  `> [23, 12] Initialization
+      |  ||     `> [23, 12] MethodCall
+      |  ||        +> [23, 12] Identifier (coords)
+      |  ||        +> [23, 19] Identifier (plan)
+      |  ||        +> [23, 24] ListExpr [List with 1 elements]
+      |  ||        |  []> [23, 24] Int (1)
+      |  []> [24, 16] DeclVar
+      |      +> [24, 4] Identifier (coordonnees)
+      |      +> [24, 16] Identifier (coords)
+      |      `> [24, 25] Initialization
+      |         `> [24, 25] New
+      |            +> [24, 29] Identifier (coordonnees)
+      `> [25, 4] ListInst [List with 1 elements]
+         []> [25, 4] Assign
+             +> [25, 4] Selection
+             `> [25, 15] Int (5)

@@ -33,4 +33,7 @@
          []> [22, 4] Assign
              +> [22, 4] Identifier (y)
              `> [22, 8] MethodCall
-                []> [22, 16] Int (2)
+                +> [22, 8] Identifier (m)
+                +> [22, 10] Identifier (power)
+                +> [22, 16] ListExpr [List with 1 elements]
+                |  []> [22, 16] Int (2)

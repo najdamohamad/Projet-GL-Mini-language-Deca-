@@ -9,7 +9,11 @@
    |      ||  +> [14, 4] Identifier (int)
    |      ||  +> [14, 8] Identifier (x)
    |      ||  `> [14, 12] Initialization
-   |      ||     `> [14, 12] Identifier (plan)
+   |      ||     `> [14, 12] MethodCall
+   |      ||        +> Identifier (this)
+   |      ||        +> [14, 12] Identifier (plan)
+   |      ||        +> [14, 17] ListExpr [List with 1 elements]
+   |      ||        |  []> [14, 17] Identifier (z)
    |      []> [15, 8] DeclField
    |          +> [15, 8] Visibility PUBLIC
    |          +> [15, 4] Identifier (int)
