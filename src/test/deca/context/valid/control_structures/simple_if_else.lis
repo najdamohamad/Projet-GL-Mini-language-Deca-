@@ -1,5 +1,5 @@
 `> [12, 0] Program
-   +> ListDeclClass [List with 0 elements]
+   +> [12, 0] ListDeclClass [List with 0 elements]
    `> [12, 0] Main
       +> [13, 4] ListDeclVar [List with 3 elements]
       |  []> [13, 8] DeclVar
@@ -7,7 +7,7 @@
       |  ||  |  definition: type defined at null, type=int
       |  ||  +> [13, 8] Identifier (x)
       |  ||  |  definition: variable defined at [13, 8], type=int
-      |  ||  `> [13, 8] Initialization
+      |  ||  `> [13, 12] Initialization
       |  ||     `> [13, 12] Int (4)
       |  ||        type: int
       |  []> [14, 8] DeclVar
@@ -15,7 +15,7 @@
       |  ||  |  definition: type defined at null, type=int
       |  ||  +> [14, 8] Identifier (y)
       |  ||  |  definition: variable defined at [14, 8], type=int
-      |  ||  `> [14, 8] Initialization
+      |  ||  `> [14, 12] Initialization
       |  ||     `> [14, 12] Int (5)
       |  ||        type: int
       |  []> [15, 12] DeclVar
@@ -23,7 +23,7 @@
       |      |  definition: type defined at null, type=boolean
       |      +> [15, 12] Identifier (condition)
       |      |  definition: variable defined at [15, 12], type=boolean
-      |      `> [15, 12] Initialization
+      |      `> [15, 24] Initialization
       |         `> [15, 24] BooleanLiteral (true)
       |            type: boolean
       `> [16, 4] ListInst [List with 1 elements]
@@ -34,7 +34,7 @@
              |  |  definition: variable defined at [15, 12], type=boolean
              |  `> [16, 22] BooleanLiteral (true)
              |     type: boolean
-             +> ListInst [List with 1 elements]
+             +> [18, 8] ListInst [List with 1 elements]
              |  []> [18, 8] Assign
              |      type: int
              |      +> [18, 8] Identifier (x)
@@ -45,7 +45,7 @@
              |         |  definition: variable defined at [13, 8], type=int
              |         `> [18, 16] Int (1)
              |            type: int
-             `> ListInst [List with 1 elements]
+             `> [23, 8] ListInst [List with 1 elements]
                 []> [23, 8] Assign
                     type: int
                     +> [23, 8] Identifier (y)

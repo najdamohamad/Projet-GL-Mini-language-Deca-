@@ -1,5 +1,5 @@
 `> [12, 0] Program
-   +> ListDeclClass [List with 0 elements]
+   +> [12, 0] ListDeclClass [List with 0 elements]
    `> [12, 0] Main
       +> [13, 4] ListDeclVar [List with 4 elements]
       |  []> [13, 8] DeclVar
@@ -7,7 +7,7 @@
       |  ||  |  definition: type defined at null, type=int
       |  ||  +> [13, 8] Identifier (x)
       |  ||  |  definition: variable defined at [13, 8], type=int
-      |  ||  `> [13, 8] Initialization
+      |  ||  `> [13, 12] Initialization
       |  ||     `> [13, 12] Int (4)
       |  ||        type: int
       |  []> [14, 8] DeclVar
@@ -15,7 +15,7 @@
       |  ||  |  definition: type defined at null, type=int
       |  ||  +> [14, 8] Identifier (y)
       |  ||  |  definition: variable defined at [14, 8], type=int
-      |  ||  `> [14, 8] Initialization
+      |  ||  `> [14, 12] Initialization
       |  ||     `> [14, 12] Int (5)
       |  ||        type: int
       |  []> [16, 12] DeclVar
@@ -23,7 +23,7 @@
       |  ||  |  definition: type defined at null, type=boolean
       |  ||  +> [16, 12] Identifier (condition_if)
       |  ||  |  definition: variable defined at [16, 12], type=boolean
-      |  ||  `> [16, 12] Initialization
+      |  ||  `> [16, 27] Initialization
       |  ||     `> [16, 27] BooleanLiteral (true)
       |  ||        type: boolean
       |  []> [17, 12] DeclVar
@@ -31,7 +31,7 @@
       |      |  definition: type defined at null, type=boolean
       |      +> [17, 12] Identifier (condition_while)
       |      |  definition: variable defined at [17, 12], type=boolean
-      |      `> [17, 12] Initialization
+      |      `> [17, 30] Initialization
       |         `> [17, 30] BooleanLiteral (true)
       |            type: boolean
       `> [18, 4] ListInst [List with 1 elements]
@@ -42,7 +42,7 @@
              |  |  definition: variable defined at [17, 12], type=boolean
              |  `> [18, 30] BooleanLiteral (true)
              |     type: boolean
-             `> ListInst [List with 1 elements]
+             `> [20, 8] ListInst [List with 1 elements]
                 []> [20, 8] IfThenElse
                     +> [20, 13] Or
                     |  type: boolean
@@ -66,7 +66,7 @@
                     |     |  definition: variable defined at [14, 8], type=int
                     |     `> [20, 51] Int (10)
                     |        type: int
-                    +> ListInst [List with 1 elements]
+                    +> [22, 12] ListInst [List with 1 elements]
                     |  []> [22, 12] Assign
                     |      type: int
                     |      +> [22, 12] Identifier (x)
@@ -77,7 +77,7 @@
                     |         |  definition: variable defined at [13, 8], type=int
                     |         `> [22, 20] Int (1)
                     |            type: int
-                    `> ListInst [List with 1 elements]
+                    `> [27, 12] ListInst [List with 1 elements]
                        []> [27, 12] Assign
                            type: int
                            +> [27, 12] Identifier (y)

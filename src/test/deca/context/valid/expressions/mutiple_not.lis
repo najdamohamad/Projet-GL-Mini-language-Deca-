@@ -1,5 +1,5 @@
 `> [12, 0] Program
-   +> ListDeclClass [List with 0 elements]
+   +> [12, 0] ListDeclClass [List with 0 elements]
    `> [12, 0] Main
       +> [13, 4] ListDeclVar [List with 4 elements]
       |  []> [13, 12] DeclVar
@@ -7,7 +7,7 @@
       |  ||  |  definition: type defined at null, type=boolean
       |  ||  +> [13, 12] Identifier (x)
       |  ||  |  definition: variable defined at [13, 12], type=boolean
-      |  ||  `> [13, 12] Initialization
+      |  ||  `> [13, 16] Initialization
       |  ||     `> [13, 16] BooleanLiteral (true)
       |  ||        type: boolean
       |  []> [14, 12] DeclVar
@@ -15,7 +15,7 @@
       |  ||  |  definition: type defined at null, type=boolean
       |  ||  +> [14, 12] Identifier (y)
       |  ||  |  definition: variable defined at [14, 12], type=boolean
-      |  ||  `> [14, 12] Initialization
+      |  ||  `> [14, 16] Initialization
       |  ||     `> [14, 16] BooleanLiteral (false)
       |  ||        type: boolean
       |  []> [15, 12] DeclVar
@@ -23,7 +23,7 @@
       |  ||  |  definition: type defined at null, type=boolean
       |  ||  +> [15, 12] Identifier (z)
       |  ||  |  definition: variable defined at [15, 12], type=boolean
-      |  ||  `> [15, 12] Initialization
+      |  ||  `> [15, 16] Initialization
       |  ||     `> [15, 16] BooleanLiteral (true)
       |  ||        type: boolean
       |  []> [16, 12] DeclVar
@@ -31,7 +31,7 @@
       |      |  definition: type defined at null, type=boolean
       |      +> [16, 12] Identifier (h)
       |      |  definition: variable defined at [16, 12], type=boolean
-      |      `> [16, 12] Initialization
+      |      `> [16, 16] Initialization
       |         `> [16, 16] BooleanLiteral (false)
       |            type: boolean
       `> [17, 4] ListInst [List with 1 elements]

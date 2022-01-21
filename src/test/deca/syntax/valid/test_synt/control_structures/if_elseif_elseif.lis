@@ -1,5 +1,5 @@
 `> [11, 0] Program
-   +> ListDeclClass [List with 0 elements]
+   +> [11, 0] ListDeclClass [List with 0 elements]
    `> [11, 0] Main
       +> [13, 4] ListDeclVar [List with 0 elements]
       `> [13, 4] ListInst [List with 1 elements]
@@ -7,7 +7,7 @@
              +> [13, 9] Equals
              |  +> [13, 9] Identifier (condition)
              |  `> [13, 22] BooleanLiteral (true)
-             +> ListInst [List with 1 elements]
+             +> [15, 8] ListInst [List with 1 elements]
              |  []> [15, 8] Assign
              |      +> [15, 8] Identifier (x)
              |      `> [15, 12] Plus
@@ -18,13 +18,13 @@
                     +> [18, 13] Equals
                     |  +> [18, 13] Identifier (condition1)
                     |  `> [18, 27] BooleanLiteral (true)
-                    +> ListInst [List with 1 elements]
+                    +> [21, 8] ListInst [List with 1 elements]
                     |  []> [21, 8] Assign
                     |      +> [21, 8] Identifier (y)
                     |      `> [21, 12] Plus
                     |         +> [21, 12] Identifier (y)
                     |         `> [21, 16] Int (1)
-                    `> ListInst [List with 1 elements]
+                    `> [25, 11] ListInst [List with 1 elements]
                        []> [25, 11] Assign
                            +> [25, 11] Identifier (z)
                            `> [25, 15] Plus

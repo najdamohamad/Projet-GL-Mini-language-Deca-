@@ -1,5 +1,5 @@
 `> [11, 0] Program
-   +> ListDeclClass [List with 0 elements]
+   +> [11, 0] ListDeclClass [List with 0 elements]
    `> [11, 0] Main
       +> [12, 4] ListDeclVar [List with 3 elements]
       |  []> [12, 8] DeclVar
@@ -44,6 +44,6 @@
          ||     `> [16, 12] Identifier (y)
          ||        definition: variable defined at [12, 12], type=int
          []> [17, 4] Print
-             `> ListExpr [List with 1 elements]
+             `> [17, 10] ListExpr [List with 1 elements]
                 []> [17, 10] Identifier (z)
                     definition: variable defined at [13, 11], type=float

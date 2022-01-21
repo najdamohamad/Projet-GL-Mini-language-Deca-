@@ -1,5 +1,5 @@
 `> [10, 0] Program
-   +> ListDeclClass [List with 0 elements]
+   +> [10, 0] ListDeclClass [List with 0 elements]
    `> [10, 0] Main
       +> [11, 4] ListDeclVar [List with 3 elements]
       |  []> [11, 8] DeclVar
@@ -27,5 +27,5 @@
          ||     +> [14, 8] Identifier (x)
          ||     `> [14, 12] Identifier (y)
          []> [15, 4] Print
-             `> ListExpr [List with 1 elements]
+             `> [15, 10] ListExpr [List with 1 elements]
                 []> [15, 10] Identifier (z)

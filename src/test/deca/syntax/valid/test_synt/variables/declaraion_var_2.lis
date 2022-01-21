@@ -1,5 +1,5 @@
 `> [10, 0] Program
-   +> ListDeclClass [List with 0 elements]
+   +> [10, 0] ListDeclClass [List with 0 elements]
    `> [10, 0] Main
       +> [11, 4] ListDeclVar [List with 6 elements]
       |  []> [11, 8] DeclVar
@@ -28,7 +28,7 @@
       |      `> [12, 14] NoInitialization
       `> [13, 4] ListInst [List with 1 elements]
          []> [13, 4] Print
-             `> ListExpr [List with 1 elements]
+             `> [13, 10] ListExpr [List with 1 elements]
                 []> [13, 10] Plus
                     +> [13, 10] Plus
                     |  +> [13, 10] Minus

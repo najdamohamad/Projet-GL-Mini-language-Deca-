@@ -1,5 +1,5 @@
 `> [14, 0] Program
-   +> ListDeclClass [List with 0 elements]
+   +> [14, 0] ListDeclClass [List with 0 elements]
    `> [14, 0] Main
       +> [15, 4] ListDeclVar [List with 1 elements]
       |  []> [15, 12] DeclVar
@@ -16,8 +16,8 @@
              |  |  definition: variable defined at [15, 12], type=boolean
              |  `> [16, 22] BooleanLiteral (true)
              |     type: boolean
-             `> ListInst [List with 1 elements]
+             `> [18, 8] ListInst [List with 1 elements]
                 []> [18, 8] Print
-                    `> ListExpr [List with 1 elements]
+                    `> [18, 14] ListExpr [List with 1 elements]
                        []> [18, 14] StringLiteral (hello)
                            type: string
