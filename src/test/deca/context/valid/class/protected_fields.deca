@@ -1,0 +1,19 @@
+// Description:
+//    Test de declaration d'une classe dans laquelle on declare des protected fields
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur --> protected est permit dans la grammaire "Visibility"
+//    Context: pas d'erreur
+//
+// Historique:
+//    cree le 20/01/2022
+
+
+
+   class coordonnees{
+       protected int x;
+
+   }
+{
+}

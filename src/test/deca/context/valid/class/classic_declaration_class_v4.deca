@@ -1,0 +1,23 @@
+// Description:
+//    Test de declaration d'une classe avec des differents manieres de  declarations dedans
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: pas d'erreur
+//
+// Historique:
+//    cree le 20/01/2022
+
+
+
+   class coordonnees{
+       boolean x = true || false ;
+       boolean y = true && false ;
+       boolean h = 5 > 4 ;
+       boolean f = x == y  ;
+       int z = 5 + 4 - 3 * 5 ;
+
+   }
+{
+}

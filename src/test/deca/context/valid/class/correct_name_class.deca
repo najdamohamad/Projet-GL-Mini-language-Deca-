@@ -1,0 +1,31 @@
+// Description:
+//    Test de declaration d'une classe dans laquelle la premiere lettre est un chiffre
+//
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: pas d'erreur
+//
+// Historique:
+//    cree le 19/01/2022
+
+
+
+   class _coordonnees{
+       int x;
+
+   }
+   class $coordonnees{
+          int y;
+
+   }
+   class Coordonnees{
+             int z;
+   }
+   class c12300rdonnees{
+                int h;
+
+   }
+{
+}

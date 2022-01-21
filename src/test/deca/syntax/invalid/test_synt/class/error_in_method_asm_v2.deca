@@ -1,0 +1,20 @@
+// Description:
+//    Test de déclaration de class ou on utulise une methode avec un mauvais asm
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur dans la methode puisqu'il manque des "" dans le asm
+//
+//
+// Historique:
+//    cree le 20/01/2022
+
+class coordonnees{
+    int x = 5;
+    int y = 10 + 204;
+
+    int plan(int z)
+        asm(  WSTR \"hello\" );
+
+}
+

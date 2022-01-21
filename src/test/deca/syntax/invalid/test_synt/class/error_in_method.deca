@@ -1,0 +1,27 @@
+// Description:
+//    Test de déclaration de class ou on utulise une methode
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur dans ident de la method ( ident ne commence pas par un chiffre )
+//
+//
+// Historique:
+//    cree le 20/01/2022
+
+class coordonnees{
+    int x = 5;
+    int y = 10 + 204;
+
+    int 1plan(int z){
+        return this.x;
+    }
+}
+
+{
+
+    coordonnees coords = new coordonnees();
+    int k = coords.plan(1);
+
+    coords.x = 5;
+}
