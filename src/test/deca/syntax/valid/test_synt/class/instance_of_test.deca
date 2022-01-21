@@ -1,0 +1,27 @@
+// Description:
+//    Test de declaration d'une classe fils et une class pere avec un instanceof de syntaxe correcte
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 20/01/2022
+
+
+
+class Dad{
+   boolean myDad = true;
+}
+
+class Son extends Dad{}
+
+{
+  Dad d = new Dad();
+  Son s = new Son();
+
+  if(s instanceof Dad)
+    {
+      print("you found ur dad") ;
+    }
+}
