@@ -1,0 +1,33 @@
+// Description:
+//    Test de declaration d'une classe avec un appel faux de cette methode dans main
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: erreur --> appel faux de la fonction --> int au lieu de boolean
+//
+//
+// Historique:
+//    cree le 20/01/2022
+
+
+class LovesMe{
+
+    boolean Love(boolean x){
+        if(x > 10)
+        {
+            return true ;
+        }
+        else
+        {
+            return false ;
+        }
+
+}
+}
+
+{
+    LovesMe l = new LovesMe() ;
+    boolean y = l.Love(12);
+
+}

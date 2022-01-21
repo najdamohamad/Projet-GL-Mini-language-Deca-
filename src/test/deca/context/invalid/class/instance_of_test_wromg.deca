@@ -1,0 +1,28 @@
+// Description:
+//    Test de declaration d'une classe fils et une class pere avec un instanceof de syntaxe correcte
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: erreur ligne 24 --> s instance of d ce qui est faux car instanceof doit etre suivi par un type .
+//
+// Historique:
+//    cree le 20/01/2022
+
+
+
+class Dad{
+   boolean myDad = true;
+}
+
+class Son extends Dad{}
+
+{
+  Dad d = new Dad();
+  Son s = new Son();
+
+  if(s instanceof d)
+    {
+      print("you found ur dad") ;
+    }
+}

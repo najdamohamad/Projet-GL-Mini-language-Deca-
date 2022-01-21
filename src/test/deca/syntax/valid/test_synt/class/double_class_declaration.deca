@@ -1,0 +1,20 @@
+// Description:
+//    Test de déclaration de la même classe 2 fois
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 20/01/2022
+
+
+    class A{
+       int x, y;
+    }
+    class A{
+       int x , y  ;
+    }
+{
+
+}
