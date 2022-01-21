@@ -1,0 +1,16 @@
+// Description:
+//    Test de déclaration ou on utulise asm dans le main ce qui est faux
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+//
+// Historique:
+//    cree le 20/01/2022
+
+{
+    asm("
+        WSTR \"1234\"
+    ");
+}

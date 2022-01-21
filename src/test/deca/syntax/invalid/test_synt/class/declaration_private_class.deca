@@ -1,0 +1,20 @@
+// Description:
+//    Test de declaration d'une classe avec Private devant
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur de syntax --> en deca le premier mot dans "class__decl" doit
+//                                   être classe--> donc pas de possibilité de mot avant "class" .
+//
+// Historique:
+//    cree le 19/01/2022
+
+
+ Private class TheClass
+{
+    int x ;
+}
+
+{
+
+}

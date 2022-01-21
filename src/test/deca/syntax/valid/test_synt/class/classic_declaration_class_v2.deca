@@ -8,6 +8,10 @@
 // Historique:
 //    cree le 11/01/2022
 
-class coordonnees{
+
+    class coordonnees{
        int x, y;
     }
+{
+
+}

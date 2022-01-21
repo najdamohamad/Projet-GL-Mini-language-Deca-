@@ -1,0 +1,18 @@
+// Description:
+//    Test de declaration d'une classe avec des fields dedans
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 20/01/2022
+
+
+
+   class coordonnees{
+       int x =3  , y = 4 ;
+
+   }
+{
+}

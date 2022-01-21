@@ -1,0 +1,25 @@
+// Description:
+//    Test de declaration d'une classe avec un appel faux de cette methode dans main
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: erreur --> appel faux de la fonction --> paramètres faux (2 parametre au lieu de 1)
+//                        il doit y avoir un int .
+//
+// Historique:
+//    cree le 20/01/2022
+
+
+class Maths{
+
+    int power(int x){
+        return x*x;
+    }
+}
+
+{
+    int y ;
+    Maths m = new Maths();
+    y = m.power(2,2);
+}

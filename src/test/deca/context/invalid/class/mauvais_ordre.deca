@@ -1,12 +1,14 @@
 // Description:
-//    Test de déclaration de class
+//    Test de déclaration de class ou on utulise une methode
 //
 // Resultats:
 //    Lexeur: pas d'erreur
 //    Parseur: pas d'erreur
+//    context: en context il ya une erreur
+//
 //
 // Historique:
-//    cree le 11/01/2022
+//    cree le 20/01/2022
 
 class coordonnees{
     int x = plan(z);

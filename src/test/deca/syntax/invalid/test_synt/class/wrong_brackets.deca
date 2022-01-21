@@ -1,0 +1,19 @@
+// Description:
+//    Test de declaration d'une classe avec un nombre de braquets faux
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur de syntax
+//
+// Historique:
+//    cree le 19/01/2022
+
+
+
+   class coordonnees{
+       int x;
+       int y;
+    }
+    }
+{
+}

@@ -1,0 +1,18 @@
+// Description:
+//    Test de declaration d'une classe dans laquelle on declare un private int
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur de syntax --> can't assign the type private inside class
+//
+// Historique:
+//    cree le 19/01/2022
+
+
+
+   class coordonnees{
+       Private int x;
+
+   }
+{
+}

@@ -1,0 +1,30 @@
+// Description:
+//    Test de declaration d'une classe dans laquelle la premiere lettre est un chiffre
+//
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: erreur de syntax -->  ident ne commence pas par des chiffres
+//
+// Historique:
+//    cree le 19/01/2022
+
+
+
+   class _coordonnees{
+       int x;
+
+   }
+   class $coordonnees{
+          int y;
+
+   }
+   class Coordonnees{
+             int z;
+   }
+   class c12300rdonnees{
+                int h;
+
+   }
+{
+}

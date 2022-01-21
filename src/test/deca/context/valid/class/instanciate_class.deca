@@ -7,8 +7,8 @@
 // Historique:
 //    cree le 20/01/2022
 
-class A {
-
+class A{
+    int x ;
 }
 
 {

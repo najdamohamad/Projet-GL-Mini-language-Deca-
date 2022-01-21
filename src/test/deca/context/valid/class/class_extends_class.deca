@@ -1,12 +1,13 @@
 // Description:
-//    Definit deux classes l'une fille de l'autre.
+//    Une classe hérite d'une autre classe
 //
 // Resultats:
 //    Lexeur: pas d'erreur
 //    Parseur: pas d'erreur
+//    Context: pas d'erreur
 //
 // Historique:
-//    cree le 19/01/2022
+//    cree le 20/01/2022
 
 class A {
 
