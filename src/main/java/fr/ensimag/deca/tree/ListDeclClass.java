@@ -1,15 +1,18 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.log4j.Logger;
 
 /**
  * @author gl47
  * @date 01/01/2022
  */
-public class ListDeclClass extends TreeList<AbstractDeclClass> {
+public class ListDeclClass extends TreeList<AbstractDeclClass> implements CodeGen {
     private static final Logger LOG = Logger.getLogger(ListDeclClass.class);
 
     @Override
@@ -47,5 +50,17 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> {
         for (AbstractDeclClass declClass : getList()) {
             declClass.verifyClassBody(compiler);
         }
+    }
+
+    @Override
+    public int codeGen(IMAProgram program) {
+        return getList().stream().map((AbstractDeclClass declClass) -> {
+            return declClass.codeGen(program);
+        }).max(Integer::compare).orElse(0);
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
     }
 }

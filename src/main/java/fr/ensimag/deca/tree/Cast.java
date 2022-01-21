@@ -1,10 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
@@ -35,8 +32,31 @@ public class Cast extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        String message = "type error" + TypeCastedTo.decompile() + "n'est pas int ou float ou une class";
+        Type typeCastedToType = TypeCastedTo.verifyExpr(compiler, localEnv, currentClass);
+        Type exprType = rightOperand.getType();
+        ClassType classType = currentClass.getType();
+        if(!(typeCastedToType.isIntOrFloat() || typeCastedToType.isClass())){
+            throw new ContextualError(message, getLocation());
+        }
+        else{
+            if(!(exprType.isIntOrFloat() || exprType.isClass())){
+                message = "Type: l'expression "+ rightOperand.decompile() + "doit être un int, float ou une class";
+                throw new ContextualError(message, getLocation());
+            }
+            else if (!Context.subType(typeCastedToType, classType)){
+                message = "Type: l'expression `" + TypeCastedTo.decompile()
+                        + "` doit être un sous type de `" + classType + ".";
+                throw new ContextualError(message, getLocation());
+            }
+            else if (!Context.subType(exprType, typeCastedToType) && !Context.subType(typeCastedToType  , exprType)){
+                message = "Type: les deux expressions sont de types incompatible.";
+                throw new ContextualError(message, getLocation());
+            }
+        }
+        return typeCastedToType;
     }
+
 
     protected void setRightOperand(AbstractExpr rightOperand) {
         Validate.notNull(rightOperand);
@@ -84,7 +104,7 @@ public class Cast extends AbstractExpr {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 }

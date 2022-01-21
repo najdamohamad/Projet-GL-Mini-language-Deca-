@@ -48,13 +48,14 @@ public class Main extends AbstractMain implements CodeGen {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         // A FAIRE: traiter les déclarations de variables.
         program.addComment("Beginning of main function:");
         declVariables.codeGen(program);
         insts.codeGen(program);
         declVariables.epilogue(program);
         program.addComment("End of main function.");
+        return 0;
     }
 
     @Override

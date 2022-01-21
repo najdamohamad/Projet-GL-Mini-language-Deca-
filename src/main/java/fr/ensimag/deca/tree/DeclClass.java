@@ -1,10 +1,17 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Line;
+import fr.ensimag.ima.pseudocode.instructions.RTS;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -93,6 +100,7 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
+        LOG.debug("begin ");
         //  On construit un environnement qui contient les champs et les méthodes,
         //  ainsi que les paramètres des méthodes et les variables locales.
         ClassType classType = (ClassType) className.verifyType(compiler);
@@ -119,4 +127,40 @@ public class DeclClass extends AbstractDeclClass {
         listDeclMethod.iterChildren(f);
     }
 
+    /**
+     * The class initialization must follow the order described in p216, 4.3:
+     * - initialize all of our fields to 0.
+     * - call initializer for superclass.
+     * - use the explicit initialization if present.
+     * @param program Abstract representation of the IMA assembly code.
+     */
+    @Override
+    public int codeGen(IMAProgram program) {
+        IMAProgram programInit = new IMAProgram(program);
+        LOG.debug("codegen "+className);
+
+        // Init our fields to 0.
+        for (AbstractDeclField declField : listDeclField.getList()) {
+            LOG.trace("init "+declField+" to 0");
+            declField.codeGenInitFieldsZero(programInit);
+        }
+        // TODO: init the inherited fields
+
+        // For any fields with any explicit initialization, initialize them now.
+        int stackUsage = listDeclField.getList().stream().map((AbstractDeclField declField) -> {
+            LOG.trace("maybe init "+declField+" with initialization");
+            return declField.codeGen(programInit);
+        }).max(Integer::compare).orElse(0);
+
+        programInit.addInstruction(new RTS());
+        programInit.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
+        programInit.addFirstLabel(new Label("init."+className));
+        program.append(programInit);
+        return stackUsage;
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 }

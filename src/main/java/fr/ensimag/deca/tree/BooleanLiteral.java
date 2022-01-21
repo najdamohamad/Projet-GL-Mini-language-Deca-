@@ -58,12 +58,13 @@ public class BooleanLiteral extends AbstractExpr implements Invert {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         int immediateValue = value ? 1 : 0;
         program.addInstruction(new LOAD(
                 immediateValue,
                 program.getMaxUsedRegister()
         ));
+        return 0; // No stack usage
     }
 
     @Override

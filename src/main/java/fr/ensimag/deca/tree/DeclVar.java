@@ -59,15 +59,16 @@ public class DeclVar extends AbstractDeclVar {
 
     // bad code, should find a way to use this instead
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         throw new NotImplementedException("use codeGen with ListDeclVar");
     }
 
     @Override
-    public void codeGen(IMAProgram program, ListDeclVar decls) {
+    public int codeGen(IMAProgram program, ListDeclVar decls) {
         // Put the address of the variable in VariableDefinition.operand of varName.
         program.addComment(getLocation().getLine() + ": "+decompile());
 
+        int stackUsage = 0;
         DAddr varAddr = new RegisterOffset(program.bumpStackUsage(), Register.GB);
         // Optimisation
         // If we have some free registers, use them instead of the stack.
@@ -110,7 +111,7 @@ public class DeclVar extends AbstractDeclVar {
             DVal dval = ((Initialization) initialization).getExpression().getDVal();
             program.addInstruction(new LOAD(dval, varName.getVariableDefinition().getRegister()));
         } else {
-            initialization.codeGen(program);
+            stackUsage = initialization.codeGen(program);
 
             if (varName.getVariableDefinition().isRegister()) {
                 new LOAD(program.getMaxUsedRegister(), varName.getVariableDefinition().getRegister());
@@ -125,6 +126,7 @@ public class DeclVar extends AbstractDeclVar {
         if (varName.getVariableDefinition().isRegister()) {
             program.allocateRegister();
         }
+        return stackUsage;
     }
 
     @Override

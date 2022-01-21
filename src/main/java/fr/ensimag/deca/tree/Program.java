@@ -88,14 +88,18 @@ public class Program extends AbstractProgram {
      * @param program Abstract representation of the IMA assembly code.
      */
     @Override
-    public void codeGen(IMAProgram program) {
-        program.addComment("Main program");
+    public int codeGen(IMAProgram program) {
+
         // TODO: test de dépassement de pile doit être fait à la fin du programme
         // Utiliser les possibilités du paquet pseudocode, voir p210
+        program.addComment("Main program");
         main.codeGen(program);
 
         program.addInstruction(new HALT());
         program.addComment("End of main function.");
+
+        program.addComment("Classes method & constructors");
+        classes.codeGen(program);
 
         // -r option specifies that only 11.1 and 11.3 should be ignored,
         // NOT 11.2 which are the IO errors.
@@ -121,6 +125,7 @@ public class Program extends AbstractProgram {
             program.addInstruction(new WNL());
             program.addInstruction(new ERROR());
         }
+        return 0;
     }
 
     @Override

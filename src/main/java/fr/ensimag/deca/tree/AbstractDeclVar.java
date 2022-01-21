@@ -31,7 +31,7 @@ public abstract class AbstractDeclVar extends Tree implements CodeGen {
                                           EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
 
-    public void codeGen(IMAProgram program, ListDeclVar decls) {
+    public int codeGen(IMAProgram program, ListDeclVar decls) {
         throw new NotImplementedException("bad");
     };
 }

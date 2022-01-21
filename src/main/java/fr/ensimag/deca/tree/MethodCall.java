@@ -94,7 +94,7 @@ public class MethodCall extends AbstractExpr {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         throw new UnsupportedOperationException("Not yet supported");
     }
 }
