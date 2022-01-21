@@ -14,18 +14,18 @@ import java.io.PrintStream;
 public class DeclMethod extends AbstractDeclMethod {
 
     final private AbstractIdentifier type;
-    final private AbstractIdentifier name;
+    final private AbstractIdentifier methodName;
     final private ListDeclParam params;
     final private AbstractMethodBody methodBody;
 
-    public DeclMethod(AbstractIdentifier type, AbstractIdentifier name,
+    public DeclMethod(AbstractIdentifier type, AbstractIdentifier methodName,
                       ListDeclParam params, AbstractMethodBody methodBody) {
         Validate.notNull(type);
-        Validate.notNull(name);
+        Validate.notNull(methodName);
         Validate.notNull(params);
         Validate.notNull(methodBody);
         this.type = type;
-        this.name = name;
+        this.methodName = methodName;
         this.params = params;
         this.methodBody = methodBody;
     }
@@ -34,7 +34,7 @@ public class DeclMethod extends AbstractDeclMethod {
     public void decompile(IndentPrintStream s) {
         type.decompile(s);
         s.print(" ");
-        name.decompile(s);
+        methodName.decompile(s);
         s.print(" ");
         params.decompile(s);
         s.print(" ");
@@ -44,7 +44,7 @@ public class DeclMethod extends AbstractDeclMethod {
     @Override
     protected void iterChildren(TreeFunction f) {
         type.iter(f);
-        name.iter(f);
+        methodName.iter(f);
         params.iter(f);
         methodBody.iter(f);
     }
@@ -52,7 +52,7 @@ public class DeclMethod extends AbstractDeclMethod {
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
         type.prettyPrint(s, prefix, false);
-        name.prettyPrint(s, prefix, false);
+        methodName.prettyPrint(s, prefix, false);
         params.prettyPrint(s, prefix, false);
         methodBody.prettyPrintChildren(s, prefix);
     }
@@ -61,8 +61,8 @@ public class DeclMethod extends AbstractDeclMethod {
     protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv,
                                     ClassDefinition currentClass, ClassDefinition superClass) throws ContextualError {
         Type methodType = type.verifyType(compiler);
-        ExpDefinition superDefinition = superClass.getMembers().get(name.getName());
-        String message = "ScopeError: la méthode `" + name.getName()
+        ExpDefinition superDefinition = superClass.getMembers().get(methodName.getName());
+        String message = "ScopeError: la méthode `" + methodName.getName()
                 + "` a une signature incompatible avec sa méthode héritée";
         MethodDefinition superMethodDefinition =
                 superDefinition.asMethodDefinition(message, getLocation());
@@ -80,12 +80,13 @@ public class DeclMethod extends AbstractDeclMethod {
                 signature,
                 currentClass.getNumberOfMethods()
         );
+        methodName.setDefinition(methodDefinition);
         currentClass.incNumberOfMethods();
         try {
-            localEnv.declare(name.getName(), methodDefinition);
+            localEnv.declare(methodName.getName(), methodDefinition);
         } catch (EnvironmentExp.DoubleDefException e) {
             message = "ScopeError: tentative de définir la méthode `"
-                    + name.decompile() + "` deux fois.";
+                    + methodName.decompile() + "` deux fois.";
             throw new ContextualError(message, getLocation());
         }
     }

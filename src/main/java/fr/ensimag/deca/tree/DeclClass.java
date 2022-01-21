@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import java.io.PrintStream;
 
@@ -14,6 +15,8 @@ import java.io.PrintStream;
  * @date 01/01/2022
  */
 public class DeclClass extends AbstractDeclClass {
+
+    private static final Logger LOG = Logger.getLogger(Program.class);
 
     final private AbstractIdentifier className;
     final private AbstractIdentifier superClassName;
@@ -48,6 +51,7 @@ public class DeclClass extends AbstractDeclClass {
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
         // This implements rule (1.3) of Pass 1
         TypeDefinition superDefinition = compiler.getTypeDefinition(superClassName.getName());
+        LOG.debug("super class = " + superClassName.getName());
         if (superDefinition.isClass()) {
             ClassType classType = new ClassType(
                     className.getName(),
@@ -59,6 +63,7 @@ public class DeclClass extends AbstractDeclClass {
                     getLocation(),
                     (ClassDefinition) superDefinition
             );
+            className.setDefinition(classDefinition);
             compiler.declareTypeDefinition(className.getName(), classDefinition);
         } else {
             String message = "TypeError: " + superClassName.decompile() + " n'est pas une classe.";
@@ -69,6 +74,7 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
+        LOG.debug("start verifying the members of class " + className.getName());
         ClassDefinition classDefinition =
                 (ClassDefinition) compiler.getTypeDefinition(className.getName());
         try {
@@ -93,6 +99,7 @@ public class DeclClass extends AbstractDeclClass {
                     "pour un champ et une méthode.";
             throw new ContextualError(message, getLocation());
         }
+        LOG.debug("end verifying the members of class " + className.getName());
     }
 
     @Override
