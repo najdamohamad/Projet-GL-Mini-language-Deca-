@@ -29,10 +29,11 @@ public class ReadInt extends AbstractReadExpr {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         program.addInstruction(new RINT());
         program.addInstruction(new BOV(Program.IO_ERROR));
         program.addInstruction(new LOAD(Register.R1, program.getMaxUsedRegister()));
+        return 0; // no stack usage
     }
 
     @Override

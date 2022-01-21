@@ -44,7 +44,7 @@ public class This extends AbstractExpr {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 

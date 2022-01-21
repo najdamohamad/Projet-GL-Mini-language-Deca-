@@ -24,9 +24,10 @@ public class Println extends AbstractPrint {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
-        super.codeGen(program);
+    public int codeGen(IMAProgram program) {
+        int stackUsage = super.codeGen(program);
         program.addInstruction(new WNL());
+        return stackUsage;
     }
 
     @Override

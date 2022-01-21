@@ -57,10 +57,11 @@ public abstract class AbstractPrint extends AbstractInst {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         for (AbstractExpr a : getArguments().getList()) {
             a.codeGenDisplay(program, printHex);
         }
+        return 0; // No stack usage for print
     }
 
     @Override

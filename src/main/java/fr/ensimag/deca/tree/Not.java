@@ -46,7 +46,7 @@ public class Not extends AbstractUnaryExpr implements Invert {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         if (getOperand() instanceof Invert) {
             // Optimisation: Some Nots can be resolved at compile time.
             // Because we're in a Not, we know that the underlying expression is an expression with a boolean type,
@@ -55,11 +55,12 @@ public class Not extends AbstractUnaryExpr implements Invert {
             Invert o = (Invert) getOperand();
             setOperand(o.invert());
             // Codegen for the operand now that it's been inverted.
-            getOperand().codeGen(program);
+            return getOperand().codeGen(program);
         } else {
-            getOperand().codeGen(program);
+            int stackUsage = getOperand().codeGen(program);
             program.addInstruction(new CMP(new ImmediateInteger(0), program.getMaxUsedRegister()));
             program.addInstruction(new SEQ(program.getMaxUsedRegister()));
+            return stackUsage;
         }
     }
 

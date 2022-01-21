@@ -28,8 +28,9 @@ public class NoInitialization extends AbstractInitialization {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         // Nothing to do.
+        return 0;
     }
 
     @Override

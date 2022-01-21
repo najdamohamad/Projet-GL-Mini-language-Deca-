@@ -42,8 +42,8 @@ public class Initialization extends AbstractInitialization {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
-        expression.codeGen(program);
+    public int codeGen(IMAProgram program) {
+        return expression.codeGen(program);
     }
 
     @Override

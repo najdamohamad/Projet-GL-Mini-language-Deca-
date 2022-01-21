@@ -77,7 +77,7 @@ public class New extends AbstractExpr {
      * Algorithm 7.4 p223 pour new
      */
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         // NEW #d, R2
         int objectSize = getClassName().getClassDefinition().getNumberOfFields() + 1;
         program.addInstruction(new NEW(new ImmediateInteger(objectSize), program.getMaxUsedRegister()),
@@ -91,6 +91,7 @@ public class New extends AbstractExpr {
         program.addInstruction(new PUSH(program.getMaxUsedRegister()));
         program.addInstruction(new BSR(new Label("init."+getClassName())));
         program.addInstruction(new POP(program.getMaxUsedRegister()));
+        return 0; // no stack usage because temporary was popped
     }
 
     @Override

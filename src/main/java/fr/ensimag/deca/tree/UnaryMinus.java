@@ -43,9 +43,10 @@ public class UnaryMinus extends AbstractUnaryExpr {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         getOperand().codeGen(program);
         program.addInstruction(new OPP(program.getMaxUsedRegister(), program.getMaxUsedRegister()));
+        return 0; // no stack usage
     }
 
     @Override

@@ -91,6 +91,12 @@ public class IMAProgram implements OutputProgram {
     public void addFirst(Line l) {
         lines.addFirst(l);
     }
+    /**
+     * Add a label at the front of the program.
+     */
+    public void addFirstLabel(Label l) {
+        lines.addFirst(new Line(l));
+    }
 
     /**
      * Display the program in a textual form readable by IMA to stream s.
