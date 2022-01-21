@@ -1,8 +1,12 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.RTS;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -50,6 +54,7 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
         // This implements rule (1.3) of Pass 1
+        LOG.debug("begin verifyClass");
         TypeDefinition superDefinition = compiler.getTypeDefinition(superClassName.getName());
         LOG.debug("super class = " + superClassName.getName());
         if (superDefinition.isClass()) {
@@ -69,6 +74,7 @@ public class DeclClass extends AbstractDeclClass {
             String message = "TypeError: " + superClassName.decompile() + " n'est pas une classe.";
             throw new ContextualError(message, getLocation());
         }
+        LOG.debug("end verifyClass");
     }
 
     @Override
@@ -107,6 +113,7 @@ public class DeclClass extends AbstractDeclClass {
 
     @Override
     protected void verifyClassBody(DecacCompiler compiler) throws ContextualError {
+        LOG.debug("begin ");
         //  On construit un environnement qui contient les champs et les méthodes,
         //  ainsi que les paramètres des méthodes et les variables locales.
         ClassDefinition classDefinition =
@@ -134,4 +141,35 @@ public class DeclClass extends AbstractDeclClass {
         listDeclMethod.iterChildren(f);
     }
 
+    /**
+     * The class initialization must follow the order described in p216, 4.3:
+     * - initialize all of our fields to 0.
+     * - call initializer for superclass.
+     * - use the explicit initialization if present.
+     * @param program Abstract representation of the IMA assembly code.
+     */
+    @Override
+    public void codeGen(IMAProgram program) {
+        LOG.debug("codegen "+className);
+        program.addLabel(new Label("init."+className));
+
+        // Init our fields to 0.
+        for (AbstractDeclField declField : listDeclField.getList()) {
+            LOG.trace("init "+declField+" to 0");
+            declField.codeGenInitFieldsZero(program);
+        }
+        // TODO: init the inherited fields
+
+        // For any fields with any explicit initialization, initialize them now.
+        for (AbstractDeclField declField : listDeclField.getList()) {
+            LOG.trace("maybe init "+declField+" with initialization");
+            declField.codeGen(program);
+        }
+        program.addInstruction(new RTS());
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
 }

@@ -58,6 +58,11 @@ public class Initialization extends AbstractInitialization {
     }
 
     @Override
+    public String toString() {
+        return expression.decompile();
+    }
+
+    @Override
     protected void iterChildren(TreeFunction f) {
         expression.iter(f);
     }

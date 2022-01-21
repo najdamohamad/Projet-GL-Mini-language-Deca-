@@ -8,6 +8,9 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -70,9 +73,24 @@ public class New extends AbstractExpr {
         className.prettyPrint(s, prefix, false);
     }
 
+    /**
+     * Algorithm 7.4 p223 pour new
+     */
     @Override
     public void codeGen(IMAProgram program) {
-        throw new UnsupportedOperationException("not yet implemented");
+        // NEW #d, R2
+        int objectSize = getClassName().getClassDefinition().getNumberOfFields() + 1;
+        program.addInstruction(new NEW(new ImmediateInteger(objectSize), program.getMaxUsedRegister()),
+                getClassName().getClassDefinition().getNumberOfFields()  + " fields for " + getClassName());
+        // BOV tas_plein
+        program.addInstruction(new BOV(Program.STACK_OVERFLOW_ERROR));
+        // TODO: lea adress of method table
+        // LEA ad_A, R0
+        // STORE RO, 0(R2)
+        // TODO: sauvegarde des registres à faire?
+        program.addInstruction(new PUSH(program.getMaxUsedRegister()));
+        program.addInstruction(new BSR(new Label("init."+getClassName())));
+        program.addInstruction(new POP(program.getMaxUsedRegister()));
     }
 
     @Override

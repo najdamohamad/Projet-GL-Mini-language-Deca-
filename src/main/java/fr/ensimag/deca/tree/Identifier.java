@@ -228,6 +228,11 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
+    public String toString() {
+        return name.toString();
+    }
+
+    @Override
     protected void prettyPrintType(PrintStream s, String prefix) {
         Definition d = getDefinition();
         if (d != null) {

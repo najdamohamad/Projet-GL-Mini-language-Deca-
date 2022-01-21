@@ -1,9 +1,17 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import java.io.PrintStream;
 
@@ -12,6 +20,8 @@ import java.io.PrintStream;
  * @date 01/01/2022
  */
 public class DeclField extends AbstractDeclField {
+
+    private static final Logger LOG = Logger.getLogger(Identifier.class);
 
     private final AbstractIdentifier type;
     private final AbstractIdentifier varName;
@@ -97,5 +107,46 @@ public class DeclField extends AbstractDeclField {
 
     public Visibility getVisibility() {
         return visibility;
+    }
+
+    @Override
+    public void codeGenInitFieldsZero(IMAProgram program) {
+        FieldDefinition field = varName.getFieldDefinition();
+        program.addComment("initializing " + field.getContainingClass() + "." + varName + " to 0");
+        program.addInstruction(new LOAD(0, Register.R0));
+        program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
+        program.addInstruction(new STORE(
+                Register.R0,
+                // 0(R1) is adress of method  table, add one
+                new RegisterOffset(field.getIndex() + 1, Register.R1)
+        ));
+    }
+
+    @Override
+    public void codeGen(IMAProgram program) {
+        if (initialization instanceof NoInitialization) {
+            return;
+        }
+        LOG.trace("got init, initing field "+this+" with init: "+initialization);
+        FieldDefinition field = varName.getFieldDefinition();
+        program.addComment("initializing " + field.getContainingClass().getType() + "." + varName
+            + " with expression " + initialization);
+        initialization.codeGen(program);
+        program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
+        program.addInstruction(new STORE(
+                program.getMaxUsedRegister(),
+                // 0(R1) is adress of method  table, add one
+                new RegisterOffset(field.getIndex() + 1, Register.R1)
+        ));
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not yet implemented");
+    }
+
+    @Override
+    public String toString() {
+        return "DeclField("+varName.getName()+")";
     }
 }
