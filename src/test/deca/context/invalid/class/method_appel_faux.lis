@@ -1,1 +1,1 @@
-ERREUR: appel faux de la fonction pas de paralmetre
+src/test/deca/context/invalid/class/method_appel_faux.deca:23:8: TypeError: l'appel méthode `m.power()` est incompatible avec sa signature.

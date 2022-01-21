@@ -2,20 +2,28 @@
    +> [14, 3] ListDeclClass [List with 1 elements]
    |  []> [14, 3] DeclClass
    |      +> [14, 9] Identifier (coordonnees)
+   |      |  definition: type defined at [14, 3], type=coordonnees
    |      +> [14, 3] extends
    |      +> [14, 20] Identifier (Object)
+   |      |  definition: type defined at [14, 3], type=Object
    |      []> [15, 11] DeclField
    |      ||  +> [15, 11] Visibility PUBLIC
    |      ||  +> [15, 7] Identifier (int)
+   |      ||  |  definition: type defined at null, type=int
    |      ||  +> [15, 11] Identifier (x)
+   |      ||  |  definition: field defined at [15, 11], type=int
    |      ||  `> [15, 14] Initialization
    |      ||     `> [15, 14] Int (3)
+   |      ||        type: int
    |      []> [15, 19] DeclField
    |          +> [15, 19] Visibility PUBLIC
    |          +> [15, 7] Identifier (int)
+   |          |  definition: type defined at null, type=int
    |          +> [15, 19] Identifier (y)
+   |          |  definition: field defined at [15, 19], type=int
    |          `> [15, 23] Initialization
    |             `> [15, 23] Int (4)
+   |                type: int
    `> [18, 0] Main
       +> [19, 0] ListDeclVar [List with 0 elements]
       `> [19, 0] ListInst [List with 0 elements]

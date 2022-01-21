@@ -1,1 +1,1 @@
-ERREUR int
+src/test/deca/context/invalid/class/class_extends_int.deca:10:0: TypeError: int n'est pas une classe.

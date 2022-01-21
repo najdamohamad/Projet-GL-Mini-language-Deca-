@@ -2,26 +2,36 @@
    +> [13, 4] ListDeclClass [List with 2 elements]
    |  []> [13, 4] DeclClass
    |  ||  +> [13, 10] Identifier (coordonneesPlan)
+   |  ||  |  definition: type defined at [13, 4], type=coordonneesPlan
    |  ||  +> [13, 4] extends
    |  ||  +> [13, 25] Identifier (Object)
+   |  ||  |  definition: type defined at [13, 4], type=Object
    |  ||  []> [14, 12] DeclField
    |  ||  ||  +> [14, 12] Visibility PUBLIC
    |  ||  ||  +> [14, 8] Identifier (int)
+   |  ||  ||  |  definition: type defined at null, type=int
    |  ||  ||  +> [14, 12] Identifier (x)
+   |  ||  ||  |  definition: field defined at [14, 12], type=int
    |  ||  ||  `> [14, 12] NoInitialization
    |  ||  []> [15, 12] DeclField
    |  ||      +> [15, 12] Visibility PUBLIC
    |  ||      +> [15, 8] Identifier (int)
+   |  ||      |  definition: type defined at null, type=int
    |  ||      +> [15, 12] Identifier (y)
+   |  ||      |  definition: field defined at [15, 12], type=int
    |  ||      `> [15, 12] NoInitialization
    |  []> [17, 4] DeclClass
    |      +> [17, 10] Identifier (coordonneesSpace)
+   |      |  definition: type defined at [17, 4], type=coordonneesSpace
    |      +> [17, 4] extends
    |      +> [17, 27] Identifier (coordonneesPlan)
+   |      |  definition: type defined at [13, 4], type=coordonneesPlan
    |      []> [18, 12] DeclField
    |          +> [18, 12] Visibility PUBLIC
    |          +> [18, 8] Identifier (int)
+   |          |  definition: type defined at null, type=int
    |          +> [18, 12] Identifier (z)
+   |          |  definition: field defined at [18, 12], type=int
    |          `> [18, 12] NoInitialization
    `> [20, 0] Main
       +> [22, 0] ListDeclVar [List with 0 elements]

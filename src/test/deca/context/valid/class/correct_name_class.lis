@@ -2,39 +2,55 @@
    +> [15, 3] ListDeclClass [List with 4 elements]
    |  []> [15, 3] DeclClass
    |  ||  +> [15, 9] Identifier (_coordonnees)
+   |  ||  |  definition: type defined at [15, 3], type=_coordonnees
    |  ||  +> [15, 3] extends
    |  ||  +> [15, 21] Identifier (Object)
+   |  ||  |  definition: type defined at [15, 3], type=Object
    |  ||  []> [16, 11] DeclField
    |  ||      +> [16, 11] Visibility PUBLIC
    |  ||      +> [16, 7] Identifier (int)
+   |  ||      |  definition: type defined at null, type=int
    |  ||      +> [16, 11] Identifier (x)
+   |  ||      |  definition: field defined at [16, 11], type=int
    |  ||      `> [16, 11] NoInitialization
    |  []> [19, 3] DeclClass
    |  ||  +> [19, 9] Identifier ($coordonnees)
+   |  ||  |  definition: type defined at [19, 3], type=$coordonnees
    |  ||  +> [19, 3] extends
    |  ||  +> [19, 21] Identifier (Object)
+   |  ||  |  definition: type defined at [15, 3], type=Object
    |  ||  []> [20, 14] DeclField
    |  ||      +> [20, 14] Visibility PUBLIC
    |  ||      +> [20, 10] Identifier (int)
+   |  ||      |  definition: type defined at null, type=int
    |  ||      +> [20, 14] Identifier (y)
+   |  ||      |  definition: field defined at [20, 14], type=int
    |  ||      `> [20, 14] NoInitialization
    |  []> [23, 3] DeclClass
    |  ||  +> [23, 9] Identifier (Coordonnees)
+   |  ||  |  definition: type defined at [23, 3], type=Coordonnees
    |  ||  +> [23, 3] extends
    |  ||  +> [23, 20] Identifier (Object)
+   |  ||  |  definition: type defined at [15, 3], type=Object
    |  ||  []> [24, 17] DeclField
    |  ||      +> [24, 17] Visibility PUBLIC
    |  ||      +> [24, 13] Identifier (int)
+   |  ||      |  definition: type defined at null, type=int
    |  ||      +> [24, 17] Identifier (z)
+   |  ||      |  definition: field defined at [24, 17], type=int
    |  ||      `> [24, 17] NoInitialization
    |  []> [26, 3] DeclClass
    |      +> [26, 9] Identifier (c12300rdonnees)
+   |      |  definition: type defined at [26, 3], type=c12300rdonnees
    |      +> [26, 3] extends
    |      +> [26, 23] Identifier (Object)
+   |      |  definition: type defined at [15, 3], type=Object
    |      []> [27, 20] DeclField
    |          +> [27, 20] Visibility PUBLIC
    |          +> [27, 16] Identifier (int)
+   |          |  definition: type defined at null, type=int
    |          +> [27, 20] Identifier (h)
+   |          |  definition: field defined at [27, 20], type=int
    |          `> [27, 20] NoInitialization
    `> [30, 0] Main
       +> [31, 0] ListDeclVar [List with 0 elements]

@@ -2,52 +2,83 @@
    +> [14, 3] ListDeclClass [List with 1 elements]
    |  []> [14, 3] DeclClass
    |      +> [14, 9] Identifier (coordonnees)
+   |      |  definition: type defined at [14, 3], type=coordonnees
    |      +> [14, 3] extends
    |      +> [14, 20] Identifier (Object)
+   |      |  definition: type defined at [14, 3], type=Object
    |      []> [15, 15] DeclField
    |      ||  +> [15, 15] Visibility PUBLIC
    |      ||  +> [15, 7] Identifier (boolean)
+   |      ||  |  definition: type defined at null, type=boolean
    |      ||  +> [15, 15] Identifier (x)
+   |      ||  |  definition: field defined at [15, 15], type=boolean
    |      ||  `> [15, 19] Initialization
    |      ||     `> [15, 19] Or
+   |      ||        type: boolean
    |      ||        +> [15, 19] BooleanLiteral (true)
+   |      ||        |  type: boolean
    |      ||        `> [15, 27] BooleanLiteral (false)
+   |      ||           type: boolean
    |      []> [16, 15] DeclField
    |      ||  +> [16, 15] Visibility PUBLIC
    |      ||  +> [16, 7] Identifier (boolean)
+   |      ||  |  definition: type defined at null, type=boolean
    |      ||  +> [16, 15] Identifier (y)
+   |      ||  |  definition: field defined at [16, 15], type=boolean
    |      ||  `> [16, 19] Initialization
    |      ||     `> [16, 19] And
+   |      ||        type: boolean
    |      ||        +> [16, 19] BooleanLiteral (true)
+   |      ||        |  type: boolean
    |      ||        `> [16, 27] BooleanLiteral (false)
+   |      ||           type: boolean
    |      []> [17, 15] DeclField
    |      ||  +> [17, 15] Visibility PUBLIC
    |      ||  +> [17, 7] Identifier (boolean)
+   |      ||  |  definition: type defined at null, type=boolean
    |      ||  +> [17, 15] Identifier (h)
+   |      ||  |  definition: field defined at [17, 15], type=boolean
    |      ||  `> [17, 19] Initialization
    |      ||     `> [17, 19] Greater
+   |      ||        type: boolean
    |      ||        +> [17, 19] Int (5)
+   |      ||        |  type: int
    |      ||        `> [17, 23] Int (4)
+   |      ||           type: int
    |      []> [18, 15] DeclField
    |      ||  +> [18, 15] Visibility PUBLIC
    |      ||  +> [18, 7] Identifier (boolean)
+   |      ||  |  definition: type defined at null, type=boolean
    |      ||  +> [18, 15] Identifier (f)
+   |      ||  |  definition: field defined at [18, 15], type=boolean
    |      ||  `> [18, 19] Initialization
    |      ||     `> [18, 19] Equals
+   |      ||        type: boolean
    |      ||        +> [18, 19] Identifier (x)
+   |      ||        |  definition: field defined at [15, 15], type=boolean
    |      ||        `> [18, 24] Identifier (y)
+   |      ||           definition: field defined at [16, 15], type=boolean
    |      []> [19, 11] DeclField
    |          +> [19, 11] Visibility PUBLIC
    |          +> [19, 7] Identifier (int)
+   |          |  definition: type defined at null, type=int
    |          +> [19, 11] Identifier (z)
+   |          |  definition: field defined at [19, 11], type=int
    |          `> [19, 15] Initialization
    |             `> [19, 15] Minus
+   |                type: int
    |                +> [19, 15] Plus
+   |                |  type: int
    |                |  +> [19, 15] Int (5)
+   |                |  |  type: int
    |                |  `> [19, 19] Int (4)
+   |                |     type: int
    |                `> [19, 23] Multiply
+   |                   type: int
    |                   +> [19, 23] Int (3)
+   |                   |  type: int
    |                   `> [19, 27] Int (5)
+   |                      type: int
    `> [22, 0] Main
       +> [23, 0] ListDeclVar [List with 0 elements]
       `> [23, 0] ListInst [List with 0 elements]
