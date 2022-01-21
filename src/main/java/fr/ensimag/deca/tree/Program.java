@@ -3,7 +3,6 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.syscalls.Exit;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
@@ -54,12 +53,7 @@ public class Program extends AbstractProgram {
                 getLocation(),
                 null
         );
-        ClassDefinition objectDefinition = new ClassDefinition(
-                objectType,
-                getLocation(),
-                null
-        );
-        compiler.declareTypeDefinition(objectSymbol, objectDefinition);
+        compiler.declareTypeDefinition(objectSymbol, objectType.getDefinition());
 
         LOG.debug("verify classes, pass 1: start");
         classes.verifyListClass(compiler);

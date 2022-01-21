@@ -1,17 +1,17 @@
 // Description:
-//    Test de déclaration ou on utilise une méthode de la classe elle meme dans le constructeur
+//    Utiliser une méthode dans un champ avec de la déclarer.
 //
 // Resultats:
 //    Lexeur: pas d'erreur
 //    Parseur: pas d'erreur
-//    context: en context il ya une erreur parce que il ne voit pas la méthode.
+//    Context: pas d'erreur; puisque le 
 //
 //
 // Historique:
 //    cree le 20/01/2022
 
 class coordonnees{
-    int x = plan(z);
+    int x = plan(42);
     int y = 10 + 204;
 
     int plan(int z){

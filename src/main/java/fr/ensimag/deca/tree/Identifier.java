@@ -21,6 +21,7 @@ import java.io.PrintStream;
  */
 public class Identifier extends AbstractIdentifier {
     private static final Logger LOG = Logger.getLogger(Identifier.class);
+
     @Override
     protected void checkDecoration() {
         if (getDefinition() == null) {
@@ -185,7 +186,9 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
-        TypeDefinition typeDefinition = compiler.getTypeDefinition(name.toString());
+        // FIXME: There is no reason to pass the Symbol identifier as a String
+        //        but it otherwise breaks Unit tests ...
+        TypeDefinition typeDefinition = compiler.getTypeDefinition(name.getName());
         if (typeDefinition == null) {
             String message = "ScopeError: le type `" + name + "` n'est pas défini.";
             throw new ContextualError(message, getLocation());

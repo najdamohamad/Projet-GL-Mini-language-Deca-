@@ -2,10 +2,13 @@
    +> [12, 0] ListDeclClass [List with 2 elements]
    |  []> [12, 0] DeclClass
    |  ||  +> [12, 6] Identifier (A)
+   |  ||  |  definition: type defined at [12, 0], type=A
    |  ||  +> [12, 0] extends
    |  ||  +> [12, 8] Identifier (Object)
+   |  ||  |  definition: type defined at [12, 0], type=Object
    |  []> [16, 0] DeclClass
    |      +> [16, 6] Identifier (B)
+   |      |  definition: type defined at [16, 0], type=B
    |      +> [16, 0] extends
    |      +> [16, 8] Identifier (A)
    `> [20, 0] Main

@@ -1,1 +1,1 @@
-ERREUR: appel faux de la fonction parametre faux
+src/test/deca/context/invalid/class/method_appel_faux_v1.deca:24:16: TypeError: type incorrect pour expression `"blabla"`, attendu `int` mais trouvé `string`.

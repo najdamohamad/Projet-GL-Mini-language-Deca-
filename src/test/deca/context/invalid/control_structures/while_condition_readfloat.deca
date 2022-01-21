@@ -9,7 +9,7 @@
 //    cree le 14/01/2022
 
 {
-    while(readfloat()) 
+    while(readFloat()) 
     {
         print("salut") ;
     }

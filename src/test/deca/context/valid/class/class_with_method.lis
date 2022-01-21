@@ -1,1 +1,40 @@
-ERREUR doit marcher
+`> [12, 0] Program
+   +> [12, 0] ListDeclClass [List with 1 elements]
+   |  []> [12, 0] DeclClass
+   |      +> [12, 6] Identifier (Maths)
+   |      |  definition: type defined at [12, 0], type=Maths
+   |      +> [12, 0] extends
+   |      +> [12, 11] Identifier (Object)
+   |      |  definition: type defined at [12, 0], type=Object
+   |      []> [14, 4] DeclMethod
+   |          +> [14, 4] Identifier (int)
+   |          |  definition: type defined at null, type=int
+   |          +> [14, 8] Identifier (power)
+   |          |  definition: method defined at [14, 4], type=int
+   |          +> [14, 14] ListDeclParam [List with 1 elements]
+   |          |  []> [14, 14] DeclParam
+   |          |      +> [14, 14] Identifier (int)
+   |          |      |  definition: type defined at null, type=int
+   |          |      +> [14, 18] Identifier (x)
+   |          +> [14, 20] ListDeclVar [List with 0 elements]
+   |          +> [14, 20] ListInst [List with 1 elements]
+   |          |  []> [15, 8] Return
+   |          |      +> [15, 15] Multiply
+   |          |      |  type: int
+   |          |      |  +> [15, 15] Identifier (x)
+   |          |      |  |  definition: parameter defined at [14, 14], type=int
+   |          |      |  `> [15, 17] Identifier (x)
+   |          |      |     definition: parameter defined at [14, 14], type=int
+   `> [19, 0] Main
+      +> [21, 4] ListDeclVar [List with 1 elements]
+      |  []> [21, 10] DeclVar
+      |      +> [21, 4] Identifier (Maths)
+      |      |  definition: type defined at [12, 0], type=Maths
+      |      +> [21, 10] Identifier (m)
+      |      |  definition: variable defined at [21, 10], type=Maths
+      |      `> [21, 14] Initialization
+      |         `> [21, 14] New
+      |            type: Maths
+      |            +> [21, 18] Identifier (Maths)
+      |            |  definition: type defined at [12, 0], type=Maths
+      `> [23, 0] ListInst [List with 0 elements]
