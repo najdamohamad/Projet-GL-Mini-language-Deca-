@@ -1,10 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
-import fr.ensimag.deca.context.Type;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
@@ -36,7 +33,19 @@ public class InstanceOf extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type exprType = expression.verifyExpr(compiler, localEnv, currentClass);
+        Type idType = typeInstanced.verifyType(compiler);
+        String message = "TypeError: " + expression.decompile() + "isn't an object or null";
+        if(!exprType.isClassOrNull()){
+            throw new ContextualError(message, getLocation());
+        }
+        else if(!idType.isClass()){
+            message = "TypeError: " + typeInstanced.decompile() + "isn't a class";
+            throw new ContextualError(message, getLocation());
+        }
+        Type returnType = compiler.getType("boolean");
+        setType(returnType);
+        return returnType;
     }
 
     protected void setExpression(AbstractExpr expression) {
