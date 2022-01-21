@@ -3,8 +3,11 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.syscalls.Exit;
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.context.ClassDefinition;
+import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Label;
@@ -44,7 +47,36 @@ public class Program extends AbstractProgram {
     @Override
     public void verifyProgram(DecacCompiler compiler) throws ContextualError {
         LOG.debug("verify program: start");
+
+        SymbolTable.Symbol objectSymbol = compiler.createSymbol("Object");
+        ClassType objectType = new ClassType(
+                objectSymbol,
+                getLocation(),
+                null
+        );
+        ClassDefinition objectDefinition = new ClassDefinition(
+                objectType,
+                getLocation(),
+                null
+        );
+        compiler.declareTypeDefinition(objectSymbol, objectDefinition);
+
+        LOG.debug("verify classes, pass 1: start");
+        classes.verifyListClass(compiler);
+        LOG.debug("verify classes, pass 1: start");
+
+        LOG.debug("verify classes, pass 2: start");
+        classes.verifyListClassMembers(compiler);
+        LOG.debug("verify classes, pass 2: start");
+
+        LOG.debug("verify classes, pass 3: start");
+        classes.verifyListClassBody(compiler);
+        LOG.debug("verify classes, pass 3: start");
+
+        LOG.debug("verify main: start");
         main.verifyMain(compiler);
+        LOG.debug("verify main: start");
+
         LOG.debug("verify program: end");
     }
 
@@ -58,6 +90,7 @@ public class Program extends AbstractProgram {
      * CodeGen for main programs.
      * Follows the code listing p209,
      * 1 Génération de code pour le langage Deca « sans objet ».
+     *
      * @param program Abstract representation of the IMA assembly code.
      */
     @Override

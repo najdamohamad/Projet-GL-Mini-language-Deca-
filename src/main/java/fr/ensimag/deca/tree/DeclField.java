@@ -77,6 +77,7 @@ public class DeclField extends AbstractDeclField {
                 currentClass,
                 currentClass.getNumberOfFields()
         );
+        varName.setDefinition(fieldDefinition);
         currentClass.incNumberOfFields();
         try {
             localEnv.declare(varName.getName(), fieldDefinition);

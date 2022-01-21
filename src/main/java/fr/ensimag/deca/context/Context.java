@@ -19,4 +19,11 @@ public class Context {
         }
         return subType(type1, type2);
     }
+
+    public static boolean castCompatible(Type type1, Type type2) {
+        if (type1.isVoid()) {
+            return false;
+        }
+        return assignCompatible(type1, type2) || assignCompatible(type2, type1);
+    }
 }

@@ -2,7 +2,6 @@ package fr.ensimag.ima.pseudocode;
 
 import fr.ensimag.deca.codegen.OutputProgram;
 import fr.ensimag.deca.tools.DecacInternalError;
-import fr.ensimag.ima.pseudocode.instructions.ADDSP;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -25,6 +24,11 @@ public class IMAProgram implements OutputProgram {
         this.shouldCheck = shouldCheck;
     }
 
+    public IMAProgram(IMAProgram program) {
+        this.maxRegister = program.maxRegister;
+        this.shouldCheck = program.shouldCheck;
+    }
+
     public void setAssign(boolean assign) {
         isAssign = assign;
     }
@@ -36,6 +40,7 @@ public class IMAProgram implements OutputProgram {
     /**
      * Should we check according to the -n (no check) options?
      * This means we should ignore 11.1 and 11.3 of [Sémantique].
+     *
      * @return true if we check.
      */
     public boolean shouldCheck() {
@@ -63,6 +68,7 @@ public class IMAProgram implements OutputProgram {
 
     /**
      * Add an instruction with a comment.
+     *
      * @param i The instruction.
      * @param s The comment.
      */
