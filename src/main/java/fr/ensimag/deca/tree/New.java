@@ -79,9 +79,9 @@ public class New extends AbstractExpr {
     @Override
     public int codeGen(IMAProgram program) {
         // NEW #d, R2
-        int objectSize = getClassName().getClassDefinition().getNumberOfFields() + 1;
+        int objectSize = getClassName().getClassDefinition().getNumberOfFieldsAndSuperclassFields() + 1;
         program.addInstruction(new NEW(new ImmediateInteger(objectSize), program.getMaxUsedRegister()),
-                getClassName().getClassDefinition().getNumberOfFields()  + " fields for " + getClassName());
+                getClassName().getClassDefinition().getNumberOfFieldsAndSuperclassFields()  + " fields for " + getClassName());
         // BOV tas_plein
         program.addInstruction(new BOV(Program.STACK_OVERFLOW_ERROR));
         // TODO: lea adress of method table
