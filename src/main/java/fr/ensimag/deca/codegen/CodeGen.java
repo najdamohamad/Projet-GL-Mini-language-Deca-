@@ -9,7 +9,7 @@ public interface CodeGen {
      *
      * @param program Abstract representation of the IMA assembly code.
      */
-    void codeGen(IMAProgram program);
+    int codeGen(IMAProgram program);
     /**
      * This method inserts the relevant assembly code in the program.
      *

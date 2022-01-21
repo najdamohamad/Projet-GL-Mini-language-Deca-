@@ -21,8 +21,9 @@ public class EmptyMain extends AbstractMain {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         program.addComment("EmptyMain: no code generation takes place.");
+        return 0;
     }
 
     @Override

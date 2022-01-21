@@ -123,21 +123,22 @@ public class DeclField extends AbstractDeclField {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         if (initialization instanceof NoInitialization) {
-            return;
+            return 0;
         }
         LOG.trace("got init, initing field "+this+" with init: "+initialization);
         FieldDefinition field = varName.getFieldDefinition();
         program.addComment("initializing " + field.getContainingClass().getType() + "." + varName
             + " with expression " + initialization);
-        initialization.codeGen(program);
+        int stackUsage = initialization.codeGen(program);
         program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
         program.addInstruction(new STORE(
                 program.getMaxUsedRegister(),
                 // 0(R1) is adress of method  table, add one
                 new RegisterOffset(field.getIndex() + 1, Register.R1)
         ));
+        return stackUsage;
     }
 
     @Override

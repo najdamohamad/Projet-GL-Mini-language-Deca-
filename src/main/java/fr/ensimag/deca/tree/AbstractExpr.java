@@ -134,32 +134,7 @@ public abstract class AbstractExpr extends AbstractInst implements CodeGenDispla
 
     @Override
     public void codeGenDisplay(IMAProgram program, boolean hexadecimal) {
-        if (getType().isString()) {
-            codeGen(program); // Address of first char is in R0.
-
-            Label reachedZero = new Label("code.displayStringLoop.condition." + hashCode());
-            Label endLabel = new Label("code.displayStringLoop.end." + hashCode());
-
-            // Keep writing all the characters from the Stack until reaching 0.
-            program.addLabel(reachedZero);
-            // Load the character from its address.
-            program.addInstruction(new LOAD(
-                    new RegisterOffset(0, program.getMaxUsedRegister()),
-                    Register.R1
-            ));
-            // Exit if the character is '\0' (LOAD sets the code condition, as if we did CMP #0, R1).
-            // program.addInstruction(new CMP(new ImmediateInteger(0), Register.R1));
-            program.addInstruction(new BEQ(endLabel));
-            // Write the character (?) in the register R1.
-            program.addInstruction(new WUTF8());
-            // Increment the address (R0) to point to the next character.
-            program.addInstruction(new LEA(
-                    new RegisterOffset(1, program.getMaxUsedRegister()),
-                    program.getMaxUsedRegister()
-            ));
-            program.addInstruction(new BRA(reachedZero));
-            program.addLabel(endLabel);
-        } else if (getType().isInt()) {
+        if (getType().isInt()) {
             codeGen(program);
             program.addInstruction(new LOAD(program.getMaxUsedRegister(), Register.R1));
             program.addInstruction(new WINT());

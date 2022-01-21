@@ -195,13 +195,14 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         // Load the value of the identifier from the stack/ a register.
         LOG.trace("gen identifier, dval="+getVariableDefinition().getDVal());
             program.addInstruction(new LOAD(
                     getVariableDefinition().getDVal(),
                     program.getMaxUsedRegister()
         ), "identifier "+getName()+ " stored in "+getVariableDefinition().getDVal());
+            return 0; // no stack usage, just loading ident
     }
 
     private Definition definition;

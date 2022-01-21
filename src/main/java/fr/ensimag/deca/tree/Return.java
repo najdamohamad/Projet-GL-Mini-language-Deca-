@@ -59,7 +59,7 @@ public class Return extends AbstractInst {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         throw new UnsupportedOperationException("not yet implemented");
     }
 

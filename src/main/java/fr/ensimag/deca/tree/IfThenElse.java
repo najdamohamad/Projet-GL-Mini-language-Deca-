@@ -89,7 +89,7 @@ public class IfThenElse extends AbstractInst {
      * Implements the algorithm p225, 8.1. Conditionelles
      */
     @Override
-    public void codeGen(IMAProgram program) {
+    public int codeGen(IMAProgram program) {
         program.addComment(getLocation().getLine() + ": if ( "+condition.decompile()+" ) {");
 
         Label elseLabel = new Label("code.ifThenElse.else." + hashCode());
@@ -97,30 +97,32 @@ public class IfThenElse extends AbstractInst {
 
         // Optimisation: If the if clause contains a comparaison, use the related operators (BEQ, BNE, BGT...)
         // and do not codegen for the condition.
+        int stackUsageCondition;
         if (condition instanceof AbstractOpCmp) {
             program.setAssign(false);
-            condition.codeGen(program);
+            stackUsageCondition = condition.codeGen(program);
             AbstractOpCmp cmp = ((AbstractOpCmp) ((AbstractOpCmp) condition).invert());
             program.addInstruction(cmp.getBranchMnemonic(elseLabel), "if has top-level compare, branch using mnenmonic");
             program.setAssign(true);
         } else {
-            condition.codeGen(program);
+            stackUsageCondition = condition.codeGen(program);
             // Go to the else clause if the returned value is false.
             program.addInstruction(new CMP(0, program.getMaxUsedRegister()), "check if clause");
             program.addInstruction(new BEQ(elseLabel));
         }
 
         program.addComment(getLocation().getLine() + ": then clause of if {");
-        thenBranch.codeGen(program);
+        int stackUsageThen = thenBranch.codeGen(program);
         program.addInstruction(new BRA(endLabel));
 
         program.addComment(getLocation().getLine() + ": } else {");
         program.addLabel(elseLabel);
-        elseBranch.codeGen(program);
+        int stackUsageElse = elseBranch.codeGen(program);
 
         program.addLabel(endLabel);
 
         program.addComment(getLocation().getLine() + ": } if end");
+        return Math.max(stackUsageCondition, Math.max(stackUsageElse, stackUsageThen));
     }
 
     @Override

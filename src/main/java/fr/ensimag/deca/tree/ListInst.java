@@ -33,10 +33,10 @@ public class ListInst extends TreeList<AbstractInst> implements CodeGen {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
-        for (AbstractInst i : getList()) {
-            i.codeGen(program);
-        }
+    public int codeGen(IMAProgram program) {
+        return getList().stream().map((AbstractInst i) -> {
+            return i.codeGen(program);
+        }).max(Integer::compare).orElse(0);
     }
 
     @Override

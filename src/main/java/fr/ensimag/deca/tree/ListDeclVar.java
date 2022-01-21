@@ -75,12 +75,13 @@ public class ListDeclVar extends TreeList<AbstractDeclVar> implements CodeGen {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
-        for (AbstractDeclVar d : getList()) {
-            d.codeGen(program, this);
-        }
+    public int codeGen(IMAProgram program) {
+        int stackUsage = getList().stream().map((AbstractDeclVar d) -> {
+            return d.codeGen(program, this);
+        }).max(Integer::compare).orElse(0);
         // Now that all variables have been declared, increment SP in one shot.
         program.addInstruction(new ADDSP(new ImmediateInteger(program.getDeclaredVariablesCount())), program.getDeclaredVariablesCount()+" variables declared");
+        return stackUsage;
     }
 
     /**

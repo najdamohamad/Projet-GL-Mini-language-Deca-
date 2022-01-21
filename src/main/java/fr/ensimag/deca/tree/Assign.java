@@ -52,8 +52,8 @@ public class Assign extends AbstractBinaryExpr {
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
-        getRightOperand().codeGen(program);
+    public int codeGen(IMAProgram program) {
+        int stackUsage = getRightOperand().codeGen(program);
 
         // Store the return value.
         AbstractIdentifier ident = (AbstractIdentifier) getLeftOperand();
@@ -71,5 +71,6 @@ public class Assign extends AbstractBinaryExpr {
                     "return value of assignement"
             );
         }
+        return stackUsage;
     }
 }

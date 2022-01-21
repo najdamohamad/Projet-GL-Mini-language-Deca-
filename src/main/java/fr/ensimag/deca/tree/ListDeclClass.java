@@ -53,10 +53,10 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> implements CodeGe
     }
 
     @Override
-    public void codeGen(IMAProgram program) {
-        for (AbstractDeclClass declClass : getList()) {
-            declClass.codeGen(program);
-        }
+    public int codeGen(IMAProgram program) {
+        return getList().stream().map((AbstractDeclClass declClass) -> {
+            return declClass.codeGen(program);
+        }).max(Integer::compare).orElse(0);
     }
 
     @Override
