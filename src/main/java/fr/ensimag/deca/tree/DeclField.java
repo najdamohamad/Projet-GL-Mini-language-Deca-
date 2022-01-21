@@ -65,12 +65,10 @@ public class DeclField extends AbstractDeclField {
         }
         // Si l’identificateur name est déjà défini dans l’environnement
         // des expressions de la super-classe, alors ce doit être un identificateur de champ.
-        if (superClass != null) {
-            ExpDefinition superDefinition = superClass.getMembers().get(varName.getName());
-            if (superDefinition != null && !superDefinition.isField()) {
-                String message = "ScopeError: tentative de redéfinir une méthode en un champ.";
-                throw new ContextualError(message, getLocation());
-            }
+        ExpDefinition superDefinition = superClass.getMembers().get(varName.getName());
+        if (superDefinition != null && !superDefinition.isField()) {
+            String message = "ScopeError: tentative de redéfinir une méthode en un champ.";
+            throw new ContextualError(message, getLocation());
         }
         FieldDefinition fieldDefinition = new FieldDefinition(
                 fieldType,

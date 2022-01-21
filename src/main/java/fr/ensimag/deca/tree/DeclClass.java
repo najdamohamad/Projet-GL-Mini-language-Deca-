@@ -77,6 +77,9 @@ public class DeclClass extends AbstractDeclClass {
         LOG.debug("start verifying the members of class " + className.getName());
         ClassDefinition classDefinition =
                 (ClassDefinition) compiler.getTypeDefinition(className.getName());
+        if (superClassName.getName().equals(compiler.createSymbol("Object"))) {
+            superClassName.setDefinition(compiler.getTypeDefinition("Object"));
+        }
         try {
             // "En pratique, une implémentation pourra simplement ajouter les nouvelles définitions
             // à l’environnement contenu dans la définition de classe construite en passe 1.
