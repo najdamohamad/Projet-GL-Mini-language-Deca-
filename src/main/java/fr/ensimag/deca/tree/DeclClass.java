@@ -4,10 +4,7 @@ import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.Line;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.RTS;
 import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import org.apache.commons.lang.Validate;
@@ -155,10 +152,11 @@ public class DeclClass extends AbstractDeclClass {
     public int codeGen(IMAProgram program) {
         IMAProgram programInit = new IMAProgram(program);
         LOG.debug("codegen "+className);
-
+        DAddr position = className.getClassDefinition().getMethodTableAddr();
+        DAddr positionMere = superClassName.getClassDefinition().getMethodTableAddr();
         // Init table method
         for (AbstractDeclMethod method : listDeclMethod.getList()) {
-            int position = method.codeGen(programInit);
+            position = RegisterOffset(GB ,codeGen(programInit));
         }
 
         // Init our fields to 0.
