@@ -7,7 +7,6 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.commons.lang.Validate;
@@ -204,7 +203,7 @@ public class Identifier extends AbstractIdentifier {
         // Load the value of the identifier from the stack/ a register.
         if (definition.isField()) {
             FieldDefinition field = getFieldDefinition();
-            field.setAdress(new RegisterOffset(field.getIndex() + 1, program.getMaxUsedRegister()));
+            field.setAdress(new RegisterOffset(field.getAbsoluteIndex() + 1, program.getMaxUsedRegister()));
             LOG.trace("gen for field, dval=" + getFieldDefinition().getDVal());
             program.addInstruction(new LOAD(
                     getFieldDefinition().getDVal(),

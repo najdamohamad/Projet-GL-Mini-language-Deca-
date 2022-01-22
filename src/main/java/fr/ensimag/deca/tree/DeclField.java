@@ -121,14 +121,14 @@ public class DeclField extends AbstractDeclField {
             program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
             program.addInstruction(new STORE(
                     Register.R0,
-                    new RegisterOffset(field.getIndex() + 1, Register.R1)
+                    new RegisterOffset(field.getAbsoluteIndex() + 1, Register.R1)
             ));
         } else {
             program.addInstruction(new LOAD(0, Register.R0), "not a class, init to 0");
             program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
             program.addInstruction(new STORE(
                     Register.R0,
-                    new RegisterOffset(field.getIndex() + 1, Register.R1)
+                    new RegisterOffset(field.getAbsoluteIndex() + 1, Register.R1)
             ));
         }
     }
@@ -152,7 +152,7 @@ public class DeclField extends AbstractDeclField {
         program.addInstruction(new STORE(
                 program.getMaxUsedRegister(),
                 // 0(R1) is adress of method  table, add one
-                new RegisterOffset(field.getIndex() + 1, Register.R1)
+                new RegisterOffset(field.getAbsoluteIndex() + 1, Register.R1)
         ));
         return stackUsage;
     }

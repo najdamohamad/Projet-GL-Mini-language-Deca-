@@ -13,8 +13,12 @@ import fr.ensimag.ima.pseudocode.RegisterOffset;
  * @date 01/01/2022
  */
 public class FieldDefinition extends ExpDefinition {
-    public int getIndex() {
+    public int getAbsoluteIndex() {
         return index + containingClass.getNumberOfSuperclassFields();
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     private final int index;
