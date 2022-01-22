@@ -2,6 +2,9 @@ package fr.ensimag.ima.pseudocode;
 
 import fr.ensimag.deca.codegen.OutputProgram;
 import fr.ensimag.deca.tools.DecacInternalError;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
+import fr.ensimag.ima.pseudocode.instructions.RTS;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -94,7 +97,7 @@ public class IMAProgram implements OutputProgram {
     /**
      * Add a label at the front of the program.
      */
-    public void addFirstLabel(Label l) {
+    public void addFirst(Label l) {
         lines.addFirst(new Line(l));
     }
 
@@ -132,18 +135,58 @@ public class IMAProgram implements OutputProgram {
     }
 
     private int freeRegister = 2; // Actually starts at 2
+    private boolean firstFreeUsed = false;
+    private int maxUsed = 2;
 
     public GPRegister allocateRegister() throws DecacInternalError {
         if (freeRegister == maxRegister) {
             throw new DecacInternalError("reached max register");
         }
         freeRegister++;
+        maxRegister = Math.max(freeRegister, maxRegister);
         GPRegister r = Register.getR(freeRegister);
         return r;
     }
 
     public GPRegister getMaxUsedRegister() {
+        firstFreeUsed = true;
         return Register.getR(freeRegister);
+    }
+
+    /**
+     * Add to a program a subroutine prologue and epilogue, saving all registers used
+     * in this function at the start, and unloading them at the end,
+     * also outputting the return RTS.
+     * For example, if the registers R2 and R3 are used in the subroutine, the outputted code will be:
+     *      PUSH R2
+     *      PUSH R3
+     *      body of subroutine
+     *      SUBSP #2
+     *      RTS.
+     * This function should be called after filling out the method body:
+     * it will prefix the prologue and epilogue.
+     * @return stack usage of prologue
+     */
+    public int generatePrologueEpilogue() {
+        // XXX: this code is hard to understand
+        int nbRegistersUsed;
+        if (!firstFreeUsed) {
+            nbRegistersUsed = 0;
+        } else {
+            // R2 is the max -> 1 register used.
+            nbRegistersUsed = maxRegister - 1;
+        }
+
+        for (int i = 2; i < 2 + nbRegistersUsed; i++) {
+            addFirst(new PUSH(Register.getR(i)));
+        }
+        // TODO: we may be able to use SUBSP here instead
+        for (int i = 2 + nbRegistersUsed - 1; i >= 2; i--) {
+            addInstruction(new POP(Register.getR(i)));
+        }
+
+        addInstruction(new RTS());
+        return nbRegistersUsed;
     }
 
     public boolean isMaxUsableRegister() {

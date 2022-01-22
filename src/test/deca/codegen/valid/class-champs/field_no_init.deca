@@ -1,0 +1,17 @@
+// Description:
+//    Declaration de classe avec un champ non iniy
+//
+// Resultats:
+//    0
+//
+// Historique:
+//    cree le 01/01/2022
+
+class A {
+    int x;
+}
+
+{
+    A a = new A();
+    println(a.x);
+}

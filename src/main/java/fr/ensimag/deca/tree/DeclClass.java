@@ -7,11 +7,8 @@ import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Label;
-import fr.ensimag.ima.pseudocode.instructions.RTS;
-import fr.ensimag.ima.pseudocode.instructions.TSTO;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -138,6 +135,7 @@ public class DeclClass extends AbstractDeclClass {
      */
     @Override
     public int codeGen(IMAProgram program) {
+        int stackUsage = 0;
         IMAProgram programInit = new IMAProgram(program);
         LOG.debug("codegen " + className);
         int numberOfSuperclassFields = className.getClassDefinition().getNumberOfSuperclassFields();
@@ -145,26 +143,37 @@ public class DeclClass extends AbstractDeclClass {
 
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
-            LOG.trace("init " + declField + " to 0");
-            declField.codeGenInitFieldsZero(programInit, numberOfSuperclassFields);
+            LOG.trace("init "+declField+" to 0");
+            declField.codeGenInitFieldsZero(programInit);
         }
 
-        // TODO: init the inherited fields
-
+        // If there is a superclass to initialize, do it.
+        // Note that Object has no initializer, so skip it if the superclass is Object.
+        if (superClassName.getClassDefinition().isClass()
+        && !superClassName.getClassDefinition().getType().toString().equals("Object")) {
+            stackUsage += 1;
+            programInit.addInstruction(new PUSH(Register.R1));
+            programInit.addInstruction(new BSR(new Label("init."+superClassName)));
+            programInit.addInstruction(new SUBSP(new ImmediateInteger(1)));
+        }
 
         // For any fields with any explicit initialization, initialize them now.
-        int stackUsage = listDeclField.getList().stream().map((AbstractDeclField declField) -> {
-            LOG.trace("maybe init " + declField + " with initialization");
-            return declField.codeGen(programInit, numberOfSuperclassFields);
+        stackUsage += listDeclField.getList().stream().map((AbstractDeclField declField) -> {
+            LOG.trace("maybe init "+declField+" with initialization");
+            return declField.codeGen(programInit);
         }).max(Integer::compare).orElse(0);
 
-        programInit.addInstruction(new RTS());
+
+        stackUsage += programInit.generatePrologueEpilogue();
         if (stackUsage > 0) {
+            // addFirst -> put operations in reverse order
+            programInit.addFirst(new BOV(Program.STACK_OVERFLOW_ERROR));
             programInit.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
+
         } else {
             programInit.addComment("stack usage is 0, no TSTO added");
         }
-        programInit.addFirstLabel(new Label("init." + className));
+        programInit.addFirst(new Label("init."+className));
         program.append(programInit);
         return stackUsage;
     }

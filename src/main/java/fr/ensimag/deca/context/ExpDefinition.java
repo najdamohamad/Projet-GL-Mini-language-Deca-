@@ -19,6 +19,8 @@ public abstract class ExpDefinition extends Definition {
     // as long as we update the stack at the end (if we're in a method call).
     // Thus some exp definitions can use a Register instead of a DAddr for speed,
     // but still have their associated DAddr.
+    // XXX: this code is actually bad, because we can use the different definitions in Identifier.java:
+    // getVariableDefinition(), getExpDefinition()...
     private GPRegister registerForVariable;
     private DAddr adress; // Must always be set, even when using a register, for updating the stack.
 
