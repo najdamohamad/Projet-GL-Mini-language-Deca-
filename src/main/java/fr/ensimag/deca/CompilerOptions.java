@@ -155,7 +155,7 @@ public class CompilerOptions {
         }
         logger.info("Application-wide trace level set to " + logger.getLevel());
 
-        boolean assertsEnabled = false;
+        boolean assertsEnabled = true;
         assert assertsEnabled = true; // Intentional side effect!!!
         if (assertsEnabled) {
             logger.info("Java assertions enabled");

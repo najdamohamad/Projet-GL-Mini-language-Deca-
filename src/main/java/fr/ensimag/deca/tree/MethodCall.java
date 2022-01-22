@@ -46,6 +46,7 @@ public class MethodCall extends AbstractExpr {
             throw new ContextualError(message, getLocation());
         }
         MethodDefinition methodDefinition = definition.asMethodDefinition(message, getLocation());
+        method.setDefinition(methodDefinition);
         Signature signature = methodDefinition.getSignature();
         message = "TypeError: l'appel méthode `" + decompile() + "` est incompatible avec sa signature.";
         if (listArgs.size() != signature.size()) {

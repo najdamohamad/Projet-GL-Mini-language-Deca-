@@ -35,12 +35,18 @@ public class Selection extends AbstractLValue {
                 .asClassType(message, getLocation());
         // If the field exists in the class it should be defined here.
         message = "TypeError: `" + attribute.decompile() + "` n'est pas un champ.";
-        FieldDefinition definition = currentClass
+        FieldDefinition definition = exprType
+                .getDefinition()
                 .getMembers()
                 .get(attribute.getName())
                 .asFieldDefinition(message, getLocation());
-        ClassType classType = currentClass.getType();
+        attribute.setDefinition(definition);
         if (definition.getVisibility().equals(Visibility.PROTECTED)) {
+            if (currentClass == null) {
+                message = "ScopeError: le champ `" + attribute.decompile() + "` est protégé.";
+                throw new ContextualError(message, getLocation());
+            }
+            ClassType classType = currentClass.getType();
             if (!Context.subType(exprType, classType)) {
                 message = "Type: l'expression `" + expression.decompile()
                         + "` doit être un sous type de `" + classType + ".";
@@ -51,10 +57,8 @@ public class Selection extends AbstractLValue {
                         + "` doit être un sous type de `" + definition.getType() + ".";
                 throw new ContextualError(message, getLocation());
             }
-        } else {
-            message = "ScopeError: le champ `" + attribute.decompile() + "` est protégé.";
-            throw new ContextualError(message, getLocation());
         }
+        setType(definition.getType());
         return definition.getType();
     }
 
