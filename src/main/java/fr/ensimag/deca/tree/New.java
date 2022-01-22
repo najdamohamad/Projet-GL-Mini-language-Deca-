@@ -90,10 +90,12 @@ public class New extends AbstractExpr {
         // TODO: lea adress of method table
         // LEA ad_A, R0
         // STORE RO, 0(R2)
-        // TODO: sauvegarde des registres à faire?
-        program.addInstruction(new PUSH(program.getMaxUsedRegister()));
-        program.addInstruction(new BSR(new Label("init."+getClassName())));
-        program.addInstruction(new POP(program.getMaxUsedRegister()));
+        // We may try to init a object.
+        if (!getClassName().getClassDefinition().getType().toString().equals("Object")) {
+            program.addInstruction(new PUSH(program.getMaxUsedRegister()));
+            program.addInstruction(new BSR(new Label("init." + getClassName())));
+            program.addInstruction(new POP(program.getMaxUsedRegister()));
+        }
         return 1; // 1 stack used because of push
     }
 

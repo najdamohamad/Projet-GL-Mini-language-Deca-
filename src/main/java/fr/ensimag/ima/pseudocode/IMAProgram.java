@@ -143,6 +143,7 @@ public class IMAProgram implements OutputProgram {
             throw new DecacInternalError("reached max register");
         }
         freeRegister++;
+        maxRegister = Math.max(freeRegister, maxRegister);
         GPRegister r = Register.getR(freeRegister);
         return r;
     }
@@ -173,7 +174,7 @@ public class IMAProgram implements OutputProgram {
             nbRegistersUsed = 0;
         } else {
             // R2 is the max -> 1 register used.
-            nbRegistersUsed = freeRegister - 1;
+            nbRegistersUsed = maxRegister - 1;
         }
 
         for (int i = 2; i < 2 + nbRegistersUsed; i++) {
