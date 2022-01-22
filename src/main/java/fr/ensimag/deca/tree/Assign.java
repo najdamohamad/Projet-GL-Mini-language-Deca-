@@ -36,9 +36,8 @@ public class Assign extends AbstractBinaryExpr {
                            ClassDefinition currentClass) throws ContextualError {
         Type lvalueType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         AbstractExpr rvalue = getRightOperand().verifyRValue(compiler, localEnv, currentClass, lvalueType);
-        Type exprType = rvalue.verifyExpr(compiler, localEnv, currentClass);
-        setType(exprType);
-        return exprType;
+        setType(rvalue.getType());
+        return rvalue.getType();
     }
 
 
@@ -59,9 +58,9 @@ public class Assign extends AbstractBinaryExpr {
         AbstractIdentifier ident = (AbstractIdentifier) getLeftOperand();
         if (ident.getVariableDefinition().isRegister()) {
             program.addInstruction(new LOAD(
-                    program.getMaxUsedRegister(),
-                    ident.getVariableDefinition().getRegister()
-            ),
+                            program.getMaxUsedRegister(),
+                            ident.getVariableDefinition().getRegister()
+                    ),
                     "return value of assignement");
         } else {
             program.addInstruction(new STORE(
