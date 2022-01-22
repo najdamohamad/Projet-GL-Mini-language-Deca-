@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/print_incompatible.deca:25:14: ScopeError: l'identificateur `True` n'est pas défini.

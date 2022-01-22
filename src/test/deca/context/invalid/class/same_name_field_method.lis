@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/same_name_field_method.deca:14:4: ScopeError: il n'est pas possible d'utiliser le même identificateurpour un champ et une méthode.

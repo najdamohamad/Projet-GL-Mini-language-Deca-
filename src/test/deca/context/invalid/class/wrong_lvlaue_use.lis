@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/wrong_lvlaue_use.deca:20:8: ScopeError: seuls les identificateurs champs, paramètres et variables peuvent être des lvalue.`

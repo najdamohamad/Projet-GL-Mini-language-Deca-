@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/instance_of_test_wromg.deca:24:18: ScopeError: le type `d` n'est pas défini.

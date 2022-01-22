@@ -1,0 +1,59 @@
+`> [14, 0] Program
+   +> [14, 0] ListDeclClass [List with 2 elements]
+   |  []> [14, 0] DeclClass
+   |  ||  +> [14, 6] Identifier (Dad)
+   |  ||  |  definition: type defined at [14, 0], type=Dad
+   |  ||  +> [14, 0] extends
+   |  ||  +> [14, 9] Identifier (Object)
+   |  ||  |  definition: type defined at [14, 0], type=Object
+   |  ||  []> [15, 11] DeclField
+   |  ||      +> [15, 11] Visibility PUBLIC
+   |  ||      +> [15, 3] Identifier (boolean)
+   |  ||      |  definition: type defined at null, type=boolean
+   |  ||      +> [15, 11] Identifier (myDad)
+   |  ||      |  definition: field defined at [15, 11], type=boolean
+   |  ||      `> [15, 19] Initialization
+   |  ||         `> [15, 19] BooleanLiteral (true)
+   |  ||            type: boolean
+   |  []> [18, 0] DeclClass
+   |      +> [18, 6] Identifier (Son)
+   |      |  definition: type defined at [18, 0], type=Son
+   |      +> [18, 0] extends
+   |      +> [18, 10] Identifier (Dad)
+   |      |  definition: type defined at [14, 0], type=Dad
+   `> [20, 0] Main
+      +> [21, 2] ListDeclVar [List with 2 elements]
+      |  []> [21, 6] DeclVar
+      |  ||  +> [21, 2] Identifier (Dad)
+      |  ||  |  definition: type defined at [14, 0], type=Dad
+      |  ||  +> [21, 6] Identifier (d)
+      |  ||  |  definition: variable defined at [21, 6], type=Dad
+      |  ||  `> [21, 10] Initialization
+      |  ||     `> [21, 10] New
+      |  ||        type: Dad
+      |  ||        +> [21, 14] Identifier (Dad)
+      |  ||        |  definition: type defined at [14, 0], type=Dad
+      |  []> [22, 6] DeclVar
+      |      +> [22, 2] Identifier (Son)
+      |      |  definition: type defined at [18, 0], type=Son
+      |      +> [22, 6] Identifier (s)
+      |      |  definition: variable defined at [22, 6], type=Son
+      |      `> [22, 10] Initialization
+      |         `> [22, 10] New
+      |            type: Son
+      |            +> [22, 14] Identifier (Son)
+      |            |  definition: type defined at [18, 0], type=Son
+      `> [24, 2] ListInst [List with 1 elements]
+         []> [24, 2] IfThenElse
+             +> [24, 5] InstanceOf
+             |  type: boolean
+             |  +> [24, 5] Identifier (s)
+             |  |  definition: variable defined at [22, 6], type=Son
+             |  `> [24, 18] Identifier (Dad)
+             |     definition: type defined at [14, 0], type=Dad
+             +> [26, 6] ListInst [List with 1 elements]
+             |  []> [26, 6] Print
+             |      `> [26, 12] ListExpr [List with 1 elements]
+             |         []> [26, 12] StringLiteral (you found ur dad)
+             |             type: string
+             `> ListInst [List with 0 elements]

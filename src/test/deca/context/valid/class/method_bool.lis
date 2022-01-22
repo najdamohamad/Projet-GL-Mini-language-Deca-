@@ -1,0 +1,79 @@
+`> [13, 0] Program
+   +> [13, 0] ListDeclClass [List with 1 elements]
+   |  []> [13, 0] DeclClass
+   |      +> [13, 6] Identifier (LovesMe)
+   |      |  definition: type defined at [13, 0], type=LovesMe
+   |      +> [13, 0] extends
+   |      +> [13, 13] Identifier (Object)
+   |      |  definition: type defined at [13, 0], type=Object
+   |      []> [15, 4] DeclMethod
+   |          +> [15, 4] Identifier (boolean)
+   |          |  definition: type defined at null, type=boolean
+   |          +> [15, 12] Identifier (Love)
+   |          |  definition: method defined at [15, 4], type=boolean
+   |          +> [15, 17] ListDeclParam [List with 1 elements]
+   |          |  []> [15, 17] DeclParam
+   |          |      +> [15, 17] Identifier (int)
+   |          |      |  definition: type defined at null, type=int
+   |          |      +> [15, 21] Identifier (x)
+   |          |      |  definition: parameter defined at [15, 17], type=int
+   |          +> [15, 23] ListDeclVar [List with 0 elements]
+   |          +> [15, 23] ListInst [List with 1 elements]
+   |          |  []> [16, 8] IfThenElse
+   |          |      +> [16, 11] Greater
+   |          |      |  type: boolean
+   |          |      |  +> [16, 11] Identifier (x)
+   |          |      |  |  definition: parameter defined at [15, 17], type=int
+   |          |      |  `> [16, 15] Int (10)
+   |          |      |     type: int
+   |          |      +> [18, 12] ListInst [List with 1 elements]
+   |          |      |  []> [18, 12] Return
+   |          |      |      +> [18, 19] BooleanLiteral (true)
+   |          |      |      |  type: boolean
+   |          |      `> [22, 12] ListInst [List with 1 elements]
+   |          |         []> [22, 12] Return
+   |          |             +> [22, 19] BooleanLiteral (false)
+   |          |             |  type: boolean
+   `> [29, 0] Main
+      +> [30, 4] ListDeclVar [List with 3 elements]
+      |  []> [30, 12] DeclVar
+      |  ||  +> [30, 4] Identifier (LovesMe)
+      |  ||  |  definition: type defined at [13, 0], type=LovesMe
+      |  ||  +> [30, 12] Identifier (l)
+      |  ||  |  definition: variable defined at [30, 12], type=LovesMe
+      |  ||  `> [30, 16] Initialization
+      |  ||     `> [30, 16] New
+      |  ||        type: LovesMe
+      |  ||        +> [30, 20] Identifier (LovesMe)
+      |  ||        |  definition: type defined at [13, 0], type=LovesMe
+      |  []> [31, 12] DeclVar
+      |  ||  +> [31, 4] Identifier (boolean)
+      |  ||  |  definition: type defined at null, type=boolean
+      |  ||  +> [31, 12] Identifier (y)
+      |  ||  |  definition: variable defined at [31, 12], type=boolean
+      |  ||  `> [31, 16] Initialization
+      |  ||     `> [31, 16] MethodCall
+      |  ||        type: boolean
+      |  ||        +> [31, 16] Identifier (l)
+      |  ||        |  definition: variable defined at [30, 12], type=LovesMe
+      |  ||        +> [31, 18] Identifier (Love)
+      |  ||        |  definition: method defined at [15, 4], type=boolean
+      |  ||        +> [31, 23] ListExpr [List with 1 elements]
+      |  ||        |  []> [31, 23] Int (12)
+      |  ||        |      type: int
+      |  []> [32, 12] DeclVar
+      |      +> [32, 4] Identifier (boolean)
+      |      |  definition: type defined at null, type=boolean
+      |      +> [32, 12] Identifier (z)
+      |      |  definition: variable defined at [32, 12], type=boolean
+      |      `> [32, 16] Initialization
+      |         `> [32, 16] MethodCall
+      |            type: boolean
+      |            +> [32, 16] Identifier (l)
+      |            |  definition: variable defined at [30, 12], type=LovesMe
+      |            +> [32, 18] Identifier (Love)
+      |            |  definition: method defined at [15, 4], type=boolean
+      |            +> [32, 23] ListExpr [List with 1 elements]
+      |            |  []> [32, 23] Int (9)
+      |            |      type: int
+      `> [33, 0] ListInst [List with 0 elements]

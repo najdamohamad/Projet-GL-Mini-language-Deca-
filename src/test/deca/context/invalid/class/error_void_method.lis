@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/error_void_method.deca:19:20: ScopeError: le paramètre `x` est défini plus qu'une fois.

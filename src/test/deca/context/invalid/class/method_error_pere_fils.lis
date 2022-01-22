@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/method_error_pere_fils.deca:26:8: ScopeError: la méthode `Plus` a une signature incompatible avec sa méthode héritée

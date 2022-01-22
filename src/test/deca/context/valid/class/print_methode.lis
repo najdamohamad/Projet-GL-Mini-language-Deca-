@@ -1,0 +1,64 @@
+`> [13, 0] Program
+   +> [13, 0] ListDeclClass [List with 1 elements]
+   |  []> [13, 0] DeclClass
+   |      +> [13, 6] Identifier (Maths)
+   |      |  definition: type defined at [13, 0], type=Maths
+   |      +> [13, 0] extends
+   |      +> [13, 11] Identifier (Object)
+   |      |  definition: type defined at [13, 0], type=Object
+   |      []> [14, 8] DeclField
+   |          +> [14, 8] Visibility PUBLIC
+   |          +> [14, 4] Identifier (int)
+   |          |  definition: type defined at null, type=int
+   |          +> [14, 8] Identifier (resultat)
+   |          |  definition: field defined at [14, 8], type=int
+   |          `> [14, 8] NoInitialization
+   |      []> [16, 4] DeclMethod
+   |      ||  +> [16, 4] Identifier (int)
+   |      ||  |  definition: type defined at null, type=int
+   |      ||  +> [16, 8] Identifier (power)
+   |      ||  |  definition: method defined at [16, 4], type=int
+   |      ||  +> [16, 14] ListDeclParam [List with 1 elements]
+   |      ||  |  []> [16, 14] DeclParam
+   |      ||  |      +> [16, 14] Identifier (int)
+   |      ||  |      |  definition: type defined at null, type=int
+   |      ||  |      +> [16, 18] Identifier (x)
+   |      ||  |      |  definition: parameter defined at [16, 14], type=int
+   |      ||  +> [16, 20] ListDeclVar [List with 0 elements]
+   |      ||  +> [16, 20] ListInst [List with 1 elements]
+   |      ||  |  []> [17, 8] Return
+   |      ||  |      +> [17, 15] Multiply
+   |      ||  |      |  type: int
+   |      ||  |      |  +> [17, 15] Identifier (x)
+   |      ||  |      |  |  definition: parameter defined at [16, 14], type=int
+   |      ||  |      |  `> [17, 17] Identifier (x)
+   |      ||  |      |     definition: parameter defined at [16, 14], type=int
+   |      []> [20, 4] DeclMethod
+   |          +> [20, 4] Identifier (void)
+   |          |  definition: type defined at null, type=void
+   |          +> [20, 9] Identifier (AfficheResultat)
+   |          |  definition: method defined at [20, 4], type=void
+   |          +> [20, 25] ListDeclParam [List with 0 elements]
+   |          +> [21, 4] ListDeclVar [List with 0 elements]
+   |          +> [21, 4] ListInst [List with 1 elements]
+   |          |  []> [22, 8] Print
+   |          |      `> [22, 14] ListExpr [List with 3 elements]
+   |          |         []> [22, 14] StringLiteral (my results are)
+   |          |         ||  type: string
+   |          |         []> [22, 31] Identifier (resultat)
+   |          |         ||  definition: field defined at [14, 8], type=int
+   |          |         []> [22, 41] StringLiteral (im so happy)
+   |          |             type: string
+   `> [27, 0] Main
+      +> [29, 4] ListDeclVar [List with 1 elements]
+      |  []> [29, 10] DeclVar
+      |      +> [29, 4] Identifier (Maths)
+      |      |  definition: type defined at [13, 0], type=Maths
+      |      +> [29, 10] Identifier (m)
+      |      |  definition: variable defined at [29, 10], type=Maths
+      |      `> [29, 14] Initialization
+      |         `> [29, 14] New
+      |            type: Maths
+      |            +> [29, 18] Identifier (Maths)
+      |            |  definition: type defined at [13, 0], type=Maths
+      `> [31, 0] ListInst [List with 0 elements]
