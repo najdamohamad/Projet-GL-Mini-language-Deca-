@@ -1,22 +1,21 @@
 // Description:
 //    Test de déclaration de la même classe 2 fois
 //
-//                                          (Rule 1.3)
+//                                          (Rule 2.)5
 // Resultats:
 //    Lexeur: pas d'erreur
 //    Parseur: pas d'erreur
-//    Context: erreur puisqu'on definit la même classe 2 fois ce qui est interdit par la regle 1.3
+//    Context: erreur puisqu'on definit un champ de type void dans une classe
 //
 // Historique:
 //    cree le 20/01/2022
 
 
     class A{
-       int x, y;
+       int field ;
+       void field1  ;
     }
-    class A{
-       int x , y;
-    }
+
 {
 
 }

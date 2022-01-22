@@ -1,0 +1,31 @@
+// Description:
+//    Utiliser une méthode dans un champ avec de la déclarer.
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: pas d'erreur;
+//
+//
+// Historique:
+//    cree le 22/01/2022
+
+class Maths{
+    int resultat ;
+
+    int power(int x){
+        return x*x;
+    }
+
+    void AfficheResultat()
+    {
+        print("my results are",resultat, "im so happy");
+    }
+
+}
+
+{
+
+    Maths m = new Maths();
+
+}
