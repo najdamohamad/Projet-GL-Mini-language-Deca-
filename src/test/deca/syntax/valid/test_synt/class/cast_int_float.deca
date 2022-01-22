@@ -1,0 +1,16 @@
+// Description:
+//    Test de declaration d'une classe avec une methode dedans
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 20/01/2022
+
+{
+    int x = (int) (0.0f );
+    int y = (int) (0.0);
+    float z = (float) (1);
+    int a = (float) (0.02f);
+}
