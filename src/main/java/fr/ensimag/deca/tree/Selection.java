@@ -37,13 +37,17 @@ public class Selection extends AbstractLValue {
                 .asClassType(message, getLocation());
         // If the field exists in the class it should be defined here.
         message = "TypeError: `" + attribute.decompile() + "` n'est pas un champ.";
-        FieldDefinition definition = exprType
+        ExpDefinition definition = exprType
                 .getDefinition()
                 .getMembers()
-                .get(attribute.getName())
+                .get(attribute.getName());
+        if (definition == null) {
+            throw new ContextualError(message, getLocation());
+        }
+        FieldDefinition fieldDefinition = definition
                 .asFieldDefinition(message, getLocation());
-        attribute.setDefinition(definition);
-        if (definition.getVisibility().equals(Visibility.PROTECTED)) {
+        attribute.setDefinition(fieldDefinition);
+        if (fieldDefinition.getVisibility().equals(Visibility.PROTECTED)) {
             if (currentClass == null) {
                 message = "ScopeError: le champ `" + attribute.decompile() + "` est protégé.";
                 throw new ContextualError(message, getLocation());
@@ -51,17 +55,18 @@ public class Selection extends AbstractLValue {
             ClassType classType = currentClass.getType();
             if (!Context.subType(exprType, classType)) {
                 message = "Type: l'expression `" + expression.decompile()
-                        + "` doit être un sous type de `" + classType + ".";
+                        + "` doit être un sous type de `" + classType + "`.";
                 throw new ContextualError(message, getLocation());
             }
-            if (!Context.subType(classType, definition.getType())) {
+            ClassDefinition fieldClass = fieldDefinition.getContainingClass();
+            if (!Context.subType(classType, fieldClass.getType())) {
                 message = "Type: la classe `" + classType
-                        + "` doit être un sous type de `" + definition.getType() + ".";
+                        + "` doit être un sous type de `" + fieldClass.getType() + "`.";
                 throw new ContextualError(message, getLocation());
             }
         }
-        setType(definition.getType());
-        return definition.getType();
+        setType(fieldDefinition.getType());
+        return fieldDefinition.getType();
     }
 
 

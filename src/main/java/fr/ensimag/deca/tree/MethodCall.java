@@ -61,6 +61,7 @@ public class MethodCall extends AbstractExpr {
                     .verifyRValue(compiler, localEnv, currentClass, paramType);
             listArgs.set(i, rvalueArg);
         }
+        setType(methodDefinition.getType());
         return methodDefinition.getType();
     }
 

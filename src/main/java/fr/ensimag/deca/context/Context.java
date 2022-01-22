@@ -17,7 +17,7 @@ public class Context {
         if (type1.isFloat() && type2.isInt()) {
             return true;
         }
-        return subType(type1, type2);
+        return subType(type2, type1);
     }
 
     public static boolean castCompatible(Type type1, Type type2) {

@@ -41,6 +41,7 @@ public class New extends AbstractExpr {
                     + className.decompile() + "`ce n'est pas une classe.";
             throw new ContextualError(message, getLocation());
         }
+        setType(exprType);
         return exprType;
     }
 

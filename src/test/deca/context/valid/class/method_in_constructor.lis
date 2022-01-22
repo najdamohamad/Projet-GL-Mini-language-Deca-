@@ -16,7 +16,9 @@
    |      ||     `> [14, 12] MethodCall
    |      ||        type: int
    |      ||        +> [14, 12] Null
+   |      ||        |  type: coordonnees
    |      ||        +> [14, 12] Identifier (plan)
+   |      ||        |  definition: method defined at [17, 4], type=int
    |      ||        +> [14, 17] ListExpr [List with 1 elements]
    |      ||        |  []> [14, 17] Int (42)
    |      ||        |      type: int
@@ -43,6 +45,7 @@
    |          |      +> [17, 13] Identifier (int)
    |          |      |  definition: type defined at null, type=int
    |          |      +> [17, 17] Identifier (z)
+   |          |      |  definition: parameter defined at [17, 13], type=int
    |          +> [17, 19] ListDeclVar [List with 0 elements]
    |          +> [17, 19] ListInst [List with 1 elements]
    |          |  []> [18, 8] Return

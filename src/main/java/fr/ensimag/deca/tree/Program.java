@@ -5,6 +5,7 @@ import fr.ensimag.arm.pseudocode.syscalls.Exit;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.ObjectType;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.IMAProgram;
@@ -48,10 +49,9 @@ public class Program extends AbstractProgram {
         LOG.debug("verify program: start");
 
         SymbolTable.Symbol objectSymbol = compiler.createSymbol("Object");
-        ClassType objectType = new ClassType(
+        ClassType objectType = new ObjectType(
                 objectSymbol,
-                getLocation(),
-                null
+                getLocation()
         );
         compiler.declareTypeDefinition(objectSymbol, objectType.getDefinition());
 

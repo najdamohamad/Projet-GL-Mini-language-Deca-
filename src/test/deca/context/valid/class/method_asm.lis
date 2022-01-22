@@ -16,4 +16,5 @@
    |          |      +> [14, 13] Identifier (int)
    |          |      |  definition: type defined at null, type=int
    |          |      +> [14, 17] Identifier (z)
+   |          |      |  definition: parameter defined at [14, 13], type=int
    `> [17, 1] EmptyMain

@@ -29,5 +29,5 @@ class LovesMe{
 {
     LovesMe l = new LovesMe() ;
     boolean y = l.Love(12);
-    boolean z = l.love(9) ;
+    boolean z = l.Love(9) ;
 }

@@ -76,7 +76,9 @@ public class DeclParam extends AbstractDeclParam {
     protected void verifyDeclParam(DecacCompiler compiler, EnvironmentExp localEnv) throws ContextualError {
         Type paramType = type.verifyType(compiler);
         try {
-            localEnv.declare(varName.getName(), new ParamDefinition(paramType, getLocation()));
+            ParamDefinition paramDefinition = new ParamDefinition(paramType, getLocation());
+            localEnv.declare(varName.getName(), paramDefinition);
+            varName.setDefinition(paramDefinition);
         } catch (EnvironmentExp.DoubleDefException e) {
             String message = "ScopeError: le paramètre `" + varName.getName() + "` est défini plus qu'une fois.";
             throw new ContextualError(message, getLocation());

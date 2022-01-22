@@ -20,6 +20,7 @@ public class This extends AbstractExpr {
             String message = "TypeError: `this` ne peut être utilisée que dans le contexte d'une classe.";
             throw new ContextualError(message, getLocation());
         }
+        setType(currentClass.getType());
         return currentClass.getType();
     }
 

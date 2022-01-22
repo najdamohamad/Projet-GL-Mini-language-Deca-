@@ -16,44 +16,36 @@ import java.io.PrintStream;
  */
 public class Cast extends AbstractExpr {
 
-    public AbstractExpr getTypeCastedTo() {
-        return TypeCastedTo;
-    }
-
-    public AbstractExpr getRightOperand() {
-        return rightOperand;
-    }
-
-    protected void setTypeCastedTo(AbstractExpr TypeCastedTo) {
-        Validate.notNull(TypeCastedTo);
-        this.TypeCastedTo = TypeCastedTo;
+    public Cast(AbstractIdentifier leftOperand, AbstractExpr rightOperand) {
+        Validate.notNull(leftOperand);
+        Validate.notNull(rightOperand);
+        this.leftOperand = leftOperand;
+        this.rightOperand = rightOperand;
     }
 
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
-        String message = "type error" + TypeCastedTo.decompile() + "n'est pas int ou float ou une class";
-        Type typeCastedToType = TypeCastedTo.verifyExpr(compiler, localEnv, currentClass);
+        String message = "type error" + leftOperand.decompile() + "n'est pas int ou float ou une class";
+        Type typeCastedToType = leftOperand.verifyExpr(compiler, localEnv, currentClass);
         Type exprType = rightOperand.getType();
         ClassType classType = currentClass.getType();
-        if(!(typeCastedToType.isIntOrFloat() || typeCastedToType.isClass())){
+        if (!(typeCastedToType.isIntOrFloat() || typeCastedToType.isClass())) {
             throw new ContextualError(message, getLocation());
-        }
-        else{
-            if(!(exprType.isIntOrFloat() || exprType.isClass())){
-                message = "Type: l'expression "+ rightOperand.decompile() + "doit être un int, float ou une class";
+        } else {
+            if (!(exprType.isIntOrFloat() || exprType.isClass())) {
+                message = "Type: l'expression " + rightOperand.decompile() + "doit être un int, float ou une class";
                 throw new ContextualError(message, getLocation());
-            }
-            else if (!Context.subType(typeCastedToType, classType)){
-                message = "Type: l'expression `" + TypeCastedTo.decompile()
+            } else if (!Context.subType(typeCastedToType, classType)) {
+                message = "Type: l'expression `" + leftOperand.decompile()
                         + "` doit être un sous type de `" + classType + ".";
                 throw new ContextualError(message, getLocation());
-            }
-            else if (!Context.subType(exprType, typeCastedToType) && !Context.subType(typeCastedToType  , exprType)){
+            } else if (!Context.subType(exprType, typeCastedToType) && !Context.subType(typeCastedToType, exprType)) {
                 message = "Type: les deux expressions sont de types incompatible.";
                 throw new ContextualError(message, getLocation());
             }
         }
+        setType(typeCastedToType);
         return typeCastedToType;
     }
 
@@ -63,25 +55,15 @@ public class Cast extends AbstractExpr {
         this.rightOperand = rightOperand;
     }
 
-    private AbstractExpr TypeCastedTo;
+    private AbstractIdentifier leftOperand;
     private AbstractExpr rightOperand;
-
-    public Cast(AbstractExpr TypeCastedTo,
-                AbstractExpr rightOperand) {
-        Validate.notNull(TypeCastedTo, "Type casted to cannot be null");
-        Validate.notNull(rightOperand, "right operand cannot be null");
-        Validate.isTrue(TypeCastedTo != rightOperand, "Sharing subtrees is forbidden");
-        this.TypeCastedTo = TypeCastedTo;
-        this.rightOperand = rightOperand;
-    }
-
 
     @Override
     public void decompile(IndentPrintStream s) {
         s.print("(");
-        getTypeCastedTo().decompile(s);
+        leftOperand.decompile(s);
         s.print(") (");
-        getRightOperand().decompile(s);
+        rightOperand.decompile(s);
         s.print(")");
     }
 
@@ -89,17 +71,15 @@ public class Cast extends AbstractExpr {
         return "(";
     }
 
-    ;
-
     @Override
     protected void iterChildren(TreeFunction f) {
-        TypeCastedTo.iter(f);
+        leftOperand.iter(f);
         rightOperand.iter(f);
     }
 
     @Override
     protected void prettyPrintChildren(PrintStream s, String prefix) {
-        TypeCastedTo.prettyPrint(s, prefix, false);
+        leftOperand.prettyPrint(s, prefix, false);
         rightOperand.prettyPrint(s, prefix, true);
     }
 
