@@ -53,12 +53,13 @@ public class Selection extends AbstractLValue {
             ClassType classType = currentClass.getType();
             if (!Context.subType(exprType, classType)) {
                 message = "Type: l'expression `" + expression.decompile()
-                        + "` doit être un sous type de `" + classType + ".";
+                        + "` doit être un sous type de `" + classType + "`.";
                 throw new ContextualError(message, getLocation());
             }
-            if (!Context.subType(classType, fieldDefinition.getType())) {
+            ClassDefinition fieldClass = fieldDefinition.getContainingClass();
+            if (!Context.subType(classType, fieldClass.getType())) {
                 message = "Type: la classe `" + classType
-                        + "` doit être un sous type de `" + fieldDefinition.getType() + ".";
+                        + "` doit être un sous type de `" + fieldClass.getType() + "`.";
                 throw new ContextualError(message, getLocation());
             }
         }

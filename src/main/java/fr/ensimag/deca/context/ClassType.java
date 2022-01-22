@@ -32,6 +32,11 @@ public class ClassType extends Type {
         return true;
     }
 
+    @Override
+    public boolean isObject() {
+        return false;
+    }
+
     /**
      * Standard creation of a type class.
      */
@@ -62,12 +67,23 @@ public class ClassType extends Type {
      * Return true if potentialSuperClass is a superclass of this class.
      */
     public boolean isSubClassOf(ClassType potentialSuperClass) {
-        ClassType superClassType = definition.getType();
+        if (isObject()) {
+            return false;
+        }
+        if (potentialSuperClass.sameType(this)) {
+            return true;
+        }
+        if (potentialSuperClass.isObject()) {
+            return true;
+        }
+        ClassType superClassType = definition.getSuperClass().getType();
         if (potentialSuperClass.sameType(superClassType)) {
             return true;
         }
-        return potentialSuperClass.isSubClassOf(superClassType);
+        return superClassType.isSubClassOf(potentialSuperClass);
     }
 
+    // A -> B -> C -> Object
+    // A.isSubClass(B) ?
 
 }
