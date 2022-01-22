@@ -1,0 +1,18 @@
+// Description:
+//    Declaration de classe récursive
+//
+// Resultats:
+//    Erreur stack overflow?
+//
+// Historique:
+//    cree le 01/01/2022
+
+class A {
+    int x = 1;
+    A a = new A();
+}
+
+{
+    A a = new A();
+    println(a.a.x);
+}

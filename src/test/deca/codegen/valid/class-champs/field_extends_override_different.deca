@@ -1,0 +1,33 @@
+// Description:
+//    Declaration de class avec des override different
+//
+// Resultats:
+//    1
+//    2
+//    3
+//    2
+//    1
+
+//
+// Historique:
+//    cree le 01/01/2022
+
+class A {
+    int x = 1;
+    int y = 2;
+}
+class B extends A {
+    int x = 3;
+}
+class C extends A {
+    int y = 4;
+}
+
+{
+    A a = new A();
+    B b = new B();
+    C c = new C();
+    println(a.x, a.y);
+    println(b.x, b.y);
+    println(c.x, c.y);
+}
