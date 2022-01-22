@@ -87,7 +87,7 @@ public class DeclClass extends AbstractDeclClass {
             EnvironmentExp methodEnvironment = listDeclMethod.verifyListDeclMethod(
                     compiler, classDefinition, superDefinition
             );
-            superDefinition.getMembers().join(methodEnvironment);
+            classDefinition.getMembers().join(methodEnvironment);
 
         } catch (EnvironmentExp.DoubleDefException e) {
             // FIXME: the only evidence for this is page 77 where it says the OPLUS operator

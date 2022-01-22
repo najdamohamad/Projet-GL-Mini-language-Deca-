@@ -26,27 +26,15 @@ public class Cast extends AbstractExpr {
     @Override
     public Type verifyExpr(DecacCompiler compiler, EnvironmentExp localEnv,
                            ClassDefinition currentClass) throws ContextualError {
-        String message = "type error" + leftOperand.decompile() + "n'est pas int ou float ou une class";
-        Type typeCastedToType = leftOperand.verifyExpr(compiler, localEnv, currentClass);
-        Type exprType = rightOperand.getType();
-        ClassType classType = currentClass.getType();
-        if (!(typeCastedToType.isIntOrFloat() || typeCastedToType.isClass())) {
+        Type castType = leftOperand.verifyType(compiler);
+        Type exprType = rightOperand.verifyExpr(compiler, localEnv, currentClass);
+        if (!Context.castCompatible(exprType, castType)) {
+            String message = "TypeError: impossible de cast `"
+                    + exprType + "` vers `" + castType + "`.";
             throw new ContextualError(message, getLocation());
-        } else {
-            if (!(exprType.isIntOrFloat() || exprType.isClass())) {
-                message = "Type: l'expression " + rightOperand.decompile() + "doit être un int, float ou une class";
-                throw new ContextualError(message, getLocation());
-            } else if (!Context.subType(typeCastedToType, classType)) {
-                message = "Type: l'expression `" + leftOperand.decompile()
-                        + "` doit être un sous type de `" + classType + ".";
-                throw new ContextualError(message, getLocation());
-            } else if (!Context.subType(exprType, typeCastedToType) && !Context.subType(typeCastedToType, exprType)) {
-                message = "Type: les deux expressions sont de types incompatible.";
-                throw new ContextualError(message, getLocation());
-            }
         }
-        setType(typeCastedToType);
-        return typeCastedToType;
+        setType(castType);
+        return castType;
     }
 
 
