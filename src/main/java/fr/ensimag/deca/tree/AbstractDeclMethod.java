@@ -4,6 +4,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
@@ -47,4 +48,5 @@ public abstract class AbstractDeclMethod extends Tree {
     public int codeGen(IMAProgram program){
         return 1;
     }
+    public abstract AbstractIdentifier getMethodName();
 }

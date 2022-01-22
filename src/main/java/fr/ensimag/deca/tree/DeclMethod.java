@@ -99,6 +99,10 @@ public class DeclMethod extends AbstractDeclMethod {
         EnvironmentExp paramEnvironment = params.verifyListDeclParam(compiler, currentClass);
         methodBody.verifyMethodBody(compiler, paramEnvironment, currentClass, methodType);
     }
+    @Override
+    public AbstractIdentifier getMethodName(){
+        return methodName;
+    }
 
     @Override
     public int codeGen(IMAProgram program){

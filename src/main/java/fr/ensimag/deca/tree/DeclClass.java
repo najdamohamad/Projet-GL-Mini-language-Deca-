@@ -5,8 +5,7 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.RTS;
-import fr.ensimag.ima.pseudocode.instructions.TSTO;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -154,11 +153,13 @@ public class DeclClass extends AbstractDeclClass {
         LOG.debug("codegen "+className);
         DAddr position = className.getClassDefinition().getMethodTableAddr();
         DAddr positionMere = superClassName.getClassDefinition().getMethodTableAddr();
+        programInit.addInstruction(new LEA(positionMere, Register.R0));
+        programInit.addInstruction(new STORE(Register.R0, position));
         // Init table method
         for (AbstractDeclMethod method : listDeclMethod.getList()) {
-            position = RegisterOffset(GB ,codeGen(programInit));
+            programInit.addInstruction(new LOAD(new LabelOperand(new Label(method.getMethodName().getName().toString())), Register.R0));
+            programInit.addInstruction(new STORE(Register.R0, position));
         }
-
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
             LOG.trace("init "+declField+" to 0");
