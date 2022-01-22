@@ -1,14 +1,1 @@
-`> [13, 3] Program
-   +> [13, 3] ListDeclClass [List with 1 elements]
-   |  []> [13, 3] DeclClass
-   |      +> [13, 9] Identifier (coordonnees)
-   |      +> [13, 3] extends
-   |      +> [13, 20] Identifier (Object)
-   |      []> [14, 21] DeclField
-   |          +> [14, 21] Visibility PROTECTED
-   |          +> [14, 17] Identifier (int)
-   |          +> [14, 21] Identifier (x)
-   |          `> [14, 21] NoInitialization
-   `> [17, 0] Main
-      +> [18, 0] ListDeclVar [List with 0 elements]
-      `> [18, 0] ListInst [List with 0 elements]
+bash: test_syntax: command not found

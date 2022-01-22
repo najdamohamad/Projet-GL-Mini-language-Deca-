@@ -1,0 +1,28 @@
+// Description:
+//    Test de mal appel d'une fonction
+//                                          (Rule 3.73)
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context:  erreur si on appele une methode avec des parametres qui ne
+//               sont pas compatibles avec sa signature initiale dans la classe .
+//                  (nombre de parametre different et non pas le type)
+//
+// Historique:
+//    cree le 22/01/2022
+
+
+class Maths{
+
+    int power(int x){
+        return x ;
+    }
+
+}
+
+{
+
+    Maths m = new Maths();
+    int value =  m.power(2, 2 );
+}

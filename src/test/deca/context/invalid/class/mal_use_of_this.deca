@@ -1,0 +1,30 @@
+// Description:
+//    Test ou on mal utulise le "this" qui existe dans les classes .
+//                                               ( Rule 3.43 )
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: erreur --> `this` ne peut être utilisée que dans le contexte d'une classe.
+//
+// Historique:
+//    cree le 20/01/2022
+
+
+class Maths{
+    int resultat ;
+
+    int power(int x){
+        this.resultat = this.resultat  +1 ;
+        return x*x;
+    }
+}
+
+{
+    int y ; // marche
+    Maths m = new Maths(); // marche
+    y = m.power(2);  // marche
+    m.resultat = 5 ;  //marche
+    this.resultat = 6  ;   // ERROR
+
+}
