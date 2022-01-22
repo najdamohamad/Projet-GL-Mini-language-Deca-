@@ -4,6 +4,10 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -85,6 +89,12 @@ public class Selection extends AbstractLValue {
 
     @Override
     public int codeGen(IMAProgram program) {
-        throw new UnsupportedOperationException("not yet implemented");
+        int stackUsageAttribute = attribute.codeGen(program);
+        // Null check
+        if (program.shouldCheck()) {
+            program.addInstruction(new CMP(new NullOperand(), program.getMaxUsedRegister()), "checking null deref for "+attribute);
+            program.addInstruction(new BEQ(Program.NULL_DEREF_ERROR));
+        }
+        return 0;
     }
 }

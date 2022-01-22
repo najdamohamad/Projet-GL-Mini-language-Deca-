@@ -11,10 +11,10 @@ import fr.ensimag.deca.tree.Visibility;
  */
 public class FieldDefinition extends ExpDefinition {
     public int getIndex() {
-        return index;
+        return index + containingClass.getNumberOfSuperclassFields();
     }
 
-    private int index;
+    private final int index;
     
     @Override
     public boolean isField() {

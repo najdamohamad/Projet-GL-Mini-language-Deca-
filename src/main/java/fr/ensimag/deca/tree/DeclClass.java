@@ -144,7 +144,7 @@ public class DeclClass extends AbstractDeclClass {
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
             LOG.trace("init "+declField+" to 0");
-            declField.codeGenInitFieldsZero(programInit, numberOfSuperclassFields);
+            declField.codeGenInitFieldsZero(programInit);
         }
 
         // TODO: init the inherited fields
@@ -153,7 +153,7 @@ public class DeclClass extends AbstractDeclClass {
         // For any fields with any explicit initialization, initialize them now.
         int stackUsage = listDeclField.getList().stream().map((AbstractDeclField declField) -> {
             LOG.trace("maybe init "+declField+" with initialization");
-            return declField.codeGen(programInit, numberOfSuperclassFields);
+            return declField.codeGen(programInit);
         }).max(Integer::compare).orElse(0);
 
         programInit.addInstruction(new RTS());

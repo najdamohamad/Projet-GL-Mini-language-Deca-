@@ -109,7 +109,7 @@ public class DeclField extends AbstractDeclField {
         return visibility;
     }
 
-    public void codeGenInitFieldsZero(IMAProgram program, int fieldOffset) {
+    public void codeGenInitFieldsZero(IMAProgram program) {
         FieldDefinition field = varName.getFieldDefinition();
         program.addComment("initializing " + field.getContainingClass() + "." + varName + " to 0");
         program.addInstruction(new LOAD(0, Register.R0));
@@ -117,19 +117,16 @@ public class DeclField extends AbstractDeclField {
         program.addInstruction(new STORE(
                 Register.R0,
                 // 0(R1) is adress of method  table, add one
-                new RegisterOffset(fieldOffset + field.getIndex() + 1, Register.R1)
+                new RegisterOffset(field.getIndex() + 1, Register.R1)
         ));
     }
 
     /**
      * Codegen for a field declaration of a class.
      * @param program The program.
-     * @param fieldOffset This field may be declared in an herited class.
-     *                    In this case, it doens't start at offset 0, but after
-     *                    the herited fields.
      * @return Stack usage.
      */
-    public int codeGen(IMAProgram program, int fieldOffset) {
+    public int codeGen(IMAProgram program) {
         if (initialization instanceof NoInitialization) {
             return 0;
         }
@@ -142,7 +139,7 @@ public class DeclField extends AbstractDeclField {
         program.addInstruction(new STORE(
                 program.getMaxUsedRegister(),
                 // 0(R1) is adress of method  table, add one
-                new RegisterOffset(fieldOffset + field.getIndex() + 1, Register.R1)
+                new RegisterOffset(field.getIndex() + 1, Register.R1)
         ));
         return stackUsage;
     }
