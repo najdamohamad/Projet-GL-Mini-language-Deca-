@@ -190,4 +190,5 @@ public class IMAProgram implements OutputProgram {
     public int getStackUsage() {
         return stackUsage;
     }
+    public void incrStackUsage(){stackUsage++;}
 }

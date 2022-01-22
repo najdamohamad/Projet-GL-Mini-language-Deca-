@@ -151,11 +151,13 @@ public class DeclClass extends AbstractDeclClass {
     public int codeGen(IMAProgram program) {
         IMAProgram programInit = new IMAProgram(program);
         LOG.debug("codegen "+className);
-        DAddr position = className.getClassDefinition().getMethodTableAddr();
+        DAddr position = new RegisterOffset(program.getStackUsage() + 1, Register.GB);
+        className.getClassDefinition().setMethodTableAddr(position);
         int placeDansLeStack = 1;
         DAddr positionMere = superClassName.getClassDefinition().getMethodTableAddr();
         programInit.addInstruction(new LEA(positionMere, Register.R0));
         programInit.addInstruction(new STORE(Register.R0, position));
+        program.incrStackUsage();
         for (AbstractDeclMethod method : listDeclMethod.getList()) {
             className.getClassDefinition().listMethod.add(method.getMethodName().getName().toString());
         }
@@ -164,6 +166,7 @@ public class DeclClass extends AbstractDeclClass {
             if (!className.getClassDefinition().listMethod.contains(SuperMethodName)){
                 program.addInstruction(new LOAD(new LabelOperand(new Label(SuperMethodName)), Register.R0));
                 program.addInstruction(new STORE(Register.R0, new RegisterOffset(placeDansLeStack, Register.GB)));
+                program.incrStackUsage();
                 className.getClassDefinition().listMethod.add(SuperMethodName);
                 placeDansLeStack += 1;
             }
@@ -171,6 +174,7 @@ public class DeclClass extends AbstractDeclClass {
         // Init table method
         for (AbstractDeclMethod method : listDeclMethod.getList()) {
             placeDansLeStack = method.codeGenInitTable(programInit, placeDansLeStack);
+            program.incrStackUsage();
         }
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
