@@ -16,6 +16,7 @@
    |          |      +> [14, 14] Identifier (int)
    |          |      |  definition: type defined at null, type=int
    |          |      +> [14, 18] Identifier (x)
+   |          |      |  definition: parameter defined at [14, 14], type=int
    |          +> [14, 20] ListDeclVar [List with 0 elements]
    |          +> [14, 20] ListInst [List with 1 elements]
    |          |  []> [15, 8] Return
