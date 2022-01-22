@@ -14,5 +14,5 @@ class A {
 
 {
     A a = new A();
-    println(a.a.x);
+    println(a.a.a.a.a.a.x);
 }

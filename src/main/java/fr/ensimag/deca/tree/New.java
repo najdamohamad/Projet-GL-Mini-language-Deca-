@@ -83,8 +83,10 @@ public class New extends AbstractExpr {
         program.addInstruction(new NEW(new ImmediateInteger(objectSize), program.getMaxUsedRegister()),
                 getClassName().getClassDefinition().getNumberOfFieldsAndSuperclassFields()  + " fields for " + getClassName());
 
-        // BOV tas_plein
-        program.addInstruction(new BOV(Program.STACK_OVERFLOW_ERROR));
+        if (program.shouldCheck()) {
+            // BOV tas_plein
+            program.addInstruction(new BOV(Program.STACK_OVERFLOW_ERROR));
+        }
         // TODO: lea adress of method table
         // LEA ad_A, R0
         // STORE RO, 0(R2)
@@ -92,7 +94,7 @@ public class New extends AbstractExpr {
         program.addInstruction(new PUSH(program.getMaxUsedRegister()));
         program.addInstruction(new BSR(new Label("init."+getClassName())));
         program.addInstruction(new POP(program.getMaxUsedRegister()));
-        return 0; // no stack usage because temporary was popped
+        return 1; // 1 stack used because of push
     }
 
     @Override

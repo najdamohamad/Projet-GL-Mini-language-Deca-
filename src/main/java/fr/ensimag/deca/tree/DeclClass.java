@@ -160,13 +160,17 @@ public class DeclClass extends AbstractDeclClass {
             return declField.codeGen(programInit);
         }).max(Integer::compare).orElse(0);
 
-        programInit.addInstruction(new RTS());
+
+        stackUsage += programInit.generatePrologueEpilogue();
         if (stackUsage > 0) {
+            // addFirst -> put operations in reverse order
+            programInit.addFirst(new BOV(Program.STACK_OVERFLOW_ERROR));
             programInit.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
+
         } else {
             programInit.addComment("stack usage is 0, no TSTO added");
         }
-        programInit.addFirstLabel(new Label("init."+className));
+        programInit.addFirst(new Label("init."+className));
         program.append(programInit);
         return stackUsage;
     }

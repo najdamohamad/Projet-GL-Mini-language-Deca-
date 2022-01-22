@@ -90,9 +90,6 @@ public class Program extends AbstractProgram {
      */
     @Override
     public int codeGen(IMAProgram program) {
-
-        // TODO: test de dépassement de pile doit être fait à la fin du programme
-        // Utiliser les possibilités du paquet pseudocode, voir p210
         program.addComment("------------------------------------------------");
         program.addComment("Main program");
         program.addComment("------------------------------------------------");

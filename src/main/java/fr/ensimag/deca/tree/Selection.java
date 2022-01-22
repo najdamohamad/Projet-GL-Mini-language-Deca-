@@ -90,7 +90,8 @@ public class Selection extends AbstractLValue {
         int stackUsageExpression = expression.codeGen(program);
         // Null check
         if (program.shouldCheck()) {
-            program.addInstruction(new CMP(new NullOperand(), program.getMaxUsedRegister()), "checking null deref for "+attribute);
+            program.addInstruction(new CMP(new NullOperand(), program.getMaxUsedRegister()),
+                    "checking null deref for "+expression.decompile());
             program.addInstruction(new BEQ(Program.NULL_DEREF_ERROR));
         }
         int stackUsageAttribute = attribute.codeGen(program);

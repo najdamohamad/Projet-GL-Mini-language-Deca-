@@ -4,10 +4,7 @@ import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Register;
-import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
@@ -109,22 +106,38 @@ public class DeclField extends AbstractDeclField {
         return visibility;
     }
 
+    /**
+     * Codegen for a field to 0/null.
+     * According to page 216
+     * - to 0 or to null, if the field declaration does not have an explicit initlializer
+     * @param program
+     */
     public void codeGenInitFieldsZero(IMAProgram program) {
         FieldDefinition field = varName.getFieldDefinition();
-        program.addComment("initializing " + field.getContainingClass() + "." + varName + " to 0");
-        program.addInstruction(new LOAD(0, Register.R0));
-        program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
-        program.addInstruction(new STORE(
-                Register.R0,
-                // 0(R1) is adress of method  table, add one
-                new RegisterOffset(field.getIndex() + 1, Register.R1)
-        ));
+        program.addComment("initializing " + field.getContainingClass().getType() + "." + varName);
+
+        if (field.getType().isClass()) {
+            program.addInstruction(new LOAD(new NullOperand(), Register.R0), "type class, init to null");
+            program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
+            program.addInstruction(new STORE(
+                    Register.R0,
+                    new RegisterOffset(field.getIndex() + 1, Register.R1)
+            ));
+        } else {
+            program.addInstruction(new LOAD(0, Register.R0), "not a class, init to 0");
+            program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
+            program.addInstruction(new STORE(
+                    Register.R0,
+                    new RegisterOffset(field.getIndex() + 1, Register.R1)
+            ));
+        }
     }
 
     /**
      * Codegen for a field declaration of a class.
-     * @param program The program.
-     * @return Stack usage.
+     * According to page 216:
+     * A field should be initialized
+     * - to the specified value, if the field declaration has an explicit initializer
      */
     public int codeGen(IMAProgram program) {
         if (initialization instanceof NoInitialization) {
