@@ -48,5 +48,10 @@ public abstract class AbstractDeclMethod extends Tree {
     public int codeGen(IMAProgram program){
         return 1;
     }
+
+    public int codeGenInitTable(IMAProgram program, int place){
+        return 1;
+    }
+
     public abstract AbstractIdentifier getMethodName();
 }
