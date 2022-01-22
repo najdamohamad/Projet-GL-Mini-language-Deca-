@@ -1,0 +1,27 @@
+// Description:
+//    Test de mauvais utulisation d'une methode dans une classe
+//                                          (Rule 3.28)
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: on aura une erreur au cas la valeur retournée par la methode
+//         n’est pas compatible avec le type de retour dont la methode est supposée à retourner.
+//
+// Historique:
+//    cree le 22/01/2022
+
+
+class Maths{
+
+    int power(int x){
+        return "hello world";
+    }
+
+}
+
+{
+
+    Maths m = new Maths();
+
+}

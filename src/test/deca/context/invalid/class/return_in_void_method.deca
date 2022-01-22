@@ -1,0 +1,26 @@
+// Description:
+//    Test ou on mal utulise un methode de type de retour void
+//                                          (Rule 3.24)
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: errur puisque on ne peut pas declare une methode avec un type
+//    de retour void avec laquelle on met un return dedans.
+
+//
+// Historique:
+//    cree le 22/01/2022
+
+
+class helloo{
+    int number ;
+
+    void world(int x){
+        x = x + 1 ;
+        return  x ;
+    }
+
+}
+
+
