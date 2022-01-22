@@ -36,24 +36,22 @@ public class Cast extends AbstractExpr {
         Type typeCastedToType = TypeCastedTo.verifyExpr(compiler, localEnv, currentClass);
         Type exprType = rightOperand.getType();
         ClassType classType = currentClass.getType();
-        if(!(typeCastedToType.isIntOrFloat() || typeCastedToType.isClass())){
+        if (!(typeCastedToType.isIntOrFloat() || typeCastedToType.isClass())) {
             throw new ContextualError(message, getLocation());
-        }
-        else{
-            if(!(exprType.isIntOrFloat() || exprType.isClass())){
-                message = "Type: l'expression "+ rightOperand.decompile() + "doit être un int, float ou une class";
+        } else {
+            if (!(exprType.isIntOrFloat() || exprType.isClass())) {
+                message = "Type: l'expression " + rightOperand.decompile() + "doit être un int, float ou une class";
                 throw new ContextualError(message, getLocation());
-            }
-            else if (!Context.subType(typeCastedToType, classType)){
+            } else if (!Context.subType(typeCastedToType, classType)) {
                 message = "Type: l'expression `" + TypeCastedTo.decompile()
                         + "` doit être un sous type de `" + classType + ".";
                 throw new ContextualError(message, getLocation());
-            }
-            else if (!Context.subType(exprType, typeCastedToType) && !Context.subType(typeCastedToType  , exprType)){
+            } else if (!Context.subType(exprType, typeCastedToType) && !Context.subType(typeCastedToType, exprType)) {
                 message = "Type: les deux expressions sont de types incompatible.";
                 throw new ContextualError(message, getLocation());
             }
         }
+        setType(typeCastedToType);
         return typeCastedToType;
     }
 

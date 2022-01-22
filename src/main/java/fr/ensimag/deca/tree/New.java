@@ -41,6 +41,7 @@ public class New extends AbstractExpr {
                     + className.decompile() + "`ce n'est pas une classe.";
             throw new ContextualError(message, getLocation());
         }
+        setType(exprType);
         return exprType;
     }
 
@@ -81,7 +82,7 @@ public class New extends AbstractExpr {
         // NEW #d, R2
         int objectSize = getClassName().getClassDefinition().getNumberOfFieldsAndSuperclassFields() + 1;
         program.addInstruction(new NEW(new ImmediateInteger(objectSize), program.getMaxUsedRegister()),
-                getClassName().getClassDefinition().getNumberOfFieldsAndSuperclassFields()  + " fields for " + getClassName());
+                getClassName().getClassDefinition().getNumberOfFieldsAndSuperclassFields() + " fields for " + getClassName());
         // BOV tas_plein
         program.addInstruction(new BOV(Program.STACK_OVERFLOW_ERROR));
         // TODO: lea adress of method table
@@ -89,7 +90,7 @@ public class New extends AbstractExpr {
         // STORE RO, 0(R2)
         // TODO: sauvegarde des registres à faire?
         program.addInstruction(new PUSH(program.getMaxUsedRegister()));
-        program.addInstruction(new BSR(new Label("init."+getClassName())));
+        program.addInstruction(new BSR(new Label("init." + getClassName())));
         program.addInstruction(new POP(program.getMaxUsedRegister()));
         return 0; // no stack usage because temporary was popped
     }
