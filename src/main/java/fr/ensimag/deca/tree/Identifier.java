@@ -7,6 +7,8 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -200,12 +202,24 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public int codeGen(IMAProgram program) {
         // Load the value of the identifier from the stack/ a register.
-        LOG.trace("gen identifier, dval="+getVariableDefinition().getDVal());
+        if (definition.isField()) {
+            FieldDefinition field = getFieldDefinition();
+            field.setAdress(new RegisterOffset(field.getIndex() + 1, program.getMaxUsedRegister()));
+            LOG.trace("gen for field, dval=" + getFieldDefinition().getDVal());
+            program.addInstruction(new LOAD(
+                    getFieldDefinition().getDVal(),
+                    program.getMaxUsedRegister()
+            ), "field " + getName() + " stored in " + getFieldDefinition().getDVal());
+            return 0;
+        } else if (definition.isExpression()) {
+            LOG.trace("gen identifier, dval=" + getVariableDefinition().getDVal());
             program.addInstruction(new LOAD(
                     getVariableDefinition().getDVal(),
                     program.getMaxUsedRegister()
-        ), "identifier "+getName()+ " stored in "+getVariableDefinition().getDVal());
+            ), "identifier " + getName() + " stored in " + getVariableDefinition().getDVal());
             return 0; // no stack usage, just loading ident
+        }
+        throw new DecacInternalError("invalid codegen case for identifier");
     }
 
     private Definition definition;

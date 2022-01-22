@@ -3,9 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.BEQ;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
 import org.apache.commons.lang.Validate;
@@ -89,12 +87,13 @@ public class Selection extends AbstractLValue {
 
     @Override
     public int codeGen(IMAProgram program) {
-        int stackUsageAttribute = attribute.codeGen(program);
+        int stackUsageExpression = expression.codeGen(program);
         // Null check
         if (program.shouldCheck()) {
             program.addInstruction(new CMP(new NullOperand(), program.getMaxUsedRegister()), "checking null deref for "+attribute);
             program.addInstruction(new BEQ(Program.NULL_DEREF_ERROR));
         }
-        return 0;
+        int stackUsageAttribute = attribute.codeGen(program);
+        return Math.max(stackUsageAttribute, stackUsageExpression);
     }
 }

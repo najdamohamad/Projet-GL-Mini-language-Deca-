@@ -82,6 +82,7 @@ public class New extends AbstractExpr {
         int objectSize = getClassName().getClassDefinition().getNumberOfFieldsAndSuperclassFields() + 1;
         program.addInstruction(new NEW(new ImmediateInteger(objectSize), program.getMaxUsedRegister()),
                 getClassName().getClassDefinition().getNumberOfFieldsAndSuperclassFields()  + " fields for " + getClassName());
+
         // BOV tas_plein
         program.addInstruction(new BOV(Program.STACK_OVERFLOW_ERROR));
         // TODO: lea adress of method table
