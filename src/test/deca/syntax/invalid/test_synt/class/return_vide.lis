@@ -1,1 +1,1 @@
-bash: test_syntax: command not found
+src/test/deca/syntax/invalid/test_synt/class/return_vide.deca:17:16: mismatched input ';' expecting {'false', 'new', 'null', 'readInt', 'readFloat', 'this', 'true', IDENT, '-', '(', '!', INT, FLOAT, STRING}

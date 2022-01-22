@@ -1,1 +1,1 @@
-bash: test_syntax: command not found
+src/test/deca/syntax/invalid/test_synt/class/wrong_brackets.deca:17:4: no viable alternative at input '}'

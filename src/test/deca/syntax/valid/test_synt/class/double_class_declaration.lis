@@ -1,1 +1,33 @@
-bash: test_syntax: command not found
+`> [12, 4] Program
+   +> [12, 4] ListDeclClass [List with 2 elements]
+   |  []> [12, 4] DeclClass
+   |  ||  +> [12, 10] Identifier (A)
+   |  ||  +> [12, 4] extends
+   |  ||  +> [12, 11] Identifier (Object)
+   |  ||  []> [13, 11] DeclField
+   |  ||  ||  +> [13, 11] Visibility PUBLIC
+   |  ||  ||  +> [13, 7] Identifier (int)
+   |  ||  ||  +> [13, 11] Identifier (x)
+   |  ||  ||  `> [13, 11] NoInitialization
+   |  ||  []> [13, 14] DeclField
+   |  ||      +> [13, 14] Visibility PUBLIC
+   |  ||      +> [13, 7] Identifier (int)
+   |  ||      +> [13, 14] Identifier (y)
+   |  ||      `> [13, 14] NoInitialization
+   |  []> [15, 4] DeclClass
+   |      +> [15, 10] Identifier (A)
+   |      +> [15, 4] extends
+   |      +> [15, 11] Identifier (Object)
+   |      []> [16, 11] DeclField
+   |      ||  +> [16, 11] Visibility PUBLIC
+   |      ||  +> [16, 7] Identifier (int)
+   |      ||  +> [16, 11] Identifier (x)
+   |      ||  `> [16, 11] NoInitialization
+   |      []> [16, 15] DeclField
+   |          +> [16, 15] Visibility PUBLIC
+   |          +> [16, 7] Identifier (int)
+   |          +> [16, 15] Identifier (y)
+   |          `> [16, 15] NoInitialization
+   `> [18, 0] Main
+      +> [20, 0] ListDeclVar [List with 0 elements]
+      `> [20, 0] ListInst [List with 0 elements]

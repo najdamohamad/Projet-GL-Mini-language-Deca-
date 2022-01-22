@@ -1,1 +1,19 @@
-bash: test_syntax: command not found
+`> [13, 4] Program
+   +> [13, 4] ListDeclClass [List with 1 elements]
+   |  []> [13, 4] DeclClass
+   |      +> [13, 10] Identifier (coordonnees)
+   |      +> [13, 4] extends
+   |      +> [13, 21] Identifier (Object)
+   |      []> [14, 11] DeclField
+   |      ||  +> [14, 11] Visibility PUBLIC
+   |      ||  +> [14, 7] Identifier (int)
+   |      ||  +> [14, 11] Identifier (x)
+   |      ||  `> [14, 11] NoInitialization
+   |      []> [15, 11] DeclField
+   |          +> [15, 11] Visibility PUBLIC
+   |          +> [15, 7] Identifier (int)
+   |          +> [15, 11] Identifier (y)
+   |          `> [15, 11] NoInitialization
+   `> [17, 0] Main
+      +> [19, 0] ListDeclVar [List with 0 elements]
+      `> [19, 0] ListInst [List with 0 elements]

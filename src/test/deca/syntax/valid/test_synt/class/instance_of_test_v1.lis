@@ -1,1 +1,40 @@
-bash: test_syntax: command not found
+`> [14, 0] Program
+   +> [14, 0] ListDeclClass [List with 2 elements]
+   |  []> [14, 0] DeclClass
+   |  ||  +> [14, 6] Identifier (Dad)
+   |  ||  +> [14, 0] extends
+   |  ||  +> [14, 9] Identifier (Object)
+   |  ||  []> [15, 11] DeclField
+   |  ||      +> [15, 11] Visibility PUBLIC
+   |  ||      +> [15, 3] Identifier (boolean)
+   |  ||      +> [15, 11] Identifier (myDad)
+   |  ||      `> [15, 19] Initialization
+   |  ||         `> [15, 19] BooleanLiteral (true)
+   |  []> [18, 0] DeclClass
+   |      +> [18, 6] Identifier (Son)
+   |      +> [18, 0] extends
+   |      +> [18, 10] Identifier (Dad)
+   `> [20, 0] Main
+      +> [21, 2] ListDeclVar [List with 2 elements]
+      |  []> [21, 6] DeclVar
+      |  ||  +> [21, 2] Identifier (Dad)
+      |  ||  +> [21, 6] Identifier (d)
+      |  ||  `> [21, 10] Initialization
+      |  ||     `> [21, 10] New
+      |  ||        +> [21, 14] Identifier (Dad)
+      |  []> [22, 6] DeclVar
+      |      +> [22, 2] Identifier (Son)
+      |      +> [22, 6] Identifier (s)
+      |      `> [22, 10] Initialization
+      |         `> [22, 10] New
+      |            +> [22, 14] Identifier (Son)
+      `> [24, 2] ListInst [List with 1 elements]
+         []> [24, 2] IfThenElse
+             +> [24, 5] InstanceOf
+             |  +> [24, 5] Identifier (bla)
+             |  `> [24, 21] Identifier (ble)
+             +> [26, 6] ListInst [List with 1 elements]
+             |  []> [26, 6] Print
+             |      `> [26, 12] ListExpr [List with 1 elements]
+             |         []> [26, 12] StringLiteral (you found ur dad)
+             `> ListInst [List with 0 elements]

@@ -1,1 +1,1 @@
-bash: test_syntax: command not found
+src/test/deca/syntax/invalid/test_synt/class/error_in_method.deca:16:8: no viable alternative at input 'int1'

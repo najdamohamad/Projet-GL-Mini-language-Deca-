@@ -1,1 +1,1 @@
-bash: test_syntax: command not found
+src/test/deca/syntax/invalid/test_synt/class/declaration_private_class.deca:13:1: no viable alternative at input 'Private'
