@@ -2,12 +2,12 @@ package fr.ensimag.deca.tree;
 
 import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
-import fr.ensimag.deca.context.ClassType;
-import fr.ensimag.deca.context.ContextualError;
-import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -62,7 +62,12 @@ public class DeclClass extends AbstractDeclClass {
         ClassType classType =
                 new ClassType(className.getName(), getLocation(), superType.getDefinition());
         className.setDefinition(classType.getDefinition());
-        compiler.declareTypeDefinition(className.getName(), classType.getDefinition());
+        try {
+            compiler.declareTypeDefinition(className.getName(), classType.getDefinition());
+        } catch (EnvironmentType.DoubleDefException e) {
+            message = "ScopeError: tentative de définir la classe `" + className.decompile() + "` deux fois.";
+            throw new ContextualError(message, getLocation());
+        }
     }
 
     @Override
@@ -143,23 +148,23 @@ public class DeclClass extends AbstractDeclClass {
 
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
-            LOG.trace("init "+declField+" to 0");
+            LOG.trace("init " + declField + " to 0");
             declField.codeGenInitFieldsZero(programInit);
         }
 
         // If there is a superclass to initialize, do it.
         // Note that Object has no initializer, so skip it if the superclass is Object.
         if (superClassName.getClassDefinition().isClass()
-        && !superClassName.getClassDefinition().getType().toString().equals("Object")) {
+                && !superClassName.getClassDefinition().getType().toString().equals("Object")) {
             stackUsage += 1;
             programInit.addInstruction(new PUSH(Register.R1));
-            programInit.addInstruction(new BSR(new Label("init."+superClassName)));
+            programInit.addInstruction(new BSR(new Label("init." + superClassName)));
             programInit.addInstruction(new SUBSP(new ImmediateInteger(1)));
         }
 
         // For any fields with any explicit initialization, initialize them now.
         stackUsage += listDeclField.getList().stream().map((AbstractDeclField declField) -> {
-            LOG.trace("maybe init "+declField+" with initialization");
+            LOG.trace("maybe init " + declField + " with initialization");
             return declField.codeGen(programInit);
         }).max(Integer::compare).orElse(0);
 
@@ -173,7 +178,7 @@ public class DeclClass extends AbstractDeclClass {
         } else {
             programInit.addComment("stack usage is 0, no TSTO added");
         }
-        programInit.addFirst(new Label("init."+className));
+        programInit.addFirst(new Label("init." + className));
         program.append(programInit);
         return stackUsage;
     }

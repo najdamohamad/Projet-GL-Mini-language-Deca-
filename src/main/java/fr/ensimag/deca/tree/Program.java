@@ -5,7 +5,9 @@ import fr.ensimag.arm.pseudocode.syscalls.Exit;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentType;
 import fr.ensimag.deca.context.ObjectType;
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.IMAProgram;
@@ -53,7 +55,11 @@ public class Program extends AbstractProgram {
                 objectSymbol,
                 getLocation()
         );
-        compiler.declareTypeDefinition(objectSymbol, objectType.getDefinition());
+        try {
+            compiler.declareTypeDefinition(objectSymbol, objectType.getDefinition());
+        } catch (EnvironmentType.DoubleDefException e) {
+            throw new DecacInternalError("unreachable.");
+        }
 
         LOG.debug("verify classes, pass 1: start");
         classes.verifyListClass(compiler);
