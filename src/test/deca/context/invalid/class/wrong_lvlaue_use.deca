@@ -1,0 +1,28 @@
+// Description:
+//    Test wrong use of lvalue
+//                                  (Rule 3.67 - 3.68 - 3.69 )
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    context: erreur si on utulise des lvalue autre que
+//              les identificateurs champs, paramètres et variables.
+//
+//
+// Historique:
+//    cree le 22/01/2022
+
+class coordonnees{
+    int x = 5 ;
+    int y = 10 + 204 ;
+
+    int plan(int z){
+        plan = 3;
+        return this.x;
+    }
+}
+
+{
+    coordonnees coords = new coordonnees();
+    
+}

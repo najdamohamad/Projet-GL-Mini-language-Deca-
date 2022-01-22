@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/return_in_void_method.deca:21:8: TypeError: il est impossible de retourner une valeur quand la méthode a un type de retour `void`.

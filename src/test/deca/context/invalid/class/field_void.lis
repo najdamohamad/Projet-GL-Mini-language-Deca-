@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/field_void.deca:16:12: TypeError: un champ ne peut être déclaré avec le type `void`

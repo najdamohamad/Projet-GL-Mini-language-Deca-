@@ -1,0 +1,26 @@
+// Description:
+//    Test de mal appel d'une fonction
+//                                          (Rule 3.72)
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context:  erreur si on appele une methode non existante dans la classe avec un objet de cette classe.
+//
+// Historique:
+//    cree le 22/01/2022
+
+
+class Maths{
+
+    int power(int x){
+        return x ;
+    }
+
+}
+
+{
+
+    Maths m = new Maths();
+    m.multiply(3);
+}

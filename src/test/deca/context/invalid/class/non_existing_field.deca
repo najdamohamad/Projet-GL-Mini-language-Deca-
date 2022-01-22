@@ -1,0 +1,30 @@
+// Description:
+//    Test ou essaye d'utuliser en main un field non existant dans la classe
+//                                               ( Rule 3.65 )
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: erreur --> le premier type d’erreur avec les fields est si le field n’existe
+//              pas deja dans la classe et on essaye de l’utiliser dans main ce qui affiche une erreur.
+
+//
+// Historique:
+//    cree le 22/01/2022
+
+
+class Maths{
+    int resultat ;
+
+    int power(int x){
+        this.resultat = this.resultat  +1 ;
+        return x*x;
+    }
+}
+
+{
+    Maths m = new Maths();
+    m.resultat = 5 ;
+    m.final = 6 ; // error
+
+}

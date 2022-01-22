@@ -1,0 +1,29 @@
+// Description:
+//    Test de mal appel d'une fonction
+//                                          (Rule 3.71)
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: erreur si on appele la methode avec une expression qui n’est pas même un objet .
+
+//
+// Historique:
+//    cree le 22/01/2022
+
+
+class Maths{
+
+    int power(int x){
+        return x ;
+    }
+
+}
+
+{
+
+    Maths m = new Maths();
+    blabla.power(2) ;
+
+
+}

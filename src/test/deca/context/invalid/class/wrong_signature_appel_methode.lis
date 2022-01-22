@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/wrong_signature_appel_methode.deca:27:17: TypeError: l'appel méthode `m.power(2,2)` est incompatible avec sa signature.

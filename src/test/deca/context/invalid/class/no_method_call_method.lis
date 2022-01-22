@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/no_method_call_method.deca:25:4: TypeError: `multiply` n'est pas une méthode.

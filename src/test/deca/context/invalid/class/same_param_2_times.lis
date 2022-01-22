@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/same_param_2_times.deca:19:27: ScopeError: le paramètre `x` est défini plus qu'une fois.
