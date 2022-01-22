@@ -5,6 +5,9 @@ import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.DAddr;
 import org.apache.commons.lang.Validate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Definition of a class.
  *
@@ -88,7 +91,7 @@ public class ClassDefinition extends TypeDefinition {
 
     private final EnvironmentExp members;
     private final ClassDefinition superClass;
-
+    public  List<String> listMethod;
     public EnvironmentExp getMembers() {
         return members;
     }
@@ -103,6 +106,7 @@ public class ClassDefinition extends TypeDefinition {
         }
         members = new EnvironmentExp(parent);
         this.superClass = superClass;
+        this.listMethod = new ArrayList<String>();
     }
 
 

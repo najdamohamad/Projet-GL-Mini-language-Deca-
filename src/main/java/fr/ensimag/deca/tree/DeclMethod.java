@@ -3,7 +3,8 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -107,5 +108,12 @@ public class DeclMethod extends AbstractDeclMethod {
     @Override
     public int codeGen(IMAProgram program){
         return 1;
+    }
+
+    @Override
+    public int codeGenInitTable(IMAProgram program, int place){
+        program.addInstruction(new LOAD(new LabelOperand(new Label(methodName.getName().toString())), Register.R0));
+        program.addInstruction(new STORE(Register.R0, new RegisterOffset(place, Register.GB)));
+        return place + 1;
     }
 }

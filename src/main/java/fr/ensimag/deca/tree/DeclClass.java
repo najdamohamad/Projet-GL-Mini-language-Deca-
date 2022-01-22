@@ -152,13 +152,24 @@ public class DeclClass extends AbstractDeclClass {
         IMAProgram programInit = new IMAProgram(program);
         LOG.debug("codegen "+className);
         DAddr position = className.getClassDefinition().getMethodTableAddr();
+        int placeDansLeStack = 2;
         DAddr positionMere = superClassName.getClassDefinition().getMethodTableAddr();
         programInit.addInstruction(new LEA(positionMere, Register.R0));
         programInit.addInstruction(new STORE(Register.R0, position));
+        for (AbstractDeclMethod method : listDeclMethod.getList()) {
+            className.getClassDefinition().listMethod.add(method.getMethodName().getName().toString());
+        }
+        // Init table method inherited
+        for (String SuperMethodName : superClassName.getClassDefinition().listMethod){
+            if (!className.getClassDefinition().listMethod.contains(SuperMethodName)){
+                program.addInstruction(new LOAD(new LabelOperand(new Label(SuperMethodName)), Register.R0));
+                program.addInstruction(new STORE(Register.R0, new RegisterOffset(placeDansLeStack, Register.GB)));
+                placeDansLeStack += 1;
+            }
+        }
         // Init table method
         for (AbstractDeclMethod method : listDeclMethod.getList()) {
-            programInit.addInstruction(new LOAD(new LabelOperand(new Label(method.getMethodName().getName().toString())), Register.R0));
-            programInit.addInstruction(new STORE(Register.R0, position));
+            placeDansLeStack = method.codeGenInitTable(programInit, placeDansLeStack);
         }
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
