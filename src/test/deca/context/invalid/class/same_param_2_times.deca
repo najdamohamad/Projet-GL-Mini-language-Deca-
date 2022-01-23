@@ -1,0 +1,27 @@
+// Description:
+//    Test ou l'une des methode prend le meme parametre 2 fois
+//                                      (Rule 3.13)
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: erreur car on ne peut pas utulise deux parametre de meme nom dans
+//    une même methode ( ex: plus(int x , int x) ) puisqu’on pourrait plus distinguer entre ces deux x .
+//
+// Historique:
+//    cree le 19/01/2022
+
+
+
+     class A{
+          int resultat ;
+
+           int plus(int x, int x ){
+               return x + x ;
+           }
+
+       }
+
+   {
+
+   }

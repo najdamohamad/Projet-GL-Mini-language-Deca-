@@ -25,7 +25,7 @@ public class MethodCall extends AbstractExpr {
         Validate.notNull(expression);
         Validate.notNull(method);
         Validate.notNull(listArgs);
-        this.expression =expression;
+        this.expression = expression;
         this.method = method;
         this.listArgs = listArgs;
     }
@@ -37,14 +37,23 @@ public class MethodCall extends AbstractExpr {
         ClassType exprType = expression
                 .verifyExpr(compiler, localEnv, currentClass)
                 .asClassType(message, getLocation());
-        message = "TypeError: `" + method.decompile() + "` n'est pas une méthode.";
-        MethodDefinition definition = currentClass
+        ExpDefinition definition = exprType
+                .getDefinition()
                 .getMembers()
-                .get(method.getName())
-                .asMethodDefinition(message, getLocation());
-        ClassType classType = currentClass.getType();
+                .get(method.getName());
+        message = "TypeError: `" + method.decompile() + "` n'est pas une méthode.";
+        if (definition == null) {
+            throw new ContextualError(message, getLocation());
+        }
+        MethodDefinition methodDefinition = definition.asMethodDefinition(message, getLocation());
+        method.setDefinition(methodDefinition);
+        Signature signature = methodDefinition.getSignature();
+        message = "TypeError: l'appel méthode `" + decompile() + "` est incompatible avec sa signature.";
+        if (listArgs.size() != signature.size()) {
+            throw new ContextualError(message, getLocation());
+        }
         for (int i = 0; i < listArgs.size(); i++) {
-            Type paramType = definition.getSignature().paramNumber(i);
+            Type paramType = signature.paramNumber(i);
             // TODO: verify that we should do ConvFloat in method arguments.
             AbstractExpr rvalueArg = listArgs
                     .getList()
@@ -52,7 +61,8 @@ public class MethodCall extends AbstractExpr {
                     .verifyRValue(compiler, localEnv, currentClass, paramType);
             listArgs.set(i, rvalueArg);
         }
-        return exprType;
+        setType(methodDefinition.getType());
+        return methodDefinition.getType();
     }
 
 

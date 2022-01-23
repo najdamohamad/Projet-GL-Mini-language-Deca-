@@ -1,0 +1,25 @@
+// Description:
+//    Test ou on utulise le meme nom d'un field pour une methode
+//
+//                                          (Rule 2.5)
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: erreur puisqu'on peut pas utuliser le meme nom d'un field pour une metode dans la meme classe
+//
+// Historique:
+//    cree le 22/01/2022
+
+
+    class A{
+        int plus ;
+
+        int plus(int x, int y ){
+            return x + y ;
+        }
+
+    }
+
+{
+
+}

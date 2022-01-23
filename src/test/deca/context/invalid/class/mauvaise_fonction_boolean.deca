@@ -1,0 +1,27 @@
+// Description:
+//    Test de mauvais utulisation d'une methode Boolean dans une classe
+//                                          (Rule 3.29)
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: on aura une erreur dans le cas ou le type de retour
+//             precisée est boolean tandis que le type retourné est different de boolean.
+//
+// Historique:
+//    cree le 22/01/2022
+
+
+class Maths{
+
+    boolean power(int x){
+        return x*x ;
+    }
+
+}
+
+{
+
+    Maths m = new Maths();
+
+}

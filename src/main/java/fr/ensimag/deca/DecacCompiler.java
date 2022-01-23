@@ -211,12 +211,9 @@ public class DecacCompiler {
         return envTypesPredef.get(typeSymbol);
     }
 
-    public void declareTypeDefinition(SymbolTable.Symbol typeSymbol, TypeDefinition definition) {
-        try {
-            envTypesPredef.declare(typeSymbol, definition);
-        } catch (EnvironmentType.DoubleDefException e) {
-            throw new DecacInternalError("double class definition, this is a verification bug");
-        }
+    public void declareTypeDefinition(SymbolTable.Symbol typeSymbol, TypeDefinition definition)
+            throws EnvironmentType.DoubleDefException {
+        envTypesPredef.declare(typeSymbol, definition);
     }
 
     public TypeDefinition getTypeDefinition(String typeSymbol) {

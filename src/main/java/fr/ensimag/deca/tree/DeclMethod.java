@@ -63,18 +63,21 @@ public class DeclMethod extends AbstractDeclMethod {
     protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv,
                                     ClassDefinition currentClass, ClassDefinition superClass) throws ContextualError {
         Type methodType = type.verifyType(compiler);
+        Signature signature = params.verifyListDeclParamType(compiler);
         ExpDefinition superDefinition = superClass.getMembers().get(methodName.getName());
-        String message = "ScopeError: la méthode `" + methodName.getName()
-                + "` a une signature incompatible avec sa méthode héritée";
-        MethodDefinition superMethodDefinition =
-                superDefinition.asMethodDefinition(message, getLocation());
-        Signature signature = superMethodDefinition.getSignature();
-        boolean sameSig = signature
-                .equals(params.verifyListDeclParamType(compiler));
-        // TODO: finish implement subType in the context class.
-        boolean sameType = Context.subType(superMethodDefinition.getType(), methodType);
-        if (!sameType || !sameSig) {
-            throw new ContextualError(message, getLocation());
+        if (superDefinition != null) {
+            // Si la méthode override une autre dans la super classe alors ça
+            // doit garder la même signature.
+            String message = "ScopeError: la méthode `" + methodName.getName()
+                    + "` a une signature incompatible avec sa méthode héritée";
+            MethodDefinition superMethodDefinition =
+                    superDefinition.asMethodDefinition(message, getLocation());
+            Signature superSignature = superMethodDefinition.getSignature();
+            boolean sameSig = superSignature.equals(signature);
+            boolean sameType = Context.subType(superMethodDefinition.getType(), methodType);
+            if (!sameType || !sameSig) {
+                throw new ContextualError(message, getLocation());
+            }
         }
         MethodDefinition methodDefinition = new MethodDefinition(
                 methodType,
@@ -87,7 +90,7 @@ public class DeclMethod extends AbstractDeclMethod {
         try {
             localEnv.declare(methodName.getName(), methodDefinition);
         } catch (EnvironmentExp.DoubleDefException e) {
-            message = "ScopeError: tentative de définir la méthode `"
+            String message = "ScopeError: tentative de définir la méthode `"
                     + methodName.decompile() + "` deux fois.";
             throw new ContextualError(message, getLocation());
         }

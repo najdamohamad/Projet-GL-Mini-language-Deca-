@@ -1,0 +1,20 @@
+// Description:
+//    Declaration de classe avec des champs objet
+//
+// Resultats:
+//    1
+//
+// Historique:
+//    cree le 01/01/2022
+
+class A {
+    int x = 1;
+}
+class B {
+    A a = new A();
+}
+
+{
+    B b = new B();
+    println(b.a.x);
+}

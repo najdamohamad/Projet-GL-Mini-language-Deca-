@@ -2,13 +2,19 @@
    +> [13, 0] ListDeclClass [List with 1 elements]
    |  []> [13, 0] DeclClass
    |      +> [13, 6] Identifier (coordonnees)
+   |      |  definition: type defined at [13, 0], type=coordonnees
    |      +> [13, 0] extends
    |      +> [13, 17] Identifier (Object)
-   |      []> [14, 4] DeclMethodAsm
+   |      |  definition: type defined at [13, 0], type=Object
+   |      []> [14, 4] DeclMethod
    |          +> [14, 4] Identifier (int)
+   |          |  definition: type defined at null, type=int
    |          +> [14, 8] Identifier (plan)
+   |          |  definition: method defined at [14, 4], type=int
    |          +> [14, 13] ListDeclParam [List with 1 elements]
    |          |  []> [14, 13] DeclParam
    |          |      +> [14, 13] Identifier (int)
+   |          |      |  definition: type defined at null, type=int
    |          |      +> [14, 17] Identifier (z)
+   |          |      |  definition: parameter defined at [14, 13], type=int
    `> [17, 1] EmptyMain

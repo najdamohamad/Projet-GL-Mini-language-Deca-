@@ -9,7 +9,7 @@
 //    cree le 14/01/2022
 
 {
-    while(readint()) 
+    while(readInt()) 
     {
         print("salut") ;
     }

@@ -1,1 +1,1 @@
-src/test/deca/context/invalid/control_structures/while_condition_readint.deca:12:10: ScopeError: l'identificateur `readint` n'est pas défini.
+src/test/deca/context/invalid/control_structures/while_condition_readint.deca:12:10: TypeError: type incorrect pour expression `readInt()`, attendu `boolean` mais trouvé `int`.

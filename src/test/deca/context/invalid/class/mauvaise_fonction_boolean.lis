@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/mauvaise_fonction_boolean.deca:18:15: TypeError: type incorrect pour expression `(x * x)`, attendu `boolean` mais trouvé `int`.

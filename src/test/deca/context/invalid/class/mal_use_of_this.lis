@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/mal_use_of_this.deca:28:4: TypeError: `this` ne peut être utilisée que dans le contexte d'une classe.

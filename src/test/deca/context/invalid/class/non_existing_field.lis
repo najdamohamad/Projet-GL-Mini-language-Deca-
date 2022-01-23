@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/non_existing_field.deca:28:4: TypeError: `final` n'est pas un champ.

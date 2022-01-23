@@ -1,0 +1,23 @@
+// Description:
+//    Test ou une class herite d'une classe non existante
+//
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 19/01/2022
+
+
+
+   class A {
+       int x;
+
+   }
+
+   class B extends C{
+       int y;
+   }
+{
+}

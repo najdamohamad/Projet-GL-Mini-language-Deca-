@@ -1,0 +1,29 @@
+// Description:
+//    Test de declaration de la meme methode 2 fois dans la meme classe
+//                                          (Rule 2.7)
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: errur puisque c'est interdit de declarer la même methode plus qu'une fois
+//              dans la même classe.
+//
+// Historique:
+//    cree le 22/01/2022
+
+
+class Maths{
+
+    int power(int x){
+        return x*x;
+    }
+    int power(int x){
+        return x*x ;
+    }
+}
+
+{
+
+    Maths m = new Maths();
+
+}

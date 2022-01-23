@@ -36,9 +36,8 @@ public class Assign extends AbstractBinaryExpr {
                            ClassDefinition currentClass) throws ContextualError {
         Type lvalueType = getLeftOperand().verifyExpr(compiler, localEnv, currentClass);
         AbstractExpr rvalue = getRightOperand().verifyRValue(compiler, localEnv, currentClass, lvalueType);
-        Type exprType = rvalue.verifyExpr(compiler, localEnv, currentClass);
-        setType(exprType);
-        return exprType;
+        setType(rvalue.getType());
+        return rvalue.getType();
     }
 
 
@@ -55,21 +54,40 @@ public class Assign extends AbstractBinaryExpr {
     public int codeGen(IMAProgram program) {
         int stackUsage = getRightOperand().codeGen(program);
 
-        // Store the return value.
+        // Return for variables.
         AbstractIdentifier ident = (AbstractIdentifier) getLeftOperand();
-        if (ident.getVariableDefinition().isRegister()) {
-            program.addInstruction(new LOAD(
-                    program.getMaxUsedRegister(),
-                    ident.getVariableDefinition().getRegister()
-            ),
-                    "return value of assignement");
+        if (ident.getDefinition().isExpression()) {
+            if (ident.getVariableDefinition().isRegister()) {
+                program.addInstruction(new LOAD(
+                                program.getMaxUsedRegister(),
+                                ident.getVariableDefinition().getRegister()
+                        ),
+                        "return value of assignement");
+            } else {
+                program.addInstruction(new STORE(
+                                program.getMaxUsedRegister(),
+                                ident.getVariableDefinition().getAdress()
+                        ),
+                        "return value of assignement"
+                );
+            }
+        } else if (ident.getDefinition().isField()) {
+            if (ident.getFieldDefinition().isRegister()) {
+                program.addInstruction(new LOAD(
+                                program.getMaxUsedRegister(),
+                                ident.getFieldDefinition().getRegister()
+                        ),
+                        "return value of assignement");
+            } else {
+                program.addInstruction(new STORE(
+                                program.getMaxUsedRegister(),
+                                ident.getFieldDefinition().getAdress()
+                        ),
+                        "return value of assignement"
+                );
+            }
         } else {
-            program.addInstruction(new STORE(
-                            program.getMaxUsedRegister(),
-                            ident.getVariableDefinition().getAdress()
-                    ),
-                    "return value of assignement"
-            );
+            throw new DecacInternalError("match failed for assign codegen");
         }
         return stackUsage;
     }

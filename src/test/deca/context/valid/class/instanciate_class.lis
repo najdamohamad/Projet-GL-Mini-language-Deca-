@@ -1,1 +1,28 @@
-ERREUR doit marcher
+`> [10, 0] Program
+   +> [10, 0] ListDeclClass [List with 1 elements]
+   |  []> [10, 0] DeclClass
+   |      +> [10, 6] Identifier (A)
+   |      |  definition: type defined at [10, 0], type=A
+   |      +> [10, 0] extends
+   |      +> [10, 7] Identifier (Object)
+   |      |  definition: type defined at [10, 0], type=Object
+   |      []> [11, 8] DeclField
+   |          +> [11, 8] Visibility PUBLIC
+   |          +> [11, 4] Identifier (int)
+   |          |  definition: type defined at null, type=int
+   |          +> [11, 8] Identifier (x)
+   |          |  definition: field defined at [11, 8], type=int
+   |          `> [11, 8] NoInitialization
+   `> [14, 0] Main
+      +> [15, 4] ListDeclVar [List with 1 elements]
+      |  []> [15, 6] DeclVar
+      |      +> [15, 4] Identifier (A)
+      |      |  definition: type defined at [10, 0], type=A
+      |      +> [15, 6] Identifier (a)
+      |      |  definition: variable defined at [15, 6], type=A
+      |      `> [15, 10] Initialization
+      |         `> [15, 10] New
+      |            type: A
+      |            +> [15, 14] Identifier (A)
+      |            |  definition: type defined at [10, 0], type=A
+      `> [16, 0] ListInst [List with 0 elements]

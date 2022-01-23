@@ -1,0 +1,24 @@
+// Description:
+//    Declaration de classe extends de champ objet
+//
+// Resultats:
+//    1
+//
+// Historique:
+//    cree le 01/01/2022
+
+class X {
+    int x = 1;
+}
+
+class A {
+    X x = new X();
+}
+class B extends A {
+    X x = new X();
+}
+
+{
+    B b = new B();
+    println(b.x.x);
+}

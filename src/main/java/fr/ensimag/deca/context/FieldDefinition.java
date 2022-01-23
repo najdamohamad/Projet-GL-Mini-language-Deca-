@@ -2,6 +2,9 @@ package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tree.Location;
 import fr.ensimag.deca.tree.Visibility;
+import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 
 /**
  * Definition of a field (data member of a class).
@@ -10,12 +13,16 @@ import fr.ensimag.deca.tree.Visibility;
  * @date 01/01/2022
  */
 public class FieldDefinition extends ExpDefinition {
+    public int getAbsoluteIndex() {
+        return index + containingClass.getNumberOfSuperclassFields();
+    }
+
     public int getIndex() {
         return index;
     }
 
-    private int index;
-    
+    private final int index;
+
     @Override
     public boolean isField() {
         return true;

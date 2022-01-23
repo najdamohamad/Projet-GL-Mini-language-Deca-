@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/no_object_call_method.deca:26:4: ScopeError: l'identificateur `blabla` n'est pas défini.

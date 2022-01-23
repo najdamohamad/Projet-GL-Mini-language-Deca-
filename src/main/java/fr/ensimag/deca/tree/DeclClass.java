@@ -53,38 +53,26 @@ public class DeclClass extends AbstractDeclClass {
     @Override
     protected void verifyClass(DecacCompiler compiler) throws ContextualError {
         // This implements rule (1.3) of Pass 1
-        LOG.debug("begin verifyClass");
-        TypeDefinition superDefinition = compiler.getTypeDefinition(superClassName.getName());
-        LOG.debug("super class = " + superClassName.getName());
-        if (superDefinition.isClass()) {
-            ClassType classType = new ClassType(
-                    className.getName(),
-                    getLocation(),
-                    (ClassDefinition) superDefinition
-            );
-            ClassDefinition classDefinition = new ClassDefinition(
-                    classType,
-                    getLocation(),
-                    (ClassDefinition) superDefinition
-            );
-            className.setDefinition(classDefinition);
-            compiler.declareTypeDefinition(className.getName(), classDefinition);
-        } else {
-            String message = "TypeError: " + superClassName.decompile() + " n'est pas une classe.";
+        String message = "TypeError: " + superClassName.decompile() + " n'est pas une classe.";
+        ClassType superType =
+                superClassName.verifyType(compiler).asClassType(message, getLocation());
+        ClassType classType =
+                new ClassType(className.getName(), getLocation(), superType.getDefinition());
+        className.setDefinition(classType.getDefinition());
+        try {
+            compiler.declareTypeDefinition(className.getName(), classType.getDefinition());
+        } catch (EnvironmentType.DoubleDefException e) {
+            message = "ScopeError: tentative de définir la classe `" + className.decompile() + "` deux fois.";
             throw new ContextualError(message, getLocation());
         }
-        LOG.debug("end verifyClass");
     }
 
     @Override
     protected void verifyClassMembers(DecacCompiler compiler)
             throws ContextualError {
         LOG.debug("start verifying the members of class " + className.getName());
-        ClassDefinition classDefinition =
-                (ClassDefinition) compiler.getTypeDefinition(className.getName());
-        if (superClassName.getName().equals(compiler.createSymbol("Object"))) {
-            superClassName.setDefinition(compiler.getTypeDefinition("Object"));
-        }
+        ClassDefinition classDefinition = className.getClassDefinition();
+        ClassDefinition superDefinition = superClassName.getClassDefinition();
         try {
             // "En pratique, une implémentation pourra simplement ajouter les nouvelles définitions
             // à l’environnement contenu dans la définition de classe construite en passe 1.
@@ -92,11 +80,11 @@ public class DeclClass extends AbstractDeclClass {
             // d’environnement peut être fait dès la création de la définition de classe en passe 1."
             //     -- Page 81, règle (2.3)
             EnvironmentExp fieldEnvironment = listDeclField.verifyListDeclField(
-                    compiler, className.getClassDefinition(), superClassName.getClassDefinition()
+                    compiler, classDefinition, superDefinition
             );
             classDefinition.getMembers().join(fieldEnvironment);
             EnvironmentExp methodEnvironment = listDeclMethod.verifyListDeclMethod(
-                    compiler, className.getClassDefinition(), superClassName.getClassDefinition()
+                    compiler, classDefinition, superDefinition
             );
             classDefinition.getMembers().join(methodEnvironment);
 
@@ -115,8 +103,7 @@ public class DeclClass extends AbstractDeclClass {
         LOG.debug("begin ");
         //  On construit un environnement qui contient les champs et les méthodes,
         //  ainsi que les paramètres des méthodes et les variables locales.
-        ClassDefinition classDefinition =
-                (ClassDefinition) compiler.getTypeDefinition(className.getName());
+        ClassDefinition classDefinition = className.getClassDefinition();
         listDeclField.verifyListDeclFieldInit(compiler, classDefinition);
         listDeclMethod.verifyListDeclMethodBody(compiler, classDefinition);
     }
@@ -145,10 +132,12 @@ public class DeclClass extends AbstractDeclClass {
      * - initialize all of our fields to 0.
      * - call initializer for superclass.
      * - use the explicit initialization if present.
+     *
      * @param program Abstract representation of the IMA assembly code.
      */
     @Override
     public int codeGen(IMAProgram program) {
+        int stackUsage = 0;
         IMAProgram programInit = new IMAProgram(program);
         LOG.debug("codegen "+className);
         DAddr position = new RegisterOffset(program.getStackUsage() + 1, Register.GB);
@@ -178,20 +167,37 @@ public class DeclClass extends AbstractDeclClass {
         }
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
-            LOG.trace("init "+declField+" to 0");
+            LOG.trace("init " + declField + " to 0");
             declField.codeGenInitFieldsZero(programInit);
         }
-        // TODO: init the inherited fields
+
+        // If there is a superclass to initialize, do it.
+        // Note that Object has no initializer, so skip it if the superclass is Object.
+        if (superClassName.getClassDefinition().isClass()
+                && !superClassName.getClassDefinition().getType().toString().equals("Object")) {
+            stackUsage += 1;
+            programInit.addInstruction(new PUSH(Register.R1));
+            programInit.addInstruction(new BSR(new Label("init." + superClassName)));
+            programInit.addInstruction(new SUBSP(new ImmediateInteger(1)));
+        }
 
         // For any fields with any explicit initialization, initialize them now.
-        int stackUsage = listDeclField.getList().stream().map((AbstractDeclField declField) -> {
-            LOG.trace("maybe init "+declField+" with initialization");
+        stackUsage += listDeclField.getList().stream().map((AbstractDeclField declField) -> {
+            LOG.trace("maybe init " + declField + " with initialization");
             return declField.codeGen(programInit);
         }).max(Integer::compare).orElse(0);
 
-        programInit.addInstruction(new RTS());
-        programInit.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
-        programInit.addFirstLabel(new Label("init."+className));
+
+        stackUsage += programInit.generatePrologueEpilogue();
+        if (stackUsage > 0) {
+            // addFirst -> put operations in reverse order
+            programInit.addFirst(new BOV(Program.STACK_OVERFLOW_ERROR));
+            programInit.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
+
+        } else {
+            programInit.addComment("stack usage is 0, no TSTO added");
+        }
+        programInit.addFirst(new Label("init." + className));
         program.append(programInit);
         return stackUsage;
     }

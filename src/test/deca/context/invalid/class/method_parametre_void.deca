@@ -1,0 +1,27 @@
+// Description:
+//    Test ou on met comme parametre de methode le type void
+//                                          (Rule 2.9)
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: errur puisque c'est interdit de declarer une methode qui prend comme
+//              parametre un type void
+//
+// Historique:
+//    cree le 22/01/2022
+
+
+class Maths{
+
+    int power(void x){
+        return x*x;
+    }
+
+}
+
+{
+
+    Maths m = new Maths();
+
+}

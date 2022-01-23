@@ -276,7 +276,7 @@ def suite_test_arm(dossier, sous_language, type_test):
 
 # WHich tests to run
 # a modifier si on veut ajouter de nouveau test ajouter un nouvelle ligne suite_test()
-
+#
 # Tests hello world
 #suite_test_arm('src/test/deca/codegen/valid/hello_world', 'helloworld', 'valid')
 suite_test_lex('src/test/deca/syntax/invalid/test_lex/hello_world', 'helloworld', 'invalid')
@@ -315,6 +315,9 @@ suite_test_synt('src/test/deca/syntax/invalid/test_synt/class', 'class', 'invali
 suite_test_synt('src/test/deca/syntax/valid/test_synt/class', 'class', 'valid')
 suite_test_context('src/test/deca/context/invalid/class', 'class', 'invalid')
 suite_test_context('src/test/deca/context/valid/class', 'class', 'valid')
+# Test exec class champs
+suite_test_ima('src/test/deca/codegen/valid/class-champs', 'class-champs', 'valid')
+suite_test_ima('src/test/deca/codegen/invalid/class-champs', 'class-champs', 'invalid')
 
 print()
 print(f'{color.HEADER}{color.BOLD}[RAPPORT GLOBAL]{color.END}: Tests lancés: {nb_tests_total}, Echec: {nb_echecs_total}')

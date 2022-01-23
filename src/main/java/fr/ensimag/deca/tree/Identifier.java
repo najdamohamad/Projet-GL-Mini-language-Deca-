@@ -7,6 +7,7 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
 import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -21,6 +22,7 @@ import java.io.PrintStream;
  */
 public class Identifier extends AbstractIdentifier {
     private static final Logger LOG = Logger.getLogger(Identifier.class);
+
     @Override
     protected void checkDecoration() {
         if (getDefinition() == null) {
@@ -185,7 +187,9 @@ public class Identifier extends AbstractIdentifier {
      */
     @Override
     public Type verifyType(DecacCompiler compiler) throws ContextualError {
-        TypeDefinition typeDefinition = compiler.getTypeDefinition(name.toString());
+        // FIXME: There is no reason to pass the Symbol identifier as a String
+        //        but it otherwise breaks Unit tests ...
+        TypeDefinition typeDefinition = compiler.getTypeDefinition(name.getName());
         if (typeDefinition == null) {
             String message = "ScopeError: le type `" + name + "` n'est pas défini.";
             throw new ContextualError(message, getLocation());
@@ -197,12 +201,24 @@ public class Identifier extends AbstractIdentifier {
     @Override
     public int codeGen(IMAProgram program) {
         // Load the value of the identifier from the stack/ a register.
-        LOG.trace("gen identifier, dval="+getVariableDefinition().getDVal());
+        if (definition.isField()) {
+            FieldDefinition field = getFieldDefinition();
+            field.setAdress(new RegisterOffset(field.getAbsoluteIndex() + 1, program.getMaxUsedRegister()));
+            LOG.trace("gen for field, dval=" + getFieldDefinition().getDVal());
+            program.addInstruction(new LOAD(
+                    getFieldDefinition().getDVal(),
+                    program.getMaxUsedRegister()
+            ), "field " + getName() + " stored in " + getFieldDefinition().getDVal());
+            return 0;
+        } else if (definition.isExpression()) {
+            LOG.trace("gen identifier, dval=" + getVariableDefinition().getDVal());
             program.addInstruction(new LOAD(
                     getVariableDefinition().getDVal(),
                     program.getMaxUsedRegister()
-        ), "identifier "+getName()+ " stored in "+getVariableDefinition().getDVal());
+            ), "identifier " + getName() + " stored in " + getVariableDefinition().getDVal());
             return 0; // no stack usage, just loading ident
+        }
+        throw new DecacInternalError("invalid codegen case for identifier");
     }
 
     private Definition definition;

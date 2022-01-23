@@ -1,0 +1,25 @@
+// Description:
+//    Test de declaration d'une classe avec une methode dedans
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 20/01/2022
+
+class A{
+}
+
+class B extends A{
+}
+
+class C{
+}
+
+{
+    B b = new B();
+    C c = new C();
+    A a = (A) (b);
+    A d = (A) (c);
+}

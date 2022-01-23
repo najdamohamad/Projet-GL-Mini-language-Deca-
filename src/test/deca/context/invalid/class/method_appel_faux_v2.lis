@@ -1,1 +1,1 @@
-ERREUR: appel faux de la fonction parametre faux
+src/test/deca/context/invalid/class/method_appel_faux_v2.deca:24:8: TypeError: l'appel méthode `m.power(2,2)` est incompatible avec sa signature.

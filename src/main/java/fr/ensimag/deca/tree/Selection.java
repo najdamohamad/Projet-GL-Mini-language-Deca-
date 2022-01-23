@@ -3,7 +3,9 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.BEQ;
+import fr.ensimag.ima.pseudocode.instructions.CMP;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -35,24 +37,36 @@ public class Selection extends AbstractLValue {
                 .asClassType(message, getLocation());
         // If the field exists in the class it should be defined here.
         message = "TypeError: `" + attribute.decompile() + "` n'est pas un champ.";
-        FieldDefinition definition = currentClass
+        ExpDefinition definition = exprType
+                .getDefinition()
                 .getMembers()
-                .get(attribute.getName())
+                .get(attribute.getName());
+        if (definition == null) {
+            throw new ContextualError(message, getLocation());
+        }
+        FieldDefinition fieldDefinition = definition
                 .asFieldDefinition(message, getLocation());
-        ClassType classType = currentClass.getType();
-        if (definition.getVisibility().equals(Visibility.PROTECTED)) {
-            if (!Context.subType(exprType, classType)) {
-                message = "Type: l'expression `" + expression.decompile()
-                        + "` doit être un sous type de `" + classType + ".";
+        attribute.setDefinition(fieldDefinition);
+        if (fieldDefinition.getVisibility().equals(Visibility.PROTECTED)) {
+            if (currentClass == null) {
+                message = "ScopeError: le champ `" + attribute.decompile() + "` est protégé.";
                 throw new ContextualError(message, getLocation());
             }
-            if (!Context.subType(classType, definition.getType())) {
+            ClassType classType = currentClass.getType();
+            if (!Context.subType(exprType, classType)) {
+                message = "Type: l'expression `" + expression.decompile()
+                        + "` doit être un sous type de `" + classType + "`.";
+                throw new ContextualError(message, getLocation());
+            }
+            ClassDefinition fieldClass = fieldDefinition.getContainingClass();
+            if (!Context.subType(classType, fieldClass.getType())) {
                 message = "Type: la classe `" + classType
-                        + "` doit être un sous type de `" + definition.getType() + ".";
+                        + "` doit être un sous type de `" + fieldClass.getType() + "`.";
                 throw new ContextualError(message, getLocation());
             }
         }
-        return definition.getType();
+        setType(fieldDefinition.getType());
+        return fieldDefinition.getType();
     }
 
 
@@ -78,6 +92,14 @@ public class Selection extends AbstractLValue {
 
     @Override
     public int codeGen(IMAProgram program) {
-        throw new UnsupportedOperationException("not yet implemented");
+        int stackUsageExpression = expression.codeGen(program);
+        // Null check
+        if (program.shouldCheck()) {
+            program.addInstruction(new CMP(new NullOperand(), program.getMaxUsedRegister()),
+                    "checking null deref for "+expression.decompile());
+            program.addInstruction(new BEQ(Program.NULL_DEREF_ERROR));
+        }
+        int stackUsageAttribute = attribute.codeGen(program);
+        return Math.max(stackUsageAttribute, stackUsageExpression);
     }
 }

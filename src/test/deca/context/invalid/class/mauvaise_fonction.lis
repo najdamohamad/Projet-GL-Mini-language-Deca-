@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/mauvaise_fonction.deca:18:15: TypeError: type incorrect pour expression `"hello world"`, attendu `int` mais trouvé `string`.

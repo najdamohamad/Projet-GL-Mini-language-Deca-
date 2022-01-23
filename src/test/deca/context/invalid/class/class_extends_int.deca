@@ -1,6 +1,6 @@
 // Description:
 //    Une classe hérite de int
-//
+//                                     (Rule 3.5)
 // Resultats:
 //    Context: erreur line 10
 //

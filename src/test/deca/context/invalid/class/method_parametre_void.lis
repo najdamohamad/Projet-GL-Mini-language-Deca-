@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/method_parametre_void.deca:17:14: TypeError: un paramètre ne peut être déclaré avec le type `void`

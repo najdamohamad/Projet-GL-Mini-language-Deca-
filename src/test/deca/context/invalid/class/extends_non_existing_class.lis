@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/extends_non_existing_class.deca:19:11: ScopeError: le type `C` n'est pas défini.

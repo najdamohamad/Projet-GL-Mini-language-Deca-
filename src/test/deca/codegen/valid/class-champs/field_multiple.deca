@@ -1,0 +1,21 @@
+// Description:
+//    Declaration de classe avec plusieurs champs
+//
+// Resultats:
+//    1
+//    2
+//    3
+//
+// Historique:
+//    cree le 01/01/2022
+
+class A {
+    int x = 1;
+    int y = 2;
+    int z = 3;
+}
+
+{
+    A a = new A();
+    println(a.x, a.y, a.z);
+}

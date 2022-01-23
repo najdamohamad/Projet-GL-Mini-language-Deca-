@@ -17,13 +17,10 @@ import java.io.PrintStream;
 public class MethodAsmBody extends AbstractMethodBody {
 
     final private String text;
-    final private Location location;
 
-    public MethodAsmBody(String text, Location location) {
+    public MethodAsmBody(String text) {
         Validate.notNull(text);
-        Validate.notNull(location);
         this.text = text;
-        this.location = location;
     }
 
     @Override

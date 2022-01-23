@@ -3,9 +3,11 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.syscalls.Exit;
 import fr.ensimag.deca.DecacCompiler;
-import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ClassType;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.deca.context.EnvironmentType;
+import fr.ensimag.deca.context.ObjectType;
+import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
 import fr.ensimag.ima.pseudocode.IMAProgram;
@@ -49,17 +51,15 @@ public class Program extends AbstractProgram {
         LOG.debug("verify program: start");
 
         SymbolTable.Symbol objectSymbol = compiler.createSymbol("Object");
-        ClassType objectType = new ClassType(
+        ClassType objectType = new ObjectType(
                 objectSymbol,
-                getLocation(),
-                null
+                getLocation()
         );
-        ClassDefinition objectDefinition = new ClassDefinition(
-                objectType,
-                getLocation(),
-                null
-        );
-        compiler.declareTypeDefinition(objectSymbol, objectDefinition);
+        try {
+            compiler.declareTypeDefinition(objectSymbol, objectType.getDefinition());
+        } catch (EnvironmentType.DoubleDefException e) {
+            throw new DecacInternalError("unreachable.");
+        }
 
         LOG.debug("verify classes, pass 1: start");
         classes.verifyListClass(compiler);
@@ -85,6 +85,7 @@ public class Program extends AbstractProgram {
     public static final Label STACK_OVERFLOW_ERROR = new Label("StackOverflowError");
     public static final Label DIVISION_BY_ZERO_ERROR = new Label("DivisionByZeroError");
     public static final Label IO_ERROR = new Label("IOError");
+    public static final Label NULL_DEREF_ERROR = new Label("NullDerefError");
 
     /**
      * CodeGen for main programs.
@@ -95,18 +96,21 @@ public class Program extends AbstractProgram {
      */
     @Override
     public int codeGen(IMAProgram program) {
-
-        // TODO: test de dépassement de pile doit être fait à la fin du programme
-        // Utiliser les possibilités du paquet pseudocode, voir p210
+        program.addComment("------------------------------------------------");
         program.addComment("Main program");
-        main.codeGen(program);
+        program.addComment("------------------------------------------------");
+        int stackUsage = main.codeGen(program);
 
         program.addInstruction(new HALT());
-        program.addComment("End of main function.");
 
+        program.addComment("------------------------------------------------");
         program.addComment("Classes method & constructors");
+        program.addComment("------------------------------------------------");
         classes.codeGen(program);
 
+        program.addComment("------------------------------------------------");
+        program.addComment("Error handlers");
+        program.addComment("------------------------------------------------");
         // -r option specifies that only 11.1 and 11.3 should be ignored,
         // NOT 11.2 which are the IO errors.
         program.addLabel(IO_ERROR);
@@ -116,7 +120,7 @@ public class Program extends AbstractProgram {
 
         if (program.shouldCheck()) {
             program.addFirst(new BOV(STACK_OVERFLOW_ERROR));
-            program.addFirst(new TSTO(new ImmediateInteger(program.getStackUsage())));
+            program.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
 
             program.addLabel(ARITHMETIC_OVERFLOW_ERROR);
             program.addInstruction(new WSTR("Erreur : débordement pendant opération arithmétique entre deux flottants."));
@@ -128,6 +132,10 @@ public class Program extends AbstractProgram {
             program.addInstruction(new ERROR());
             program.addLabel(STACK_OVERFLOW_ERROR);
             program.addInstruction(new WSTR("Erreur : débordement de la pile."));
+            program.addInstruction(new WNL());
+            program.addInstruction(new ERROR());
+            program.addLabel(NULL_DEREF_ERROR);
+            program.addInstruction(new WSTR("Erreur : déréférencement d'un pointer `null`"));
             program.addInstruction(new WNL());
             program.addInstruction(new ERROR());
         }
