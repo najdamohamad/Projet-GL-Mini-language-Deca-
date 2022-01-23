@@ -146,7 +146,7 @@ public class DeclClass extends AbstractDeclClass {
         DAddr positionMere = superClassName.getClassDefinition().getMethodTableAddr();
         programInit.addInstruction(new LEA(positionMere, Register.R0));
         programInit.addInstruction(new STORE(Register.R0, position));
-        program.incrStackUsage();
+        program.bumpStackUsage();
         for (AbstractDeclMethod method : listDeclMethod.getList()) {
             className.getClassDefinition().listMethod.add(method.getMethodName().getName().toString());
         }
@@ -155,7 +155,7 @@ public class DeclClass extends AbstractDeclClass {
             if (!className.getClassDefinition().listMethod.contains(SuperMethodName)){
                 program.addInstruction(new LOAD(new LabelOperand(new Label(SuperMethodName)), Register.R0));
                 program.addInstruction(new STORE(Register.R0, new RegisterOffset(placeDansLeStack, Register.GB)));
-                program.incrStackUsage();
+                program.bumpStackUsage();
                 className.getClassDefinition().listMethod.add(SuperMethodName);
                 placeDansLeStack += 1;
             }
@@ -163,7 +163,7 @@ public class DeclClass extends AbstractDeclClass {
         // Init table method
         for (AbstractDeclMethod method : listDeclMethod.getList()) {
             placeDansLeStack = method.codeGenInitTable(programInit, placeDansLeStack);
-            program.incrStackUsage();
+            program.bumpStackUsage();
         }
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
