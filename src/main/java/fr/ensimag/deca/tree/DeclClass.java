@@ -95,6 +95,14 @@ public class DeclClass extends AbstractDeclClass {
                     "pour un champ et une méthode.";
             throw new ContextualError(message, getLocation());
         }
+
+        // Set the proper number of fields for this class,
+        // taking into account the superclass fields.
+        // See the example page 185.
+        classDefinition.setNumberOfFields(classDefinition.getNumberOfFields() + superDefinition.getNumberOfFields());
+        // Same for methods.
+        classDefinition.setNumberOfMethods(classDefinition.getNumberOfMethods() + superDefinition.getNumberOfMethods());
+
         LOG.debug("end verifying the members of class " + className.getName());
     }
 
@@ -140,31 +148,38 @@ public class DeclClass extends AbstractDeclClass {
         int stackUsage = 0;
         IMAProgram programInit = new IMAProgram(program);
         LOG.debug("codegen "+className);
-        DAddr position = new RegisterOffset(program.getStackUsage() + 1, Register.GB);
-        className.getClassDefinition().setMethodTableAddr(position);
-        int placeDansLeStack = 1;
-        DAddr positionMere = superClassName.getClassDefinition().getMethodTableAddr();
-        programInit.addInstruction(new LEA(positionMere, Register.R0));
-        programInit.addInstruction(new STORE(Register.R0, position));
-        program.incrStackUsage();
-        for (AbstractDeclMethod method : listDeclMethod.getList()) {
-            className.getClassDefinition().listMethod.add(method.getMethodName().getName().toString());
-        }
-        // Init table method inherited
-        for (String SuperMethodName : superClassName.getClassDefinition().listMethod){
-            if (!className.getClassDefinition().listMethod.contains(SuperMethodName)){
-                program.addInstruction(new LOAD(new LabelOperand(new Label(SuperMethodName)), Register.R0));
-                program.addInstruction(new STORE(Register.R0, new RegisterOffset(placeDansLeStack, Register.GB)));
-                program.incrStackUsage();
-                className.getClassDefinition().listMethod.add(SuperMethodName);
-                placeDansLeStack += 1;
-            }
-        }
-        // Init table method
-        for (AbstractDeclMethod method : listDeclMethod.getList()) {
-            placeDansLeStack = method.codeGenInitTable(programInit, placeDansLeStack);
-            program.incrStackUsage();
-        }
+//        DAddr position = new RegisterOffset(programInit.getStackUsage() + 1, Register.GB);
+//        className.getClassDefinition().setMethodTableAddr(position);
+//        int placeDansLeStack = 1;
+//
+//        DAddr positionMere;
+//        if (superClassName.getClassDefinition().isClass()) {
+//            positionMere = superClassName.getClassDefinition().getMethodTableAddr();
+//        } else {
+//            positionMere = new RegisterOffset(0, Register.GB);
+//        }
+//
+//        programInit.addInstruction(new LEA(positionMere, Register.R0));
+//        programInit.addInstruction(new STORE(Register.R0, position));
+//        programInit.bumpStackUsage();
+//        for (AbstractDeclMethod method : listDeclMethod.getList()) {
+//            className.getClassDefinition().listMethod.add(method.getMethodName().getName().toString());
+//        }
+//        // Init table method inherited
+//        for (String SuperMethodName : superClassName.getClassDefinition().listMethod){
+//            if (!className.getClassDefinition().listMethod.contains(SuperMethodName)){
+//                programInit.addInstruction(new LOAD(new LabelOperand(new Label(SuperMethodName)), Register.R0));
+//                programInit.addInstruction(new STORE(Register.R0, new RegisterOffset(placeDansLeStack, Register.GB)));
+//                programInit.bumpStackUsage();
+//                className.getClassDefinition().listMethod.add(SuperMethodName);
+//                placeDansLeStack += 1;
+//            }
+//        }
+//        // Init table method
+//        for (AbstractDeclMethod method : listDeclMethod.getList()) {
+//            placeDansLeStack = method.codeGenInitTable(programInit, placeDansLeStack);
+//            programInit.bumpStackUsage();
+//        }
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
             LOG.trace("init " + declField + " to 0");

@@ -77,12 +77,20 @@ public class DeclField extends AbstractDeclField {
             String message = "ScopeError: tentative de redéfinir une méthode en un champ.";
             throw new ContextualError(message, getLocation());
         }
+
+        // L'index de ce champ dépendra de combien de champs sont définis dans la superclasse.
+        // Il est donc nécéssaire de vérifier maintenant.
+        int nbSuperClassFields = superClass.getNumberOfFields();
+
         FieldDefinition fieldDefinition = new FieldDefinition(
                 fieldType,
                 getLocation(),
                 visibility,
                 currentClass,
-                currentClass.getNumberOfFields()
+                // "Le champ Index est 1, car il n’y a pas de champ dans Object."
+                // -- p.184, Déclaration du champ x
+                // Indexes always start at 1.
+                1 + nbSuperClassFields + currentClass.getNumberOfFields()
         );
         varName.setDefinition(fieldDefinition);
         currentClass.incNumberOfFields();
@@ -121,14 +129,14 @@ public class DeclField extends AbstractDeclField {
             program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
             program.addInstruction(new STORE(
                     Register.R0,
-                    new RegisterOffset(field.getAbsoluteIndex() + 1, Register.R1)
+                    new RegisterOffset(field.getIndex(), Register.R1)
             ));
         } else {
             program.addInstruction(new LOAD(0, Register.R0), "not a class, init to 0");
             program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
             program.addInstruction(new STORE(
                     Register.R0,
-                    new RegisterOffset(field.getAbsoluteIndex() + 1, Register.R1)
+                    new RegisterOffset(field.getIndex(), Register.R1)
             ));
         }
     }
@@ -151,8 +159,7 @@ public class DeclField extends AbstractDeclField {
         program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
         program.addInstruction(new STORE(
                 program.getMaxUsedRegister(),
-                // 0(R1) is adress of method  table, add one
-                new RegisterOffset(field.getAbsoluteIndex() + 1, Register.R1)
+                new RegisterOffset(field.getIndex() , Register.R1)
         ));
         return stackUsage;
     }
