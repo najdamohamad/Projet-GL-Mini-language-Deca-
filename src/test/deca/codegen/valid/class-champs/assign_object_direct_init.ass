@@ -1,0 +1,62 @@
+	TSTO #0
+	BOV StackOverflowError
+; ------------------------------------------------
+; Main program
+; ------------------------------------------------
+; Beginning of main function:
+	ADDSP #0	; 0 variables declared
+; right op codegen
+	LOAD #2, R2
+; left op codegen
+	NEW #2, R3	; 1 fields for A
+	BOV StackOverflowError
+	PUSH R3
+	BSR init.A
+	POP R3
+	STORE R2, 1(R3)	; field x stored in 1(R3)
+	LOAD R2, R1
+	WINT
+	WNL
+; loading global variables from register to stack, to respect calling convention
+; End of main function.
+	HALT
+; ------------------------------------------------
+; Classes method & constructors
+; ------------------------------------------------
+init.A:
+	TSTO #1
+	BOV StackOverflowError
+	PUSH R2
+; initializing A.x
+	LOAD #0, R0	; not a class, init to 0
+	LOAD -2(LB), R1
+	STORE R0, 1(R1)
+; initializing A.x with expression 1
+	LOAD #1, R2
+	LOAD -2(LB), R1
+	STORE R2, 1(R1)
+	POP R2
+	RTS
+; ------------------------------------------------
+; Error handlers
+; ------------------------------------------------
+IOError:
+	WSTR "Erreur : valeur entrée pas dans le type attendu."
+	WNL
+	ERROR
+ArithmeticOverflowError:
+	WSTR "Erreur : débordement pendant opération arithmétique entre deux flottants."
+	WNL
+	ERROR
+DivisionByZeroError:
+	WSTR "Erreur : division par zéro."
+	WNL
+	ERROR
+StackOverflowError:
+	WSTR "Erreur : débordement de la pile."
+	WNL
+	ERROR
+NullDerefError:
+	WSTR "Erreur : déréférencement d'un pointer `null`"
+	WNL
+	ERROR

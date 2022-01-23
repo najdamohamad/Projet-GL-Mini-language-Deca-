@@ -1,0 +1,18 @@
+// Description:
+//    Retour de assign à une variable d'un assign
+//
+// Resultats:
+//    2
+//
+// Historique:
+//    cree le 01/01/2022
+
+class A {
+    int x = 1;
+}
+
+{
+	A a = new A();
+	int y = (a.x = 2);
+	println(y);
+}

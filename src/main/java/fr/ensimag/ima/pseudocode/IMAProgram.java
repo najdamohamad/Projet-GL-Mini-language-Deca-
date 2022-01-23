@@ -143,7 +143,7 @@ public class IMAProgram implements OutputProgram {
             throw new DecacInternalError("reached max register");
         }
         freeRegister++;
-        maxRegister = Math.max(freeRegister, maxRegister);
+        maxUsed = Math.max(freeRegister, maxRegister);
         GPRegister r = Register.getR(freeRegister);
         return r;
     }
@@ -174,14 +174,14 @@ public class IMAProgram implements OutputProgram {
             nbRegistersUsed = 0;
         } else {
             // R2 is the max -> 1 register used.
-            nbRegistersUsed = maxRegister - 1;
+            nbRegistersUsed = maxUsed - 1;
         }
 
         for (int i = 2; i < 2 + nbRegistersUsed; i++) {
             addFirst(new PUSH(Register.getR(i)));
         }
         // TODO: we may be able to use SUBSP here instead
-        for (int i = 2 + nbRegistersUsed - 1; i >= 2; i--) {
+        for (int i = 2; i < 2 + nbRegistersUsed; i++) {
             addInstruction(new POP(Register.getR(i)));
         }
 

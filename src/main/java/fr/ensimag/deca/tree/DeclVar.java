@@ -66,7 +66,7 @@ public class DeclVar extends AbstractDeclVar {
     @Override
     public int codeGen(IMAProgram program, ListDeclVar decls) {
         // Put the address of the variable in VariableDefinition.operand of varName.
-        program.addComment(getLocation().getLine() + ": "+decompile());
+        program.addComment(getLocation().getLine() + ": " + decompile());
 
         int stackUsage = 0;
         DAddr varAddr = new RegisterOffset(program.bumpStackUsage(), Register.GB);
@@ -76,7 +76,7 @@ public class DeclVar extends AbstractDeclVar {
         // See ListDeclVar.initStack() for how we do this.
         if (!program.isMaxUsableRegister()) {
             GPRegister reg = program.getMaxUsedRegister();
-            LOG.trace("decl var, allocated reg="+reg);
+            LOG.trace("decl var, allocated reg=" + reg);
             VariableDefinition varDef = varName.getVariableDefinition();
             varDef.setAdress(varAddr);
             varDef.setRegister(reg);
@@ -99,9 +99,9 @@ public class DeclVar extends AbstractDeclVar {
 
             // Store directly into the reg if possible.
             if (varName.getVariableDefinition().isRegister()) {
-                program.addInstruction(new SOV(varName.getVariableDefinition().getRegister()), varName.decompile()+" is initialized to 0, using SOV");
+                program.addInstruction(new SOV(varName.getVariableDefinition().getRegister()), varName.decompile() + " is initialized to 0, using SOV");
             } else {
-                program.addInstruction(new SOV(program.getMaxUsedRegister()), varName.decompile()+" is initialized to 0, using SOV");
+                program.addInstruction(new SOV(program.getMaxUsedRegister()), varName.decompile() + " is initialized to 0, using SOV");
                 program.addInstruction(new STORE(program.getMaxUsedRegister(), varAddr));
             }
         } else if (initialization instanceof Initialization

@@ -1,0 +1,26 @@
+// Description:
+//    Modification de champ avec une classe dans une classe
+//
+// Resultats:
+//    23
+//
+// Historique:
+//    cree le 01/01/2022
+
+class A {
+    int x = 1;
+}
+class B {
+    A a = new A();
+}
+class C {
+    B b = new B();
+}
+
+{
+    B b=new B();
+    C c=new C();
+    b.a.x = 2;
+    c.b.a.x = 3;
+    println(b.a.x, c.b.a.x);
+}

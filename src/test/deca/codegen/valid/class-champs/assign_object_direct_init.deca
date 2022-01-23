@@ -1,0 +1,16 @@
+// Description:
+//    Retour de assign avec un objet initalizé immédiatement
+//
+// Resultats:
+//    2
+//
+// Historique:
+//    cree le 01/01/2022
+
+class A {
+    int x = 1;
+}
+
+{
+	println(((new A()).x = 2));
+}

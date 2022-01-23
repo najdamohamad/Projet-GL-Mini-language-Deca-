@@ -72,11 +72,49 @@ public class Assign extends AbstractBinaryExpr {
                 GPRegister regN = program.getMaxUsedRegister();
                 program.allocateRegister();
                 stackUsageAssign = s.codeGenAssign(program, regN);
+                program.freeRegister();
             }
 
             return Math.min(stackUsageAssign, stackUsageRight);
         } else {
-            return super.codeGen(program);
+            int stackUsageRight = getRightOperand().codeGen(program);
+            AbstractIdentifier ident = (AbstractIdentifier) getLeftOperand();
+            if (ident.getDefinition().isExpression()) {
+                if (ident.getDefinition().isExpression()) {
+                    if (ident.getVariableDefinition().isRegister()) {
+                        program.addInstruction(new LOAD(
+                                        program.getMaxUsedRegister(),
+                                        ident.getVariableDefinition().getRegister()
+                                ),
+                                "return value of assignement");
+                    } else {
+                        program.addInstruction(new STORE(
+                                        program.getMaxUsedRegister(),
+                                        ident.getVariableDefinition().getAdress()
+                                ),
+                                "return value of assignement"
+                        );
+                    }
+                } else if (ident.getDefinition().isField()) {
+                    if (ident.getFieldDefinition().isRegister()) {
+                        program.addInstruction(new LOAD(
+                                        program.getMaxUsedRegister(),
+                                        ident.getFieldDefinition().getRegister()
+                                ),
+                                "return value of assignement");
+                    } else {
+                        program.addInstruction(new STORE(
+                                        program.getMaxUsedRegister(),
+                                        ident.getFieldDefinition().getAdress()
+                                ),
+                                "return value of assignement"
+                        );
+                    }
+                } else {
+                    throw new DecacInternalError("match failed for assign codegen");
+                }
+            }
+            return stackUsageRight;
         }
     }
 
