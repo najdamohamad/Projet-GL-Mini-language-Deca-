@@ -4,6 +4,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
+import fr.ensimag.deca.tools.SymbolTable;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  * Binary expressions.
@@ -36,4 +38,20 @@ public abstract class AbstractDeclMethod extends Tree {
      */
     protected abstract void verifyDeclMethodBody(DecacCompiler compiler, ClassDefinition currentClass)
             throws ContextualError;
+
+
+    /**
+     * Implements non-terminal "decl_method" of [codeGen] in pass 1
+     *
+     * @param program  contains "env_types" attribute
+     */
+    public int codeGen(IMAProgram program){
+        return 1;
+    }
+
+    public int codeGenInitTable(IMAProgram program, int place){
+        return 1;
+    }
+
+    public abstract AbstractIdentifier getMethodName();
 }

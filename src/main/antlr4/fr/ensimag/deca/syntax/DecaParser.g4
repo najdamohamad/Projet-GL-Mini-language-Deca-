@@ -480,9 +480,9 @@ primary_expr returns[AbstractExpr tree]
     | m=ident OPARENT args=list_expr CPARENT {
             assert($args.tree != null);
             assert($m.tree != null);
-            AbstractExpr thisKeyword = new This();
-            $tree = new MethodCall(thisKeyword, $ident.tree, $args.tree);
-            setLocation(thisKeyword, $m.start);
+            AbstractExpr celuici = new This();
+            $tree = new MethodCall(celuici, $ident.tree, $args.tree);
+            setLocation(celuici, $m.start);
             setLocation($tree, $m.start);
             setLocation($args.tree, $args.start);
         }
@@ -644,7 +644,6 @@ list_decl_field[Visibility v, AbstractIdentifier t, ListDeclField fields]
     : dv1=decl_field[$v, $t] {
         assert($dv1.tree != null);
         $fields.add($dv1.tree);
-        setLocation($fields, $dv1.start);
         setLocation($dv1.tree, $dv1.start);
     }
         (COMMA dv2=decl_field[$v, $t] {
@@ -672,7 +671,6 @@ decl_field[Visibility v, AbstractIdentifier t] returns [AbstractDeclField tree]
         }
       )? {
             $tree = new DeclField($v, $t, $i.tree, init);
-            setLocation($tree, $i.start);
         }
     ;
 
@@ -698,9 +696,7 @@ decl_method returns [AbstractDeclMethod tree]
             assert($params.tree != null);
             assert($code.text != null);
             assert($code.location != null);
-            AbstractMethodBody body = new MethodAsmBody($code.text);
-            setLocation(body, $code.start);
-            currentTree = new DeclMethod($type.tree, $ident.tree, $params.tree, body);
+            currentTree = new DeclMethod($type.tree, $ident.tree, $params.tree, new MethodAsmBody($code.text, $code.location));
         }
       ) {
             $tree = currentTree;
