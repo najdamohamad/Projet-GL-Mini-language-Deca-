@@ -6,11 +6,12 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.GPRegister;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.POP;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
+import org.apache.log4j.Logger;
 
 /**
  * Assignment, i.e. lvalue = expr.
@@ -19,6 +20,7 @@ import fr.ensimag.ima.pseudocode.instructions.STORE;
  * @date 01/01/2022
  */
 public class Assign extends AbstractBinaryExpr {
+    private static final Logger LOG = Logger.getLogger(Assign.class);
 
     @Override
     public AbstractLValue getLeftOperand() {
@@ -46,49 +48,43 @@ public class Assign extends AbstractBinaryExpr {
         return "=";
     }
 
-    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
-        throw new DecacInternalError("unreachable");
-    }
-
     @Override
     public int codeGen(IMAProgram program) {
-        int stackUsage = getRightOperand().codeGen(program);
+        // Optimisation: if variable in a register, code it directly into the register
+        LOG.trace("assign, left operand:" + getLeftOperand().decompile());
+        if (getLeftOperand() instanceof Selection) {
+            LOG.trace("assign, left op instanceof Selection");
+            program.addComment("right op codegen");
+            int stackUsageRight = getRightOperand().codeGen(program);
+            program.addComment("left op codegen");
+            Selection s = (Selection) getLeftOperand();
 
-        // Return for variables.
-        AbstractIdentifier ident = (AbstractIdentifier) getLeftOperand();
-        if (ident.getDefinition().isExpression()) {
-            if (ident.getVariableDefinition().isRegister()) {
-                program.addInstruction(new LOAD(
-                                program.getMaxUsedRegister(),
-                                ident.getVariableDefinition().getRegister()
-                        ),
-                        "return value of assignement");
-            } else {
-                program.addInstruction(new STORE(
-                                program.getMaxUsedRegister(),
-                                ident.getVariableDefinition().getAdress()
-                        ),
-                        "return value of assignement"
+            int stackUsageAssign;
+            if (program.isMaxUsableRegister()) {
+                program.addInstruction(new PUSH(program.getMaxUsedRegister()));
+                stackUsageAssign = s.codeGenAssign(program, program.getMaxUsedRegister());
+                program.addInstruction(new LOAD(program.getMaxUsedRegister(), Register.R0));
+                // POP Rn
+                program.addInstruction(
+                        new POP(program.getMaxUsedRegister())
                 );
-            }
-        } else if (ident.getDefinition().isField()) {
-            if (ident.getFieldDefinition().isRegister()) {
-                program.addInstruction(new LOAD(
-                                program.getMaxUsedRegister(),
-                                ident.getFieldDefinition().getRegister()
-                        ),
-                        "return value of assignement");
             } else {
-                program.addInstruction(new STORE(
-                                program.getMaxUsedRegister(),
-                                ident.getFieldDefinition().getAdress()
-                        ),
-                        "return value of assignement"
-                );
+                GPRegister regN = program.getMaxUsedRegister();
+                program.allocateRegister();
+                stackUsageAssign = s.codeGenAssign(program, regN);
             }
+
+            return Math.min(stackUsageAssign, stackUsageRight);
         } else {
-            throw new DecacInternalError("match failed for assign codegen");
+            return super.codeGen(program);
         }
-        return stackUsage;
+    }
+
+    public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
+        if (dVal instanceof DAddr) {
+            program.addInstruction(new STORE(reg, (DAddr) dVal));
+        } else {
+            program.addInstruction(new LOAD(dVal, reg));
+        }
     }
 }

@@ -5,10 +5,9 @@ import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-import fr.ensimag.ima.pseudocode.DVal;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -32,6 +31,7 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public DVal getDVal() {
+        LOG.trace("dval of "+this.decompile()+" is "+getVariableDefinition().getDVal());
         return getVariableDefinition().getDVal();
     }
 
@@ -200,15 +200,14 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public int codeGen(IMAProgram program) {
-        // Load the value of the identifier from the stack/ a register.
         if (definition.isField()) {
             FieldDefinition field = getFieldDefinition();
             field.setAdress(new RegisterOffset(field.getIndex(), program.getMaxUsedRegister()));
             LOG.trace("gen for field, dval=" + getFieldDefinition().getDVal());
-            program.addInstruction(new LOAD(
-                    getFieldDefinition().getDVal(),
-                    program.getMaxUsedRegister()
-            ), "field " + getName() + " stored in " + getFieldDefinition().getDVal());
+                program.addInstruction(new LOAD(
+                        getFieldDefinition().getDVal(),
+                        program.getMaxUsedRegister()
+                ), "field " + getName() + " stored in " + getFieldDefinition().getDVal());
             return 0;
         } else if (definition.isExpression()) {
             LOG.trace("gen identifier, dval=" + getVariableDefinition().getDVal());
@@ -219,6 +218,18 @@ public class Identifier extends AbstractIdentifier {
             return 0; // no stack usage, just loading ident
         }
         throw new DecacInternalError("invalid codegen case for identifier");
+    }
+
+    public int codeGenAssignField(IMAProgram program, GPRegister reg) {
+        if (definition.isField()) {
+            FieldDefinition field = getFieldDefinition();
+            field.setAdress(new RegisterOffset(field.getIndex(), program.getMaxUsedRegister()));
+            program.addInstruction(new STORE(
+                    reg,
+                    getFieldDefinition().getAdress()
+            ), "field " + getName() + " stored in " + getFieldDefinition().getDVal());
+        }
+        return 0;
     }
 
     private Definition definition;
