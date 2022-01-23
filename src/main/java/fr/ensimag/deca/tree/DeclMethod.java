@@ -83,7 +83,11 @@ public class DeclMethod extends AbstractDeclMethod {
                 methodType,
                 getLocation(),
                 signature,
-                currentClass.getNumberOfMethods()
+                // "Le champ index est 2, car il y a déjà une méthode dans Object (equals) ; getX est donc la deuxième
+                // méthode de A."
+                // -- p.184, Déclaration de la méthode getX
+                // Indexes always start at 1.
+                1 + superClass.getNumberOfMethods() + currentClass.getNumberOfMethods()
         );
         methodName.setDefinition(methodDefinition);
         currentClass.incNumberOfMethods();
