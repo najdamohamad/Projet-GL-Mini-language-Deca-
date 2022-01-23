@@ -80,9 +80,9 @@ public class New extends AbstractExpr {
     @Override
     public int codeGen(IMAProgram program) {
         // NEW #d, R2
-        int objectSize = getClassName().getClassDefinition().getNumberOfFieldsAndSuperclassFields() + 1;
+        int objectSize = getClassName().getClassDefinition().getObjectSize();
         program.addInstruction(new NEW(new ImmediateInteger(objectSize), program.getMaxUsedRegister()),
-                getClassName().getClassDefinition().getNumberOfFieldsAndSuperclassFields()  + " fields for " + getClassName());
+                getClassName().getClassDefinition().getNumberOfFields()  + " fields for " + getClassName());
 
         if (program.shouldCheck()) {
             // BOV tas_plein

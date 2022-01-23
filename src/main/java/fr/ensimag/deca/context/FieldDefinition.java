@@ -13,10 +13,14 @@ import fr.ensimag.ima.pseudocode.RegisterOffset;
  * @date 01/01/2022
  */
 public class FieldDefinition extends ExpDefinition {
-    public int getAbsoluteIndex() {
-        return index + containingClass.getNumberOfSuperclassFields();
-    }
-
+    /**
+     * The index of the field.
+     * For example:
+     * - If a class has only one field, then the index of this field will be 1.
+     * - If a class has one field and inherits one, the index of this field will be 2.
+     * See p.184 for an example of how we initialize this.
+     * @return The index.
+     */
     public int getIndex() {
         return index;
     }

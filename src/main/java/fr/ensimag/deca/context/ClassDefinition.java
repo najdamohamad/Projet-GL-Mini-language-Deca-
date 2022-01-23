@@ -45,36 +45,25 @@ public class ClassDefinition extends TypeDefinition {
         this.numberOfFields = numberOfFields;
     }
 
+    /**
+     * Get the number of fields of this method, including inherited fields.
+     * @return The number of fields
+     */
     public int getNumberOfFields() {
         return numberOfFields;
     }
 
-    /**
-     * Total number of fields in this class,
-     * ie. number of fields + superclass fields.
-     */
-    public int getNumberOfFieldsAndSuperclassFields() {
-        ClassDefinition superClass = getSuperClass();
-        if (superClass == null) {
-            // We are the base class.
-            return getNumberOfFields();
-        }
-        return getNumberOfFields() + superClass.getNumberOfFieldsAndSuperclassFields();
-    }
-
-    /**
-     * Number of superclass fields.
-     */
-    public int getNumberOfSuperclassFields() {
-        ClassDefinition superClass = getSuperClass();
-        if (superClass == null) {
-            return 0; // Base class, no superclass fields.
-        }
-        return superClass.getNumberOfFieldsAndSuperclassFields();
-    }
-
     public void incNumberOfFields() {
         this.numberOfFields++;
+    }
+
+    /**
+     * Get the size of this object, defined as the number of fields plus one
+     * for the pointer to the vtable.
+     * @return The size of this object.
+     */
+    public int getObjectSize() {
+        return getNumberOfFields() + 1;
     }
 
     public int getNumberOfMethods() {
