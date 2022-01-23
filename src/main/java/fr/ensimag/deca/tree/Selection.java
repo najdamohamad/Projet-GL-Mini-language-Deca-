@@ -102,4 +102,15 @@ public class Selection extends AbstractLValue {
         int stackUsageAttribute = attribute.codeGen(program);
         return Math.max(stackUsageAttribute, stackUsageExpression);
     }
+
+    public int codeGenAssign(IMAProgram program, GPRegister reg) {
+        int stackUsageExpression = expression.codeGen(program);
+        attribute.codeGenAssignField(program, reg);
+        return stackUsageExpression;
+    }
+
+    @Override
+    public DVal getDVal() {
+        return expression.getDVal();
+    }
 }
