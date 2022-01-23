@@ -30,8 +30,4 @@ public abstract class AbstractDeclVar extends Tree implements CodeGen {
     protected abstract void verifyDeclVar(DecacCompiler compiler,
                                           EnvironmentExp localEnv, ClassDefinition currentClass)
             throws ContextualError;
-
-    public int codeGen(IMAProgram program, ListDeclVar decls) {
-        throw new NotImplementedException("bad");
-    };
 }

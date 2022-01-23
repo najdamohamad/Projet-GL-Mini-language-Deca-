@@ -57,75 +57,25 @@ public class DeclVar extends AbstractDeclVar {
         }
     }
 
-    // bad code, should find a way to use this instead
     @Override
     public int codeGen(IMAProgram program) {
-        throw new NotImplementedException("use codeGen with ListDeclVar");
-    }
-
-    @Override
-    public int codeGen(IMAProgram program, ListDeclVar decls) {
-        // Put the address of the variable in VariableDefinition.operand of varName.
         program.addComment(getLocation().getLine() + ": " + decompile());
 
-        int stackUsage = 0;
-        DAddr varAddr = new RegisterOffset(program.bumpStackUsage(), Register.GB);
-        // Optimisation
-        // If we have some free registers, use them instead of the stack.
-        // Because of the linking convention, we'll still initialize the stack at the end with the variables.
-        // See ListDeclVar.initStack() for how we do this.
-        if (!program.isMaxUsableRegister()) {
-            GPRegister reg = program.getMaxUsedRegister();
-            LOG.trace("decl var, allocated reg=" + reg);
-            VariableDefinition varDef = varName.getVariableDefinition();
-            varDef.setAdress(varAddr);
-            varDef.setRegister(reg);
-            decls.addGlobalVariableRegister(reg, varAddr);
-        } else {
-            varName.getVariableDefinition().setAdress(varAddr);
-        }
-        program.incrementDeclaredVariables();
+        program.incrementDeclaredVariables(); // For ADDSP at the end of this block.
 
-        // Optimisation
-        // TODO: this code can probably be refactored in Initialization.
-        if (initialization instanceof Initialization
-                && ((Initialization) initialization).getExpression().getDVal() != null
-                && Objects.equals(((Initialization) initialization).getExpression().getDVal(), new ImmediateInteger(0))) {
-            // Instead of:   LOAD #0, R2
-            // use       :   SOV R2
-            // OV flag is guantreed to be put to 0 before this instruction,
-            // since it should never trigger in a well-formed Decac program. (If it does trigger, we go to our error handler).
-            // This saves 2 cycles over loading directly.
+        // page 187:
+        // "Au cours de la génération de code, les Operandes des Definitions de variables et paramètres sont
+        // mis à jour au fur et à mesure qu’on rencontre leur déclaration avec des adresses de la forme d(GB) ou
+        // d(LB) (voir [ConventionsLiaison])."
+        varName.getVariableDefinition().setOperand(program.allocateGlobal());
 
-            // Store directly into the reg if possible.
-            if (varName.getVariableDefinition().isRegister()) {
-                program.addInstruction(new SOV(varName.getVariableDefinition().getRegister()), varName.decompile() + " is initialized to 0, using SOV");
-            } else {
-                program.addInstruction(new SOV(program.getMaxUsedRegister()), varName.decompile() + " is initialized to 0, using SOV");
-                program.addInstruction(new STORE(program.getMaxUsedRegister(), varAddr));
-            }
-        } else if (initialization instanceof Initialization
-                && ((Initialization) initialization).getExpression().getDVal() != null
-                && varName.getVariableDefinition().isRegister()) {
-            // Optimisation: load the dval directly
-            DVal dval = ((Initialization) initialization).getExpression().getDVal();
-            program.addInstruction(new LOAD(dval, varName.getVariableDefinition().getRegister()));
-        } else {
-            stackUsage = initialization.codeGen(program);
+        int stackUsage = initialization.codeGen(program);
 
-            if (varName.getVariableDefinition().isRegister()) {
-                new LOAD(program.getMaxUsedRegister(), varName.getVariableDefinition().getRegister());
-            } else {
-                program.addInstruction(new STORE(program.getMaxUsedRegister(), varAddr));
-            }
+        if (initialization instanceof Initialization) {
+            varName.codeGenStore(program);
         }
 
-        // Allocate the register only at the end.
-        // This is done so that operations that use the max free register, like AbstractOpArith,
-        // put the results into the right register (when computing the operation).
-        if (varName.getVariableDefinition().isRegister()) {
-            program.allocateRegister();
-        }
+        // Return value of assignement is in reg
         return stackUsage;
     }
 

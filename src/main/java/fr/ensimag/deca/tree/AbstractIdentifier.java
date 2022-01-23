@@ -96,5 +96,5 @@ public abstract class AbstractIdentifier extends AbstractLValue {
      */
     public abstract Type verifyType(DecacCompiler compiler) throws ContextualError;
 
-    public abstract int codeGenAssignField(IMAProgram program, GPRegister reg);
+    public abstract int codeGenStore(IMAProgram program);
 }

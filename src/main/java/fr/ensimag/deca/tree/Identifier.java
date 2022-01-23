@@ -30,12 +30,6 @@ public class Identifier extends AbstractIdentifier {
     }
 
     @Override
-    public DVal getDVal() {
-        LOG.trace("dval of "+this.decompile()+" is "+getVariableDefinition().getDVal());
-        return getVariableDefinition().getDVal();
-    }
-
-    @Override
     public Definition getDefinition() {
         return definition;
     }
@@ -198,40 +192,6 @@ public class Identifier extends AbstractIdentifier {
         return typeDefinition.getType();
     }
 
-    @Override
-    public int codeGen(IMAProgram program) {
-        if (definition.isField()) {
-            FieldDefinition field = getFieldDefinition();
-            field.setAdress(new RegisterOffset(field.getIndex(), program.getMaxUsedRegister()));
-            LOG.trace("gen for field, dval=" + getFieldDefinition().getDVal());
-                program.addInstruction(new LOAD(
-                        getFieldDefinition().getDVal(),
-                        program.getMaxUsedRegister()
-                ), "field " + getName() + " stored in " + getFieldDefinition().getDVal());
-            return 0;
-        } else if (definition.isExpression()) {
-            LOG.trace("gen identifier, dval=" + getVariableDefinition().getDVal());
-            program.addInstruction(new LOAD(
-                    getVariableDefinition().getDVal(),
-                    program.getMaxUsedRegister()
-            ), "identifier " + getName() + " stored in " + getVariableDefinition().getDVal());
-            return 0; // no stack usage, just loading ident
-        }
-        throw new DecacInternalError("invalid codegen case for identifier");
-    }
-
-    public int codeGenAssignField(IMAProgram program, GPRegister reg) {
-        if (definition.isField()) {
-            FieldDefinition field = getFieldDefinition();
-            field.setAdress(new RegisterOffset(field.getIndex(), program.getMaxUsedRegister()));
-            program.addInstruction(new STORE(
-                    reg,
-                    getFieldDefinition().getAdress()
-            ), "field " + getName() + " stored in " + getFieldDefinition().getDVal());
-        }
-        return 0;
-    }
-
     private Definition definition;
 
 
@@ -269,5 +229,33 @@ public class Identifier extends AbstractIdentifier {
             s.print(d);
             s.println();
         }
+    }
+
+    @Override
+    public int codeGen(IMAProgram program) {
+        if (definition.isField()) {
+            FieldDefinition field = getFieldDefinition();
+            field.setOperand(new RegisterOffset(field.getIndex(), program.getMaxUsedRegister()));
+            program.addInstruction(new LOAD(getFieldDefinition().getOperand(), program.getMaxUsedRegister()));
+        } else if (definition.isExpression()) {
+            program.addInstruction(new LOAD(getVariableDefinition().getOperand(), program.getMaxUsedRegister()));
+        }
+        return 0;
+    }
+
+    public int codeGenStore(IMAProgram program) {
+        if (definition.isField()) {
+            FieldDefinition field = getFieldDefinition();
+            field.setOperand(new RegisterOffset(field.getIndex(), program.getMaxUsedRegister()));
+            program.addInstruction(new STORE(program.getMaxUsedRegister(), getFieldDefinition().getOperand()));
+        } else if (definition.isExpression()) {
+            program.addInstruction(new STORE(program.getMaxUsedRegister(), getVariableDefinition().getOperand()));
+        }
+        return 0;
+    }
+
+    @Override
+    public DVal getDVal() {
+        return getVariableDefinition().getOperand();
     }
 }

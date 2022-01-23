@@ -7,6 +7,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.GPRegister;
 import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
 
@@ -41,7 +42,6 @@ public class Initialization extends AbstractInitialization {
         setExpression(expression.verifyRValue(compiler, localEnv, currentClass, t));
     }
 
-    @Override
     public int codeGen(IMAProgram program) {
         return expression.codeGen(program);
     }

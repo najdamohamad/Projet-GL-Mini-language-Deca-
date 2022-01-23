@@ -7,7 +7,11 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DVal;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.ImmediateInteger;
+import fr.ensimag.ima.pseudocode.NullOperand;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 
 import java.io.PrintStream;
 
@@ -42,7 +46,13 @@ public class Null extends AbstractExpr {
 
     @Override
     public int codeGen(IMAProgram program) {
-        throw new UnsupportedOperationException("not yet implemented");
+        program.addInstruction(new LOAD(new NullOperand(), program.getMaxUsedRegister()));
+        return 0;
+    }
+
+    @Override
+    public DVal getDVal() {
+        return new NullOperand();
     }
 
     @Override

@@ -6,6 +6,9 @@ import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.BEQ;
 import fr.ensimag.ima.pseudocode.instructions.CMP;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -17,7 +20,6 @@ import java.io.PrintStream;
  * @date 01/01/2022
  */
 public class Selection extends AbstractLValue {
-
     final private AbstractExpr expression;
     final private AbstractIdentifier attribute;
 
@@ -89,28 +91,35 @@ public class Selection extends AbstractLValue {
         attribute.prettyPrint(s, prefix, false);
     }
 
-
-    @Override
-    public int codeGen(IMAProgram program) {
-        int stackUsageExpression = expression.codeGen(program);
-        // Null check
-        if (program.shouldCheck()) {
-            program.addInstruction(new CMP(new NullOperand(), program.getMaxUsedRegister()),
-                    "checking null deref for "+expression.decompile());
-            program.addInstruction(new BEQ(Program.NULL_DEREF_ERROR));
-        }
-        int stackUsageAttribute = attribute.codeGen(program);
-        return Math.max(stackUsageAttribute, stackUsageExpression);
-    }
-
-    public int codeGenAssign(IMAProgram program, GPRegister reg) {
-        int stackUsageExpression = expression.codeGen(program);
-        attribute.codeGenAssignField(program, reg);
-        return stackUsageExpression;
+    public DAddr getOffset(GPRegister reg) {
+        return new RegisterOffset(
+                attribute.getFieldDefinition().getIndex(), reg);
     }
 
     @Override
     public DVal getDVal() {
         return expression.getDVal();
+    }
+
+    public int codeGenNoStore(IMAProgram program) {
+        program.addComment("selecting "+decompile());
+        int stackUsage = expression.codeGen(program);
+        if (program.shouldCheck()) {
+            program.addInstruction(new CMP(new NullOperand(), program.getMaxUsedRegister()));
+            program.addInstruction(new BEQ(Program.NULL_DEREF_ERROR));
+        }
+        return stackUsage;
+    }
+
+    @Override
+    public int codeGen(IMAProgram program) {
+        int stackUsage = expression.codeGen(program);
+        if (program.shouldCheck()) {
+            program.addInstruction(new CMP(new NullOperand(), program.getMaxUsedRegister()));
+            program.addInstruction(new BEQ(Program.NULL_DEREF_ERROR));
+        }
+        int stackUsageAttr = attribute.codeGen(program);
+        program.addComment("codegen end");
+        return stackUsage;
     }
 }

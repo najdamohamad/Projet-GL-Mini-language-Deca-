@@ -17,19 +17,43 @@ import java.util.LinkedList;
  * @date 01/01/2022
  */
 public class IMAProgram implements OutputProgram {
+    /**
+     * Used for global variables' adresses,
+     * eg. int x = 1...
+     */
+    private final GlobalAddressAllocator globalAddressAllocator;
     public int maxRegister;
     private final boolean shouldCheck;
-
     private boolean isAssign = true;
 
     public IMAProgram(int maxRegister, boolean shouldCheck) {
         this.maxRegister = maxRegister;
         this.shouldCheck = shouldCheck;
+        this.globalAddressAllocator = new GlobalAddressAllocator();
     }
 
     public IMAProgram(IMAProgram program) {
         this.maxRegister = program.maxRegister;
         this.shouldCheck = program.shouldCheck;
+        this.globalAddressAllocator = program.globalAddressAllocator;
+    }
+
+    /**
+     * Allocate an address of the form d(GB).
+     * @return The adress.
+     */
+    public DAddr allocateGlobal() {
+        return globalAddressAllocator.allocate();
+    }
+
+    /**
+     * Allocate space for size, and return the base adress
+     * of the form d(GB).
+     * @param size The size of the object on the stack.
+     * @return The address.
+     */
+    public DAddr allocateGlobal(int size) {
+        return globalAddressAllocator.allocate(size);
     }
 
     public void setAssign(boolean assign) {

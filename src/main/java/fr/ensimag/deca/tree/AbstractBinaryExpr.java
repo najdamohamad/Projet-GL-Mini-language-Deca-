@@ -87,17 +87,12 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
      */
     public abstract void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg);
 
-    @Override
-    public int codeGen(IMAProgram program) {
-        return codeGen(program, program.getMaxUsedRegister());
-    }
-
     /**
      * Calculate the result of this expression into the given register.
      * @param into The register.
      */
-    public int codeGen(IMAProgram program, GPRegister into) {
-        LOG.trace("coding into register "+into+" expr" + this.decompile());
+    public int codeGen(IMAProgram program) {
+        LOG.trace("coding into register "+program.getMaxUsedRegister()+" expr" + this.decompile());
         // Case 1: <codeExp(e, n)> avec <dval(e)> != T
         // Overridden by each literal, see eg. IntLiteral which overrides codeGen
 
@@ -107,7 +102,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
             // <codeExp(e1, n)>
             int stackUsage = getLeftOperand().codeGen(program);
             // <mnemo(op)> <dval(e2)>, Rn
-            codeGenBinaryOp(program, getRightOperand().getDVal(), into);
+            codeGenBinaryOp(program, getRightOperand().getDVal(), program.getMaxUsedRegister());
             return stackUsage;
         }
 
@@ -120,7 +115,7 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                 int leftStackUsage = getLeftOperand().codeGen(program);
                 // PUSH Rn
                 program.addInstruction(
-                        new PUSH(into)
+                        new PUSH(program.getMaxUsedRegister())
                 );
                 // <codeExp(e2, n)>
                 // Allocate a temporary on the stack.
@@ -128,14 +123,14 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                 int rightStackUsage = getRightOperand().codeGen(program) + 1;
                 // LOAD Rn, R0
                 program.addInstruction(
-                        new LOAD(into, Register.R0)
+                        new LOAD(program.getMaxUsedRegister(), Register.R0)
                 );
                 // POP Rn
                 program.addInstruction(
-                        new POP(into)
+                        new POP(program.getMaxUsedRegister())
                 );
                 // <mnemo(op)> R0, Rn
-                codeGenBinaryOp(program, Register.R0, into);
+                codeGenBinaryOp(program, Register.R0, program.getMaxUsedRegister());
                 // stack usage for this method is 1, since it allocated a
                 return Math.max(leftStackUsage, rightStackUsage);
             } else {
@@ -147,11 +142,11 @@ public abstract class AbstractBinaryExpr extends AbstractExpr {
                 int leftStackUsage = getLeftOperand().codeGen(program);
                 // <codeExp(e2, n+1)>
                 GPRegister regNPlusOne = program.allocateRegister(); // into is register Rn, this is Rn+1
-                LOG.trace("used registers: "+into+", "+regNPlusOne);
+                LOG.trace("used registers: "+program.getMaxUsedRegister()+", "+regNPlusOne);
                 int rightStackUsage = getRightOperand().codeGen(program);
                 // mnemo(op), rn+1, Rn
                 program.freeRegister();
-                codeGenBinaryOp(program, regNPlusOne, into);
+                codeGenBinaryOp(program, regNPlusOne, program.getMaxUsedRegister());
                 return Math.max(leftStackUsage, rightStackUsage);
             }
         }

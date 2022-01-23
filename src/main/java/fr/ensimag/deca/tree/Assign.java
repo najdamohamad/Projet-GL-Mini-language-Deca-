@@ -7,10 +7,7 @@ import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.LOAD;
-import fr.ensimag.ima.pseudocode.instructions.POP;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
-import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.log4j.Logger;
 
 /**
@@ -42,7 +39,6 @@ public class Assign extends AbstractBinaryExpr {
         return rvalue.getType();
     }
 
-
     @Override
     protected String getOperatorName() {
         return "=";
@@ -50,72 +46,42 @@ public class Assign extends AbstractBinaryExpr {
 
     @Override
     public int codeGen(IMAProgram program) {
-        // Optimisation: if variable in a register, code it directly into the register
-        LOG.trace("assign, left operand:" + getLeftOperand().decompile());
-        if (getLeftOperand() instanceof Selection) {
-            LOG.trace("assign, left op instanceof Selection");
-            program.addComment("right op codegen");
-            int stackUsageRight = getRightOperand().codeGen(program);
-            program.addComment("left op codegen");
-            Selection s = (Selection) getLeftOperand();
+        int stackUsage = getRightOperand().codeGen(program);
 
-            int stackUsageAssign;
-            if (program.isMaxUsableRegister()) {
-                program.addInstruction(new PUSH(program.getMaxUsedRegister()));
-                stackUsageAssign = s.codeGenAssign(program, program.getMaxUsedRegister());
-                program.addInstruction(new LOAD(program.getMaxUsedRegister(), Register.R0));
-                // POP Rn
+        if (getLeftOperand() instanceof Identifier) {
+            Identifier identifier = (Identifier) getLeftOperand();
+            program.addInstruction(new STORE(program.getMaxUsedRegister(),
+                    identifier.getVariableDefinition().getOperand()));
+        } else { // instanceof Selection
+            Selection selection = (Selection) getLeftOperand();
+            GPRegister reg = program.getMaxUsedRegister();
+
+            if (!program.isMaxUsableRegister()) {
+                GPRegister selectionReg = program.allocateRegister();
+                selection.codeGenNoStore(program);
+
+                DAddr offset = selection.getOffset(program.getMaxUsedRegister());
+                program.addInstruction(new STORE(reg, offset));
+                program.freeRegister();
+            } else {
+                stackUsage += 1; // using 1 temporary
+                program.addInstruction(
+                        new PUSH(program.getMaxUsedRegister())
+                );
+                selection.codeGenNoStore(program);
+
+                program.addInstruction(
+                        new LOAD(program.getMaxUsedRegister(), Register.R0)
+                );
                 program.addInstruction(
                         new POP(program.getMaxUsedRegister())
                 );
-            } else {
-                GPRegister regN = program.getMaxUsedRegister();
-                program.allocateRegister();
-                stackUsageAssign = s.codeGenAssign(program, regN);
-                program.freeRegister();
+                DAddr offset = selection.getOffset(Register.R0);
+                program.addInstruction(new STORE(program.getMaxUsedRegister(), offset));
             }
-
-            return Math.min(stackUsageAssign, stackUsageRight);
-        } else {
-            int stackUsageRight = getRightOperand().codeGen(program);
-            AbstractIdentifier ident = (AbstractIdentifier) getLeftOperand();
-            if (ident.getDefinition().isExpression()) {
-                if (ident.getDefinition().isExpression()) {
-                    if (ident.getVariableDefinition().isRegister()) {
-                        program.addInstruction(new LOAD(
-                                        program.getMaxUsedRegister(),
-                                        ident.getVariableDefinition().getRegister()
-                                ),
-                                "return value of assignement");
-                    } else {
-                        program.addInstruction(new STORE(
-                                        program.getMaxUsedRegister(),
-                                        ident.getVariableDefinition().getAdress()
-                                ),
-                                "return value of assignement"
-                        );
-                    }
-                } else if (ident.getDefinition().isField()) {
-                    if (ident.getFieldDefinition().isRegister()) {
-                        program.addInstruction(new LOAD(
-                                        program.getMaxUsedRegister(),
-                                        ident.getFieldDefinition().getRegister()
-                                ),
-                                "return value of assignement");
-                    } else {
-                        program.addInstruction(new STORE(
-                                        program.getMaxUsedRegister(),
-                                        ident.getFieldDefinition().getAdress()
-                                ),
-                                "return value of assignement"
-                        );
-                    }
-                } else {
-                    throw new DecacInternalError("match failed for assign codegen");
-                }
-            }
-            return stackUsageRight;
         }
+
+        return stackUsage;
     }
 
     public void codeGenBinaryOp(IMAProgram program, DVal dVal, GPRegister reg) {
