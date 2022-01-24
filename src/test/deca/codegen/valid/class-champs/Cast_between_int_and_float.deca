@@ -1,0 +1,18 @@
+// Description:
+//    Test de declaration d'une classe avec une methode dedans
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//
+// Historique:
+//    cree le 20/01/2022
+
+class A {
+    int x = 1;
+}
+
+{
+    A a = (A) (new A());
+    print(a.x);
+}
