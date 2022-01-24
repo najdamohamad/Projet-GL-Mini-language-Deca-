@@ -77,7 +77,7 @@ public class Cast extends AbstractExpr {
 
     @Override
     public int codeGen(IMAProgram program) {
-        Type castType = leftOperand.getClassDefinition().getType();
+        Type castType = leftOperand.getDefinition().getType();
         Type exprType = rightOperand.getType();
         //cast vers le type de l'expression, pas de changement à faire on load juste la valeur de l'expression dans maxUsedRegister
         if (castType == exprType){
@@ -85,11 +85,11 @@ public class Cast extends AbstractExpr {
         }
         if (castType.isFloat()){
             rightOperand.codeGen(program);
-            program.addInstruction(new INT(program.getMaxUsedRegister(), program.getMaxUsedRegister()));
+            program.addInstruction(new FLOAT(program.getMaxUsedRegister(), program.getMaxUsedRegister()));
         }
         if (castType.isInt()){
             rightOperand.codeGen(program);
-            program.addInstruction(new FLOAT(program.getMaxUsedRegister(), program.getMaxUsedRegister()));
+            program.addInstruction(new INT(program.getMaxUsedRegister(), program.getMaxUsedRegister()));
         }
         //cast entre class, on verifie le (B) (a) tel que a instanceof B dans l'analyse contextuelle
         else{

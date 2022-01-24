@@ -30,6 +30,8 @@ public class IntLiteral extends AbstractExpr {
 
     private int value;
 
+    @Override
+    public boolean isInt(){return true;}
     public IntLiteral(int value) {
         this.value = value;
     }
