@@ -1,0 +1,43 @@
+`> [11, 0] Program
+   +> [11, 0] ListDeclClass [List with 3 elements]
+   |  []> [11, 0] DeclClass
+   |  ||  +> [11, 6] Identifier (A)
+   |  ||  +> [11, 0] extends
+   |  ||  +> [11, 7] Identifier (Object)
+   |  []> [14, 0] DeclClass
+   |  ||  +> [14, 6] Identifier (B)
+   |  ||  +> [14, 0] extends
+   |  ||  +> [14, 8] Identifier (A)
+   |  []> [17, 0] DeclClass
+   |      +> [17, 6] Identifier (C)
+   |      +> [17, 0] extends
+   |      +> [17, 7] Identifier (Object)
+   `> [20, 0] Main
+      +> [21, 4] ListDeclVar [List with 4 elements]
+      |  []> [21, 6] DeclVar
+      |  ||  +> [21, 4] Identifier (B)
+      |  ||  +> [21, 6] Identifier (b)
+      |  ||  `> [21, 10] Initialization
+      |  ||     `> [21, 10] New
+      |  ||        +> [21, 14] Identifier (B)
+      |  []> [22, 6] DeclVar
+      |  ||  +> [22, 4] Identifier (C)
+      |  ||  +> [22, 6] Identifier (c)
+      |  ||  `> [22, 10] Initialization
+      |  ||     `> [22, 10] New
+      |  ||        +> [22, 14] Identifier (C)
+      |  []> [23, 6] DeclVar
+      |  ||  +> [23, 4] Identifier (A)
+      |  ||  +> [23, 6] Identifier (a)
+      |  ||  `> [23, 10] Initialization
+      |  ||     `> [23, 10] Cast
+      |  ||        +> [23, 11] Identifier (A)
+      |  ||        `> [23, 15] Identifier (b)
+      |  []> [24, 6] DeclVar
+      |      +> [24, 4] Identifier (A)
+      |      +> [24, 6] Identifier (d)
+      |      `> [24, 10] Initialization
+      |         `> [24, 10] Cast
+      |            +> [24, 11] Identifier (A)
+      |            `> [24, 15] Identifier (c)
+      `> [25, 0] ListInst [List with 0 elements]

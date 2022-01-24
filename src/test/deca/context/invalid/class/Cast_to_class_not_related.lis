@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/Cast_to_class_not_related.deca:19:10: TypeError: impossible de cast `A` vers `C`.
