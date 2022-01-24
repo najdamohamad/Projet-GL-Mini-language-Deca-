@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/double_field_decl.deca:16:11: ScopeError: tentative de définir le champ `x` deux fois.

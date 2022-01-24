@@ -1,0 +1,21 @@
+// Description:
+//    Test de déclaration du même field d'une classe 2 fois
+//
+//                                          (Rule 2.5)
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: erreur puisqu'on definit le meme champs deux fois dans la même classe
+//
+// Historique:
+//    cree le 20/01/2022
+
+
+    class A{
+       int x;
+       int x;
+    }
+
+{
+
+}
