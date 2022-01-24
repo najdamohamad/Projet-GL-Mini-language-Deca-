@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/Cast_to_int_from_class.deca:16:12: TypeError: impossible de cast `A` vers `int`.

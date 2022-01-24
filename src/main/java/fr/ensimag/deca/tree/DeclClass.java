@@ -224,10 +224,11 @@ public class DeclClass extends AbstractDeclClass {
 
         stackUsage += programInit.generatePrologueEpilogue();
         if (stackUsage > 0) {
-            // addFirst -> put operations in reverse order
-            programInit.addFirst(new BOV(Program.STACK_OVERFLOW_ERROR));
-            programInit.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
-
+            if (program.shouldCheck()) {
+                // addFirst -> put operations in reverse order
+                programInit.addFirst(new BOV(Program.STACK_OVERFLOW_ERROR));
+                programInit.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
+            }
         } else {
             programInit.addComment("stack usage is 0, no TSTO added");
         }

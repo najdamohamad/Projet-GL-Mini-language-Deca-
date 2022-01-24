@@ -1,6 +1,1 @@
-Exception in thread "main" fr.ensimag.deca.tools.DecacInternalError: double class definition, this is a verification bug
-	at fr.ensimag.deca.DecacCompiler.declareTypeDefinition(DecacCompiler.java:218)
-	at fr.ensimag.deca.tree.DeclClass.verifyClass(DeclClass.java:68)
-	at fr.ensimag.deca.tree.ListDeclClass.verifyListClass(ListDeclClass.java:32)
-	at fr.ensimag.deca.tree.Program.verifyProgram(Program.java:59)
-	at fr.ensimag.deca.context.ManualTestContext.main(ManualTestContext.java:35)
+src/test/deca/context/invalid/class/double_class_declaration.deca:17:4: ScopeError: tentative de définir la classe `A` deux fois.

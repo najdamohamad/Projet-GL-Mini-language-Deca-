@@ -1,0 +1,41 @@
+`> [12, 0] Program
+   +> [12, 0] ListDeclClass [List with 0 elements]
+   `> [12, 0] Main
+      +> [13, 4] ListDeclVar [List with 3 elements]
+      |  []> [13, 8] DeclVar
+      |  ||  +> [13, 4] Identifier (int)
+      |  ||  |  definition: type defined at null, type=int
+      |  ||  +> [13, 8] Identifier (x)
+      |  ||  |  definition: variable defined at [13, 8], type=int
+      |  ||  `> [13, 12] Initialization
+      |  ||     `> [13, 12] Cast
+      |  ||        type: int
+      |  ||        +> [13, 13] Identifier (int)
+      |  ||        |  definition: type defined at null, type=int
+      |  ||        `> [13, 19] Float (5.0)
+      |  ||           type: float
+      |  []> [14, 8] DeclVar
+      |  ||  +> [14, 4] Identifier (int)
+      |  ||  |  definition: type defined at null, type=int
+      |  ||  +> [14, 8] Identifier (y)
+      |  ||  |  definition: variable defined at [14, 8], type=int
+      |  ||  `> [14, 12] Initialization
+      |  ||     `> [14, 12] Cast
+      |  ||        type: int
+      |  ||        +> [14, 13] Identifier (int)
+      |  ||        |  definition: type defined at null, type=int
+      |  ||        `> [14, 19] Float (5.0)
+      |  ||           type: float
+      |  []> [15, 10] DeclVar
+      |      +> [15, 4] Identifier (float)
+      |      |  definition: type defined at null, type=float
+      |      +> [15, 10] Identifier (z)
+      |      |  definition: variable defined at [15, 10], type=float
+      |      `> [15, 14] Initialization
+      |         `> [15, 14] Cast
+      |            type: float
+      |            +> [15, 15] Identifier (float)
+      |            |  definition: type defined at null, type=float
+      |            `> [15, 23] Int (5)
+      |               type: int
+      `> [16, 0] ListInst [List with 0 elements]

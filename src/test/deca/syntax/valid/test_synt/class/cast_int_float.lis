@@ -1,0 +1,33 @@
+`> [11, 0] Program
+   +> [11, 0] ListDeclClass [List with 0 elements]
+   `> [11, 0] Main
+      +> [12, 4] ListDeclVar [List with 4 elements]
+      |  []> [12, 8] DeclVar
+      |  ||  +> [12, 4] Identifier (int)
+      |  ||  +> [12, 8] Identifier (x)
+      |  ||  `> [12, 12] Initialization
+      |  ||     `> [12, 12] Cast
+      |  ||        +> [12, 13] Identifier (int)
+      |  ||        `> [12, 19] Float (0.0)
+      |  []> [13, 8] DeclVar
+      |  ||  +> [13, 4] Identifier (int)
+      |  ||  +> [13, 8] Identifier (y)
+      |  ||  `> [13, 12] Initialization
+      |  ||     `> [13, 12] Cast
+      |  ||        +> [13, 13] Identifier (int)
+      |  ||        `> [13, 19] Float (0.0)
+      |  []> [14, 10] DeclVar
+      |  ||  +> [14, 4] Identifier (float)
+      |  ||  +> [14, 10] Identifier (z)
+      |  ||  `> [14, 14] Initialization
+      |  ||     `> [14, 14] Cast
+      |  ||        +> [14, 15] Identifier (float)
+      |  ||        `> [14, 23] Int (1)
+      |  []> [15, 8] DeclVar
+      |      +> [15, 4] Identifier (int)
+      |      +> [15, 8] Identifier (a)
+      |      `> [15, 12] Initialization
+      |         `> [15, 12] Cast
+      |            +> [15, 13] Identifier (float)
+      |            `> [15, 21] Float (0.02)
+      `> [16, 0] ListInst [List with 0 elements]
