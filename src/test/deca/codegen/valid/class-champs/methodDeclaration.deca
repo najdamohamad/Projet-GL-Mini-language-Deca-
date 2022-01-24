@@ -1,0 +1,25 @@
+// Description:
+//    Utiliser une méthode dans un champ avec de la déclarer.
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    Context: pas d'erreur;
+//
+//
+// Historique:
+//    cree le 20/01/2022
+
+class coordonnees{
+    int x = plan(42);
+    int y = 10 + 204;
+
+    int plan(int z){
+        return z;
+    }
+}
+
+{
+    coordonnees coords = new coordonnees();
+    println(1);
+}
