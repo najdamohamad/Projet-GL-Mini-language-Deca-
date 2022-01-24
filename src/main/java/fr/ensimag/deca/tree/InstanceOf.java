@@ -6,7 +6,11 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.DAddr;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -82,7 +86,19 @@ public class InstanceOf extends AbstractExpr {
 
     @Override
     public int codeGen(IMAProgram program) {
-        throw new UnsupportedOperationException("not yet implemented");
+        Type expressionType = expression.getType();
+        Type classType = typeInstanced.getType();
+        while(expressionType != classType){
+            if(expressionType == null){
+                program.addInstruction(new LOAD(0, program.getMaxUsedRegister()));
+                return 0;
+            }
+            else{
+            }
+        }
+        program.addInstruction(new LOAD(1, program.getMaxUsedRegister()));
+        return 0;
     }
+
 }
 
