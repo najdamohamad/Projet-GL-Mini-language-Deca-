@@ -4,10 +4,7 @@ import fr.ensimag.deca.tree.Location;
 import fr.ensimag.ima.pseudocode.Label;
 import org.apache.commons.lang.Validate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Definition of a class.
@@ -30,14 +27,21 @@ public class ClassDefinition extends TypeDefinition {
         return methodTableAddr;
     }
 
-    private Map<Integer, Label> labelTable = new HashMap<>();
+    private Map<Integer, Label> labelTable = new TreeMap<>();
+
+    public void initLabelTable() {
+        labelTable.put(1, new Label("code.Object.equals"));
+
+        // Deep copy
+        Map<Integer, Label> clone = new HashMap<>();
+        for(Map.Entry<Integer, Label> entry : labelTable.entrySet()) {
+            clone.put(entry.getKey(), new Label(entry.getValue()));
+        }
+
+        labelTable.putAll(superClass.getLabelTable());
+    }
 
     public Map<Integer, Label> getLabelTable() {
-        if (getType().isObject()) {
-            labelTable.put(1, new Label("code.Object.equals"));
-            return labelTable;
-        }
-        labelTable.putAll(superClass.getLabelTable());
         return labelTable;
     }
 

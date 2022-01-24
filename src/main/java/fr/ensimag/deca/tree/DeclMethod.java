@@ -74,6 +74,7 @@ public class DeclMethod extends AbstractDeclMethod {
             // We don't increment the number of methods since this method is already
             // defined in the superclass and its index stays the same.
             methodIndex = superDefinition.getIndex();
+
             // Si la méthode override une autre dans la super classe alors ça
             // doit garder la même signature.
             String message = "ScopeError: la méthode `" + methodName.getName()
@@ -105,6 +106,9 @@ public class DeclMethod extends AbstractDeclMethod {
                 new Label("code." + currentClass.getType().getName() + "." + methodName.getName())
         );
         methodName.setDefinition(methodDefinition);
+        currentClass.initLabelTable();
+        currentClass.getLabelTable().put(methodDefinition.getIndex(), methodDefinition.getLabel());
+
         try {
             localEnv.declare(methodName.getName(), methodDefinition);
         } catch (EnvironmentExp.DoubleDefException e) {

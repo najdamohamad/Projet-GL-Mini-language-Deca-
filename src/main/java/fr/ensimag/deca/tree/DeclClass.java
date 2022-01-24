@@ -117,11 +117,6 @@ public class DeclClass extends AbstractDeclClass {
         listDeclField.verifyListDeclFieldInit(compiler, classDefinition);
         listDeclMethod.verifyListDeclMethodBody(compiler, classDefinition);
 
-        for (AbstractDeclMethod declMethod : listDeclMethod.getList()) {
-            MethodDefinition definition = declMethod.getMethodName().getMethodDefinition();
-            classDefinition.getLabelTable().put(definition.getIndex(), definition.getLabel());
-        }
-
         ClassDefinition superDefinition = superClassName.getClassDefinition();
         int superAddr = superDefinition.getMethodTableAddr();
         // The Method Table reserves a word for the address of the previous entry.
@@ -163,6 +158,12 @@ public class DeclClass extends AbstractDeclClass {
         program.addInstruction(new STORE(Register.R0, currentAddress));
         program.bumpStackUsage();
         stackUsage++;
+
+        ClassDefinition classDefinition = className.getClassDefinition();
+        for (AbstractDeclMethod declMethod : listDeclMethod.getList()) {
+            MethodDefinition definition = declMethod.getMethodName().getMethodDefinition();
+            classDefinition.getLabelTable().put(definition.getIndex(), definition.getLabel());
+        }
 
         Map<Integer, Label> labelTable = className.getClassDefinition().getLabelTable();
         for (Map.Entry<Integer, Label> entry : labelTable.entrySet()) {

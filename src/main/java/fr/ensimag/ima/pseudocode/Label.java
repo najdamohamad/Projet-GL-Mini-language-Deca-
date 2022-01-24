@@ -10,6 +10,9 @@ import org.apache.commons.lang.Validate;
  * @date 01/01/2022
  */
 public class Label extends Operand {
+    public Label(Label l) {
+        this.name = l.name;
+    }
 
     @Override
     public String toString() {
