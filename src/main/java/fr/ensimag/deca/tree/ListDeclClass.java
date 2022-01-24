@@ -59,6 +59,12 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> implements CodeGe
         }).max(Integer::compare).orElse(0);
     }
 
+    public void codeGenMethodTable(IMAProgram program) {
+        getList().forEach((AbstractDeclClass declClass) -> {
+            declClass.codeGenMethodTable(program);
+        });
+    }
+
     @Override
     public void codeGen(ARMProgram program) {
         throw new UnsupportedOperationException("not yet implemented");
