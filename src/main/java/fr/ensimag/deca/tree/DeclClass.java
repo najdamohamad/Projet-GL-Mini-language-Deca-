@@ -188,7 +188,7 @@ public class DeclClass extends AbstractDeclClass {
 
         // If there is a superclass to initialize, do it.
         // Note that Object has no initializer, so skip it if the superclass is Object.
-        if (superClassName.getClassDefinition().isClass()
+            if (superClassName.getClassDefinition().isClass()
                 && !superClassName.getClassDefinition().getType().toString().equals("Object")) {
             stackUsage += 1;
             programInit.addInstruction(new PUSH(Register.R1));
