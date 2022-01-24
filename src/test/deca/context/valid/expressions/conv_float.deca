@@ -1,0 +1,15 @@
+// Description:
+//    Test de  conv_flot
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur 
+//    context : pas d'erreur 
+//
+// Historique:
+//    cree le 12/01/2022
+
+{
+    3 != 3.0;
+    3.0 != 3;
+}

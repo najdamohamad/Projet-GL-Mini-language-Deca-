@@ -151,7 +151,7 @@ public class DeclField extends AbstractDeclField {
         if (initialization instanceof NoInitialization) {
             return 0;
         }
-        LOG.trace("got init, initing field "+this+" with init: "+initialization);
+        LOG.trace("got init, initing field "+this.decompile()+" with init: "+initialization);
         FieldDefinition field = varName.getFieldDefinition();
         program.addComment("initializing " + field.getContainingClass().getType() + "." + varName
             + " with expression " + initialization);
