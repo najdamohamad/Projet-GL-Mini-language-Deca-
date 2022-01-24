@@ -1,11 +1,13 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tree.Location;
-import fr.ensimag.ima.pseudocode.DAddr;
+import fr.ensimag.ima.pseudocode.Label;
 import org.apache.commons.lang.Validate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Definition of a class.
@@ -15,12 +17,28 @@ import java.util.List;
  */
 public class ClassDefinition extends TypeDefinition {
 
-    public void setMethodTableAddr(DAddr methodTableAddr) {
+    public void setMethodTableAddr(int methodTableAddr) {
         this.methodTableAddr = methodTableAddr;
     }
 
-    public DAddr getMethodTableAddr() {
+
+    public int getMethodTableAddr() {
+        if (getType().isObject()) {
+            // The Method Table starts at 1(GB) with the Object class.
+            return 1;
+        }
         return methodTableAddr;
+    }
+
+    private Map<Integer, Label> labelTable = new HashMap<>();
+
+    public Map<Integer, Label> getLabelTable() {
+        if (getType().isObject()) {
+            labelTable.put(1, new Label("code.Object.equals"));
+            return labelTable;
+        }
+        labelTable.putAll(superClass.getLabelTable());
+        return labelTable;
     }
 
     /**
@@ -38,7 +56,7 @@ public class ClassDefinition extends TypeDefinition {
      * <p>
      * For example, it equals 1(GB) for the Object class.
      */
-    private DAddr methodTableAddr;
+    private int methodTableAddr;
 
     public void setNumberOfFields(int numberOfFields) {
         this.numberOfFields = numberOfFields;

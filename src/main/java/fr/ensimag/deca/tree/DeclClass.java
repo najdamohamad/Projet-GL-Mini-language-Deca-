@@ -26,6 +26,7 @@ public class DeclClass extends AbstractDeclClass {
     final private ListDeclMethod listDeclMethod;
     final private ListDeclField listDeclField;
 
+
     public DeclClass(AbstractIdentifier identifier, AbstractIdentifier extension,
                      ListDeclMethod listDeclMethod, ListDeclField listDeclField) {
         Validate.notNull(identifier);
@@ -114,7 +115,20 @@ public class DeclClass extends AbstractDeclClass {
         ClassDefinition classDefinition = className.getClassDefinition();
         listDeclField.verifyListDeclFieldInit(compiler, classDefinition);
         listDeclMethod.verifyListDeclMethodBody(compiler, classDefinition);
-        LOG.debug(className.getName() + " = " + classDefinition.getTotalNumberOfMethods());
+
+        for (AbstractDeclMethod declMethod : listDeclMethod.getList()) {
+            MethodDefinition definition = declMethod.getMethodName().getMethodDefinition();
+            classDefinition.getLabelTable().put(definition.getIndex(), definition.getLabel());
+        }
+
+        ClassDefinition superDefinition = superClassName.getClassDefinition();
+        int superAddr = superDefinition.getMethodTableAddr();
+        // The Method Table reserves a word for the address of the previous entry.
+        int currentAddr = superAddr + superDefinition.getTotalNumberOfMethods() + 1;
+        classDefinition.setMethodTableAddr(currentAddr);
+        LOG.debug(className.getName() + " = " + classDefinition.getTotalNumberOfMethods() + ", " + currentAddr);
+
+        LOG.debug(classDefinition.getLabelTable().toString());
     }
 
 
@@ -136,49 +150,31 @@ public class DeclClass extends AbstractDeclClass {
         listDeclMethod.iterChildren(f);
     }
 
-    public void codeGenMethodLabels(IMAProgram program) {
-        for (AbstractDeclMethod declMethod : listDeclMethod.getList()) {
-            AbstractIdentifier methodName = declMethod
-                    .getMethodName();
-            methodName.getMethodDefinition()
-                    .setLabel(new Label("code." + className.getName() + "." + methodName.getName()));
-        }
-    }
-
+    @Override
     public void codeGenMethodTable(IMAProgram program) {
-        DAddr position = new RegisterOffset(program.getStackUsage() + 1, Register.GB);
-        className.getClassDefinition().setMethodTableAddr(position);
-        int placeDansLeStack = 1;
+        DAddr superAddress =
+                new RegisterOffset(superClassName.getClassDefinition().getMethodTableAddr(), Register.GB);
+        DAddr currentAddress =
+                new RegisterOffset(className.getClassDefinition().getMethodTableAddr(), Register.GB);
+        program.addInstruction(new LEA(superAddress, Register.R0));
 
-        if (superClassName.getClassDefinition().isClass()) {
-            DAddr positionMere = superClassName.getClassDefinition().getMethodTableAddr();
-            program.addInstruction(new LEA(positionMere, Register.R0));
-        } else {
-            program.addInstruction(new LOAD(new NullOperand(), Register.R0));
-        }
-        program.addInstruction(new STORE(Register.R0, position));
+        program.addInstruction(new STORE(Register.R0, currentAddress));
         program.bumpStackUsage();
 
-        for (AbstractDeclMethod method : listDeclMethod.getList()) {
-            className.getClassDefinition().listMethod.add(method.getMethodName().getName().toString());
+        for (AbstractDeclMethod declMethod : listDeclMethod.getList()) {
+            MethodDefinition methodDefinition = declMethod.getMethodName().getMethodDefinition();
+            program.addInstruction(new LOAD(
+                    new LabelOperand(methodDefinition.getLabel()),
+                    Register.R0)
+            );
+            int methodAddr = className.getClassDefinition().getMethodTableAddr()
+                    + methodDefinition.getIndex();
+            program.addInstruction(new STORE(
+                    Register.R0,
+                    new RegisterOffset(methodAddr, Register.R0))
+            );
         }
 
-        // Init table method inherited
-        for (String SuperMethodName : superClassName.getClassDefinition().listMethod) {
-            if (!className.getClassDefinition().listMethod.contains(SuperMethodName)) {
-                program.addInstruction(new LOAD(new LabelOperand(new Label(SuperMethodName)), Register.R0));
-                program.addInstruction(new STORE(Register.R0, new RegisterOffset(placeDansLeStack, Register.GB)));
-                program.bumpStackUsage();
-                className.getClassDefinition().listMethod.add(SuperMethodName);
-                placeDansLeStack += 1;
-            }
-        }
-
-        // Init table method
-        for (AbstractDeclMethod method : listDeclMethod.getList()) {
-            placeDansLeStack = method.codeGenInitTable(program, placeDansLeStack);
-            program.bumpStackUsage();
-        }
     }
 
     /**
