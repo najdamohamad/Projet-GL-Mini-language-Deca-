@@ -1,0 +1,51 @@
+`> [11, 0] Program
+   +> [11, 0] ListDeclClass [List with 2 elements]
+   |  []> [11, 0] DeclClass
+   |  ||  +> [11, 6] Identifier (A)
+   |  ||  |  definition: type defined at [11, 0], type=A
+   |  ||  +> [11, 0] extends
+   |  ||  +> [11, 7] Identifier (Object)
+   |  ||  |  definition: type defined at [11, 0], type=Object
+   |  []> [14, 0] DeclClass
+   |      +> [14, 6] Identifier (B)
+   |      |  definition: type defined at [14, 0], type=B
+   |      +> [14, 0] extends
+   |      +> [14, 8] Identifier (A)
+   |      |  definition: type defined at [11, 0], type=A
+   `> [17, 0] Main
+      +> [18, 4] ListDeclVar [List with 3 elements]
+      |  []> [18, 6] DeclVar
+      |  ||  +> [18, 4] Identifier (A)
+      |  ||  |  definition: type defined at [11, 0], type=A
+      |  ||  +> [18, 6] Identifier (a)
+      |  ||  |  definition: variable defined at [18, 6], type=A
+      |  ||  `> [18, 10] Initialization
+      |  ||     `> [18, 10] New
+      |  ||        type: A
+      |  ||        +> [18, 14] Identifier (A)
+      |  ||        |  definition: type defined at [11, 0], type=A
+      |  []> [19, 6] DeclVar
+      |  ||  +> [19, 4] Identifier (B)
+      |  ||  |  definition: type defined at [14, 0], type=B
+      |  ||  +> [19, 6] Identifier (b)
+      |  ||  |  definition: variable defined at [19, 6], type=B
+      |  ||  `> [19, 10] Initialization
+      |  ||     `> [19, 10] Cast
+      |  ||        type: B
+      |  ||        +> [19, 11] Identifier (B)
+      |  ||        |  definition: type defined at [14, 0], type=B
+      |  ||        `> [19, 15] Identifier (a)
+      |  ||           definition: variable defined at [18, 6], type=A
+      |  []> [20, 6] DeclVar
+      |      +> [20, 4] Identifier (A)
+      |      |  definition: type defined at [11, 0], type=A
+      |      +> [20, 6] Identifier (c)
+      |      |  definition: variable defined at [20, 6], type=A
+      |      `> [20, 10] Initialization
+      |         `> [20, 10] Cast
+      |            type: A
+      |            +> [20, 11] Identifier (A)
+      |            |  definition: type defined at [11, 0], type=A
+      |            `> [20, 15] Identifier (b)
+      |               definition: variable defined at [19, 6], type=B
+      `> [21, 0] ListInst [List with 0 elements]
