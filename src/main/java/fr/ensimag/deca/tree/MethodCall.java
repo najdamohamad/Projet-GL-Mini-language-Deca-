@@ -5,7 +5,10 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.BSR;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import org.apache.commons.lang.Validate;
 
@@ -104,7 +107,15 @@ public class MethodCall extends AbstractExpr {
             stackUsage += listArgs.getList().get(i).codeGen(program);
             program.addInstruction(new PUSH(program.getMaxUsedRegister()));
         }
-        program.addInstruction(new BSR(method.getMethodDefinition().getLabel()));
+        expression.codeGen(program);
+        // The object contains as its first element the address to the method table entry of its class.
+        program.addInstruction(new PUSH(program.getMaxUsedRegister()));
+        program.addInstruction(new BSR(
+                new RegisterOffset(method.getMethodDefinition().getIndex() - 1,
+                        program.getMaxUsedRegister())
+        ));
+        // Method return value should be in R0.
+        program.addInstruction(new LOAD(Register.R0, program.getMaxUsedRegister()));
         return stackUsage;
     }
 }

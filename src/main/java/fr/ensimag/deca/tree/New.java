@@ -7,9 +7,7 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
-import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 
@@ -82,7 +80,7 @@ public class New extends AbstractExpr {
         // NEW #d, R2
         int objectSize = getClassName().getClassDefinition().getObjectSize();
         program.addInstruction(new NEW(new ImmediateInteger(objectSize), program.getMaxUsedRegister()),
-                getClassName().getClassDefinition().getNumberOfFields()  + " fields for " + getClassName());
+                getClassName().getClassDefinition().getNumberOfFields() + " fields for " + getClassName());
 
         if (program.shouldCheck()) {
             // BOV tas_plein
@@ -91,6 +89,15 @@ public class New extends AbstractExpr {
         // TODO: lea adress of method table
         // LEA ad_A, R0
         // STORE RO, 0(R2)
+        DAddr objectAddr = new RegisterOffset(
+                className.getClassDefinition().getMethodTableAddr(),
+                Register.GB
+        );
+        program.addInstruction(new LEA(objectAddr, Register.R0));
+        program.addInstruction(new STORE(
+                Register.R0,
+                new RegisterOffset(0, program.getMaxUsedRegister())
+        ));
         // We may try to init a object.
         if (!getClassName().getClassDefinition().getType().toString().equals("Object")) {
             program.addInstruction(new PUSH(program.getMaxUsedRegister()));

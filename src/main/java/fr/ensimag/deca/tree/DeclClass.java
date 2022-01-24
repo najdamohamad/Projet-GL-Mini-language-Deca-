@@ -221,7 +221,6 @@ public class DeclClass extends AbstractDeclClass {
             return declField.codeGen(programInit);
         }).max(Integer::compare).orElse(0);
 
-
         stackUsage += programInit.generatePrologueEpilogue();
         if (stackUsage > 0) {
             if (program.shouldCheck()) {

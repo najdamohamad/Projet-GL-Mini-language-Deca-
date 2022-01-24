@@ -191,7 +191,6 @@ public class IMAProgram implements OutputProgram {
     }
 
     public int generateMethodPrologueEpilogue(MethodDefinition definition) {
-        addFirst(definition.getLabel());
         // XXX: this code is hard to understand
         int nbRegistersUsed;
         if (!firstFreeUsed) {

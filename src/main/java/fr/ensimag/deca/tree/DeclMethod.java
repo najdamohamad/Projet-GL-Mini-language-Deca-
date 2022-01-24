@@ -152,6 +152,7 @@ public class DeclMethod extends AbstractDeclMethod {
         } else {
             programMethod.addComment("stack usage is 0, no TSTO added");
         }
+        programMethod.addFirst(definition.getLabel());
         program.append(programMethod);
         return stackUsage;
     }

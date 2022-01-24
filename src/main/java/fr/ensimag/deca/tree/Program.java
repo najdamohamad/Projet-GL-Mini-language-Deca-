@@ -1,5 +1,6 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.Line;
 import fr.ensimag.arm.pseudocode.*;
 import fr.ensimag.arm.pseudocode.syscalls.Exit;
 import fr.ensimag.deca.DecacCompiler;
@@ -10,9 +11,9 @@ import fr.ensimag.deca.context.ObjectType;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable;
-import fr.ensimag.ima.pseudocode.IMAProgram;
-import fr.ensimag.ima.pseudocode.ImmediateInteger;
 import fr.ensimag.ima.pseudocode.Label;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.*;
 import fr.ensimag.ima.pseudocode.instructions.*;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -112,6 +113,11 @@ public class Program extends AbstractProgram {
         program.addComment("Classes method & constructors");
         program.addComment("------------------------------------------------");
         classes.codeGen(program);
+
+        program.addLabel(new Label("code.Object.equals"));
+        program.addInstruction(new LOAD(new RegisterOffset(-2, Register.LB), Register.R1));
+        program.addInstruction(new CMP(new RegisterOffset(-3, Register.LB), Register.R1));
+        program.addInstruction(new SEQ(Register.R0));
 
         program.addComment("------------------------------------------------");
         program.addComment("Error handlers");
