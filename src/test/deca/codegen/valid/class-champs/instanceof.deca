@@ -1,0 +1,26 @@
+// Description:
+//    InstanceOf entre les classes
+//
+// Resultats:
+//    22
+//
+// Historique:
+//    cree le 01/01/2022
+
+class A {
+    int x = 1;
+}
+class B {
+}
+class C extends A{
+}
+{
+    A a = new A();
+    B b = new B();
+    C c = new C();
+    test1 = a instanceOf A;
+    test2 = b instanceOf A;
+    test3 = c instanceOf A;
+
+    println(test1, test2, test3);
+}
