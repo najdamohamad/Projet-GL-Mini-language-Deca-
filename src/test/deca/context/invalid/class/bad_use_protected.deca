@@ -1,0 +1,29 @@
+// Description:
+//    Test de déclaration de class avec un field protégé
+//                                           ( Rule 3.66 )
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    context: en context il ya une erreur car on ne peut pas utuliser
+//             un champs proteger directement sans des guetteurs
+//
+//
+// Historique:
+//    cree le 23/01/2022
+
+class coordonnees{
+    protected int x = 5;
+
+
+    int plan(int z){
+        return this.x;
+    }
+}
+
+{
+
+    coordonnees coords = new coordonnees();
+    coords.x = 6 ;
+
+}

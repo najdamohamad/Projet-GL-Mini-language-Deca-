@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/bad_use_protected.deca:27:4: ScopeError: le champ `x` est protégé.

@@ -1,0 +1,30 @@
+// Description:
+//    Test de déclaration de deux classe, l'une qui extend l'autre et dont on essaye de utuliser le champ
+//                                           ( Rule 3.66 )
+//
+// Resultats:
+//    Lexeur: pas d'erreur
+//    Parseur: pas d'erreur
+//    context: en context il ya une erreur car on ne peut pas déclarer une classe
+//              contenant une autre classe avec un champ protégé, pour tenter de
+//              contourner le protected d’un attribut (example page 91).
+//
+//
+// Historique:
+//    cree le 24/01/2022
+
+    class A{
+
+         protected int x ;
+    }
+
+    class B extends A{
+
+        int getX(A a)
+        {
+            return a.x ;
+        }
+    }
+
+
+
