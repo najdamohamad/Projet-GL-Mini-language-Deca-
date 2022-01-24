@@ -1,0 +1,1 @@
+src/test/deca/context/invalid/class/bad_use_fields_inheritance.deca:25:19: Type: l'expression `a` doit être un sous type de `B`.
