@@ -1,7 +1,6 @@
 package fr.ensimag.deca.context;
 
 import fr.ensimag.deca.tree.Location;
-import fr.ensimag.ima.pseudocode.Label;
 import fr.ensimag.ima.pseudocode.DAddr;
 import org.apache.commons.lang.Validate;
 
@@ -47,6 +46,7 @@ public class ClassDefinition extends TypeDefinition {
 
     /**
      * Get the number of fields of this method, including inherited fields.
+     *
      * @return The number of fields
      */
     public int getNumberOfFields() {
@@ -60,6 +60,7 @@ public class ClassDefinition extends TypeDefinition {
     /**
      * Get the size of this object, defined as the number of fields plus one
      * for the pointer to the vtable.
+     *
      * @return The size of this object.
      */
     public int getObjectSize() {
@@ -84,6 +85,13 @@ public class ClassDefinition extends TypeDefinition {
     private int numberOfFields = 0;
     private int numberOfMethods = 0;
 
+    public int getTotalNumberOfMethods() {
+        if (getType().isObject()) {
+            // Corresponds to the Object.equals method.
+            return 1;
+        }
+        return getNumberOfMethods() + superClass.getTotalNumberOfMethods();
+    }
 
     @Override
     public boolean isClass() {
@@ -96,7 +104,9 @@ public class ClassDefinition extends TypeDefinition {
         // Cast succeeds by construction because the type has been correctly set
         // in the constructor.
         return (ClassType) super.getType();
-    };
+    }
+
+    ;
 
     public ClassDefinition getSuperClass() {
         return superClass;
@@ -104,7 +114,8 @@ public class ClassDefinition extends TypeDefinition {
 
     private final EnvironmentExp members;
     private final ClassDefinition superClass;
-    public  List<String> listMethod;
+    public List<String> listMethod;
+
     public EnvironmentExp getMembers() {
         return members;
     }

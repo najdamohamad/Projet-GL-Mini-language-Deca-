@@ -4,8 +4,10 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
-import fr.ensimag.ima.pseudocode.instructions.*;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 
 import java.io.PrintStream;
 
@@ -14,6 +16,8 @@ import java.io.PrintStream;
  * @date 01/01/2022
  */
 public class DeclMethod extends AbstractDeclMethod {
+
+    private static final Logger LOG = Logger.getLogger(Program.class);
 
     final private AbstractIdentifier type;
     final private AbstractIdentifier methodName;
@@ -62,10 +66,14 @@ public class DeclMethod extends AbstractDeclMethod {
     @Override
     protected void verifyDeclMethod(DecacCompiler compiler, EnvironmentExp localEnv,
                                     ClassDefinition currentClass, ClassDefinition superClass) throws ContextualError {
+        int methodIndex;
         Type methodType = type.verifyType(compiler);
         Signature signature = params.verifyListDeclParamType(compiler);
-        ExpDefinition superDefinition = superClass.getMembers().get(methodName.getName());
+        MethodDefinition superDefinition = (MethodDefinition) superClass.getMembers().get(methodName.getName());
         if (superDefinition != null) {
+            // We don't increment the number of methods since this method is already
+            // defined in the superclass and its index stays the same.
+            methodIndex = superDefinition.getIndex();
             // Si la méthode override une autre dans la super classe alors ça
             // doit garder la même signature.
             String message = "ScopeError: la méthode `" + methodName.getName()
@@ -78,6 +86,9 @@ public class DeclMethod extends AbstractDeclMethod {
             if (!sameType || !sameSig) {
                 throw new ContextualError(message, getLocation());
             }
+        } else {
+            currentClass.incNumberOfMethods();
+            methodIndex = currentClass.getTotalNumberOfMethods();
         }
         MethodDefinition methodDefinition = new MethodDefinition(
                 methodType,
@@ -87,10 +98,13 @@ public class DeclMethod extends AbstractDeclMethod {
                 // méthode de A."
                 // -- p.184, Déclaration de la méthode getX
                 // Indexes always start at 1.
-                1 + superClass.getNumberOfMethods() + currentClass.getNumberOfMethods()
+                // 2 + superClass.getNumberOfMethods() + currentClass.getNumberOfMethods()
+                methodIndex
+        );
+        methodDefinition.setLabel(
+                new Label("code." + currentClass.getType().getName() + "." + methodName.getName())
         );
         methodName.setDefinition(methodDefinition);
-        currentClass.incNumberOfMethods();
         try {
             localEnv.declare(methodName.getName(), methodDefinition);
         } catch (EnvironmentExp.DoubleDefException e) {
@@ -106,19 +120,22 @@ public class DeclMethod extends AbstractDeclMethod {
         Type methodType = type.verifyType(compiler);
         EnvironmentExp paramEnvironment = params.verifyListDeclParam(compiler, currentClass);
         methodBody.verifyMethodBody(compiler, paramEnvironment, currentClass, methodType);
+        LOG.debug(methodName.getName() + " = " + methodName.getMethodDefinition().getIndex()
+                + ", " + methodName.getMethodDefinition().getLabel());
     }
+
     @Override
-    public AbstractIdentifier getMethodName(){
+    public AbstractIdentifier getMethodName() {
         return methodName;
     }
 
     @Override
-    public int codeGen(IMAProgram program){
+    public int codeGen(IMAProgram program) {
         return 1;
     }
 
     @Override
-    public int codeGenInitTable(IMAProgram program, int place){
+    public int codeGenInitTable(IMAProgram program, int place) {
         program.addInstruction(new LOAD(new LabelOperand(new Label(methodName.getName().toString())), Register.R0));
         program.addInstruction(new STORE(Register.R0, new RegisterOffset(place, Register.GB)));
         return place + 1;

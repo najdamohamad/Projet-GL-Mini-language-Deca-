@@ -101,7 +101,7 @@ public class DeclClass extends AbstractDeclClass {
         // See the example page 185.
         classDefinition.setNumberOfFields(classDefinition.getNumberOfFields() + superDefinition.getNumberOfFields());
         // Same for methods.
-        classDefinition.setNumberOfMethods(classDefinition.getNumberOfMethods() + superDefinition.getNumberOfMethods());
+        // classDefinition.setNumberOfMethods(classDefinition.getNumberOfMethods() + superDefinition.getNumberOfMethods());
 
         LOG.debug("end verifying the members of class " + className.getName());
     }
@@ -114,6 +114,7 @@ public class DeclClass extends AbstractDeclClass {
         ClassDefinition classDefinition = className.getClassDefinition();
         listDeclField.verifyListDeclFieldInit(compiler, classDefinition);
         listDeclMethod.verifyListDeclMethodBody(compiler, classDefinition);
+        LOG.debug(className.getName() + " = " + classDefinition.getTotalNumberOfMethods());
     }
 
 
@@ -135,6 +136,15 @@ public class DeclClass extends AbstractDeclClass {
         listDeclMethod.iterChildren(f);
     }
 
+    public void codeGenMethodLabels(IMAProgram program) {
+        for (AbstractDeclMethod declMethod : listDeclMethod.getList()) {
+            AbstractIdentifier methodName = declMethod
+                    .getMethodName();
+            methodName.getMethodDefinition()
+                    .setLabel(new Label("code." + className.getName() + "." + methodName.getName()));
+        }
+    }
+
     public void codeGenMethodTable(IMAProgram program) {
         DAddr position = new RegisterOffset(program.getStackUsage() + 1, Register.GB);
         className.getClassDefinition().setMethodTableAddr(position);
@@ -154,8 +164,8 @@ public class DeclClass extends AbstractDeclClass {
         }
 
         // Init table method inherited
-        for (String SuperMethodName : superClassName.getClassDefinition().listMethod){
-            if (!className.getClassDefinition().listMethod.contains(SuperMethodName)){
+        for (String SuperMethodName : superClassName.getClassDefinition().listMethod) {
+            if (!className.getClassDefinition().listMethod.contains(SuperMethodName)) {
                 program.addInstruction(new LOAD(new LabelOperand(new Label(SuperMethodName)), Register.R0));
                 program.addInstruction(new STORE(Register.R0, new RegisterOffset(placeDansLeStack, Register.GB)));
                 program.bumpStackUsage();
@@ -183,7 +193,7 @@ public class DeclClass extends AbstractDeclClass {
     public int codeGen(IMAProgram program) {
         int stackUsage = 0;
         IMAProgram programInit = new IMAProgram(program);
-        LOG.debug("codegen "+className);
+        LOG.debug("codegen " + className);
 
         // Init our fields to 0.
         for (AbstractDeclField declField : listDeclField.getList()) {
@@ -193,7 +203,7 @@ public class DeclClass extends AbstractDeclClass {
 
         // If there is a superclass to initialize, do it.
         // Note that Object has no initializer, so skip it if the superclass is Object.
-            if (superClassName.getClassDefinition().isClass()
+        if (superClassName.getClassDefinition().isClass()
                 && !superClassName.getClassDefinition().getType().toString().equals("Object")) {
             stackUsage += 1;
             programInit.addInstruction(new PUSH(Register.R1));
