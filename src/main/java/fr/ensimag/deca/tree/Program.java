@@ -97,6 +97,10 @@ public class Program extends AbstractProgram {
     @Override
     public int codeGen(IMAProgram program) {
         program.addComment("------------------------------------------------");
+        program.addComment("Method table construction");
+        program.addComment("------------------------------------------------");
+        classes.codeGenMethodTable(program);
+        program.addComment("------------------------------------------------");
         program.addComment("Main program");
         program.addComment("------------------------------------------------");
         int stackUsage = main.codeGen(program);

@@ -3,6 +3,7 @@ package fr.ensimag.deca.tree;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.ContextualError;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 
 /**
  * Class declaration.
@@ -33,4 +34,5 @@ public abstract class AbstractDeclClass extends Tree implements CodeGen {
     protected abstract void verifyClassBody(DecacCompiler compiler)
             throws ContextualError;
 
+    public abstract void codeGenMethodTable(IMAProgram program);
 }
