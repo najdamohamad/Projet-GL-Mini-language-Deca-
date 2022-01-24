@@ -22,5 +22,13 @@ class C extends A{
     test2 = b instanceOf A;
     test3 = c instanceOf A;
 
-    println(test1, test2, test3);
+    if(test1){
+        print("ok, ");
+    }
+    if(!test2){
+        print("ok, ");
+    }
+    if (test3){
+        print("ok");
+    }
 }
