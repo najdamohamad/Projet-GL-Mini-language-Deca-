@@ -6,6 +6,8 @@ import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Signature;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.Register;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import org.apache.log4j.Logger;
 
 import java.util.Iterator;
@@ -41,6 +43,13 @@ public class ListDeclParam extends TreeList<AbstractDeclParam> {
         for (AbstractDeclParam declParam : getList()) {
             declParam.verifyDeclParam(compiler, paramEnvironment);
         }
+        for (int offset = 0; offset < getList().size(); offset++) {
+            DeclParam param = (DeclParam) getList().get(size() - offset - 1);
+            param
+                    .getVarName()
+                    .getExpDefinition()
+                    .setAdress(new RegisterOffset(-3 - offset, Register.LB));
+        }
         return paramEnvironment;
     }
 
@@ -59,5 +68,4 @@ public class ListDeclParam extends TreeList<AbstractDeclParam> {
             notFirst = true;
         }
     }
-
 }

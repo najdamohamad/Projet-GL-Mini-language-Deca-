@@ -5,6 +5,8 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.instructions.BSR;
+import fr.ensimag.ima.pseudocode.instructions.PUSH;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -97,6 +99,12 @@ public class MethodCall extends AbstractExpr {
 
     @Override
     public int codeGen(IMAProgram program) {
-        throw new UnsupportedOperationException("Not yet supported");
+        int stackUsage = 0;
+        for (int i = listArgs.size() - 1; i >= 0; i--) {
+            stackUsage += listArgs.getList().get(i).codeGen(program);
+            program.addInstruction(new PUSH(program.getMaxUsedRegister()));
+        }
+        program.addInstruction(new BSR(method.getMethodDefinition().getLabel()));
+        return stackUsage;
     }
 }

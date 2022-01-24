@@ -1,10 +1,9 @@
 package fr.ensimag.ima.pseudocode;
 
 import fr.ensimag.deca.codegen.OutputProgram;
+import fr.ensimag.deca.context.MethodDefinition;
 import fr.ensimag.deca.tools.DecacInternalError;
-import fr.ensimag.ima.pseudocode.instructions.POP;
-import fr.ensimag.ima.pseudocode.instructions.PUSH;
-import fr.ensimag.ima.pseudocode.instructions.RTS;
+import fr.ensimag.ima.pseudocode.instructions.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -94,6 +93,7 @@ public class IMAProgram implements OutputProgram {
     public void addFirst(Line l) {
         lines.addFirst(l);
     }
+
     /**
      * Add a label at the front of the program.
      */
@@ -158,13 +158,14 @@ public class IMAProgram implements OutputProgram {
      * in this function at the start, and unloading them at the end,
      * also outputting the return RTS.
      * For example, if the registers R2 and R3 are used in the subroutine, the outputted code will be:
-     *      PUSH R2
-     *      PUSH R3
-     *      body of subroutine
-     *      SUBSP #2
-     *      RTS.
+     * PUSH R2
+     * PUSH R3
+     * body of subroutine
+     * SUBSP #2
+     * RTS.
      * This function should be called after filling out the method body:
      * it will prefix the prologue and epilogue.
+     *
      * @return stack usage of prologue
      */
     public int generatePrologueEpilogue() {
@@ -177,6 +178,38 @@ public class IMAProgram implements OutputProgram {
             nbRegistersUsed = maxUsed - 1;
         }
 
+        for (int i = 2; i < 2 + nbRegistersUsed; i++) {
+            addFirst(new PUSH(Register.getR(i)));
+        }
+        // TODO: we may be able to use SUBSP here instead
+        for (int i = 2; i < 2 + nbRegistersUsed; i++) {
+            addInstruction(new POP(Register.getR(i)));
+        }
+
+        addInstruction(new RTS());
+        return nbRegistersUsed;
+    }
+
+    public int generateMethodPrologueEpilogue(MethodDefinition definition) {
+        addFirst(definition.getLabel());
+        // XXX: this code is hard to understand
+        int nbRegistersUsed;
+        if (!firstFreeUsed) {
+            nbRegistersUsed = 0;
+        } else {
+            // R2 is the max -> 1 register used.
+            nbRegistersUsed = maxUsed - 1;
+        }
+        String labelString = definition.getLabel().toString();
+
+        if (!definition.getType().isVoid()) {
+            addLabel(new Label(labelString + ".earlyExit"));
+            addInstruction(new WSTR("Erreur: sortie de la méthode " + labelString + " sans return."));
+            addInstruction(new WNL());
+            addInstruction(new ERROR());
+        }
+
+        addLabel(new Label(labelString.replace("code", "fin")));
         for (int i = 2; i < 2 + nbRegistersUsed; i++) {
             addFirst(new PUSH(Register.getR(i)));
         }

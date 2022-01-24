@@ -1,11 +1,13 @@
 package fr.ensimag.deca.tree;
 
+import fr.ensimag.arm.pseudocode.ARMProgram;
 import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
 import fr.ensimag.deca.context.Type;
 import fr.ensimag.deca.tools.IndentPrintStream;
+import fr.ensimag.ima.pseudocode.IMAProgram;
 import org.apache.commons.lang.Validate;
 
 import java.io.PrintStream;
@@ -53,5 +55,18 @@ public class MethodBody extends AbstractMethodBody {
         //       now everything should be checked to account for it.
         decls.verifyListDeclVariable(compiler, localEnv, currentClass);
         insts.verifyListInst(compiler, localEnv, currentClass, returnType);
+    }
+
+    @Override
+    public int codeGen(IMAProgram program) {
+        int stackUsage = 0;
+        stackUsage += decls.codeGen(program);
+        stackUsage += insts.codeGen(program);
+        return stackUsage;
+    }
+
+    @Override
+    public void codeGen(ARMProgram program) {
+        throw new UnsupportedOperationException("not implemented");
     }
 }

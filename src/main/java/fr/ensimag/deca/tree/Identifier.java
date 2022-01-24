@@ -5,7 +5,10 @@ import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.DecacInternalError;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.deca.tools.SymbolTable.Symbol;
-import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.DVal;
+import fr.ensimag.ima.pseudocode.GPRegister;
+import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.RegisterOffset;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.commons.lang.Validate;
@@ -31,7 +34,7 @@ public class Identifier extends AbstractIdentifier {
 
     @Override
     public DVal getDVal() {
-        LOG.trace("dval of "+this.decompile()+" is "+getVariableDefinition().getDVal());
+        LOG.trace("dval of " + this.decompile() + " is " + getVariableDefinition().getDVal());
         return getVariableDefinition().getDVal();
     }
 
@@ -204,10 +207,16 @@ public class Identifier extends AbstractIdentifier {
             FieldDefinition field = getFieldDefinition();
             field.setAdress(new RegisterOffset(field.getIndex(), program.getMaxUsedRegister()));
             LOG.trace("gen for field, dval=" + getFieldDefinition().getDVal());
-                program.addInstruction(new LOAD(
-                        getFieldDefinition().getDVal(),
-                        program.getMaxUsedRegister()
-                ), "field " + getName() + " stored in " + getFieldDefinition().getDVal());
+            program.addInstruction(new LOAD(
+                    getFieldDefinition().getDVal(),
+                    program.getMaxUsedRegister()
+            ), "field " + getName() + " stored in " + getFieldDefinition().getDVal());
+            return 0;
+        } else if (definition.isParam()) {
+            program.addInstruction(new LOAD(
+                    getExpDefinition().getAdress(),
+                    program.getMaxUsedRegister()
+            ), "parameter " + getName() + " stored in " + getExpDefinition().getAdress());
             return 0;
         } else if (definition.isExpression()) {
             LOG.trace("gen identifier, dval=" + getVariableDefinition().getDVal());

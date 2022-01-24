@@ -4,8 +4,10 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.context.*;
 import fr.ensimag.deca.tools.IndentPrintStream;
 import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.BOV;
 import fr.ensimag.ima.pseudocode.instructions.LOAD;
 import fr.ensimag.ima.pseudocode.instructions.STORE;
+import fr.ensimag.ima.pseudocode.instructions.TSTO;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
@@ -135,7 +137,23 @@ public class DeclMethod extends AbstractDeclMethod {
 
     @Override
     public int codeGen(IMAProgram program) {
-        return 1;
+        int stackUsage = 0;
+        MethodDefinition definition = methodName.getMethodDefinition();
+        IMAProgram programMethod = new IMAProgram(program);
+
+        stackUsage += methodBody.codeGen(programMethod);
+
+        stackUsage += programMethod.generateMethodPrologueEpilogue(definition);
+        if (stackUsage > 0) {
+            // addFirst -> put operations in reverse order
+            programMethod.addFirst(new BOV(Program.STACK_OVERFLOW_ERROR));
+            programMethod.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
+
+        } else {
+            programMethod.addComment("stack usage is 0, no TSTO added");
+        }
+        program.append(programMethod);
+        return stackUsage;
     }
 
     @Override

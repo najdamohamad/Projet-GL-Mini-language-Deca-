@@ -234,6 +234,12 @@ public class DeclClass extends AbstractDeclClass {
         }
         programInit.addFirst(new Label("init." + className));
         program.append(programInit);
+
+        stackUsage += listDeclMethod.getList().stream().map((AbstractDeclMethod declMethod) -> {
+            LOG.trace("gencode for method: " + declMethod);
+            return declMethod.codeGen(program);
+        }).max(Integer::compare).orElse(0);
+
         return stackUsage;
     }
 

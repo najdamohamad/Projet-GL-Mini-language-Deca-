@@ -1,6 +1,7 @@
 package fr.ensimag.deca.tree;
 
 import fr.ensimag.deca.DecacCompiler;
+import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.ClassDefinition;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.context.EnvironmentExp;
@@ -12,7 +13,7 @@ import fr.ensimag.deca.context.Type;
  * @author gl47
  * @date 01/01/2022
  */
-public abstract class AbstractMethodBody extends Tree {
+public abstract class AbstractMethodBody extends Tree implements CodeGen {
 
     /**
      * Implements non-terminal "method_body" of [SyntaxeContextuelle] in pass 3
