@@ -5,7 +5,9 @@ import fr.ensimag.deca.DecacCompiler;
 import fr.ensimag.deca.codegen.CodeGen;
 import fr.ensimag.deca.context.ContextualError;
 import fr.ensimag.deca.tools.IndentPrintStream;
-import fr.ensimag.ima.pseudocode.IMAProgram;
+import fr.ensimag.ima.pseudocode.*;
+import fr.ensimag.ima.pseudocode.instructions.LOAD;
+import fr.ensimag.ima.pseudocode.instructions.STORE;
 import org.apache.log4j.Logger;
 
 /**
@@ -59,10 +61,18 @@ public class ListDeclClass extends TreeList<AbstractDeclClass> implements CodeGe
         }).max(Integer::compare).orElse(0);
     }
 
-    public void codeGenMethodTable(IMAProgram program) {
-        getList().forEach((AbstractDeclClass declClass) -> {
-            declClass.codeGenMethodTable(program);
-        });
+    public int codeGenMethodTable(IMAProgram program) {
+        // Hardcoded: method table for object.
+        program.addInstruction(new LOAD(new NullOperand(), Register.R0));
+        program.addInstruction(new STORE(Register.R0, new RegisterOffset(1, Register.GB)));
+        program.addInstruction(new LOAD(new LabelOperand(new Label("code.Object.equals")), Register.R0));
+        program.addInstruction(new STORE(Register.R0, new RegisterOffset(2, Register.GB)));
+
+        int sum = 0;
+        for (AbstractDeclClass declClass: getList()) {
+            sum += declClass.codeGenMethodTable(program);
+        }
+        return sum + 2; // 2 for load+store of object
     }
 
     @Override

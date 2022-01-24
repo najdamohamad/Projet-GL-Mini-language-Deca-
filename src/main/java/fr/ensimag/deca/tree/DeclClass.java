@@ -10,6 +10,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 
 import java.io.PrintStream;
+import java.util.Map;
 
 /**
  * Declaration of a class (<code>class name extends superClass {members}<code>).
@@ -151,7 +152,8 @@ public class DeclClass extends AbstractDeclClass {
     }
 
     @Override
-    public void codeGenMethodTable(IMAProgram program) {
+    public int codeGenMethodTable(IMAProgram program) {
+        int stackUsage = 0;
         DAddr superAddress =
                 new RegisterOffset(superClassName.getClassDefinition().getMethodTableAddr(), Register.GB);
         DAddr currentAddress =
@@ -160,21 +162,26 @@ public class DeclClass extends AbstractDeclClass {
 
         program.addInstruction(new STORE(Register.R0, currentAddress));
         program.bumpStackUsage();
+        stackUsage++;
 
-        for (AbstractDeclMethod declMethod : listDeclMethod.getList()) {
-            MethodDefinition methodDefinition = declMethod.getMethodName().getMethodDefinition();
+        Map<Integer, Label> labelTable = className.getClassDefinition().getLabelTable();
+        for (Map.Entry<Integer, Label> entry : labelTable.entrySet()) {
+            Integer offset = entry.getKey();
+            Label label = entry.getValue();
             program.addInstruction(new LOAD(
-                    new LabelOperand(methodDefinition.getLabel()),
+                    new LabelOperand(label),
                     Register.R0)
             );
-            int methodAddr = className.getClassDefinition().getMethodTableAddr()
-                    + methodDefinition.getIndex();
+            int methodAddr = className.getClassDefinition().getMethodTableAddr() + offset;
             program.addInstruction(new STORE(
                     Register.R0,
-                    new RegisterOffset(methodAddr, Register.R0))
+                    new RegisterOffset(methodAddr, Register.GB))
             );
+            program.bumpStackUsage();
+            stackUsage++;
         }
 
+        return stackUsage;
     }
 
     /**

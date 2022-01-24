@@ -34,5 +34,5 @@ public abstract class AbstractDeclClass extends Tree implements CodeGen {
     protected abstract void verifyClassBody(DecacCompiler compiler)
             throws ContextualError;
 
-    public abstract void codeGenMethodTable(IMAProgram program);
+    public abstract int codeGenMethodTable(IMAProgram program);
 }

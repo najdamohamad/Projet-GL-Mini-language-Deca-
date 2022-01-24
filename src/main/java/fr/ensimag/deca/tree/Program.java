@@ -99,7 +99,8 @@ public class Program extends AbstractProgram {
         program.addComment("------------------------------------------------");
         program.addComment("Method table construction");
         program.addComment("------------------------------------------------");
-        classes.codeGenMethodTable(program);
+        int classesUsage = classes.codeGenMethodTable(program);
+        LOG.trace("classes stack usage" + classesUsage);
         program.addComment("------------------------------------------------");
         program.addComment("Main program");
         program.addComment("------------------------------------------------");
@@ -124,7 +125,7 @@ public class Program extends AbstractProgram {
 
         if (program.shouldCheck()) {
             program.addFirst(new BOV(STACK_OVERFLOW_ERROR));
-            program.addFirst(new TSTO(new ImmediateInteger(stackUsage)));
+            program.addFirst(new TSTO(new ImmediateInteger(classesUsage + stackUsage)));
 
             program.addLabel(ARITHMETIC_OVERFLOW_ERROR);
             program.addInstruction(new WSTR("Erreur : débordement pendant opération arithmétique entre deux flottants."));
