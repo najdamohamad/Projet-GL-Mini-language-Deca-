@@ -16,7 +16,7 @@ public class Divide extends AbstractOpArith {
 
     @Override
     public void codeGenBinaryOp(IMAProgram program, DVal dval, GPRegister reg) {
-        if (isFloat()) {
+        if (getType().isFloat()) {
             program.addInstruction(new DIV(dval, reg));
             if (program.shouldCheck()) {
                 // Division may have overflowed
