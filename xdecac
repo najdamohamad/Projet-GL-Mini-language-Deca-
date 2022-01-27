@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+decac $@ || exit 1
+ima "${1%.deca}.ass"

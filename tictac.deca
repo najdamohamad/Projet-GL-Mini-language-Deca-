@@ -1,0 +1,366 @@
+class joueur {
+    int numero;
+}
+ 
+{
+    //initialisation des 9 cases
+    int case1 = 0;
+    int case2 = 0;
+    int case3 = 0;
+    int case4 = 0;
+    int case5 = 0;
+    int case6 = 0;
+    int case7 = 0;
+    int case8 = 0;
+    int case9 = 0;
+    int i = 1;
+    int j = 0;
+    //gagnant1 = true when joueur1 has won the game
+    boolean gagnant1 = false;
+    boolean gagnant2 = false;
+    boolean currentplayer1 = true;
+    boolean invalide = true;
+    boolean caseremplie = false;
+    boolean notfirst = false;
+    joueur joueur1 = new joueur();
+    joueur joueur2 = new joueur();
+
+    joueur1.numero = 1;
+    joueur2.numero = 2;
+
+    while(!(gagnant1 || gagnant2 || case1*case2*case3*case4*case5*case6*case7*case8*case9 != 0)){
+        i = 1;
+
+        println("-------");
+        while(i < 10){
+            if(i==1){
+                print("|");
+                if (case1 == 0) {
+                    print(" ");
+                } else if (case1 == 1) {
+                    print("X");
+                } else {
+                    print("O");
+                }
+                print("|");
+            }
+            if(i==2){
+                if (case2 == 0) {
+                    print(" ");
+                } else if (case2 == 1) {
+                    print("X");
+                } else {
+                    print("O");
+                }
+                print("|");
+            }
+            if(i==3){
+                if (case3 == 0) {
+                    print(" ");
+                } else if (case3 == 1) {
+                    print("X");
+                } else {
+                    print("O");
+                }
+                println("|");
+                println("-------");
+            }
+            if(i==4){
+                print("|");
+                if (case4 == 0) {
+                    print(" ");
+                } else if (case4 == 1) {
+                    print("X");
+                } else {
+                    print("O");
+                }
+                print("|");
+            }
+            if(i==5){
+                if (case5 == 0) {
+                    print(" ");
+                } else if (case5 == 1) {
+                    print("X");
+                } else {
+                    print("O");
+                }
+                print("|");
+            }
+            if(i==6){
+                if (case6 == 0) {
+                    print(" ");
+                } else if (case6 == 1) {
+                    print("X");
+                } else {
+                    print("O");
+                }
+                println("|");
+                println("-------");
+            }
+            if(i==7){
+                print("|");
+
+                if (case7 == 0) {
+                    print(" ");
+                } else if (case7 == 1) {
+                    print("X");
+                } else {
+                    print("O");
+                }
+
+                print("|");
+            }
+            if(i==8){
+
+                if (case8 == 0) {
+                    print(" ");
+                } else if (case8 == 1) {
+                    print("X");
+                } else {
+                    print("O");
+                }
+                print("|");
+            }
+            if(i==9){
+                if (case9 == 0) {
+                    print(" ");
+                } else if (case9 == 1) {
+                    print("X");
+                } else {
+                    print("O");
+                }
+                println("|");
+                println("-------");
+            }
+            i = i + 1;
+        }
+
+        // Demander
+        while (invalide) {
+            if ((j < 1 || j > 9) && notfirst) {
+                println("erreur: vous avez rentré ", j, ", veuillez rentrer une case entre 1 et 9.");
+            }
+            if (notfirst && caseremplie) {
+                println("erreur: la case est déja remplie.");
+                caseremplie = false;
+            }
+            if (currentplayer1) {
+                println("Joueur 1, choisis une case [1-9]");
+            } else {
+                println("Joueur 2, choisis une case [1-9]");
+            }
+            notfirst = true;
+            j = readInt();
+
+            if (j > 0 || j < 10) {
+                if(j == 1){
+                    if (case1 != 0) {
+                        caseremplie = true;
+                    } else {
+
+                    if(currentplayer1){
+                        case1 = 1;
+                        invalide = false;
+                    }
+                    else{
+                        case1 = 2;
+                        invalide = false;
+                    }
+                    if(case1*case5*case9 == 1 || case7*case4*case1 == 1 || case3*case2*case1 == 1){
+                        gagnant1 = true;
+                    }
+                    if(case1*case5*case9 == 8 || case7*case4*case1 == 8 || case3*case2*case1 == 8){
+                        gagnant2 = true;
+                    }
+                    }
+                }
+
+                if(j == 2){
+
+                    if (case2 != 0) {
+                        caseremplie = true;
+                    } else {
+                        if(currentplayer1){
+                            case2 = 1;
+                            invalide = false;
+                        }
+                        else{
+                            case2 = 2;
+                            invalide = false;
+                        }
+                        if(case1*case2*case3 == 1 || case2*case5*case8 == 1){
+                            gagnant1 = true;
+                        }
+                        if(case1*case2*case3 == 8 || case2*case5*case8 == 8){
+                            gagnant2 = true;
+                        }
+                    }
+                }
+
+                if(j == 3){
+                    if (case3 != 0) {
+                        caseremplie = true;
+                    } else {
+                    if(currentplayer1){
+                        case3 = 1;
+                        invalide = false;
+                    }
+                    else{
+                        case3 = 2;
+                        invalide = false;
+                    }
+                    if(case1*case2*case3 == 1 || case3*case5*case7 == 1 || case3*case6*case9 == 1){
+                        gagnant1 = true;
+                    }
+                    if(case1*case2*case3 == 8 || case7*case5*case3 == 8 || case3*case6*case9 == 8){
+                        gagnant2 = true;
+                    }
+                    }
+                }
+
+                if(j == 4){
+                    if (case4 != 0) {
+                        caseremplie = true;
+                    } else {
+                    if(currentplayer1){
+                        case4 = 1;
+                        invalide = false;
+                    }
+                    else{
+                        case4 = 2;
+                        invalide = false;
+                    }
+                    if(case1*case4*case7 == 1 || case4*case5*case6 == 1){
+                        gagnant1 = true;
+                    }
+                    if(case1*case4*case7 == 8 || case4*case5*case6 == 8){
+                        gagnant2 = true;
+                    }
+                    }
+                }
+
+                if(j == 5){
+                    if (case5 != 0) {
+                        caseremplie = true;
+                    } else {
+                    if(currentplayer1){
+                        case5 = 1;
+                        invalide = false;
+                    }
+                    else{
+                        case5 = 2;
+                        invalide = false;
+                    }
+                    if(case1*case5*case9 == 1 || case2*case5*case8 == 1 || case3*case5*case7 == 1 || case4*case5*case6 == 1){
+                        gagnant1 = true;
+                    }
+                    if(case1*case5*case9 == 8 || case2*case5*case8 == 8 || case3*case5*case7 == 8 || case4*case5*case6 == 8){
+                        gagnant2 = true;
+                    }
+                    }
+                }
+
+                if(j == 6){
+                    if (case6 != 0) {
+                        caseremplie = true;
+                    } else {
+                    if(currentplayer1){
+                        case6 = 1;
+                        invalide = false;
+                    }
+                    else{
+                        case6 = 2;
+                        invalide = false;
+                    }
+                    if(case3*case6*case9 == 1 || case4*case5*case6 == 1){
+                        gagnant1 = true;
+                    }
+                    if(case3*case6*case9 == 8 || case4*case5*case6 == 8){
+                        gagnant2 = true;
+                    }
+                    }
+                }
+
+                if(j == 7){
+
+                    if (case7 != 0) {
+                        caseremplie = true;
+                    } else {
+                    if(currentplayer1){
+                        case7 = 1;
+                        invalide = false;
+                    }
+                    else{
+                        case7 = 2;
+                        invalide = false;
+                    }
+                    if(case1*case4*case7 == 1 || case7*case8*case9 == 1 || case3*case5*case7 == 1){
+                        gagnant1 = true;
+                    }
+                    if(case1*case4*case7 == 8 || case7*case8*case9 == 8 || case3*case5*case7 == 8){
+                        gagnant2 = true;
+                    }
+                    }
+                }
+
+                if(j == 8){
+
+                    if (case8 != 0) {
+                        caseremplie = true;
+                    } else {
+                    if(currentplayer1){
+                        case8 = 1;
+                        invalide = false;
+                    }
+                    else{
+                        case8 = 2;
+                        invalide = false;
+                    }
+                    if(case7*case8*case9 == 1 || case2*case5*case8 == 1){
+                        gagnant1 = true;
+                    }
+                    if(case7*case8*case9 == 8 || case2*case5*case8 == 8){
+                        gagnant2 = true;
+                    }
+                    }
+                }
+
+                if(j == 9){
+
+
+                    if (case9 != 0) {
+                        caseremplie = true;
+                    } else {
+                    if(currentplayer1){
+                        case9 = 1;
+                        invalide = false;
+                    }
+                    else{
+                        case9 = 2;
+                        invalide = false;
+                    }
+                    if(case1*case5*case9 == 1 || case7*case8*case9 == 1 || case3*case6*case9 == 1){
+                        gagnant1 = true;
+                    }
+                    if(case1*case5*case9 == 8 || case7*case8*case9 == 8 || case3*case6*case9 == 8){
+                        gagnant2 = true;
+                    }
+                    }
+                }
+            }
+        }
+        // Changer de joueur
+        currentplayer1 = !currentplayer1;
+        invalide = true;
+    }
+
+    if (gagnant1){
+        println("^_^ Bien joué, joueur 1! Tu as gagné!");
+    }
+    else if (gagnant2) {
+        println("^_^ Bien joué, joueur 2! Tu as gagné!");
+    }
+    else{
+        println(":( Dommage... C’est un match nul.");
+    }
+}
