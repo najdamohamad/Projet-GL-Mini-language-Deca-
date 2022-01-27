@@ -55,7 +55,9 @@ public class StringLiteral extends AbstractStringLiteral {
 
     @Override
     public int codeGen(IMAProgram program) {
-        throw new NotImplementedException("should not be implemented, deca has no variables of type String");
+        // no-op, since a string generated directly does not code
+        // use codeGenDisplay
+        return 0;
     }
 
     @Override
