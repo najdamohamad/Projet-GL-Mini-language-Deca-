@@ -68,7 +68,14 @@ public class Or extends AbstractOpBool implements Invert {
 
     @Override
     public AbstractExpr invert() {
-        AbstractExpr e = new And(getLeftOperand(), getRightOperand());
+        Not n1 = new Not(getLeftOperand());
+        n1.setLocation(getLocation());
+        n1.setType(getType());
+        Not n2 = new Not(getRightOperand());
+        n2.setLocation(getLocation());
+        n2.setType(getType());
+
+        AbstractExpr e = new And(n1, n2);
         e.setLocation(getLocation());
         e.setType(getType());
         return e;
