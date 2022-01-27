@@ -150,10 +150,6 @@ public class Program extends AbstractProgram {
             program.addInstruction(new WNL());
             program.addInstruction(new ERROR());
         }
-        program.addLabel(new Label("code.Object.equals"));;
-        program.addInstruction(new WSTR("DecacError: not implemented yet"));
-        program.addInstruction(new WNL());
-        program.addInstruction(new ERROR());
         return 0;
     }
 
